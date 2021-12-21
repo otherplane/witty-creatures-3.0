@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  database:
+    image: mongo:4
+    container_name: witty-creatures-3.0-database
+    ports:
+      - $MONGO_PORT:27017
+    environment:
+      MONGO_DATABASE_USERNAME: $MONGO_DATABASE_USERNAME
+      MONGO_DATABASE_PASSWORD: $MONGO_DATABASE_PASSWORD
+      MONGO_INITDB_DATABASE: $MONGO_INITDB_DATABASE
+      MONGO_INITDB_ROOT_USERNAME: $MONGO_INITDB_ROOT_USERNAME
+      MONGO_INITDB_ROOT_PASSWORD: $MONGO_INITDB_ROOT_PASSWORD
+    volumes:
+      - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
+      - ./mongodb_data:/data/db
+
+  server:
+    # production
+    # image: witnet/witty-creatures-server
+    # development
+    build:
+      context: packages/api
+    container_name: witty-creatures-server
+    ports:
+      - $SERVER_PORT:3000
+    links:
+      - database
+    depends_on:
+      - database
+    environment:
+      MONGO_URI: $MONGO_URI
+      JWT_SECRET: $JWT_SECRET
