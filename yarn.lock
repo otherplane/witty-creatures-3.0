@@ -3667,7 +3667,16 @@
     leb128 "0.0.5"
     secp256k1 "^4.0.1"
 
-"@zxing/text-encoding@0.9.0":
+"@zxing/library@^0.19.1":
+  version "0.19.1"
+  resolved "https://registry.yarnpkg.com/@zxing/library/-/library-0.19.1.tgz#68932436a9cf860e2148a6d6ae38fe1e27ea23a8"
+  integrity sha512-rKwvl3Uuqs8yf364iU9l3HDDaIx8yPv+CH6DbtQaQr67VdKLG22G1ukEp9fOdDefE6tpLtRAdMnTrgtpiaKAZw==
+  dependencies:
+    ts-custom-error "^3.0.0"
+  optionalDependencies:
+    "@zxing/text-encoding" "~0.9.0"
+
+"@zxing/text-encoding@0.9.0", "@zxing/text-encoding@~0.9.0":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@zxing/text-encoding/-/text-encoding-0.9.0.tgz#fb50ffabc6c7c66a0c96b4c03e3d9be74864b70b"
   integrity sha512-U/4aVJ2mxI0aDNI8Uq0wEhMgY+u4CNtEb0om3+y3+niDAsoTCOB33UF0sxpzqzdqXLqmvc+vZyAt4O8pPdfkwA==
@@ -10873,11 +10882,6 @@ jsprim@^1.2.2:
     json-schema "0.4.0"
     verror "1.10.0"
 
-jsqr@^1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/jsqr/-/jsqr-1.4.0.tgz#8efb8d0a7cc6863cb6d95116b9069123ce9eb2d1"
-  integrity sha512-dxLob7q65Xg2DvstYkRpkYtmKm2sPJ9oFhrhmudT1dZvNFFTlroai3AWSpLey/w5vMcLBXRgOJsbXpdN9HzU/A==
-
 keccak@3.0.2, keccak@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/keccak/-/keccak-3.0.2.tgz#4c2c6e8c54e04f2670ee49fa734eb9da152206e0"
@@ -16510,6 +16514,11 @@ truffle@^5.4.14:
     "@truffle/preserve-to-filecoin" "^0.2.4"
     "@truffle/preserve-to-ipfs" "^0.2.4"
 
+ts-custom-error@^3.0.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/ts-custom-error/-/ts-custom-error-3.2.0.tgz#ff8f80a3812bab9dc448536312da52dce1b720fb"
+  integrity sha512-cBvC2QjtvJ9JfWLvstVnI45Y46Y5dMxIaG1TDMGAD/R87hpvqFL+7LhvUDhnRCfOnx/xitollFWWvUKKKhbN0A==
+
 ts-invariant@^0.4.0:
   version "0.4.4"
   resolved "https://registry.yarnpkg.com/ts-invariant/-/ts-invariant-0.4.4.tgz#97a523518688f93aafad01b0e80eb803eb2abd86"
@@ -17237,6 +17246,13 @@ vnopts@1.0.2:
     leven "^2.1.0"
     tslib "^1.9.3"
 
+vue-barcode-reader@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/vue-barcode-reader/-/vue-barcode-reader-1.0.1.tgz#10f3956edc9b50d6f2d75a9cc7f2055d1a50c3a4"
+  integrity sha512-+ovC8v3EwjUWT/gLBpD2v8INl31PI6dLt1VlvblJDaIm4ndl7NgeLPc7maTtGrvHU0ScfnsUrvw+8gmjSoDdmQ==
+  dependencies:
+    "@zxing/library" "^0.19.1"
+
 vue-demi@*:
   version "0.12.1"
   resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.12.1.tgz#f7e18efbecffd11ab069d1472d7a06e319b4174c"
@@ -17261,13 +17277,6 @@ vue-router@4.0.12:
   integrity sha512-CPXvfqe+mZLB1kBWssssTiWg4EQERyqJZes7USiqfW9B5N2x+nHlnsM1D3b5CaJ6qgCvMmYJnz+G0iWjNCvXrg==
   dependencies:
     "@vue/devtools-api" "^6.0.0-beta.18"
-
-vue3-qr-reader@1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/vue3-qr-reader/-/vue3-qr-reader-1.0.0.tgz#a43c0f9badd39af611f37a92a8dd18e2150f41c5"
-  integrity sha512-BRgmR+lDPkNwgL6skSaEOGFg4Aup/FLYnOGFCV0knYHxfbAnliJN/+wr//iqD2G3EOBrXw4TPGNfj/5Wxl7wwQ==
-  dependencies:
-    jsqr "^1.4.0"
 
 vue@3.2.26:
   version "3.2.26"
