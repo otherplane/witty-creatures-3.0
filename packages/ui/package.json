@@ -16,7 +16,7 @@
     "sass": "1.45.1",
     "vue": "3.2.26",
     "vue-router": "4.0.12",
-    "vue3-qr-reader": "1.0.0",
+    "vue-barcode-reader": "1.0.1",
     "web3": "1.6.1"
   },
   "devDependencies": {

@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <p class="small-title import-label">Scan a QR code</p>
-    <QrStream class="qr-code pl-4 pr-4 pb-4" @decode="onDecode"></QrStream>
+    <StreamBarcodeReader class="qr-code" @decode="onDecode" />
     <Button class="btn" color="black" @click="onDecode('/ef12efbd765f9ad3')">
       Import player id
     </Button>
@@ -14,13 +14,13 @@
 <script>
 import { ref } from 'vue'
 import { useStore } from '@/stores/player'
-import { QrStream } from 'vue3-qr-reader'
+import { StreamBarcodeReader } from 'vue-barcode-reader'
 import { useRouter } from 'vue-router'
 import { useModal } from '../composables/useModal'
 
 export default {
   components: {
-    QrStream
+    StreamBarcodeReader
   },
   setup (props, ctx) {
     const modal = useModal()
@@ -36,6 +36,7 @@ export default {
     }
 
     function onDecode (value) {
+      console.log('value', value)
       if (value) {
         decodedString.value = value
         if (!player.getToken()) {
@@ -73,3 +74,41 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.qr-code {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 8;
+  div {
+    height: 100vh;
+    video {
+      height: 100vh;
+    }
+    .overlay-element {
+      display: none;
+    }
+    .overlay-element {
+      height: 100vh;
+    }
+  }
+}
+.pl-4 {
+  padding-bottom: 0;
+  padding-right: 0;
+  padding-left: 0;
+}
+.content {
+  color: white;
+  width: 100vw;
+  top: 10vh;
+  left: 0px;
+  position: fixed;
+  text-align: center;
+  z-index: 9;
+}
+</style>
