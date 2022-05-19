@@ -1,27 +1,26 @@
 import {
-  PLAYER_MINT_TIMESSTAMP,
-  EGG_COLORS_COUNT,
-  INCUBATION_COOLDOWN_MILLIS,
-  INCUBATION_DURATION_MILLIS,
+  PLAYER_MINT_TIMESTAMP,
+  RANCHES_COUNT,
+  TRADE_COOLDOWN_MILLIS,
+  TRADE_DURATION_MILLIS,
 } from './constants'
-import { Incubation } from './types'
+import { Incubation, indexToRanch, RanchName } from './types'
 
 export function calculateRemainingCooldown(
-  incubationEnds: number,
+  tradeEnds: number,
   currentTimestamp = Date.now(),
-  incubationDuration: number = INCUBATION_DURATION_MILLIS,
-  incubationCooldown: number = INCUBATION_COOLDOWN_MILLIS
+  tradeDuration: number = TRADE_DURATION_MILLIS,
+  tradeCooldown: number = TRADE_COOLDOWN_MILLIS
 ) {
   const remainingMillis =
-    incubationEnds - incubationDuration + incubationCooldown - currentTimestamp
+    tradeEnds - tradeDuration + tradeCooldown - currentTimestamp
 
   return remainingMillis > 0 ? remainingMillis : 0
 }
 
 export function calculateRemainingDuration(
   incubationEnds: number,
-  currentTimestamp = Date.now(),
-  incubationDuration: number = INCUBATION_DURATION_MILLIS
+  currentTimestamp = Date.now()
 ) {
   const remainingMillis = incubationEnds - currentTimestamp
 
@@ -38,8 +37,10 @@ export function getIncubationExtendedFromBase(incubation: Incubation) {
   )
 }
 
-export function getColorFromIndex(index: number) {
-  return index % EGG_COLORS_COUNT
+export function getRanchFromIndex(index: number): RanchName {
+  const ranchIndex = index % RANCHES_COUNT
+
+  return indexToRanch[ranchIndex]
 }
 
 export function fromHexToUint8Array(hex: string) {
@@ -47,7 +48,7 @@ export function fromHexToUint8Array(hex: string) {
 }
 
 export function isTimeToMint() {
-  return Date.now() >= PLAYER_MINT_TIMESSTAMP * 1000
+  return Date.now() >= PLAYER_MINT_TIMESTAMP * 1000
 }
 
 export function printRemainingMillis(millis: number) {

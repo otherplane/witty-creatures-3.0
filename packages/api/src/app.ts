@@ -1,12 +1,21 @@
 import Ajv from 'ajv'
 import AutoLoad, { AutoloadPluginOptions } from 'fastify-autoload'
 import fastifyJwt from 'fastify-jwt'
-import { FastifyPluginAsync } from 'fastify'
+import { FastifyPluginAsync, FastifyPluginCallback } from 'fastify'
 import { fastifyMongodb } from 'fastify-mongodb'
+import fp from 'fastify-plugin'
 import { join } from 'path'
 
-import { EGGS_COUNT, JWT_SECRET, MONGO_URI } from './constants'
-import { PlayerRepository } from './repositories/player'
+import { PLAYERS_COUNT, JWT_SECRET, MONGO_URI } from './constants'
+import { PlayerModel } from './models/player'
+import { TradeModel } from './models/trade'
+
+declare module 'fastify' {
+  interface FastifyInstance {
+    playerModel: PlayerModel
+    tradeModel: TradeModel
+  }
+}
 
 export type AppOptions = {
   // Place your custom options for app below here.
@@ -44,15 +53,29 @@ const app: FastifyPluginAsync<AppOptions> = async (
     forceClose: true,
     url: MONGO_URI,
   })
+  // InitializeModels and callback
+  const initializeModels: FastifyPluginCallback = async (
+    fastify,
+    options,
+    next
+  ) => {
+    if (!fastify.mongo.db) throw Error('mongo db not found')
+    const playerModel = new PlayerModel(fastify.mongo.db)
+    const tradeModel = new TradeModel(fastify.mongo.db)
 
-  // Initialize egg repository from `eggs.json`
+    fastify.decorate('playerModel', playerModel)
+    fastify.decorate('tradeModel', tradeModel)
+
+    next()
+  }
+
+  fastify.register(fp(initializeModels))
+
+  // Initialize game repositories
   fastify.register(async (fastify, options, next) => {
     if (!fastify.mongo.db) throw Error('mongo db not found')
-
-    // Initialize eggs repository and bootstrap with EGGS_COUNT eggs if no eggs exist already
-    const repository = new PlayerRepository(fastify.mongo.db)
-    await repository.bootstrap(EGGS_COUNT, false)
-
+    // Initialize game repositories and bootstrap
+    await fastify.playerModel.bootstrap(PLAYERS_COUNT, false)
     next()
   })
 

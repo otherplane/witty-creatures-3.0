@@ -1,11 +1,12 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import Main from '../views/Main.vue'
+import Home from '../views/App.vue'
+import MainContent from '../views/MainContent.vue'
 import InitGame from '../views/InitGame.vue'
-import Disclaimer from '../views/Disclaimer.vue'
+import Disclaimer from '../views/GameDisclaimer.vue'
+import BreedBufficorns from '../views/BreedBufficorns.vue'
 import { useStore } from '@/stores/player'
 import { createApp } from 'vue'
-import Scan from '../views/Scan.vue'
+import ScanId from '../views/ScanId.vue'
 import App from '@/App.vue'
 import { createPinia } from 'pinia'
 
@@ -23,10 +24,8 @@ const routes = [
       const store = useStore()
       const loginInfo = store.getToken()
       if (loginInfo && loginInfo.token) {
-        console.log(loginInfo, loginInfo.token)
         next({ name: 'main', params: { id: loginInfo.key } })
       } else {
-        console.log('init game')
         next('init-game')
       }
     }
@@ -39,22 +38,36 @@ const routes = [
   {
     name: 'main',
     path: '/:id',
-    component: Main
+    component: MainContent
   },
   {
     name: 'init-game',
     path: '/init-game',
-    component: InitGame
+    component: InitGame,
+    beforeEnter: async (to, from, next) => {
+      const store = useStore()
+      const loginInfo = store.getToken()
+      if (loginInfo && loginInfo.token) {
+        next({ name: 'main', params: { id: loginInfo.key } })
+      } else {
+        next()
+      }
+    }
   },
   {
+    name: 'scan',
     path: '/scan',
-    component: Scan
+    component: ScanId
+  },
+  {
+    name: 'trade',
+    path: '/trade/:id',
+    component: BreedBufficorns
   },
   {
     name: 'import',
     path: '/import',
     beforeEnter: (to, from, next) => {
-      console.log('to', to)
       const { username, token, key } = to.query
 
       if (!username || !token || !key) {

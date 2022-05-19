@@ -1,14 +1,17 @@
 <template>
-  <Layout>
-    <p class="small-title import-label">Scan a QR code</p>
+  <MainLayout>
     <StreamBarcodeReader class="qr-code" @decode="onDecode" />
-    <Button class="btn" color="black" @click="onDecode('/ef12efbd765f9ad3')">
+    <CustomButton
+      class="btn"
+      color="black"
+      @click="onDecode('/ef12efbd765f9ad3')"
+    >
       Import player id
-    </Button>
+    </CustomButton>
     <ModalDialog :show="modal.visible.value" v-on:close="modal.hideModal">
       <ModalClaimConfirmation v-on:claim="register" />
     </ModalDialog>
-  </Layout>
+  </MainLayout>
 </template>
 
 <script>
@@ -51,7 +54,8 @@ export default {
       const chunks = decodedString.value.split('/')
       const key = chunks[chunks.length - 1]
       if (key) {
-        playerKey.value = key
+        // TODO: Add scanned key from QR
+        playerKey.value = 'b5425e1b1ed66dcb'
         submitAndRedirect()
       }
     }
@@ -109,6 +113,6 @@ export default {
   left: 0px;
   position: fixed;
   text-align: center;
-  z-index: 9;
+  z-index: 0;
 }
 </style>

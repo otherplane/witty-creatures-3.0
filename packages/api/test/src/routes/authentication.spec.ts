@@ -1,31 +1,15 @@
-import { serverInject } from '../../setup'
-
-const initialPlayers = [
-  {
-    key: 'ef12efbd765f9ad3',
-    username: 'calm-bison',
-  },
-  {
-    key: 'b75c34545e8cb4d2',
-    username: 'particular-newt',
-  },
-]
+import { authenticatePlayer, initialPlayers } from '../../setup'
 
 describe('authentication.ts', () => {
   it('should authenticate PLAYER #0', async () => {
-    await serverInject(
-      {
-        method: 'POST',
-        url: '/auth',
-        payload: { key: initialPlayers[0].key },
-      },
-      (err, response) => {
-        const { key, token, username } = response.json()
+    const token = await authenticatePlayer(initialPlayers[0].key)
 
-        expect(key).toBeTruthy()
-        expect(token).toBeTruthy()
-        expect(username).toBeTruthy()
-      }
-    )
+    expect(token).toBeTruthy()
+  })
+
+  it('should authenticate PLAYER #1', async () => {
+    const token = await authenticatePlayer(initialPlayers[1].key)
+
+    expect(token).toBeTruthy()
   })
 })

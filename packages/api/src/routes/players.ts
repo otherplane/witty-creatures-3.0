@@ -1,25 +1,25 @@
 import { FastifyPluginAsync, FastifyRequest } from 'fastify'
 
-import { PlayerRepository } from '../repositories/player'
 import {
   AuthorizationHeader,
-  Player,
   GetByStringKeyParams,
   JwtVerifyPayload,
+  PlayerVTO,
 } from '../types'
 
 const players: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   if (!fastify.mongo.db) throw Error('mongo db not found')
-  const playerRepository = new PlayerRepository(fastify.mongo.db)
 
-  fastify.get<{ Params: GetByStringKeyParams; Reply: Player | Error }>(
-    '/auth/:key',
+  const { playerModel } = fastify
+
+  fastify.get<{ Params: GetByStringKeyParams; Reply: PlayerVTO | Error }>(
+    '/players/:key',
     {
       schema: {
         params: GetByStringKeyParams,
         headers: AuthorizationHeader,
         response: {
-          200: Player,
+          200: PlayerVTO,
         },
       },
       handler: async (
@@ -27,22 +27,20 @@ const players: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
         reply
       ) => {
         const { key } = request.params
-
-        let playerId: string
+        let playerKey: string
         try {
           const decoded: JwtVerifyPayload = fastify.jwt.verify(
             request.headers.authorization as string
           )
-          playerId = decoded.id
+          playerKey = decoded.id
         } catch (err) {
           return reply.status(403).send(new Error(`Forbidden: invalid token`))
         }
-
-        if (playerId !== key)
+        if (playerKey !== key)
           return reply.status(403).send(new Error(`Forbidden: invalid token`))
 
         // Unreachable: valid server issued token refers to non-existent player
-        const player = await playerRepository.get(key)
+        const player = await playerModel.get(key)
         if (!player) {
           return reply
             .status(404)
@@ -56,9 +54,8 @@ const players: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
             .send(new Error(`Player has not been claimed yet (key: ${key})`))
         }
 
-        const extendedPlayer: Player = {
-          key: player.key,
-          username: player.username,
+        const extendedPlayer: PlayerVTO = {
+          ...player.toDbVTO(),
         }
 
         return reply.status(200).send(extendedPlayer)

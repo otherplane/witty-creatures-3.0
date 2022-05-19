@@ -32,11 +32,6 @@ beforeEach(async () => {
   server = Fastify().register(app)
 })
 
-const VALID_TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVmMTJlZmJkNzY1ZjlhZDMiLCJpYXQiOjE2NDA3MDk3MDZ9.zELplBcL_FpGy795eEaT7JWp6-sncgVH9JhR7mcVp0I'
-const INVALID_TOKEN =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.oxyzcdaeImVmMTJlZmJkNzY1ZjlhZDMiLCJpYXQiOjE2NDA3MDk3MDZ9.zELplBcL_FpGy795eEaT7JWp6-sncgVH9JhR7mcVp0I'
-
 afterAll(async () => {
   await client.close()
 })
@@ -45,8 +40,8 @@ afterEach(async () => {
   await server.close()
 })
 
-async function authenticatePlayer(key): Promise<string> {
-  return new Promise((resolve) => {
+async function authenticatePlayer(key: string): Promise<string> {
+  return await new Promise((resolve) => {
     server.inject(
       {
         method: 'POST',
@@ -62,7 +57,7 @@ async function authenticatePlayer(key): Promise<string> {
 
 async function serverInject(
   opts: {},
-  cb: (error, result) => void | Promise<void>
+  cb: (error, result) => Promise<void> | void
 ): Promise<null> {
   return new Promise((resolve, reject) => {
     server.inject(opts, async (error, result) => {
@@ -73,4 +68,23 @@ async function serverInject(
   })
 }
 
-export { server, VALID_TOKEN, INVALID_TOKEN, authenticatePlayer, serverInject }
+async function sleep(ms: number) {
+  return new Promise((resolve) => {
+    return setTimeout(() => {
+      return resolve(null)
+    }, ms)
+  })
+}
+
+const initialPlayers = [
+  {
+    key: 'ef12efbd765f9ad3',
+    username: 'calm-bison',
+  },
+  {
+    key: 'b75c34545e8cb4d2',
+    username: 'particular-newt',
+  },
+]
+
+export { server, authenticatePlayer, serverInject, sleep, initialPlayers }

@@ -26,18 +26,15 @@ const metadata: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       ) => {
         /*
         const { key } = request.params
-
         // Check if metadata already exists in DB
         const eggMetadataFromDb = await metadataRepository.get(key)
         if (eggMetadataFromDb) {
           return reply.status(200).send(eggMetadataFromDb)
         }
-
         // Fetch metadata from contract using Web3
         const web3 = new Web3(new Web3.providers.HttpProvider(WEB3_PROVIDER))
         const { abi } = WITMON_ERCC721
         const contract = new web3.eth.Contract(abi, WITMON_ERC721_ADDRESS)
-
         let callResult
         try {
           callResult = await contract.methods.metadata(key).call()
@@ -49,16 +46,13 @@ const metadata: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
               new Error(`Metadata for token id ${key} could not be fetched`)
             )
         }
-
         // Parse contract call result
         const metadataFromContract: EggMetadata = {
           ...JSON.parse(callResult),
           token_id: key,
         }
-
         // Save metadata into DB
         await metadataRepository.create(metadataFromContract)
-
         return reply.status(200).send(metadataFromContract)
         */
       },

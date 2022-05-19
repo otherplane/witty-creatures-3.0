@@ -1,26 +1,77 @@
 import { defineStore } from 'pinia'
-import { WittyCreaturesApi } from '@/api'
+import { ApiService } from '@/api'
 import router from '../router'
+import {
+  TIME_TO_MINT_MILLISECONDS,
+  DEMO_ENDS_TIMESTAMP,
+  GAME_ENDS_TIMESTAMP
+} from '../constants'
 
 export const useStore = defineStore('player', {
   state: () => {
     return {
-      api: new WittyCreaturesApi(),
+      api: new ApiService(),
       id: null,
-      timeToBirth: 1645380000000,
-      creaturePreview: null,
+      theme: null,
+      medals: [],
+      username: '',
+      ranch: {},
+      selectedBufficorn: null,
+      bonus: null,
+      tradeInfo: null,
+      farmerId: null,
+      tradeIn: null,
+      tradeOut: null,
+      //TODO: make gameOverTimeMilli take GAME_ENDS_TIMESTAMP value when gameOver is defined
+      gameOverTimeMilli: Date.now() + 7889400000,
+      demoOverTimeMilli: DEMO_ENDS_TIMESTAMP,
+      timeToMintInMilli: GAME_ENDS_TIMESTAMP + TIME_TO_MINT_MILLISECONDS,
+      previews: [],
+      mintedAwards: [],
+      tradeHistory: null,
       mintInfo: null,
+      mintParams: null,
       color: null,
-      creatureData: null,
+      tokenIds: null,
+      playerPoints: null,
+      bufficornsGlobalStats: null,
+      playersGlobalStats: null,
+      ranchesGlobalStats: null,
       errors: {
-        auth: null
+        showMintedAwards: null,
+        preview: null,
+        auth: null,
+        trade: null,
+        info: null,
+        tradeHistory: null,
+        getLeaderboardInfo: null,
+        network: null,
+        getContractArgs: null
       }
     }
   },
   getters: {
-    hasBorn () {
+    gameOver () {
       //FIXME: make it reactive
-      return this.timeToBirth < Date.now()
+      return Date.now() + 7889400000 < Date.now()
+    },
+    mintingAllow () {
+      //FIXME: make it reactive
+      return Date.now() + 7889400000 < Date.now()
+    },
+    minted () {
+      if (this.mintInfo && this.mintInfo.events && this.mintInfo.events[1]) {
+        return true
+      } else {
+        return false
+      }
+    },
+    demoOver () {
+      //FIXME: make it reactive
+      return this.demoOverTimeMilli < Date.now()
+    },
+    isMainnetTime () {
+      return isMainnetTime()
     }
   },
   actions: {
@@ -33,75 +84,116 @@ export const useStore = defineStore('player', {
         JSON.stringify({ ...this.getToken(), ...info })
       )
     },
-    setCreatureData (data) {
-      this.creatureData = data
+    // TODO: set NFT preview data
+    setPreviewData (preview) {
+      console.log(preview)
     },
-    savePreview (creature) {
-      localStorage.setItem('creature', creature)
-      this.creaturePreview = creature
+    savePreview (preview) {
+      localStorage.setItem('preview', preview)
+      this.preview = preview
     },
-    saveMintInfo (info) {
-      localStorage.setItem('mintInfo', JSON.stringify({ ...info }))
-      this.mintInfo = info
-    },
-    getPreview () {
-      const preview = localStorage.getItem('creature')
-      if (preview) {
-        this.creaturePreview = preview
+    // Color theme
+    getTheme () {
+      const theme = localStorage.getItem('theme')
+      if (theme) {
+        this.theme = theme
       }
     },
+    saveTheme (theme) {
+      localStorage.setItem('theme', theme)
+      this.theme = theme
+    },
+    // Mint info
     getMintInfo () {
       const mintInfo = JSON.parse(localStorage.getItem('mintInfo'))
       if (mintInfo) {
         this.mintInfo = mintInfo
       }
     },
+    saveMintInfo (info) {
+      localStorage.setItem('mintInfo', JSON.stringify({ ...info }))
+      this.mintInfo = info
+    },
+    // Token Info
     getToken () {
       return JSON.parse(localStorage.getItem('tokenInfo'))
     },
+    clearTokenInfo () {
+      localStorage.removeItem('tokenInfo')
+      localStorage.removeItem('theme')
+    },
+    // Errors
     clearError (error) {
       this.errors[error] = null
     },
     setError (name, error) {
-      this.errors[name] = error.response.data.message
+      this.errors[name] = error.response?.data?.message || error.toString()
       this.notify({ message: this.errors[name] })
     },
+
     async authorize ({ key }) {
       const request = await this.api.authorize({ key })
       if (request.error) {
-        router.push({ name: 'init-game' })
+        router.push('/init-game')
         this.setError('auth', request.error)
       } else if (request.token) {
         await this.saveClaimInfo(request)
         this.clearError('auth')
-        this.getInfo()
+        this.getPlayerInfo()
       }
     },
-    async getInfo () {
+    // Trade
+    clearTrade () {
+      this.trade = null
+    },
+    async trade ({ key }) {
       const tokenInfo = this.getToken()
-      if (tokenInfo) {
-        const request = await this.api.getInfo({
-          token: tokenInfo && tokenInfo.token,
-          id: tokenInfo && tokenInfo.key
-        })
-        if (request.error) {
-          router.push({ name: 'init-game' })
-          this.setError('info', request.error)
-        } else {
-          this.clearError('info')
-          const { key } = request.player
-          this.id = key
+      const request = await this.api.trade({
+        token: tokenInfo.token,
+        key: key
+      })
 
-          if (this.id !== router.currentRoute.value.params.id) {
-            this.trade({ key: router.currentRoute.value.params.id })
-            router.push('/')
-          }
-        }
+      if (request.error) {
+        this.setError('trade', request.error)
+        router.push('/init-game')
       } else {
-        console.log('claim in getInfo')
-        this.authorize({ key: router.currentRoute.value.params.id })
+        this.clearError('trade')
+        this.tradeInfo = request
+        router.push('/init-game')
+        this.getPlayerInfo()
       }
     },
+    // Player Info
+    async getPlayerInfo () {
+      const tokenInfo = this.getToken()
+      const request = await this.api.getInfo({
+        token: tokenInfo && tokenInfo.token,
+        id: tokenInfo && tokenInfo.key
+      })
+      if (request.error) {
+        router.push({ name: 'init-game' })
+        this.setError('info', request.error)
+      } else {
+        this.clearError('info')
+        const { key, username, points } = request
+        this.id = key
+        this.username = username
+        this.points = points
+
+        // this.saveTheme(ranch.name)
+        if (request.lastTradeIn) {
+          this.tradeIn = request.lastTradeIn
+        }
+        if (request.lastTradeOut) {
+          this.tradeOut = request.lastTradeOut
+        }
+      }
+    },
+    // Web3
+    // TODO: get minted nft
+    async getMintedAwardsImages () {},
+    // TODO: get preview
+    async getPreviews () {},
     async getContractArgs (address) {
       const tokenInfo = this.getToken()
       const request = await this.api.getContractArgs({

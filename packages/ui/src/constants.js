@@ -1,18 +1,41 @@
 export const CONTRACT_ADDRESS =
-  import.meta.env.CONTRACT_ADDRESS ||
-  '0x855BCa56D00F3f550D0c610BBF562FEBF6540bc6'
+  import.meta.env.VITE_CONTRACT_ADDRESS ||
+  '0xE41D6D1cFe55A0fc2035dD663D873D15f21d93c2'
 
 export const OPENSEA_BASE_URL =
-  import.meta.env.OPENSEA_BASE_URL ||
+  import.meta.env.VITE_OPENSEA_BASE_URL ||
   'https://opensea.io/assets/0x855BCa56D00F3f550D0c610BBF562FEBF6540bc6'
 
-export const ETHERSCAN_BASE_URL =
-  import.meta.env.ETHERSCAN_BASE_URL || 'https://etherscan.io/tx'
+export const EXPLORER_BASE_URL =
+  import.meta.env.VITE_EXPLORER_BASE_URL || 'https://polygonscan.com/tx/'
 
-export const NETWORK = import.meta.env.NETWORK || 'main'
+export const NETWORK = import.meta.env.VITE_NETWORK || 137
+
+export const VITE_TEST = import.meta.env.VITE_TEST || false
 
 export const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || 'listening at http://0.0.0.0:4000'
+  import.meta.env.VITE_API_BASE_URL || 'http://0.0.0.0:4000'
 
 export const BASE_URL =
-  import.meta.env.VITE_BASE_URL || 'https://wittycreatures.com'
+  import.meta.env.VITE_BASE_URL || 'https://bufficorns.com'
+
+export const POLLER_MILLISECONDS = import.meta.env.VITE_POLLER_MILLISECONDS
+  ? parseInt(import.meta.env.VITE_POLLER_MILLISECONDS)
+  : 5000
+
+export const TIME_TO_MINT_MILLISECONDS = import.meta.env
+  .VITE_TIME_TO_MINT_MILLISECONDS
+  ? parseInt(import.meta.env.VITE_TIME_TO_MINT_MILLISECONDS)
+  : 60000
+
+export const DEMO_ENDS_TIMESTAMP = import.meta.env.VITE_DEMO_ENDS_TIMESTAMP
+  ? parseInt(import.meta.env.VITE_DEMO_ENDS_TIMESTAMP)
+  : 1658241429000
+
+export const GAME_ENDS_TIMESTAMP = import.meta.env.VITE_GAME_ENDS_TIMESTAMP
+  ? parseInt(import.meta.env.VITE_GAME_ENDS_TIMESTAMP)
+  : 1658241429000
+
+export const PLAYER_MAINNET_TIMESTAMP = import.meta.env.PLAYER_MAINNET_TIMESTAMP
+  ? parseInt(import.meta.env.VITE_PLAYER_MAINNET_TIMESTAMP)
+  : 1658241429000 // Thursday, February 17, 2022 09:00:00 PM (UTC)

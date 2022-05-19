@@ -1,27 +1,27 @@
 <template>
-  <p>{{ timeLeft }}</p>
+  <span>{{ timeLeft || '0 s' }}</span>
 </template>
 
 <script>
 import { intervalToDuration, formatDuration } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
-import { ref, watch } from 'vue'
-
-const timeZone = 'Europe/Lisbon'
-
+import { ref, watch, onBeforeUnmount } from 'vue'
+const timeZone = 'America/Denver'
 export default {
   props: {
     timestamp: Number,
     seconds: Boolean
   },
-  beforeUnmount () {
-    clearInterval(this.polling)
-  },
   setup (props, { emit }) {
+    onBeforeUnmount(() => {
+      clearInterval(polling)
+    })
     const dateNow = ref(new Date())
-    const polling = setInterval(() => {
-      dateNow.value = new Date()
-    }, 0)
+    const polling = ref(
+      setInterval(() => {
+        dateNow.value = new Date()
+      }, 0)
+    )
     const timeLeft = ref(1)
     const formatWithSeconds = ['days', 'hours', 'minutes', 'seconds']
     const format = ['days', 'hours', 'minutes']
@@ -35,7 +35,6 @@ export default {
       formatDistance: (token, count) =>
         formatDistanceLocale[token].replace('{{count}}', count)
     }
-
     watch(dateNow, () => {
       const duration = intervalToDuration({
         start: utcToZonedTime(dateNow.value, timeZone),
@@ -49,11 +48,12 @@ export default {
         utcToZonedTime(new Date(props.timestamp), timeZone) <
         utcToZonedTime(dateNow.value, timeZone).getTime()
       ) {
-        emit('clear-incubation')
-        clearInterval(polling)
+        timeLeft.value = '0 s'
+        emit('clear-timestamp')
+        clearInterval(polling.value)
       }
     })
-    return { timeLeft, dateNow, polling }
+    return { timeLeft, dateNow }
   }
 }
 </script>

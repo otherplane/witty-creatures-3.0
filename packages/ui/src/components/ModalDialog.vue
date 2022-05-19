@@ -49,7 +49,6 @@ export default {
   setup (props, ctx) {
     const showModal = ref(false)
     const modalRef = ref(null)
-
     watch(
       () => {
         return props.show
@@ -58,9 +57,7 @@ export default {
         showModal.value = show
       }
     )
-
     onClickOutside(modalRef, _ => ctx.emit('close'), { event: 'mousedown' })
-
     return {
       showModal,
       modalRef
