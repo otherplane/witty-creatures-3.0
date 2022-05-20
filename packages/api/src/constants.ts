@@ -57,11 +57,6 @@ export const BUFFICORNS_PER_RANCH: number = process.env.BUFFICORNS_PER_RANCH
   ? parseInt(process.env.BUFFICORNS_PER_RANCH)
   : 4
 
-// Number of different ranches
-export const RANCHES_COUNT = process.env.RANCHES_COUNT
-  ? parseInt(process.env.RANCHES_COUNT)
-  : 6
-
 // Awards date in millis
 // If `PLAYER_MINT_TIMESTAMP=0`, checks are ignored (for testing purposes)
 export const PLAYER_MINT_TIMESTAMP = process.env.PLAYER_MINT_TIMESTAMP
@@ -81,8 +76,13 @@ export const MONGO_URI: string =
   process.env.MONGO_URI ||
   'MONGO_URI=mongodb://your_username:your_password@localhost:27017/database'
 
+// Mainnet date in millis
+// If `PLAYER_MAINNET_TIMESTAMP=0`, checks are ignored (for testing purposes)
+export const PLAYER_MAINNET_TIMESTAMP = process.env.PLAYER_MAINNET_TIMESTAMP
+  ? parseInt(process.env.PLAYER_MAINNET_TIMESTAMP)
+  : 1645131600 // Thursday, February 17, 2022 09:00:00 PM (UTC)
+
 export default {
-  RANCHES_COUNT,
   PLAYER_KEY_LENGTH_BYTES,
   PLAYER_MINT_TIMESTAMP,
   PLAYERS_COUNT,
@@ -93,4 +93,5 @@ export default {
   TRADE_POINTS_MIN,
   MONGO_URI,
   WITMON_ERC721_ADDRESS,
+  PLAYER_MAINNET_TIMESTAMP,
 }

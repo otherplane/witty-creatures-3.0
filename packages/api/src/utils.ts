@@ -1,10 +1,10 @@
 import {
   PLAYER_MINT_TIMESTAMP,
-  RANCHES_COUNT,
   TRADE_COOLDOWN_MILLIS,
   TRADE_DURATION_MILLIS,
+  PLAYER_MAINNET_TIMESTAMP,
 } from './constants'
-import { Incubation, indexToRanch, RanchName } from './types'
+import { Incubation } from './types'
 
 export function calculateRemainingCooldown(
   tradeEnds: number,
@@ -37,10 +37,8 @@ export function getIncubationExtendedFromBase(incubation: Incubation) {
   )
 }
 
-export function getRanchFromIndex(index: number): RanchName {
-  const ranchIndex = index % RANCHES_COUNT
-
-  return indexToRanch[ranchIndex]
+export function isMainnetTime() {
+  return Date.now() >= PLAYER_MAINNET_TIMESTAMP * 1000
 }
 
 export function fromHexToUint8Array(hex: string) {

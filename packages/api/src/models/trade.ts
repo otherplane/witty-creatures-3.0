@@ -22,7 +22,7 @@ export class TradeModel {
     to?: string
   }): Promise<Trade | null> {
     const vto = await this.repository.getLast(search)
-
+    console.log('>>> trade', vto ? new Trade(vto) : null)
     return vto ? new Trade(vto) : null
   }
 }

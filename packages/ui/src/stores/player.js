@@ -33,7 +33,7 @@ export const useStore = defineStore('player', {
       mintParams: null,
       color: null,
       tokenIds: null,
-      playerPoints: null,
+      score: null,
       bufficornsGlobalStats: null,
       playersGlobalStats: null,
       ranchesGlobalStats: null,
@@ -150,7 +150,7 @@ export const useStore = defineStore('player', {
       const tokenInfo = this.getToken()
       const request = await this.api.trade({
         token: tokenInfo.token,
-        key: key
+        to: key
       })
 
       if (request.error) {
@@ -175,11 +175,11 @@ export const useStore = defineStore('player', {
         this.setError('info', request.error)
       } else {
         this.clearError('info')
-        const { key, username, points } = request
+        const { key, username, score } = request.player
         this.id = key
         this.username = username
-        this.points = points
-
+        this.score = score
+        console.log(request)
         // this.saveTheme(ranch.name)
         if (request.lastTradeIn) {
           this.tradeIn = request.lastTradeIn

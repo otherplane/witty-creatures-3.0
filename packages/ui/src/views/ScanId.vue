@@ -39,7 +39,6 @@ export default {
     }
 
     function onDecode (value) {
-      console.log('value', value)
       if (value) {
         decodedString.value = value
         if (!player.getToken()) {

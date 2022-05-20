@@ -44,9 +44,9 @@ export class PlayerModel {
       style: 'lowerCase',
     })
     const medals: Array<string> = []
-    const points: number = 0
+    const score: number = 0
 
-    return new Player({ key, username, medals, points })
+    return new Player({ key, username, medals, score })
   }
 
   /**
@@ -90,19 +90,25 @@ export class PlayerModel {
     return vto ? new Player(vto) : null
   }
 
-  public generateResource(player: DbPlayerVTO, lastTrade: DbTradeVTO | null) {
+  public async addPoints(key: string, points: number): Promise<Player | null> {
+    await this.collection.updateOne({ key }, { $inc: { score: points } })
+
+    return await this.get(key)
+  }
+
+  public computePoints(lastTrade: DbTradeVTO | null) {
     // Compute points
-    let amount
+    let points
     if (!lastTrade) {
-      amount = TRADE_POINTS
+      points = TRADE_POINTS
     } else {
-      amount = Math.max(
+      points = Math.max(
         Math.ceil(lastTrade.points / TRADE_POINTS_DIVISOR),
         TRADE_POINTS_MIN
       )
     }
 
-    return amount
+    return points
   }
 
   public async getOne(id: string): Promise<Player | null> {

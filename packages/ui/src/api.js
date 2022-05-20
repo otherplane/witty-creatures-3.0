@@ -83,6 +83,7 @@ export class ApiService {
   }
 
   trade ({ to, token }) {
+    console.log('to', to)
     return this._post({
       url: `${this.baseUrl}/trades`,
       data: { to },

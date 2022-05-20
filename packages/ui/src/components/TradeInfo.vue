@@ -4,9 +4,7 @@
       <div v-if="player.tradeOut" class="info left">
         <p class="label">
           Sending
-          <span class="highlight">{{
-            player.tradeOut?.resource?.amount || 0
-          }}</span>
+          <span class="highlight">{{ player.tradeOut?.points || 0 }}</span>
           points to
           <span class="highlight">{{ player.tradeOut?.to || '' }}</span>
         </p>
@@ -24,9 +22,7 @@
       <div v-if="player.tradeIn" class="info right">
         <p class="label">
           Receiving
-          <span class="highlight">{{
-            player.tradeIn?.resource?.amount || 'null'
-          }}</span>
+          <span class="highlight">{{ player.tradeIn?.points || 'null' }}</span>
           points from
           <span class="highlight">{{ player.tradeIn?.from || 'null' }}</span>
         </p>

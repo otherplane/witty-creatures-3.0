@@ -6,7 +6,7 @@
           <NavBar class="navbar" @openExportModal="openModal('export')" />
           <p class="subtitle player-id">{{ player.username.toUpperCase() }}</p>
           <p class="subtitle">
-            <span class="points-bold">{{ formatNumber(player.points) }}</span>
+            <span class="points-bold">{{ formatNumber(player.score) }}</span>
             points
           </p>
           <p class="subtitle">

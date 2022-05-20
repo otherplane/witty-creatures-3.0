@@ -112,18 +112,14 @@ const trades: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
           )
       }
 
-      const points = playerModel.generateResource(toPlayer.toDbVTO(), lastTrade)
+      const points = playerModel.computePoints(lastTrade)
       // TODO: INCUBATE
-      // try {
-      //   // Feed bufficorn
-      //   await bufficornModel.feed(
-      //     request.body.bufficorn,
-      //     resource,
-      //     fromPlayer.ranch
-      //   )
-      // } catch (error) {
-      //   return reply.status(403).send(error as Error)
-      // }
+      try {
+        // Add points to player
+        await playerModel.addPoints(toPlayer.toDbVTO().key, points)
+      } catch (error) {
+        return reply.status(403).send(error as Error)
+      }
 
       // Create and return `trade` object
       const trade = await tradeModel.create({

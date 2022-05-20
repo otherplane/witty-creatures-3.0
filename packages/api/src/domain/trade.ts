@@ -24,4 +24,8 @@ export class Trade {
       ends: this.ends,
     }
   }
+
+  isActive(): boolean {
+    return this.ends > Date.now()
+  }
 }

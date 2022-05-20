@@ -1,4 +1,5 @@
-import { DbPlayerVTO } from '../types'
+import { DbPlayerVTO, ExtendedPlayerVTO } from '../types'
+import { Trade } from './trade'
 
 export class Player {
   token?: string | undefined
@@ -6,17 +7,33 @@ export class Player {
   lastTradeOut?: number | undefined
   key: string
   username: string
-  points: number
+  score: number
   medals: Array<string> = []
 
   constructor(vto: DbPlayerVTO) {
-    this.lastTradeIn = vto.lastTradeIn || undefined
-    this.lastTradeOut = vto.lastTradeOut || undefined
     this.key = vto.key
     this.username = vto.username
-    this.points = vto.points
+    this.score = vto.score
     this.medals = vto.medals
     this.token = vto.token
+  }
+
+  toExtendedPlayerVTO({
+    lastTradeOut,
+    lastTradeIn,
+  }: {
+    lastTradeIn?: Trade | null
+    lastTradeOut: Trade | null
+  }): ExtendedPlayerVTO {
+    // Get all Player attributes except token
+    const { token, ...protectedplayerVTO } = this.toDbVTO()
+    return {
+      player: {
+        ...protectedplayerVTO,
+      },
+      lastTradeIn: lastTradeIn?.isActive() ? lastTradeIn.toVTO() : null,
+      lastTradeOut: lastTradeOut?.isActive() ? lastTradeOut.toVTO() : null,
+    }
   }
 
   toDbVTO(shoWToken: boolean = false): DbPlayerVTO {
@@ -25,7 +42,7 @@ export class Player {
       lastTradeOut: this.lastTradeOut,
       key: this.key,
       username: this.username,
-      points: this.points,
+      score: this.score,
       medals: this.medals,
       token: this.token,
     }
