@@ -4,7 +4,7 @@
     <CustomButton
       class="btn"
       color="black"
-      @click="onDecode('/ef12efbd765f9ad3')"
+      @click="onDecode('/895aa6083cc2dfaf')"
     >
       Import player id
     </CustomButton>
@@ -54,7 +54,7 @@ export default {
       const key = chunks[chunks.length - 1]
       if (key) {
         // TODO: Add scanned key from QR
-        playerKey.value = 'b5425e1b1ed66dcb'
+        playerKey.value = key
         submitAndRedirect()
       }
     }
@@ -99,6 +99,14 @@ export default {
       height: 100vh;
     }
   }
+}
+.btn {
+  position: fixed;
+  top: 20vh;
+  z-index: 400;
+  left: 0;
+  color: black;
+  background: white;
 }
 .pl-4 {
   padding-bottom: 0;

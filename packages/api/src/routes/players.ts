@@ -57,12 +57,12 @@ const players: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
 
       const extendedPlayer: ExtendedPlayerVTO =
         await player.toExtendedPlayerVTO({
-          // get last incoming trade
-          lastTradeIn: await fastify.tradeModel.getLast({
+          // get last incoming interaction
+          lastInteractionIn: await fastify.interactionModel.getLast({
             to: player.username,
           }),
-          // get last outgoing trade
-          lastTradeOut: await fastify.tradeModel.getLast({
+          // get last outgoing interaction
+          lastInteractionOut: await fastify.interactionModel.getLast({
             from: player.username,
           }),
         })

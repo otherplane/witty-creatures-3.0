@@ -97,22 +97,22 @@ export const ExtendedIncubation = Type.Object({
 })
 export type ExtendedIncubation = Static<typeof ExtendedIncubation>
 
-export const DbTradeVTO = Type.Object({
+export const DbInteractionVTO = Type.Object({
   from: Type.String(),
   to: Type.String(),
   points: Type.Number(),
   timestamp: Type.Number(),
   ends: Type.Number(),
 })
-export type DbTradeVTO = Static<typeof DbTradeVTO>
+export type DbInteractionVTO = Static<typeof DbInteractionVTO>
 
 export const ProtectedPlayerVTO = Type.Omit(PlayerVTO, ['token'])
 export type ProtectedPlayerVTO = Static<typeof ProtectedPlayerVTO>
 
 export const ExtendedPlayerVTO = Type.Object({
   player: ProtectedPlayerVTO,
-  lastTradeIn: Nullable(DbTradeVTO),
-  lastTradeOut: Nullable(DbTradeVTO),
+  lastInteractionIn: Nullable(DbInteractionVTO),
+  lastInteractionOut: Nullable(DbInteractionVTO),
 })
 
 export type ExtendedPlayerVTO = Static<typeof ExtendedPlayerVTO>
@@ -160,19 +160,19 @@ export const GetByNumericKeyParams = Type.Object({
 })
 export type GetByNumericKeyParams = Static<typeof GetByNumericKeyParams>
 
-export const TradeParams = Type.Object({
+export const InteractionParams = Type.Object({
   to: Type.String(),
 })
-export type TradeParams = Static<typeof TradeParams>
+export type InteractionParams = Static<typeof InteractionParams>
 
-export const TradeResult = Type.Object({
+export const InteractionResult = Type.Object({
   points: Type.Number(),
   ends: Type.Number(),
   from: Type.String(),
   to: Type.String(),
   timestamp: Type.Number(),
 })
-export type TradeResult = Static<typeof TradeParams>
+export type InteractionResult = Static<typeof InteractionParams>
 
 export type Stats = {
   vigor: number

@@ -9,11 +9,11 @@ import {
 import {
   PLAYER_KEY_LENGTH_BYTES,
   PLAYER_KEY_SALT,
-  TRADE_POINTS,
-  TRADE_POINTS_DIVISOR,
-  TRADE_POINTS_MIN,
+  INTERACTION_POINTS,
+  INTERACTION_POINTS_DIVISOR,
+  INTERACTION_POINTS_MIN,
 } from '../constants'
-import { DbPlayerVTO, DbTradeVTO } from '../types'
+import { DbPlayerVTO, DbInteractionVTO } from '../types'
 import { Repository } from '../repository'
 import { Player } from '../domain/player'
 
@@ -96,15 +96,15 @@ export class PlayerModel {
     return await this.get(key)
   }
 
-  public computePoints(lastTrade: DbTradeVTO | null) {
+  public computePoints(lastInteraction: DbInteractionVTO | null) {
     // Compute points
     let points
-    if (!lastTrade) {
-      points = TRADE_POINTS
+    if (!lastInteraction) {
+      points = INTERACTION_POINTS
     } else {
       points = Math.max(
-        Math.ceil(lastTrade.points / TRADE_POINTS_DIVISOR),
-        TRADE_POINTS_MIN
+        Math.ceil(lastInteraction.points / INTERACTION_POINTS_DIVISOR),
+        INTERACTION_POINTS_MIN
       )
     }
 

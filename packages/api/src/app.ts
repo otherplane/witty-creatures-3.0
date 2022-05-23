@@ -8,12 +8,12 @@ import { join } from 'path'
 
 import { PLAYERS_COUNT, JWT_SECRET, MONGO_URI } from './constants'
 import { PlayerModel } from './models/player'
-import { TradeModel } from './models/trade'
+import { InteractionModel } from './models/interaction'
 
 declare module 'fastify' {
   interface FastifyInstance {
     playerModel: PlayerModel
-    tradeModel: TradeModel
+    interactionModel: InteractionModel
   }
 }
 
@@ -61,10 +61,10 @@ const app: FastifyPluginAsync<AppOptions> = async (
   ) => {
     if (!fastify.mongo.db) throw Error('mongo db not found')
     const playerModel = new PlayerModel(fastify.mongo.db)
-    const tradeModel = new TradeModel(fastify.mongo.db)
+    const interactionModel = new InteractionModel(fastify.mongo.db)
 
     fastify.decorate('playerModel', playerModel)
-    fastify.decorate('tradeModel', tradeModel)
+    fastify.decorate('interactionModel', interactionModel)
 
     next()
   }

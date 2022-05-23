@@ -18,17 +18,17 @@ export const useStore = defineStore('player', {
       ranch: {},
       selectedBufficorn: null,
       bonus: null,
-      tradeInfo: null,
+      interactionInfo: null,
       farmerId: null,
-      tradeIn: null,
-      tradeOut: null,
+      interactionIn: null,
+      interactionOut: null,
       //TODO: make gameOverTimeMilli take GAME_ENDS_TIMESTAMP value when gameOver is defined
       gameOverTimeMilli: Date.now() + 7889400000,
       demoOverTimeMilli: DEMO_ENDS_TIMESTAMP,
       timeToMintInMilli: GAME_ENDS_TIMESTAMP + TIME_TO_MINT_MILLISECONDS,
       previews: [],
       mintedAwards: [],
-      tradeHistory: null,
+      interactionHistory: null,
       mintInfo: null,
       mintParams: null,
       color: null,
@@ -41,9 +41,9 @@ export const useStore = defineStore('player', {
         showMintedAwards: null,
         preview: null,
         auth: null,
-        trade: null,
+        interaction: null,
         info: null,
-        tradeHistory: null,
+        interactionHistory: null,
         getLeaderboardInfo: null,
         network: null,
         getContractArgs: null
@@ -142,23 +142,23 @@ export const useStore = defineStore('player', {
         this.getPlayerInfo()
       }
     },
-    // Trade
-    clearTrade () {
-      this.trade = null
+    // Interaction
+    clearInteraction () {
+      this.interaction = null
     },
-    async trade ({ key }) {
+    async interact ({ key }) {
       const tokenInfo = this.getToken()
-      const request = await this.api.trade({
+      const request = await this.api.interact({
         token: tokenInfo.token,
         to: key
       })
 
       if (request.error) {
-        this.setError('trade', request.error)
+        this.setError('interaction', request.error)
         router.push('/init-game')
       } else {
-        this.clearError('trade')
-        this.tradeInfo = request
+        this.clearError('interaction')
+        this.interactionInfo = request
         router.push('/init-game')
         this.getPlayerInfo()
       }
@@ -181,11 +181,11 @@ export const useStore = defineStore('player', {
         this.score = score
         console.log(request)
         // this.saveTheme(ranch.name)
-        if (request.lastTradeIn) {
-          this.tradeIn = request.lastTradeIn
+        if (request.lastInteractionIn) {
+          this.interactionIn = request.lastInteractionIn
         }
-        if (request.lastTradeOut) {
-          this.tradeOut = request.lastTradeOut
+        if (request.lastInteractionOut) {
+          this.interactionOut = request.lastInteractionOut
         }
       }
     },

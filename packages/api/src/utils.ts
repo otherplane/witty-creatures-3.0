@@ -1,19 +1,19 @@
 import {
   PLAYER_MINT_TIMESTAMP,
-  TRADE_COOLDOWN_MILLIS,
-  TRADE_DURATION_MILLIS,
+  INTERACTION_COOLDOWN_MILLIS,
+  INTERACTION_DURATION_MILLIS,
   PLAYER_MAINNET_TIMESTAMP,
 } from './constants'
 import { Incubation } from './types'
 
 export function calculateRemainingCooldown(
-  tradeEnds: number,
+  interactionEnds: number,
   currentTimestamp = Date.now(),
-  tradeDuration: number = TRADE_DURATION_MILLIS,
-  tradeCooldown: number = TRADE_COOLDOWN_MILLIS
+  interactionDuration: number = INTERACTION_DURATION_MILLIS,
+  interactionCooldown: number = INTERACTION_COOLDOWN_MILLIS
 ) {
   const remainingMillis =
-    tradeEnds - tradeDuration + tradeCooldown - currentTimestamp
+    interactionEnds - interactionDuration + interactionCooldown - currentTimestamp
 
   return remainingMillis > 0 ? remainingMillis : 0
 }

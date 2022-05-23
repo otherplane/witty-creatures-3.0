@@ -1,9 +1,9 @@
 <template>
   <MainLayout>
     <div class="disclaimer">
-      <p class="title">TRADE</p>
-      <CustomButton type="dark" @click="trade">
-        TRADE
+      <p class="title">INTERACT</p>
+      <CustomButton type="dark" @click="interact">
+        INTERACT
       </CustomButton>
     </div>
   </MainLayout>
@@ -17,11 +17,11 @@ export default {
     const player = useStore()
     const router = useRouter()
 
-    const trade = () => {
-      player.trade({ key: router.currentRoute.value.params.id })
+    const interact = () => {
+      player.interact({ key: router.currentRoute.value.params.id })
     }
 
-    return { player, trade }
+    return { player, interact }
   }
 }
 </script>

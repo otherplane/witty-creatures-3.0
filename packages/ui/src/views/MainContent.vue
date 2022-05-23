@@ -37,7 +37,7 @@
       <CountdownToAllowMint
         v-if="!player.mintingAllow && player.previews.length"
       />
-      <TradeInfo />
+      <InteractionInfo />
       <NFTPreview />
       <MintInformation />
       <SvgImage class="bufficorn-img" :svg="egg" />
@@ -47,7 +47,7 @@
         :to="type === 'disable' ? '' : '/scan'"
       >
         <CustomButton type="dark" :slim="true">
-          TRADE
+          INTERACTION
         </CustomButton>
       </router-link>
       <div class="sticky-btn" v-if="player.gameOver">
@@ -123,7 +123,7 @@ export default {
           router.currentRoute.value.params.id &&
           player.id !== router.currentRoute.value.params.id
         ) {
-          await player.trade({ key: router.currentRoute.value.params.id })
+          await player.interact({ key: router.currentRoute.value.params.id })
         }
         if (player.gameOver) {
           await player.getMintInfo()

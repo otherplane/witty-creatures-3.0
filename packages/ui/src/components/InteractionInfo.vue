@@ -1,37 +1,37 @@
 <template>
   <div class="counter">
     <transition name="fade">
-      <div v-if="player.tradeOut" class="info left">
+      <div v-if="player.interactionOut" class="info left">
         <p class="label">
           Sending
-          <span class="highlight">{{ player.tradeOut?.points || 0 }}</span>
+          <span class="highlight">{{ player.interactionOut?.points || 0 }}</span>
           points to
-          <span class="highlight">{{ player.tradeOut?.to || '' }}</span>
+          <span class="highlight">{{ player.interactionOut?.to || '' }}</span>
         </p>
         <div class="time-container">
           <TimeLeft
             class="time-left"
-            :timestamp="player.tradeOut.ends"
+            :timestamp="player.interactionOut.ends"
             :seconds="true"
-            @clear-timestamp="player.tradeOut = null"
+            @clear-timestamp="player.interactionOut = null"
           />
         </div>
       </div>
     </transition>
     <transition name="fade">
-      <div v-if="player.tradeIn" class="info right">
+      <div v-if="player.interactionIn" class="info right">
         <p class="label">
           Receiving
-          <span class="highlight">{{ player.tradeIn?.points || 'null' }}</span>
+          <span class="highlight">{{ player.interactionIn?.points || 'null' }}</span>
           points from
-          <span class="highlight">{{ player.tradeIn?.from || 'null' }}</span>
+          <span class="highlight">{{ player.interactionIn?.from || 'null' }}</span>
         </p>
         <div class="time-container">
           <TimeLeft
             class="time-left"
-            :timestamp="player.tradeIn.ends"
+            :timestamp="player.interactionIn.ends"
             :seconds="true"
-            @clear-timestamp="player.tradeIn = null"
+            @clear-timestamp="player.interactionIn = null"
           />
         </div>
       </div>

@@ -95,16 +95,16 @@ describe('player.ts', () => {
           username,
           ranch,
           points,
-          lastTradeIn,
-          lastTradeOut,
+          lastInteractionIn,
+          lastInteractionOut,
           medals,
         } = response.json()
 
         expect(key).toBeTruthy()
         expect(username).toBeTruthy()
         expect(points).toBe(0)
-        expect(lastTradeIn).toBe(undefined)
-        expect(lastTradeOut).toBe(undefined)
+        expect(lastInteractionIn).toBe(undefined)
+        expect(lastInteractionOut).toBe(undefined)
         expect(medals).toStrictEqual([])
       }
     )

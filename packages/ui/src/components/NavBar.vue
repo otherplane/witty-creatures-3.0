@@ -14,8 +14,8 @@
           <!-- <router-link class="tab" to="/stats">
             Leaderboard
           </router-link>
-          <router-link class="tab" to="/trades">
-            Trade history
+          <router-link class="tab" to="/interactions">
+            Interactions history
           </router-link>
           <router-link class="tab" to="/instructions">
             Instructions

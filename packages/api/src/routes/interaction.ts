@@ -1,11 +1,11 @@
 import { FastifyPluginAsync, FastifyRequest } from 'fastify'
-import { PLAYER_MINT_TIMESTAMP, TRADE_DURATION_MILLIS } from '../constants'
+import { PLAYER_MINT_TIMESTAMP, INTERACTION_DURATION_MILLIS } from '../constants'
 
 import {
   AuthorizationHeader,
   JwtVerifyPayload,
-  TradeResult,
-  TradeParams,
+  InteractionResult,
+  InteractionParams,
 } from '../types'
 import {
   calculateRemainingCooldown,
@@ -13,23 +13,23 @@ import {
   printRemainingMillis,
 } from '../utils'
 
-const trades: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
+const interactions: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   if (!fastify.mongo.db) throw Error('mongo db not found')
 
-  const { playerModel, tradeModel } = fastify
+  const { playerModel, interactionModel } = fastify
 
-  fastify.post<{ Body: TradeParams; Reply: TradeResult | Error }>('/trades', {
+  fastify.post<{ Body: InteractionParams; Reply: InteractionResult | Error }>('/interactions', {
     schema: {
-      body: TradeParams,
+      body: InteractionParams,
       headers: AuthorizationHeader,
       response: {
-        200: TradeResult,
+        200: InteractionResult,
       },
     },
-    handler: async (request: FastifyRequest<{ Body: TradeParams }>, reply) => {
-      // Check 0: trade period
+    handler: async (request: FastifyRequest<{ Body: InteractionParams }>, reply) => {
+      // Check 0: interaction period
       if (PLAYER_MINT_TIMESTAMP && isTimeToMint())
-        return reply.status(403).send(new Error(`Trade period is over.`))
+        return reply.status(403).send(new Error(`Interaction period is over.`))
 
       // Check 1: token is valid
       let fromKey: string
@@ -54,7 +54,7 @@ const trades: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       if (!fromPlayer.token) {
         return reply
           .status(409)
-          .send(new Error(`Player should be claimed before trade with others`))
+          .send(new Error(`Player should be claimed before interact with others`))
       }
 
       // Check 4: target player exist
@@ -74,31 +74,31 @@ const trades: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
 
       const currentTimestamp = Date.now()
 
-      // Check 6: from can trade (is free)
-      const lastTradeFrom = await tradeModel.getLast({
+      // Check 6: from can interaction (is free)
+      const lastInteractionFrom = await interactionModel.getLast({
         from: fromPlayer.username,
       })
-      if (lastTradeFrom && lastTradeFrom.ends > currentTimestamp) {
+      if (lastInteractionFrom && lastInteractionFrom.ends > currentTimestamp) {
         return reply
           .status(409)
-          .send(new Error(`Players can only trade 1 player at a time`))
+          .send(new Error(`Players can only interact 1 player at a time`))
       }
 
-      // Check 7: target player can trade (is free)
-      const lastTradeTo = await tradeModel.getLast({ to: toPlayer.username })
-      if (lastTradeTo && lastTradeTo.ends > currentTimestamp) {
+      // Check 7: target player can interact (is free)
+      const lastInteractionTo = await interactionModel.getLast({ to: toPlayer.username })
+      if (lastInteractionTo && lastInteractionTo.ends > currentTimestamp) {
         return reply
           .status(409)
           .send(new Error(`Target Player is already trading`))
       }
 
       // Check 8: cooldown period from Player to target Player has elapsed
-      const lastTrade = await tradeModel.getLast({
+      const lastInteraction = await interactionModel.getLast({
         from: fromPlayer.username,
         to: toPlayer.username,
       })
-      const remainingCooldown: number = lastTrade
-        ? calculateRemainingCooldown(lastTrade.ends)
+      const remainingCooldown: number = lastInteraction
+        ? calculateRemainingCooldown(lastInteraction.ends)
         : 0
       if (remainingCooldown) {
         return reply
@@ -107,12 +107,12 @@ const trades: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
             new Error(
               `Target Player needs ${printRemainingMillis(
                 remainingCooldown
-              )} to cooldown before trade again`
+              )} to cooldown before interact again`
             )
           )
       }
 
-      const points = playerModel.computePoints(lastTrade)
+      const points = playerModel.computePoints(lastInteraction)
       // TODO: INCUBATE
       try {
         // Add points to player
@@ -121,18 +121,18 @@ const trades: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
         return reply.status(403).send(error as Error)
       }
 
-      // Create and return `trade` object
-      const trade = await tradeModel.create({
-        ends: currentTimestamp + TRADE_DURATION_MILLIS,
+      // Create and return `interact` object
+      const interaction = await interactionModel.create({
+        ends: currentTimestamp + INTERACTION_DURATION_MILLIS,
         from: fromPlayer.username,
         to: toPlayer.username,
         points,
         timestamp: currentTimestamp,
       })
 
-      return reply.status(200).send(trade)
+      return reply.status(200).send(interaction)
     },
   })
 }
 
-export default trades
+export default interactions

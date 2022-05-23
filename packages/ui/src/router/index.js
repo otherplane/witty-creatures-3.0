@@ -60,8 +60,8 @@ const routes = [
     component: ScanId
   },
   {
-    name: 'trade',
-    path: '/trade/:id',
+    name: 'interaction',
+    path: '/interaction/:id',
     component: BreedBufficorns
   },
   {

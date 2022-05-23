@@ -1,10 +1,10 @@
 import { DbPlayerVTO, ExtendedPlayerVTO } from '../types'
-import { Trade } from './trade'
+import { Interaction } from './interaction'
 
 export class Player {
   token?: string | undefined
-  lastTradeIn?: number | undefined
-  lastTradeOut?: number | undefined
+  lastInteractionIn?: number | undefined
+  lastInteractionOut?: number | undefined
   key: string
   username: string
   score: number
@@ -19,11 +19,11 @@ export class Player {
   }
 
   toExtendedPlayerVTO({
-    lastTradeOut,
-    lastTradeIn,
+    lastInteractionOut,
+    lastInteractionIn,
   }: {
-    lastTradeIn?: Trade | null
-    lastTradeOut: Trade | null
+    lastInteractionIn?: Interaction | null
+    lastInteractionOut: Interaction | null
   }): ExtendedPlayerVTO {
     // Get all Player attributes except token
     const { token, ...protectedplayerVTO } = this.toDbVTO()
@@ -31,15 +31,15 @@ export class Player {
       player: {
         ...protectedplayerVTO,
       },
-      lastTradeIn: lastTradeIn?.isActive() ? lastTradeIn.toVTO() : null,
-      lastTradeOut: lastTradeOut?.isActive() ? lastTradeOut.toVTO() : null,
+      lastInteractionIn: lastInteractionIn?.isActive() ? lastInteractionIn.toVTO() : null,
+      lastInteractionOut: lastInteractionOut?.isActive() ? lastInteractionOut.toVTO() : null,
     }
   }
 
   toDbVTO(shoWToken: boolean = false): DbPlayerVTO {
     const vto = {
-      lastTradeIn: this.lastTradeIn,
-      lastTradeOut: this.lastTradeOut,
+      lastInteractionIn: this.lastInteractionIn,
+      lastInteractionOut: this.lastInteractionOut,
       key: this.key,
       username: this.username,
       score: this.score,

@@ -45,9 +45,9 @@ export class ApiService {
     })
   }
 
-  getTradeHistory (params) {
+  getInteractionsHistory (params) {
     return this._get({
-      url: `${this.baseUrl}/trades`,
+      url: `${this.baseUrl}/interactions`,
       config: {
         headers: { authorization: params.token },
         params: { offset: params.offset, limit: params.limit }
@@ -82,10 +82,10 @@ export class ApiService {
     })
   }
 
-  trade ({ to, token }) {
+  interact ({ to, token }) {
     console.log('to', to)
     return this._post({
-      url: `${this.baseUrl}/trades`,
+      url: `${this.baseUrl}/interactions`,
       data: { to },
       params: { headers: { authorization: token } }
     })

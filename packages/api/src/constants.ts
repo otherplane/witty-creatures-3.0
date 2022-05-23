@@ -18,29 +18,29 @@ export const PLAYER_KEY_SALT: string = process.env.PLAYER_KEY_SALT || ''
 // JWT secret to derive tokens
 export const JWT_SECRET: string = process.env.JWT_SECRET || 'secret'
 
-// Player trade duration in millis
-export const TRADE_DURATION_MILLIS = process.env.TRADE_DURATION_MILLIS
-  ? parseInt(process.env.TRADE_DURATION_MILLIS)
+// Player interaction duration in millis
+export const INTERACTION_DURATION_MILLIS = process.env.INTERACTION_DURATION_MILLIS
+  ? parseInt(process.env.INTERACTION_DURATION_MILLIS)
   : 2 * 60 * 1000
 
-// Player trade cooldown in millis
-export const TRADE_COOLDOWN_MILLIS = process.env.TRADE_COOLDOWN_MILLIS
-  ? Math.max(parseInt(process.env.TRADE_COOLDOWN_MILLIS), TRADE_DURATION_MILLIS)
-  : Math.max(2 * 60 * 60 * 1000, TRADE_DURATION_MILLIS)
+// Player interaction cooldown in millis
+export const INTERACTION_COOLDOWN_MILLIS = process.env.INTERACTION_COOLDOWN_MILLIS
+  ? Math.max(parseInt(process.env.INTERACTION_COOLDOWN_MILLIS), INTERACTION_DURATION_MILLIS)
+  : Math.max(2 * 60 * 60 * 1000, INTERACTION_DURATION_MILLIS)
 
-// Trade base points
-export const TRADE_POINTS = process.env.TRADE_POINTS
-  ? parseInt(process.env.TRADE_POINTS)
+// Interaction base points
+export const INTERACTION_POINTS = process.env.INTERACTION_POINTS
+  ? parseInt(process.env.INTERACTION_POINTS)
   : 800
 
-// Minimum amount of points that can be rewarded after a trade
-export const TRADE_POINTS_MIN = process.env.TRADE_POINTS_MIN
-  ? parseInt(process.env.TRADE_POINTS_MIN)
+// Minimum amount of points that can be rewarded after a interaction
+export const INTERACTION_POINTS_MIN = process.env.INTERACTION_POINTS_MIN
+  ? parseInt(process.env.INTERACTION_POINTS_MIN)
   : 50
 
-// Trade point divisor to be applied every time the same incubation happens
-export const TRADE_POINTS_DIVISOR = process.env.TRADE_POINTS_DIVISOR
-  ? parseInt(process.env.TRADE_POINTS_DIVISOR)
+// Interaction point divisor to be applied every time the same incubation happens
+export const INTERACTION_POINTS_DIVISOR = process.env.INTERACTION_POINTS_DIVISOR
+  ? parseInt(process.env.INTERACTION_POINTS_DIVISOR)
   : 2
 
 // Secp256k1 private key used for signing in the `mint` endpoint
@@ -86,11 +86,11 @@ export default {
   PLAYER_KEY_LENGTH_BYTES,
   PLAYER_MINT_TIMESTAMP,
   PLAYERS_COUNT,
-  TRADE_COOLDOWN_MILLIS,
-  TRADE_DURATION_MILLIS,
-  TRADE_POINTS,
-  TRADE_POINTS_DIVISOR,
-  TRADE_POINTS_MIN,
+  INTERACTION_COOLDOWN_MILLIS,
+  INTERACTION_DURATION_MILLIS,
+  INTERACTION_POINTS,
+  INTERACTION_POINTS_DIVISOR,
+  INTERACTION_POINTS_MIN,
   MONGO_URI,
   WITMON_ERC721_ADDRESS,
   PLAYER_MAINNET_TIMESTAMP,
