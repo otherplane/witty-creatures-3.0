@@ -93,18 +93,17 @@ describe('player.ts', () => {
         const {
           key,
           username,
-          ranch,
-          points,
-          lastInteractionIn,
-          lastInteractionOut,
+          score,
           medals,
-        } = response.json()
+        } = response.json().player
+
+        const { lastInteractionIn, lastInteractionOut } = response.json()
 
         expect(key).toBeTruthy()
         expect(username).toBeTruthy()
-        expect(points).toBe(0)
-        expect(lastInteractionIn).toBe(undefined)
-        expect(lastInteractionOut).toBe(undefined)
+        expect(score).toBe(0)
+        expect(lastInteractionIn).toBe(null)
+        expect(lastInteractionOut).toBe(null)
         expect(medals).toStrictEqual([])
       }
     )
