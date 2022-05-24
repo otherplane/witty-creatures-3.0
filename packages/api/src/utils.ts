@@ -5,6 +5,7 @@ import {
   PLAYER_MAINNET_TIMESTAMP,
 } from './constants'
 import { Incubation } from './types'
+import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator'
 
 export function calculateRemainingCooldown(
   interactionEnds: number,
@@ -57,3 +58,24 @@ export function printRemainingMillis(millis: number) {
     return `${Math.ceil(seconds / 60)} min`
   }
 }
+
+export function generateUsernameList(count: number): Array<string> {
+  const usernames = new Set<string>()
+  // The seed must start at 1 because 0 means "use Math.random"
+  let counter = 1
+
+  while (usernames.size < count) {
+    let username = uniqueNamesGenerator({
+      dictionaries: [adjectives, animals],
+      seed: counter,
+      separator: '-',
+      style: 'lowerCase',
+    })
+    usernames.add(username)
+    counter += 1
+  }
+
+  // Convert set into array to allow indexing by index
+  return Array.from(usernames)
+}
+

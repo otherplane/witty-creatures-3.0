@@ -94,7 +94,7 @@ describe('player.ts', () => {
           key,
           username,
           score,
-          medals,
+          nft,
         } = response.json().player
 
         const { lastInteractionIn, lastInteractionOut } = response.json()
@@ -104,7 +104,7 @@ describe('player.ts', () => {
         expect(score).toBe(0)
         expect(lastInteractionIn).toBe(null)
         expect(lastInteractionOut).toBe(null)
-        expect(medals).toStrictEqual([])
+        expect(nft).toStrictEqual([])
       }
     )
   })

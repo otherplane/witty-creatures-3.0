@@ -87,6 +87,9 @@ export default defineComponent({
   margin: 0 auto;
   display: grid;
   align-items: flex-start;
+  grid-template-rows: max-content;
+  grid-gap: 24px;
+
   &.padding {
     padding: 16px;
     margin-top: 4vh;

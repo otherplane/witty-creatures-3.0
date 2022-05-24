@@ -9,13 +9,13 @@ export class Player {
   key: string
   username: string
   score: number
-  medals: Array<string> = []
+  nft: Array<string> = []
 
   constructor(vto: DbPlayerVTO) {
     this.key = vto.key
     this.username = vto.username
     this.score = vto.score
-    this.medals = vto.medals
+    this.nft = vto.nft
     this.token = vto.token
     this.creationIndex = vto.creationIndex
   }
@@ -45,7 +45,7 @@ export class Player {
       key: this.key,
       username: this.username,
       score: this.score,
-      medals: this.medals,
+      nft: this.nft,
       token: this.token,
       creationIndex: this.creationIndex,
     }

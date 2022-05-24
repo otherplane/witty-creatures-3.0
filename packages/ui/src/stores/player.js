@@ -13,7 +13,7 @@ export const useStore = defineStore('player', {
       api: new ApiService(),
       id: null,
       theme: null,
-      medals: [],
+      nft: [],
       username: '',
       ranch: {},
       selectedBufficorn: null,

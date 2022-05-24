@@ -1,11 +1,6 @@
 import crypto from 'crypto'
 import { Collection, Db } from 'mongodb'
-import {
-  uniqueNamesGenerator,
-  adjectives,
-  animals,
-} from 'unique-names-generator'
-
+import { generateUsernameList } from '../utils'
 import {
   PLAYER_KEY_LENGTH_BYTES,
   PLAYER_KEY_SALT,
@@ -26,7 +21,7 @@ export class PlayerModel {
     this.repository = new Repository(this.collection, 'username')
   }
 
-  public createPlayer(index: number): Player {
+  public createPlayer(index: number, getUsername: (index: number) => string): Player {
     // Generate the player data.
     // First we derive a deterministic 32-bytes sequence of bytes from a fixed salt plus the player nonce.
     const seed = crypto
@@ -37,16 +32,11 @@ export class PlayerModel {
     const key: string = seed.slice(0, PLAYER_KEY_LENGTH_BYTES).toString('hex')
     // FIXME: avoid repeated usernames
     // The rest of the bytes of the seed will be used for seeding the unique names generator.
-    const username: string = uniqueNamesGenerator({
-      dictionaries: [adjectives, animals],
-      seed: seed.slice(PLAYER_KEY_LENGTH_BYTES).readUInt32BE(),
-      separator: '-',
-      style: 'lowerCase',
-    })
-    const medals: Array<string> = []
+    const username: string = getUsername(index)
+    const nft: Array<string> = []
     const score: number = 0
 
-    return new Player({ key, username, medals, score, creationIndex: index, })
+    return new Player({ key, username, nft, score, creationIndex: index, })
   }
 
   /**
@@ -58,8 +48,12 @@ export class PlayerModel {
     count: number,
     force: boolean = false
   ): Promise<Array<Player> | null> {
+    // Generate list of unique usernames to avoid name collisions
+    const usernamesList = generateUsernameList(count)
+    const getUsername = (index: number) => usernamesList[index]
     const vtos = await this.repository.bootstrap(
-      (_: null, index: number) => this.createPlayer(index),
+      (_: null, index: number) =>
+        this.createPlayer(index, getUsername).toDbVTO(),
       count,
       force
     )

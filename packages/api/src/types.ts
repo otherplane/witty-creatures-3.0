@@ -22,7 +22,7 @@ export const PlayerVTO = Type.Object({
   token: Type.Optional(Type.String()),
   username: Type.String(),
   score: Type.Integer(),
-  medals: Type.Array(Type.Optional(Type.String())),
+  nft: Type.Array(Type.Optional(Type.String())),
   creationIndex: Type.Integer(),
 })
 
@@ -33,7 +33,7 @@ export const DbPlayerVTO = Type.Object({
   token: Type.Optional(Type.String()),
   username: Type.String(),
   score: Type.Integer(),
-  medals: Type.Array(Type.Optional(Type.String())),
+  nft: Type.Array(Type.Optional(Type.String())),
   creationIndex: Type.Integer(),
 })
 

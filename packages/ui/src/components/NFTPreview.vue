@@ -1,9 +1,8 @@
 <template>
-  <div class="medals-container" v-if="player.previews.length >= 1">
-    <p class="medals-title">{{ title }}</p>
+  <div class="nft-container" v-if="player.previews.length >= 1">
+    <p class="nft-title">{{ title }}</p>
     <div class="nft-container">
-      {{ medals }}
-      <!-- <CarouselMedals :medals="medals" /> -->
+      {{ nft }}
     </div>
   </div>
 </template>
@@ -19,20 +18,20 @@ export default {
     const title = computed(() => {
       return player.mintedAwards ? 'NFT AWARDS' : 'NFT AWARDS (PREVIEW)'
     })
-    const medals = computed(() => {
+    const nft = computed(() => {
       if (player.mintedAwards.length) {
         return player.mintedAwards
       } else {
         return player.previews
       }
     })
-    return { importSvg, title, player, OPENSEA_BASE_URL, medals }
+    return { importSvg, title, player, OPENSEA_BASE_URL, nft }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.medals-container {
+.nft-container {
   width: 700px;
 }
 .nft-container {
@@ -42,14 +41,14 @@ export default {
   margin: 16px 0px;
   justify-content: center;
 }
-.medals-title {
+.nft-title {
   font-weight: bold;
   font-family: Zilla Slab, sans-serif;
   font-size: 12px;
   color: var(--primary-color);
 }
 @media (max-width: 600px) {
-  .medals-container {
+  .nft-container {
     width: 90vw;
   }
 }
