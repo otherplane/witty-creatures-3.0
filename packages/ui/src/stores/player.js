@@ -22,7 +22,7 @@ export const useStore = defineStore('player', {
       interactionIn: null,
       interactionOut: null,
       //TODO: make gameOverTimeMilli take GAME_ENDS_TIMESTAMP value when gameOver is defined
-      gameOverTimeMilli: Date.now() + 7889400000,
+      gameOverTimeMilli: GAME_ENDS_TIMESTAMP,
       demoOverTimeMilli: DEMO_ENDS_TIMESTAMP,
       timeToMintInMilli: GAME_ENDS_TIMESTAMP + TIME_TO_MINT_MILLISECONDS,
       previews: [],
@@ -52,11 +52,11 @@ export const useStore = defineStore('player', {
   getters: {
     gameOver () {
       //FIXME: make it reactive
-      return Date.now() + 7889400000 < Date.now()
+      return this.gameOverTimeMilli < Date.now()
     },
     mintingAllow () {
       //FIXME: make it reactive
-      return Date.now() + 7889400000 < Date.now()
+      return this.timeToMintInMilli < Date.now()
     },
     minted () {
       if (this.mintInfo && this.mintInfo.events && this.mintInfo.events[1]) {
@@ -67,6 +67,7 @@ export const useStore = defineStore('player', {
     },
     demoOver () {
       //FIXME: make it reactive
+      console.log(this.demoOverTimeMilli)
       return this.demoOverTimeMilli < Date.now()
     },
     isMainnetTime () {
@@ -208,11 +209,11 @@ export const useStore = defineStore('player', {
         this.setError('info', request.error)
       } else {
         this.clearError('info')
-        const { key, username, score } = request.player
+        const { key, username, score, color } = request.player
         this.id = key
         this.username = username
         this.score = score
-        console.log(request)
+        this.color = color
         // this.saveTheme(ranch.name)
         if (request.lastInteractionIn) {
           this.interactionIn = request.lastInteractionIn

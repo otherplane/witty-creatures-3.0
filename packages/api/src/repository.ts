@@ -18,7 +18,7 @@ export class Repository<T> {
     const isAlreadyBootstrapped =
       (await this.collection.estimatedDocumentCount()) > 0
 
-    console.log('isBOOTSTRAPED!!!!', await this.collection.find({}).toArray())
+    console.log('is BOOTSTRAPED!!!!', await this.collection.find({}).toArray())
     // Prevent accidental bootstrapping if the collection is already bootstrapped
     if (isAlreadyBootstrapped && !force) {
       return null

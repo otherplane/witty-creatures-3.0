@@ -26,15 +26,15 @@ defineProps({
   font-weight: bold;
   &.primary {
     color: $white;
-    background: $black;
+    background: var(--primary-color);
   }
   &.secondary {
     color: $white;
-    background: $black;
+    background: var(--primary-color);
   }
   &.dark {
     color: $white;
-    background: $black;
+    background: var(--primary-color);
   }
   &.disable {
     opacity: 0.6;

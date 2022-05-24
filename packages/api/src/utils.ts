@@ -3,6 +3,7 @@ import {
   INTERACTION_COOLDOWN_MILLIS,
   INTERACTION_DURATION_MILLIS,
   PLAYER_MAINNET_TIMESTAMP,
+  COLORS_COUNT,
 } from './constants'
 import { Incubation } from './types'
 import {
@@ -43,6 +44,10 @@ export function getIncubationExtendedFromBase(incubation: Incubation) {
       remainingDuration: calculateRemainingDuration(incubation.ends),
     }
   )
+}
+
+export function getColorFromIndex(index: number) {
+  return index % COLORS_COUNT
 }
 
 export function isMainnetTime() {

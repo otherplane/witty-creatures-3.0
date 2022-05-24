@@ -8,15 +8,6 @@ export const ClaimPlayerParams = Type.Object({
 })
 export type ClaimPlayerParams = Static<typeof ClaimPlayerParams>
 
-export enum RanchIndex {
-  Ranch1 = 0,
-  Ranch2 = 1,
-  Ranch3 = 2,
-  Ranch4 = 3,
-  Ranch5 = 4,
-  Ranch6 = 5,
-}
-
 export const PlayerVTO = Type.Object({
   key: Type.String(),
   token: Type.Optional(Type.String()),
@@ -24,6 +15,7 @@ export const PlayerVTO = Type.Object({
   score: Type.Integer(),
   nft: Type.Array(Type.Optional(Type.String())),
   creationIndex: Type.Integer(),
+  color: Type.Integer(),
 })
 
 export type PlayerVTO = Static<typeof PlayerVTO>
@@ -35,6 +27,7 @@ export const DbPlayerVTO = Type.Object({
   score: Type.Integer(),
   nft: Type.Array(Type.Optional(Type.String())),
   creationIndex: Type.Integer(),
+  color: Type.Integer(),
 })
 
 export type DbPlayerVTO = Static<typeof DbPlayerVTO>

@@ -33,6 +33,11 @@ export const INTERACTION_COOLDOWN_MILLIS = process.env
     )
   : Math.max(2 * 60 * 60 * 1000, INTERACTION_DURATION_MILLIS)
 
+// Number of different theme colors
+export const COLORS_COUNT = process.env.COLORS_COUNT
+  ? parseInt(process.env.COLORS_COUNT)
+  : 7
+
 // Self interaction points
 export const SELF_INTERACTION_POINTS = process.env.SELF_INTERACTION_POINTS
   ? parseInt(process.env.SELF_INTERACTION_POINTS)

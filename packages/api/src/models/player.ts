@@ -1,6 +1,6 @@
 import crypto from 'crypto'
 import { Collection, Db } from 'mongodb'
-import { generateUsernameList } from '../utils'
+import { generateUsernameList, getColorFromIndex } from '../utils'
 import {
   PLAYER_KEY_LENGTH_BYTES,
   PLAYER_KEY_SALT,
@@ -39,8 +39,16 @@ export class PlayerModel {
     const username: string = getUsername(index)
     const nft: Array<string> = []
     const score: number = 0
+    const color = getColorFromIndex(index)
 
-    return new Player({ key, username, nft, score, creationIndex: index })
+    return new Player({
+      key,
+      username,
+      nft,
+      score,
+      creationIndex: index,
+      color,
+    })
   }
 
   /**
@@ -94,7 +102,10 @@ export class PlayerModel {
     return await this.get(key)
   }
 
-  public computePoints(lastInteraction: DbInteractionVTO | null, selfInteraction: boolean) {
+  public computePoints(
+    lastInteraction: DbInteractionVTO | null,
+    selfInteraction: boolean
+  ) {
     // Compute points
     if (selfInteraction) {
       return SELF_INTERACTION_POINTS

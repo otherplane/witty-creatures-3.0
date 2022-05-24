@@ -2,7 +2,6 @@ import { authenticatePlayer, initialPlayers, serverInject } from '../../setup'
 
 describe('Route /leaderboard', () => {
   describe('should return leaderboard values for each entity', () => {
-
     it('players', async () => {
       jest.setTimeout(15000)
       const token = await authenticatePlayer(initialPlayers[0].key)
@@ -39,7 +38,6 @@ describe('Route /leaderboard', () => {
   })
 
   describe('should return leaderboard values for each entity AFTER INTERACTION', () => {
-
     it('players', async () => {
       jest.setTimeout(15000)
       const token0 = await authenticatePlayer(initialPlayers[0].key)

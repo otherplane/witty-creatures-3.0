@@ -89,16 +89,12 @@ const initialPlayers = [
     key: 'a17b86baba0cb804',
     username: 'ridiculous-puma',
   },
-  { key: '21234f47b1c46620',
-    username: 'verbal-turtle',
-  },
-  { key: 'bf70268a8f1e2d67',
-    username: 'realistic-piranha',
-  },
+  { key: '21234f47b1c46620', username: 'verbal-turtle' },
+  { key: 'bf70268a8f1e2d67', username: 'realistic-piranha' },
   {
     key: '5a75dc3b46250ba5',
     username: 'magnetic-limpet',
-  }
+  },
 ]
 
 export { server, authenticatePlayer, serverInject, sleep, initialPlayers }

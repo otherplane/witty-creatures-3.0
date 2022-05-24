@@ -26,8 +26,8 @@ export default {
   color: $white;
 }
 .error {
-  border: 1px solid $reef;
-  background-color: $reef;
+  border: 1px solid $red;
+  background-color: $red;
   color: $white;
 }
 .pending {

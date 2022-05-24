@@ -1,5 +1,5 @@
 <template>
-  <div class="background">
+  <div class="background" :class="THEME_COLORS[player?.color]">
     <WitnetStrip class="witnet-logo-strip" />
     <div v-if="isBackground" class="main-background" />
     <SvgImage v-if="isBufficorn" class="bufficorn-img" :svg="wittyCorn" />
@@ -12,6 +12,7 @@
 import { defineComponent } from 'vue-demi'
 import { useStore } from '@/stores/player'
 import wittyCorn from '@/assets/egg.svg?raw'
+import { THEME_COLORS } from '../constants'
 export default defineComponent({
   props: {
     isBackground: {
@@ -35,7 +36,8 @@ export default defineComponent({
     const player = useStore()
     return {
       player,
-      wittyCorn
+      wittyCorn,
+      THEME_COLORS
     }
   }
 })
@@ -88,7 +90,6 @@ export default defineComponent({
   display: grid;
   align-items: flex-start;
   grid-template-rows: max-content;
-  grid-gap: 24px;
 
   &.padding {
     padding: 16px;

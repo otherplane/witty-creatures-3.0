@@ -55,13 +55,6 @@ export class ApiService {
     })
   }
 
-  getLeaderboardInfo (params) {
-    return this._get({
-      url: `${this.baseUrl}/leaderboard`,
-      config: { params: { offset: params.offset, limit: params.limit } }
-    })
-  }
-
   getMintedAwardsImages (params) {
     return this._get({
       url: `${this.baseUrl}/players/images`,

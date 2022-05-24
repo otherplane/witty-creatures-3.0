@@ -7,6 +7,7 @@ export class Player {
   lastInteractionIn?: number | undefined
   lastInteractionOut?: number | undefined
   key: string
+  color: number
   username: string
   score: number
   nft: Array<string> = []
@@ -18,6 +19,7 @@ export class Player {
     this.nft = vto.nft
     this.token = vto.token
     this.creationIndex = vto.creationIndex
+    this.color = vto.color
   }
 
   toExtendedPlayerVTO({
@@ -52,6 +54,7 @@ export class Player {
       nft: this.nft,
       token: this.token,
       creationIndex: this.creationIndex,
+      color: this.color,
     }
 
     return shoWToken ? { ...vto, token: this.token } : vto
@@ -73,6 +76,7 @@ export class Player {
           username: p.username,
           creationIndex: p.creationIndex,
           score: p.score,
+          color: p.color,
           position: paginationOffset + index,
         })),
       total: totalPlayers,

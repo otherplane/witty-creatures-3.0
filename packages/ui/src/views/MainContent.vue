@@ -40,7 +40,7 @@
       <InteractionInfo />
       <NFTPreview />
       <MintInformation />
-      <SvgImage class="main-img" :svg="egg" />
+      <EggSvg />
       <div class="sticky-btn" v-if="!player.gameOver">
         <router-link class="btn" :to="type === 'disable' ? '' : '/scan'">
           <CustomButton type="dark" :slim="true">
@@ -57,7 +57,7 @@
       </div>
       <div class="btn" v-if="player.gameOver">
         <CustomButton
-          v-if="player.mintingAllow && player.previews.length && !player.minted"
+          v-if="player.mintingAllow && !player.minted"
           @click="mint"
           type="dark"
           :slim="true"
@@ -69,7 +69,6 @@
           @click="addPolygonNetwork()"
           class="add-polygon"
         >
-          <SvgImage class="metamask" :svg="egg" />
           Switch to Polygon Network
         </a>
       </div>
@@ -106,7 +105,7 @@ export default {
     const modal = useModal()
     const player = useStore()
     const router = useRouter()
-    const web3WittyBufficorns = useWeb3()
+    const web3WittyCreatures = useWeb3()
     const modals = reactive({
       mint: false,
       export: false,
@@ -134,7 +133,7 @@ export default {
           await player.getMintInfo()
           await player.getPreviews()
           if (player.minted) {
-            await web3WittyBufficorns.getTokenIds()
+            await web3WittyCreatures.getTokenIds()
             await player.getMintedAwardsImages()
           }
         }
@@ -159,7 +158,7 @@ export default {
     )
     function openModal (name) {
       const needProvider = name === 'mint'
-      if (!web3WittyBufficorns.isProviderConnected.value && needProvider) {
+      if (!web3WittyCreatures.isProviderConnected.value && needProvider) {
         modals['gameOver'] = true
       } else {
         modals[name] = true
@@ -190,9 +189,9 @@ export default {
       modal,
       modals,
       mintStatus,
-      enableProvider: web3WittyBufficorns.enableProvider,
-      addPolygonNetwork: web3WittyBufficorns.addPolygonNetwork,
-      isProviderConnected: web3WittyBufficorns.isProviderConnected,
+      enableProvider: web3WittyCreatures.enableProvider,
+      addPolygonNetwork: web3WittyCreatures.addPolygonNetwork,
+      isProviderConnected: web3WittyCreatures.isProviderConnected,
       importSvg,
       egg,
       formatNumber

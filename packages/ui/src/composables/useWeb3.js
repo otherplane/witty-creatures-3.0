@@ -2,7 +2,7 @@ import { onMounted, ref } from 'vue'
 import Web3 from 'web3/dist/web3.min.js'
 
 import { useStore } from '@/stores/player'
-import jsonInterface from '../WittyBufficornsUI.json'
+import jsonInterface from '../WittyCreaturesUI.json'
 import { CONTRACT_ADDRESS, NETWORK } from '../constants'
 
 async function requestAccounts (web3) {

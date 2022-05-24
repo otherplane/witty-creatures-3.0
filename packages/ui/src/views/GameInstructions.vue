@@ -50,16 +50,6 @@ export default {
     line-height: 1.5;
     font-weight: bold;
   }
-  .ranch-logos {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-gap: 16px;
-    justify-content: center;
-    align-items: center;
-    .ranch {
-      height: 100px;
-    }
-  }
   .table {
     text-align: left;
     .col {

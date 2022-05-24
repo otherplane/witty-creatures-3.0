@@ -36,6 +36,16 @@ export const STATS_FILTERS = {
   }
 }
 
+export const THEME_COLORS = {
+  0: 'green',
+  1: 'black',
+  2: 'red',
+  3: 'purple',
+  4: 'white',
+  5: 'yellow',
+  6: 'blue'
+}
+
 export const POLLER_MILLISECONDS = import.meta.env.VITE_POLLER_MILLISECONDS
   ? parseInt(import.meta.env.VITE_POLLER_MILLISECONDS)
   : 5000
@@ -47,12 +57,12 @@ export const TIME_TO_MINT_MILLISECONDS = import.meta.env
 
 export const DEMO_ENDS_TIMESTAMP = import.meta.env.VITE_DEMO_ENDS_TIMESTAMP
   ? parseInt(import.meta.env.VITE_DEMO_ENDS_TIMESTAMP)
-  : 1658241429000
+  : 1658241429000 // Tue Jul 19 2022 16:37:09 GMT+0200 (Central European Summer Time)
 
 export const GAME_ENDS_TIMESTAMP = import.meta.env.VITE_GAME_ENDS_TIMESTAMP
   ? parseInt(import.meta.env.VITE_GAME_ENDS_TIMESTAMP)
-  : 1658241429000
+  : 1658241429000 // Tue Jul 19 2022 16:37:09 GMT+0200 (Central European Summer Time)
 
 export const PLAYER_MAINNET_TIMESTAMP = import.meta.env.PLAYER_MAINNET_TIMESTAMP
   ? parseInt(import.meta.env.VITE_PLAYER_MAINNET_TIMESTAMP)
-  : 1658241429000 // Thursday, February 17, 2022 09:00:00 PM (UTC)
+  : 1658241429000 // Tue Jul 19 2022 16:37:09 GMT+0200 (Central European Summer Time)

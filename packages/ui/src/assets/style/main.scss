@@ -7,51 +7,48 @@ $transparent: transparent;
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Zilla+Slab:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap');
 
-$primary-color: var(--primary-color);
-$secondary-color: var(--secondary-color);
-$primary-color-opacity-1: var(--primary-color-opacity-1);
-$primary-color-opacity-2: var(--primary-color-opacity-2);
-
-$beige: #eedba5;
-$white: #f0f0f0;
-$opacity-beige: #eedba570;
-$orange: #ff9100;
-$yellow: #ffcc00;
-$brown: #bd3800;
-$opacity-brown: #bd390075;
-$opacity-brown-2: #bd39001a;
-$opacity-pink: #ffe8ff70;
-$opacity-pink-2: #ffe8ffc5;
-$pink: #ffe8ffc5;
-
-$balancer: #1a1a1a;
-$balancer-secondary: #727272;
-$balancer-opacity-1: #1a1a1a75;
-$balancer-opacity-2: #1a1a1a10;
-$reef: #bd2635;
-$reef-secondary: #d37b84;
-$reef-opacity-1: #bd263575;
-$reef-opacity-2: #bd263510;
-$vega: #124ca1;
-$vega-secondary: #5e82b9;
-$vega-opacity-1: #124ca175;
-$vega-opacity-2: #124ca110;
-$algorand: #ee9c03;
-$algorand-secondary: #e6b966;
-$algorand-opacity-1: #ffad0075;
-$algorand-opacity-2: #ffad0010;
-$opolis: #512791;
-$opolis-secondary: #9b7cca;
-$opolis-opacity-1: #51279175;
-$opolis-opacity-2: #51279110;
-$harmony: #217821;
-$harmony-secondary: #7ec07e;
-$harmony-opacity-1: #21782175;
-$harmony-opacity-2: #21782110;
-$witnet: #a1a1a1;
-$witnet-secondary: #acacac;
-$witnet-opacity-1: #acacac75;
-$witnet-opacity-2: #acacac10;
+$black: #1a1a1a;
+$black-secondary: #727272;
+$black-base-color: #fff;
+$black-main-color: #333;
+$black-opacity-1: #1a1a1a75;
+$black-opacity-2: #1a1a1a10;
+$red: #bd2635;
+$red-secondary: #d37b84;
+$red-base-color: #fff;
+$red-main-color: #f00;
+$red-opacity-1: #bd263575;
+$red-opacity-2: #bd263510;
+$blue: #124ca1;
+$blue-secondary: #5e82b9;
+$blue-base-color: #fff;
+$blue-main-color: #00d;
+$blue-opacity-1: #124ca175;
+$blue-opacity-2: #124ca110;
+$yellow: #ee9c03;
+$yellow-secondary: #e6b966;
+$yellow-base-color: #fff;
+$yellow-main-color: #fd2;
+$yellow-opacity-1: #ffad0075;
+$yellow-opacity-2: #ffad0010;
+$purple: #512791;
+$purple-secondary: #9b7cca;
+$purple-base-color: #fff;
+$purple-main-color: #627;
+$purple-opacity-1: #51279175;
+$purple-opacity-2: #51279110;
+$green: #217821;
+$green-secondary: #7ec07e;
+$green-base-color: #fff;
+$green-main-color: #080;
+$green-opacity-1: #21782175;
+$green-opacity-2: #21782110;
+$white-theme: #a1a1a1;
+$white-secondary: #acacac;
+$white-base-color: #000;
+$white-main-color: #fff;
+$white-opacity-1: #acacac75;
+$white-opacity-2: #acacac10;
 
 html,
 body {
@@ -60,68 +57,82 @@ body {
   background-color: $white;
   touch-action: pan-x pan-y;
 }
-.opolis {
-  --primary-color: #{$opolis};
-  --secondary-color: #{$opolis-secondary};
-  --primary-color-opacity-1: #{$opolis-opacity-1};
-  --primary-color-opacity-2: #{$opolis-opacity-2};
-  --vc-nav-background-color: #{$opolis};
-  --vc-pgn-active-color: #{$opolis};
-  --vc-pgn-background-color: #{$opolis-opacity-1};
+.purple {
+  --primary-color: #{$black};
+  --secondary-color: #{$purple-secondary};
+  --main-color: #{$purple-main-color};
+  --base-color: #{$green-base-color};
+  --primary-color-opacity-1: #{$purple-opacity-1};
+  --primary-color-opacity-2: #{$purple-opacity-2};
+  --vc-nav-background-color: #{$purple};
+  --vc-pgn-active-color: #{$purple};
+  --vc-pgn-background-color: #{$purple-opacity-1};
 }
-.harmony {
-  --primary-color: #{$harmony};
-  --secondary-color: #{$harmony-secondary};
-  --primary-color-opacity-1: #{$harmony-opacity-1};
-  --primary-color-opacity-2: #{$harmony-opacity-2};
-  --vc-nav-background-color: #{$harmony};
-  --vc-pgn-active-color: #{$harmony};
-  --vc-pgn-background-color: #{$harmony-secondary};
+.green {
+  --primary-color: #{$black};
+  --secondary-color: #{$green-secondary};
+  --main-color: #{$green-main-color};
+  --base-color: #{$green-base-color};
+  --primary-color-opacity-1: #{$green-opacity-1};
+  --primary-color-opacity-2: #{$green-opacity-2};
+  --vc-nav-background-color: #{$green};
+  --vc-pgn-active-color: #{$green};
+  --vc-pgn-background-color: #{$green-secondary};
 }
-.algorand {
-  --primary-color: #{$algorand};
-  --secondary-color: #{$algorand};
-  --primary-color-opacity-1: #{$algorand-opacity-1};
-  --primary-color-opacity-2: #{$algorand-opacity-2};
-  --vc-nav-background-color: #{$algorand};
-  --vc-pgn-active-color: #{$algorand};
-  --vc-pgn-background-color: #{$algorand-opacity-1};
+.yellow {
+  --primary-color: #{$black};
+  --secondary-color: #{$yellow};
+  --main-color: #{$yellow-main-color};
+  --base-color: #{$yellow-base-color};
+  --primary-color-opacity-1: #{$yellow-opacity-1};
+  --primary-color-opacity-2: #{$yellow-opacity-2};
+  --vc-nav-background-color: #{$yellow};
+  --vc-pgn-active-color: #{$yellow};
+  --vc-pgn-background-color: #{$yellow-opacity-1};
 }
-.vega {
-  --primary-color: #{$vega};
-  --secondary-color: #{$vega-secondary};
-  --primary-color-opacity-1: #{$vega-opacity-1};
-  --primary-color-opacity-2: #{$vega-opacity-2};
-  --vc-nav-background-color: #{$vega};
-  --vc-pgn-active-color: #{$vega};
-  --vc-pgn-background-color: #{$vega-opacity-1};
+.blue {
+  --primary-color: #{$black};
+  --secondary-color: #{$blue-secondary};
+  --main-color: #{$blue-main-color};
+  --base-color: #{$blue-base-color};
+  --primary-color-opacity-1: #{$blue-opacity-1};
+  --primary-color-opacity-2: #{$blue-opacity-2};
+  --vc-nav-background-color: #{$blue};
+  --vc-pgn-active-color: #{$blue};
+  --vc-pgn-background-color: #{$blue-opacity-1};
 }
-.reef {
-  --primary-color: #{$reef};
-  --secondary-color: #{$reef-secondary};
-  --primary-color-opacity-1: #{$reef-opacity-1};
-  --primary-color-opacity-2: #{$reef-opacity-2};
-  --vc-nav-background-color: #{$reef};
-  --vc-pgn-active-color: #{$reef};
-  --vc-pgn-background-color: #{$reef-secondary};
+.red {
+  --primary-color: #{$black};
+  --secondary-color: #{$red-secondary};
+  --main-color: #{$red-main-color};
+  --base-color: #{$red-base-color};
+  --primary-color-opacity-1: #{$red-opacity-1};
+  --primary-color-opacity-2: #{$red-opacity-2};
+  --vc-nav-background-color: #{$red};
+  --vc-pgn-active-color: #{$red};
+  --vc-pgn-background-color: #{$red-secondary};
 }
-.balancer {
-  --primary-color: #{$balancer};
-  --secondary-color: #{$balancer-secondary};
-  --primary-color-opacity-1: #{$balancer-opacity-1};
-  --primary-color-opacity-2: #{$balancer-opacity-2};
-  --vc-pgn-active-color: #{$balancer};
-  --vc-nav-background-color: #{$balancer};
-  --vc-pgn-background-color: #{$balancer-opacity-1};
+.black {
+  --primary-color: #{$black};
+  --secondary-color: #{$black-secondary};
+  --main-color: #{$black-main-color};
+  --base-color: #{$black-base-color};
+  --primary-color-opacity-1: #{$black-opacity-1};
+  --primary-color-opacity-2: #{$black-opacity-2};
+  --vc-pgn-active-color: #{$black};
+  --vc-nav-background-color: #{$black};
+  --vc-pgn-background-color: #{$black-opacity-1};
 }
-.witnet {
-  --primary-color: #{$witnet};
-  --secondary-color: #{$witnet-secondary};
-  --primary-color-opacity-1: #{$witnet-opacity-1};
-  --primary-color-opacity-2: #{$witnet-opacity-2};
-  --vc-nav-background-color: #{$witnet};
-  --vc-pgn-active-color: #{$witnet};
-  --vc-pgn-background-color: #{$witnet-secondary};
+.white {
+  --primary-color: #{$black};
+  --secondary-color: #{$white-secondary};
+  --main-color: #{$white-main-color};
+  --base-color: #{$white-base-color};
+  --primary-color-opacity-1: #{$white-opacity-1};
+  --primary-color-opacity-2: #{$white-opacity-2};
+  --vc-nav-background-color: #{$white};
+  --vc-pgn-active-color: #{$white};
+  --vc-pgn-background-color: #{$white-secondary};
 }
 
 .bg-white {
@@ -134,7 +145,7 @@ body {
   color: var(--primary-color);
 }
 .bg-beige-transparent {
-  background-color: $opacity-beige !important;
+  background-color: $white !important;
 }
 .bg-primary {
   background-color: var(--primary-color) !important;
