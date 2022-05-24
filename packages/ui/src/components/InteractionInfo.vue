@@ -4,7 +4,9 @@
       <div v-if="player.interactionOut" class="info left">
         <p class="label">
           Sending
-          <span class="highlight">{{ player.interactionOut?.points || 0 }}</span>
+          <span class="highlight">{{
+            player.interactionOut?.points || 0
+          }}</span>
           points to
           <span class="highlight">{{ player.interactionOut?.to || '' }}</span>
         </p>
@@ -22,9 +24,13 @@
       <div v-if="player.interactionIn" class="info right">
         <p class="label">
           Receiving
-          <span class="highlight">{{ player.interactionIn?.points || 'null' }}</span>
+          <span class="highlight">{{
+            player.interactionIn?.points || 'null'
+          }}</span>
           points from
-          <span class="highlight">{{ player.interactionIn?.from || 'null' }}</span>
+          <span class="highlight">{{
+            player.interactionIn?.from || 'null'
+          }}</span>
         </p>
         <div class="time-container">
           <TimeLeft

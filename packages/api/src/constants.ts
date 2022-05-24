@@ -19,14 +19,24 @@ export const PLAYER_KEY_SALT: string = process.env.PLAYER_KEY_SALT || ''
 export const JWT_SECRET: string = process.env.JWT_SECRET || 'secret'
 
 // Player interaction duration in millis
-export const INTERACTION_DURATION_MILLIS = process.env.INTERACTION_DURATION_MILLIS
+export const INTERACTION_DURATION_MILLIS = process.env
+  .INTERACTION_DURATION_MILLIS
   ? parseInt(process.env.INTERACTION_DURATION_MILLIS)
   : 2 * 60 * 1000
 
 // Player interaction cooldown in millis
-export const INTERACTION_COOLDOWN_MILLIS = process.env.INTERACTION_COOLDOWN_MILLIS
-  ? Math.max(parseInt(process.env.INTERACTION_COOLDOWN_MILLIS), INTERACTION_DURATION_MILLIS)
+export const INTERACTION_COOLDOWN_MILLIS = process.env
+  .INTERACTION_COOLDOWN_MILLIS
+  ? Math.max(
+      parseInt(process.env.INTERACTION_COOLDOWN_MILLIS),
+      INTERACTION_DURATION_MILLIS
+    )
   : Math.max(2 * 60 * 60 * 1000, INTERACTION_DURATION_MILLIS)
+
+// Self interaction points
+export const SELF_INTERACTION_POINTS = process.env.SELF_INTERACTION_POINTS
+  ? parseInt(process.env.SELF_INTERACTION_POINTS)
+  : 30
 
 // Interaction base points
 export const INTERACTION_POINTS = process.env.INTERACTION_POINTS

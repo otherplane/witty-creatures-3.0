@@ -162,7 +162,6 @@ export const GetByNumericKeyParams = Type.Object({
 })
 export type GetByNumericKeyParams = Static<typeof GetByNumericKeyParams>
 
-
 // Interactions
 
 export const InteractionParams = Type.Object({
@@ -220,4 +219,6 @@ export const InteractionHistoryResponse = Type.Object({
   }),
 })
 
-export type InteractionHistoryResponse = Static<typeof InteractionHistoryResponse>
+export type InteractionHistoryResponse = Static<
+  typeof InteractionHistoryResponse
+>

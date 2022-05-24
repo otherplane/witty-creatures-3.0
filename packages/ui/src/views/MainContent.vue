@@ -41,16 +41,21 @@
       <NFTPreview />
       <MintInformation />
       <SvgImage class="main-img" :svg="egg" />
-      <router-link
-        v-if="!player.gameOver"
-        class="sticky-btn"
-        :to="type === 'disable' ? '' : '/scan'"
-      >
-        <CustomButton type="dark" :slim="true">
-          INTERACTION
+      <div class="sticky-btn" v-if="!player.gameOver">
+        <router-link class="btn" :to="type === 'disable' ? '' : '/scan'">
+          <CustomButton type="dark" :slim="true">
+            INTERACTION
+          </CustomButton>
+        </router-link>
+        <CustomButton
+          type="dark"
+          :slim="true"
+          @click="player.interact({ key: player.id })"
+        >
+          SELF INTERACTION
         </CustomButton>
-      </router-link>
-      <div class="sticky-btn" v-if="player.gameOver">
+      </div>
+      <div class="btn" v-if="player.gameOver">
         <CustomButton
           v-if="player.mintingAllow && player.previews.length && !player.minted"
           @click="mint"
@@ -244,6 +249,9 @@ export default {
   grid-template-rows: max-content max-content;
   grid-gap: 8px;
   justify-items: center;
+  .btn {
+    width: 100%;
+  }
   .add-polygon {
     width: max-content;
     color: $white;

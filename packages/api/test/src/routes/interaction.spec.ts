@@ -57,17 +57,12 @@ describe('Route /interactions', () => {
         expect(response.headers['content-type']).toBe(
           'application/json; charset=utf-8'
         )
-        expect(
-          response
-            .json()
-            .player.score
-        ).toBe(INTERACTION_POINTS)
+        expect(response.json().player.score).toBe(INTERACTION_POINTS)
       }
     )
   })
 
   it('should sum points to player', async () => {
-
     const token = await authenticatePlayer(initialPlayers[0].key)
     const token2 = await authenticatePlayer(initialPlayers[1].key)
     await authenticatePlayer(initialPlayers[1].key)
@@ -109,9 +104,7 @@ describe('Route /interactions', () => {
         expect(response.headers['content-type']).toBe(
           'application/json; charset=utf-8'
         )
-        const player = response
-          .json()
-          .player.score
+        const player = response.json().player.score
         expect(player).toBe(INTERACTION_POINTS)
       }
     )
@@ -196,11 +189,9 @@ describe('Route /interactions', () => {
           'application/json; charset=utf-8'
         )
 
-        expect(
-          response
-            .json()
-            .player.score
-        ).toBe(INTERACTION_POINTS + secondInteractionPoints)
+        expect(response.json().player.score).toBe(
+          INTERACTION_POINTS + secondInteractionPoints
+        )
       }
     )
   })
@@ -296,7 +287,6 @@ describe('Route /interactions', () => {
       }
     )
   })
-
 
   it('should NOT interact if target player does not exist (check 5)', async () => {
     const token = await authenticatePlayer(initialPlayers[0].key)

@@ -33,7 +33,7 @@ export const STATS_FILTERS = {
         active: false
       }
     }
-  },
+  }
 }
 
 export const POLLER_MILLISECONDS = import.meta.env.VITE_POLLER_MILLISECONDS

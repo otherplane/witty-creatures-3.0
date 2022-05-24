@@ -7,6 +7,7 @@ import {
   INTERACTION_POINTS,
   INTERACTION_POINTS_DIVISOR,
   INTERACTION_POINTS_MIN,
+  SELF_INTERACTION_POINTS,
 } from '../constants'
 import { DbPlayerVTO, DbInteractionVTO } from '../types'
 import { Repository } from '../repository'
@@ -21,7 +22,10 @@ export class PlayerModel {
     this.repository = new Repository(this.collection, 'username')
   }
 
-  public createPlayer(index: number, getUsername: (index: number) => string): Player {
+  public createPlayer(
+    index: number,
+    getUsername: (index: number) => string
+  ): Player {
     // Generate the player data.
     // First we derive a deterministic 32-bytes sequence of bytes from a fixed salt plus the player nonce.
     const seed = crypto
@@ -36,7 +40,7 @@ export class PlayerModel {
     const nft: Array<string> = []
     const score: number = 0
 
-    return new Player({ key, username, nft, score, creationIndex: index, })
+    return new Player({ key, username, nft, score, creationIndex: index })
   }
 
   /**
@@ -92,6 +96,10 @@ export class PlayerModel {
 
   public computePoints(lastInteraction: DbInteractionVTO | null) {
     // Compute points
+    if (lastInteraction?.from === lastInteraction?.to) {
+      return SELF_INTERACTION_POINTS
+    }
+
     let points
     if (!lastInteraction) {
       points = INTERACTION_POINTS
@@ -101,7 +109,6 @@ export class PlayerModel {
         INTERACTION_POINTS_MIN
       )
     }
-
     return points
   }
 

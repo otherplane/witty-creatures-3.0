@@ -26,7 +26,6 @@ const leaderboard: FastifyPluginAsync = async (
       request: FastifyRequest<{ Querystring: LeaderboardParams }>,
       reply
     ) => {
-
       const players: Array<Player> = await playerModel.getMany({
         limit: request.query.limit || 10,
         offset: request.query.offset || 0,

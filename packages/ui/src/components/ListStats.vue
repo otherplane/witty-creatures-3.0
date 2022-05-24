@@ -1,6 +1,9 @@
 <template>
   <div>
-    <div v-if="gameEntity === 'players' && player.playersGlobalStats" class="list">
+    <div
+      v-if="gameEntity === 'players' && player.playersGlobalStats"
+      class="list"
+    >
       <PlayerGlobalData
         v-for="(player, index) in player.playersGlobalStats.players"
         :class="{ even: index % 2 }"

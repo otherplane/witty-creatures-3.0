@@ -19,7 +19,6 @@ export const useStore = defineStore('player', {
       selectedBufficorn: null,
       bonus: null,
       interactionInfo: null,
-      farmerId: null,
       interactionIn: null,
       interactionOut: null,
       //TODO: make gameOverTimeMilli take GAME_ENDS_TIMESTAMP value when gameOver is defined

@@ -5,8 +5,7 @@
         <p>BACK</p>
       </div>
     </router-link>
-    <router-link to="/">
-    </router-link>
+    <router-link to="/"> </router-link>
     <h3 class="title-section">{{ title }}</h3>
   </div>
 </template>

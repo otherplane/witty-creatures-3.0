@@ -5,7 +5,11 @@ import {
   PLAYER_MAINNET_TIMESTAMP,
 } from './constants'
 import { Incubation } from './types'
-import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator'
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  animals,
+} from 'unique-names-generator'
 
 export function calculateRemainingCooldown(
   interactionEnds: number,
@@ -14,7 +18,10 @@ export function calculateRemainingCooldown(
   interactionCooldown: number = INTERACTION_COOLDOWN_MILLIS
 ) {
   const remainingMillis =
-    interactionEnds - interactionDuration + interactionCooldown - currentTimestamp
+    interactionEnds -
+    interactionDuration +
+    interactionCooldown -
+    currentTimestamp
 
   return remainingMillis > 0 ? remainingMillis : 0
 }
@@ -78,4 +85,3 @@ export function generateUsernameList(count: number): Array<string> {
   // Convert set into array to allow indexing by index
   return Array.from(usernames)
 }
-

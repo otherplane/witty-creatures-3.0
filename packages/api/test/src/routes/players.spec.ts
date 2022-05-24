@@ -90,12 +90,7 @@ describe('player.ts', () => {
         },
       },
       (err, response) => {
-        const {
-          key,
-          username,
-          score,
-          nft,
-        } = response.json().player
+        const { key, username, score, nft } = response.json().player
 
         const { lastInteractionIn, lastInteractionOut } = response.json()
 

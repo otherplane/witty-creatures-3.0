@@ -33,8 +33,12 @@ export class Player {
       player: {
         ...protectedplayerVTO,
       },
-      lastInteractionIn: lastInteractionIn?.isActive() ? lastInteractionIn.toVTO() : null,
-      lastInteractionOut: lastInteractionOut?.isActive() ? lastInteractionOut.toVTO() : null,
+      lastInteractionIn: lastInteractionIn?.isActive()
+        ? lastInteractionIn.toVTO()
+        : null,
+      lastInteractionOut: lastInteractionOut?.isActive()
+        ? lastInteractionOut.toVTO()
+        : null,
     }
   }
 
@@ -63,8 +67,7 @@ export class Player {
         .sort(
           (a, b) =>
             // sort by creation index if the players are tied
-            b.score - a.score ||
-            a.username.localeCompare(b.username)
+            b.score - a.score || a.username.localeCompare(b.username)
         )
         .map((p, index) => ({
           username: p.username,
