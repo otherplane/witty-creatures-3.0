@@ -1,9 +1,9 @@
 <template>
   <MainLayout v-if="player.username">
+    <NavBar class="navbar" @openExportModal="openModal('export')" />
     <div class="main-content">
       <div class="header">
-        <div class="farmer-info">
-          <NavBar class="navbar" @openExportModal="openModal('export')" />
+        <div class="player-info">
           <p class="subtitle player-id">{{ player.username.toUpperCase() }}</p>
           <p class="subtitle">
             <span class="points-bold">{{ formatNumber(player.score) }}</span>
@@ -40,7 +40,7 @@
       <InteractionInfo />
       <NFTPreview />
       <MintInformation />
-      <SvgImage class="bufficorn-img" :svg="egg" />
+      <SvgImage class="main-img" :svg="egg" />
       <router-link
         v-if="!player.gameOver"
         class="sticky-btn"
@@ -197,9 +197,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main-content {
-  margin-top: 7vh;
-}
 .time-left {
   margin-left: 4px;
 }
@@ -215,10 +212,6 @@ export default {
     align-self: center;
     width: 150px;
     height: 148px;
-  }
-  .navbar {
-    top: 8px;
-    grid-row: 1;
   }
   .player-id {
     width: max-content;
@@ -237,6 +230,11 @@ export default {
 }
 .placeholder {
   opacity: 0.3;
+}
+.main-img {
+  width: 100%;
+  height: 100%;
+  padding: 0 10vh 10vh 10vh;
 }
 .sticky-btn {
   position: sticky;
@@ -280,9 +278,6 @@ export default {
     grid-template-columns: 1fr;
     justify-items: flex-start;
     align-items: flex-start;
-    .farmer-info {
-      margin-top: 24px;
-    }
     .logo {
       grid-row: 1;
       width: 150px;

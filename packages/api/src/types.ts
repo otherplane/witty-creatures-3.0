@@ -23,6 +23,7 @@ export const PlayerVTO = Type.Object({
   username: Type.String(),
   score: Type.Integer(),
   medals: Type.Array(Type.Optional(Type.String())),
+  creationIndex: Type.Integer(),
 })
 
 export type PlayerVTO = Static<typeof PlayerVTO>
@@ -33,6 +34,7 @@ export const DbPlayerVTO = Type.Object({
   username: Type.String(),
   score: Type.Integer(),
   medals: Type.Array(Type.Optional(Type.String())),
+  creationIndex: Type.Integer(),
 })
 
 export type DbPlayerVTO = Static<typeof DbPlayerVTO>
@@ -160,6 +162,9 @@ export const GetByNumericKeyParams = Type.Object({
 })
 export type GetByNumericKeyParams = Static<typeof GetByNumericKeyParams>
 
+
+// Interactions
+
 export const InteractionParams = Type.Object({
   to: Type.String(),
 })
@@ -174,11 +179,45 @@ export const InteractionResult = Type.Object({
 })
 export type InteractionResult = Static<typeof InteractionParams>
 
-export type Stats = {
-  vigor: number
-  speed: number
-  coolness: number
-  stamina: number
-  coat: number
-  agility: number
-}
+// Leaderboard
+
+export const PlayerLeaderboardInfo = Type.Object({
+  username: Type.String(),
+  score: Type.Integer(),
+  position: Type.Integer(),
+  creationIndex: Type.Integer(),
+})
+export type PlayerLeaderboardInfo = Static<typeof PlayerLeaderboardInfo>
+
+export const LeaderboardParams = Type.Object({
+  limit: Type.Optional(Type.Integer()),
+  offset: Type.Optional(Type.Integer()),
+  filter: Type.Optional(Type.String()),
+})
+export type LeaderboardParams = Static<typeof LeaderboardParams>
+
+export const LeaderboardResponse = Type.Object({
+  players: Type.Object({
+    players: Type.Array(PlayerLeaderboardInfo),
+    total: Type.Integer(),
+  }),
+})
+export type LeaderboardResponse = Static<typeof LeaderboardResponse>
+
+// Interactions history
+
+export const InteractionHistoryParams = Type.Object({
+  limit: Type.Optional(Type.Integer()),
+  offset: Type.Optional(Type.Integer()),
+})
+
+export type InteractionHistoryParams = Static<typeof InteractionHistoryParams>
+
+export const InteractionHistoryResponse = Type.Object({
+  interactions: Type.Object({
+    interactions: Type.Array(DbInteractionVTO),
+    total: Type.Integer(),
+  }),
+})
+
+export type InteractionHistoryResponse = Static<typeof InteractionHistoryResponse>

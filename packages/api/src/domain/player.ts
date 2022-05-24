@@ -1,7 +1,8 @@
-import { DbPlayerVTO, ExtendedPlayerVTO } from '../types'
+import { DbPlayerVTO, ExtendedPlayerVTO, PlayerLeaderboardInfo } from '../types'
 import { Interaction } from './interaction'
 
 export class Player {
+  creationIndex: number
   token?: string | undefined
   lastInteractionIn?: number | undefined
   lastInteractionOut?: number | undefined
@@ -16,6 +17,7 @@ export class Player {
     this.score = vto.score
     this.medals = vto.medals
     this.token = vto.token
+    this.creationIndex = vto.creationIndex
   }
 
   toExtendedPlayerVTO({
@@ -45,8 +47,32 @@ export class Player {
       score: this.score,
       medals: this.medals,
       token: this.token,
+      creationIndex: this.creationIndex,
     }
 
     return shoWToken ? { ...vto, token: this.token } : vto
+  }
+
+  static getLeaderboard(
+    players: Array<Player>,
+    totalPlayers: number,
+    paginationOffset: number = 0
+  ): { players: Array<PlayerLeaderboardInfo>; total: number } {
+    return {
+      players: players
+        .sort(
+          (a, b) =>
+            // sort by creation index if the players are tied
+            b.score - a.score ||
+            a.username.localeCompare(b.username)
+        )
+        .map((p, index) => ({
+          username: p.username,
+          creationIndex: p.creationIndex,
+          score: p.score,
+          position: paginationOffset + index,
+        })),
+      total: totalPlayers,
+    }
   }
 }

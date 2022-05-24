@@ -89,6 +89,7 @@ export default defineComponent({
   align-items: flex-start;
   &.padding {
     padding: 16px;
+    margin-top: 4vh;
   }
   &.max-height {
     min-height: 80vh;

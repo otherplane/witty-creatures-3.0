@@ -19,6 +19,23 @@ export const API_BASE_URL =
 export const BASE_URL =
   import.meta.env.VITE_BASE_URL || 'https://bufficorns.com'
 
+export const ATTRIBUTES = {}
+
+export const STATS_FILTERS = {
+  players: {
+    key: 'players',
+    active: false,
+    default: 'overall',
+    showSubtabs: false,
+    subTabs: {
+      overall: {
+        key: 'overall',
+        active: false
+      }
+    }
+  },
+}
+
 export const POLLER_MILLISECONDS = import.meta.env.VITE_POLLER_MILLISECONDS
   ? parseInt(import.meta.env.VITE_POLLER_MILLISECONDS)
   : 5000

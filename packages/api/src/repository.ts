@@ -56,9 +56,13 @@ export class Repository<T> {
   }
 
   public async getById(id: ObjectId | string): Promise<WithId<T> | null> {
-    return await this.collection.findOne({
+    // TODO: Remove any
+    const filter: Filter<T> = {
       _id: typeof id === 'string' ? new ObjectId(id) : id,
-    })
+    } as any
+    const findOneResult = this.collection.findOne(filter)
+
+    return findOneResult
   }
 
   public async updateOne(
@@ -85,5 +89,27 @@ export class Repository<T> {
 
   public async getLast(filter: Filter<T>) {
     return await this.collection.findOne(filter, { sort: { timestamp: -1 } })
+  }
+
+  public async getSortedBy(
+    filter: Filter<T>,
+    sortBy: {
+      [key: string]: 1 | -1 | 'asc' | 'desc' | 'ascending' | 'descending'
+    },
+    paginationParams?: { limit: number; offset: number }
+  ): Promise<Array<WithId<T>>> {
+    if (paginationParams) {
+      return this.collection
+        .find(filter, { sort: sortBy })
+        .limit(paginationParams.limit)
+        .skip(paginationParams.offset)
+        .toArray()
+    } else {
+      return this.collection.find(filter, { sort: sortBy }).toArray()
+    }
+  }
+
+  public async count(filter: Filter<T>) {
+    return this.collection.countDocuments(filter)
   }
 }

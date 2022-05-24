@@ -28,7 +28,7 @@ export const useStore = defineStore('player', {
       timeToMintInMilli: GAME_ENDS_TIMESTAMP + TIME_TO_MINT_MILLISECONDS,
       previews: [],
       mintedAwards: [],
-      interactionHistory: null,
+      history: null,
       mintInfo: null,
       mintParams: null,
       color: null,
@@ -43,7 +43,7 @@ export const useStore = defineStore('player', {
         auth: null,
         interaction: null,
         info: null,
-        interactionHistory: null,
+        history: null,
         getLeaderboardInfo: null,
         network: null,
         getContractArgs: null
@@ -139,7 +139,8 @@ export const useStore = defineStore('player', {
       } else if (request.token) {
         await this.saveClaimInfo(request)
         this.clearError('auth')
-        this.getPlayerInfo()
+        await this.getPlayerInfo()
+        await this.getGlobalStats()
       }
     },
     // Interaction
@@ -161,6 +162,40 @@ export const useStore = defineStore('player', {
         this.interactionInfo = request
         router.push('/init-game')
         this.getPlayerInfo()
+      }
+    },
+    // History
+    async getInteractionHistory (offset = 0, limit = 25) {
+      await this.getTheme()
+      const tokenInfo = this.getToken()
+      const request = await this.api.getInteractionHistory({
+        token: tokenInfo && tokenInfo.token,
+        id: tokenInfo && tokenInfo.key,
+        offset,
+        limit
+      })
+      if (request.error) {
+        router.push('/init-game')
+        this.setError('history', request.error)
+      } else {
+        this.clearError('history')
+        console.log('request >>>', request)
+        this.history = request.interactions
+      }
+    },
+    // Leaderboard
+    async getGlobalStats (offset = 0, limit = 25) {
+      await this.getTheme()
+      await this.getPlayerInfo()
+      const request = await this.api.getLeaderboardInfo({
+        offset,
+        limit
+      })
+      if (request.error) {
+        this.setError('getLeaderboardInfo', request.error)
+      } else {
+        this.clearError('getLeaderboardInfo')
+        this.playersGlobalStats = request.players
       }
     },
     // Player Info

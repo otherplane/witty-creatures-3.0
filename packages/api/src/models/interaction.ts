@@ -24,4 +24,23 @@ export class InteractionModel {
     const vto = await this.repository.getLast(search)
     return vto ? new Interaction(vto) : null
   }
+
+  public async getManyByUsername(
+    username: string,
+    paginationParams: { limit: number; offset: number }
+  ): Promise<Array<DbInteractionVTO>> {
+    return await this.repository.getSortedBy(
+      {
+        $or: [{ from: username }, { to: username }],
+      },
+      { timestamp: 'desc' },
+      paginationParams
+    )
+  }
+
+  public async count(username: string): Promise<number> {
+    return this.repository.count({
+      $or: [{ from: username }, { to: username }],
+    })
+  }
 }

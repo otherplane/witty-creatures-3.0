@@ -82,6 +82,23 @@ export class ApiService {
     })
   }
 
+  getInteractionHistory (params) {
+    return this._get({
+      url: `${this.baseUrl}/history`,
+      config: {
+        headers: { authorization: params.token },
+        params: { offset: params.offset, limit: params.limit }
+      }
+    })
+  }
+
+  getLeaderboardInfo (params) {
+    return this._get({
+      url: `${this.baseUrl}/leaderboard`,
+      config: { params: { offset: params.offset, limit: params.limit } }
+    })
+  }
+
   interact ({ to, token }) {
     console.log('to', to)
     return this._post({

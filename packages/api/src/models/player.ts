@@ -46,7 +46,7 @@ export class PlayerModel {
     const medals: Array<string> = []
     const score: number = 0
 
-    return new Player({ key, username, medals, score })
+    return new Player({ key, username, medals, score, creationIndex: index, })
   }
 
   /**
@@ -115,5 +115,27 @@ export class PlayerModel {
     const vto = await this.repository.getById(id)
 
     return vto ? new Player(vto) : null
+  }
+
+  public async getMany(paginationParams: {
+    limit: number
+    offset: number
+  }): Promise<Array<Player>> {
+    // TODO: Remove mongoDB $exists from model
+    const vtos = await this.repository.getSortedBy(
+      {
+        token: { $exists: true, $ne: undefined },
+      },
+      {
+        testnetPoints: -1,
+      },
+      paginationParams
+    )
+
+    return vtos.map((vto) => new Player(vto))
+  }
+
+  public async countActive() {
+    return this.repository.count({ token: { $exists: true, $ne: undefined } })
   }
 }

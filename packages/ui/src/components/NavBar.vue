@@ -11,15 +11,15 @@
       </label>
       <div class="dropdown">
         <ul class="tab-container" :class="{ visible: isMenuVisible }">
-          <!-- <router-link class="tab" to="/stats">
+          <router-link class="tab" to="/leaderboard">
             Leaderboard
           </router-link>
           <router-link class="tab" to="/interactions">
-            Interactions history
+            History
           </router-link>
           <router-link class="tab" to="/instructions">
             Instructions
-          </router-link> -->
+          </router-link>
           <div class="tab" @click="openExportModal()" type="dark">
             Get backup
           </div>
@@ -69,9 +69,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.navbar-container {
-  position: absolute;
-}
 .navbar {
   display: block;
   top: 8px;
@@ -102,16 +99,16 @@ export default {
   }
   .responsive-menu {
     display: block;
-    position: absolute;
+    position: relative;
     z-index: 50px;
-    top: 24px;
+    top: 0px;
+    left: 0px;
     width: 32px;
-    left: 16px;
   }
   .dropdown {
     position: absolute;
     z-index: 50;
-    top: 68px;
+    top: 58px;
   }
 }
 .tab-container {
