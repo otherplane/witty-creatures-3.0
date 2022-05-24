@@ -133,8 +133,8 @@ const interactions: FastifyPluginAsync = async (
               )
             )
         }
-
-        const points = playerModel.computePoints(lastInteraction)
+        const selfInteraction = toPlayer.username === fromPlayer.username
+        const points = playerModel.computePoints(lastInteraction, selfInteraction)
         // TODO: INCUBATE
         try {
           // Add points to player

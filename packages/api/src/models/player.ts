@@ -94,9 +94,9 @@ export class PlayerModel {
     return await this.get(key)
   }
 
-  public computePoints(lastInteraction: DbInteractionVTO | null) {
+  public computePoints(lastInteraction: DbInteractionVTO | null, selfInteraction: boolean) {
     // Compute points
-    if (lastInteraction?.from === lastInteraction?.to) {
+    if (selfInteraction) {
       return SELF_INTERACTION_POINTS
     }
 

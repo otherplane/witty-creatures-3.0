@@ -100,7 +100,6 @@ export class ApiService {
   }
 
   interact ({ to, token }) {
-    console.log('to', to)
     return this._post({
       url: `${this.baseUrl}/interactions`,
       data: { to },

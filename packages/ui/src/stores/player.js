@@ -178,7 +178,6 @@ export const useStore = defineStore('player', {
         this.setError('history', request.error)
       } else {
         this.clearError('history')
-        console.log('request >>>', request)
         this.history = request.interactions
       }
     },

@@ -2,6 +2,7 @@ import {
   INTERACTION_COOLDOWN_MILLIS,
   INTERACTION_DURATION_MILLIS,
   INTERACTION_POINTS,
+  SELF_INTERACTION_POINTS,
   INTERACTION_POINTS_DIVISOR,
 } from '../../../src/constants'
 import {
@@ -39,7 +40,7 @@ describe('Route /interactions', () => {
         expect(response.json().ends).toBe(
           response.json().timestamp + INTERACTION_DURATION_MILLIS
         )
-        expect(response.json().points).toBe(INTERACTION_POINTS)
+        expect(response.json().points).toBe(SELF_INTERACTION_POINTS)
       }
     )
 
@@ -57,7 +58,7 @@ describe('Route /interactions', () => {
         expect(response.headers['content-type']).toBe(
           'application/json; charset=utf-8'
         )
-        expect(response.json().player.score).toBe(INTERACTION_POINTS)
+        expect(response.json().player.score).toBe(SELF_INTERACTION_POINTS)
       }
     )
   })
@@ -79,7 +80,6 @@ describe('Route /interactions', () => {
         },
       },
       (err, response) => {
-        console.log('response---->>>', response.json())
         expect(err).toBeFalsy()
         expect(response.statusCode).toBe(200)
         expect(response.headers['content-type']).toBe(
@@ -98,7 +98,6 @@ describe('Route /interactions', () => {
         },
       },
       (err, response) => {
-        console.log('response---->>>', response.json())
         expect(err).toBeFalsy()
         expect(response.statusCode).toBe(200)
         expect(response.headers['content-type']).toBe(
@@ -126,7 +125,6 @@ describe('Route /interactions', () => {
         },
       },
       (err, response) => {
-        console.log('response---->>>', response.json())
         // expect(err).toBeFalsy()
         // expect(response.statusCode).toBe(200)
         // expect(response.headers['content-type']).toBe(

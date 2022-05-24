@@ -79,12 +79,26 @@ async function sleep(ms: number) {
 const initialPlayers = [
   {
     key: 'ef12efbd765f9ad3',
-    username: 'calm-bison',
+    username: 'planned-orangutan',
   },
   {
     key: 'b75c34545e8cb4d2',
-    username: 'particular-newt',
+    username: 'running-rabbit',
   },
+  {
+    key: 'a17b86baba0cb804',
+    username: 'ridiculous-puma',
+  },
+  { key: '21234f47b1c46620',
+    username: 'verbal-turtle',
+  },
+  { key: 'bf70268a8f1e2d67',
+    username: 'realistic-piranha',
+  },
+  {
+    key: '5a75dc3b46250ba5',
+    username: 'magnetic-limpet',
+  }
 ]
 
 export { server, authenticatePlayer, serverInject, sleep, initialPlayers }
