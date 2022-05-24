@@ -1,10 +1,10 @@
 import { ref } from 'vue'
 
-export function useFileUploader () {
+export function useFileUploader() {
   const myFile = ref(null)
   const fileInfo = ref('')
 
-  function onFileSelected () {
+  function onFileSelected() {
     const file = myFile.value.files[0]
     if (!file) {
       console.error('invalid format')
@@ -16,7 +16,7 @@ export function useFileUploader () {
     }
   }
 
-  function triggerSelectFile () {
+  function triggerSelectFile() {
     myFile.value.click()
   }
 
@@ -24,6 +24,6 @@ export function useFileUploader () {
     onFileSelected,
     triggerSelectFile,
     myFile,
-    fileInfo
+    fileInfo,
   }
 }

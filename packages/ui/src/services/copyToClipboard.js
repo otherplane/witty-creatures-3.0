@@ -1,4 +1,4 @@
-export function copyTextToClipboard (text) {
+export function copyTextToClipboard(text) {
   return new Promise((resolve, reject) => {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(

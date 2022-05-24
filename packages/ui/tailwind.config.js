@@ -1,13 +1,13 @@
-module.exports = {
+export default {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   fontFamily: {
-    serif: ['Roboto', 'serif']
+    serif: ['Roboto', 'serif'],
   },
   theme: {
-    extend: {}
+    extend: {},
   },
   variants: {
-    extend: {}
+    extend: {},
   },
-  plugins: []
+  plugins: [],
 }

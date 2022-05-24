@@ -9,13 +9,13 @@ export default {
   props: {
     active: {
       type: Boolean,
-      default: false
+      default: false,
     },
     label: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

@@ -5,21 +5,21 @@ import { useStore } from '@/stores/player'
 import jsonInterface from '../WittyCreaturesUI.json'
 import { CONTRACT_ADDRESS, NETWORK } from '../constants'
 
-async function requestAccounts (web3) {
+async function requestAccounts(web3) {
   return await web3.givenProvider.request({ method: 'eth_requestAccounts' })
 }
 
-function createErrorMessage (message) {
+function createErrorMessage(message) {
   return {
     response: {
       data: {
-        message
-      }
-    }
+        message,
+      },
+    },
   }
 }
 
-function networkById (id) {
+function networkById(id) {
   switch (id) {
     case '137':
       return 'Polygon Mainnet'
@@ -33,16 +33,16 @@ const errorNetworkMessage = `Your web3 provider should be connected to the ${net
 )} network`
 const errorDataMessage = `There was an error getting the NFT data`
 const errorMintMessage = `There was an error minting your NFT.`
-const errorPreviewMessage = `There was an error showing the preview of your NFT.`
+// const errorPreviewMessage = `There was an error showing the preview of your NFT.`
 
-export function useWeb3 () {
+export function useWeb3() {
   let web3
   const player = useStore()
   const isProviderConnected = ref(false)
   const mintedAddress = ref('')
   const preview = ref('')
 
-  async function enableProvider () {
+  async function enableProvider() {
     const accounts = await requestAccounts(web3)
     if (accounts[0]) {
       isProviderConnected.value = true
@@ -55,7 +55,7 @@ export function useWeb3 () {
     }
   }
 
-  async function addPolygonNetwork () {
+  async function addPolygonNetwork() {
     await window.ethereum
       .request({
         method: 'wallet_addEthereumChain',
@@ -64,9 +64,9 @@ export function useWeb3 () {
             chainId: '0x89',
             chainName: 'Polygon Mainnet',
             rpcUrls: ['https://polygon-rpc.com/'],
-            blockExplorerUrls: ['https://polygonscan.com']
-          }
-        ]
+            blockExplorerUrls: ['https://polygonscan.com'],
+          },
+        ],
       })
       .catch(error => {
         console.log(error)
@@ -82,7 +82,7 @@ export function useWeb3 () {
     }
   })
 
-  async function getTokenIds () {
+  async function getTokenIds() {
     if ((await web3.eth.net.getId()) !== Number(NETWORK)) {
       return player.setError('network', createErrorMessage(errorNetworkMessage))
     } else {
@@ -100,7 +100,7 @@ export function useWeb3 () {
     }
   }
 
-  async function mint () {
+  async function mint() {
     if ((await web3.eth.net.getId()) !== Number(NETWORK)) {
       return player.setError('network', createErrorMessage(errorNetworkMessage))
     } else {
@@ -149,6 +149,6 @@ export function useWeb3 () {
     enableProvider,
     addPolygonNetwork,
     open,
-    getTokenIds
+    getTokenIds,
   }
 }

@@ -30,10 +30,10 @@ export const STATS_FILTERS = {
     subTabs: {
       overall: {
         key: 'overall',
-        active: false
-      }
-    }
-  }
+        active: false,
+      },
+    },
+  },
 }
 
 export const THEME_COLORS = {
@@ -43,7 +43,7 @@ export const THEME_COLORS = {
   3: 'purple',
   4: 'white',
   5: 'yellow',
-  6: 'blue'
+  6: 'blue',
 }
 
 export const POLLER_MILLISECONDS = import.meta.env.VITE_POLLER_MILLISECONDS

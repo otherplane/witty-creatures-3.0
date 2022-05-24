@@ -48,18 +48,18 @@ import { useWeb3Witmon } from '../composables/useWeb3Witmon'
 import { useStore } from '@/stores/player'
 
 export default defineComponent({
-  setup (props, ctx) {
+  setup() {
     const instance = getCurrentInstance()
     const w3Witmon = useWeb3Witmon()
     const player = useStore()
 
     return {
       player,
-      mint () {
+      mint() {
         w3Witmon.open()
         instance.parent.emit('close')
-      }
+      },
     }
-  }
+  },
 })
 </script>

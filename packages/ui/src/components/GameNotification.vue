@@ -14,10 +14,10 @@ import { getCurrentInstance, onMounted, ref } from 'vue'
 const ICONS = {
   warn: '⚠️️',
   party: '🎉',
-  none: ''
+  none: '',
 }
 export default {
-  setup () {
+  setup() {
     const toggle = ref(false)
     const message = ref('')
     const icon = ref('️')
@@ -40,7 +40,7 @@ export default {
       getCurrentInstance().appContext.config.globalProperties.$notify = show
     })
     return { toggle, message, counter, icon }
-  }
+  },
 }
 </script>
 

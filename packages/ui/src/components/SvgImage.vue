@@ -5,8 +5,8 @@
 <script>
 export default {
   props: {
-    svg: { type: String, required: true }
-  }
+    svg: { type: String, required: true },
+  },
 }
 </script>
 

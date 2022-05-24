@@ -12,8 +12,8 @@ export default {
     index: Number,
     name: String,
     score: Number,
-    position: Number
-  }
+    position: Number,
+  },
 }
 </script>
 

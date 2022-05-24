@@ -24,19 +24,19 @@
 
 <script>
 import { useStore } from '@/stores/player'
-import { computed, onBeforeMount, nextTick, ref, watch } from 'vue'
+import { computed, onBeforeMount, ref, watch } from 'vue'
 export default {
   props: {
     gameEntity: {
       type: String,
-      required: true
+      required: true,
     },
     entityAttribute: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  setup (props) {
+  setup(props) {
     const player = useStore()
     // paginate data
     const currentPage = ref(0)
@@ -53,11 +53,11 @@ export default {
     watch(currentPage, async () => {
       await player.getGlobalStats(offset.value, limit.value)
     })
-    function updateCurrentPage (page) {
+    function updateCurrentPage(page) {
       currentPage.value = page
     }
     // filter list by attribute
-    function filterListByLabel ({ list, label }) {
+    function filterListByLabel({ list, label }) {
       const filter = label === 'overall' ? 'score' : label
       return list.sort((a, b) => {
         return b[filter] - a[filter] || a.creationIndex - b.creationIndex
@@ -66,16 +66,16 @@ export default {
     const sortedPlayersData = computed(() =>
       filterListByLabel({
         list: player.playerGlobalStats || [],
-        label: props.entityAttribute
+        label: props.entityAttribute,
       })
     )
     return {
       sortedPlayersData,
       player,
       updateCurrentPage,
-      numberPages
+      numberPages,
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

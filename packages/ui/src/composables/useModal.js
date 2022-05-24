@@ -1,15 +1,15 @@
 import { ref } from 'vue'
 
-export function useModal () {
+export function useModal() {
   const show = ref(false)
 
   return {
-    showModal () {
+    showModal() {
       show.value = true
     },
-    hideModal () {
+    hideModal() {
       show.value = false
     },
-    visible: show
+    visible: show,
   }
 }

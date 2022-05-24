@@ -48,18 +48,18 @@ import { useWeb3 } from '../composables/useWeb3'
 import bufficornMain from '@/assets/egg.svg?raw'
 import { useStore } from '@/stores/player'
 export default defineComponent({
-  setup (props, ctx) {
+  setup() {
     const instance = getCurrentInstance()
     const w3Witmon = useWeb3()
     const player = useStore()
     return {
       player,
       bufficornMain,
-      mint () {
+      mint() {
         w3Witmon.mint()
         instance.parent.emit('close')
-      }
+      },
     }
-  }
+  },
 })
 </script>

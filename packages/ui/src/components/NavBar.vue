@@ -11,12 +11,8 @@
       </label>
       <div class="dropdown">
         <ul class="tab-container" :class="{ visible: isMenuVisible }">
-          <router-link class="tab" to="/leaderboard">
-            Leaderboard
-          </router-link>
-          <router-link class="tab" to="/interactions">
-            History
-          </router-link>
+          <router-link class="tab" to="/leaderboard"> Leaderboard </router-link>
+          <router-link class="tab" to="/interactions"> History </router-link>
           <router-link class="tab" to="/instructions">
             Instructions
           </router-link>
@@ -33,23 +29,23 @@
 import { onClickOutside } from '@vueuse/core'
 import { ref } from 'vue'
 export default {
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const target = ref(null)
     const displayBox = ref(false)
     const isMenuVisible = ref(false)
-    function openExportModal () {
+    function openExportModal() {
       emit('openExportModal')
     }
-    function closeMenu () {
+    function closeMenu() {
       isMenuVisible.value = false
     }
-    function toggleMenu () {
+    function toggleMenu() {
       isMenuVisible.value = !isMenuVisible.value
     }
-    function displayDropDown () {
+    function displayDropDown() {
       displayBox.value = !displayBox.value
     }
-    onClickOutside(target, event => {
+    onClickOutside(target, () => {
       if (isMenuVisible.value) {
         closeMenu()
       }
@@ -62,9 +58,9 @@ export default {
       closeMenu,
       openExportModal,
       isMenuVisible,
-      displayBox
+      displayBox,
     }
-  }
+  },
 }
 </script>
 

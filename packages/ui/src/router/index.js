@@ -1,4 +1,10 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useStore } from '@/stores/player'
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
+import App from '@/App.vue'
+
 import Home from '../views/App.vue'
 import MainContent from '../views/MainContent.vue'
 import InitGame from '../views/InitGame.vue'
@@ -6,11 +12,7 @@ import Disclaimer from '../views/GameDisclaimer.vue'
 import Instructions from '../views/GameInstructions.vue'
 import LeaderBoard from '../views/LeaderBoard.vue'
 import InteractionHistory from '../views/InteractionHistory.vue'
-import { useStore } from '@/stores/player'
-import { createApp } from 'vue'
 import ScanId from '../views/ScanId.vue'
-import App from '@/App.vue'
-import { createPinia } from 'pinia'
 
 export const pinia = createPinia()
 
@@ -30,17 +32,17 @@ const routes = [
       } else {
         next('init-game')
       }
-    }
+    },
   },
   {
     name: 'disclaimer',
     path: '/disclaimer',
-    component: Disclaimer
+    component: Disclaimer,
   },
   {
     name: 'main',
     path: '/:id',
-    component: MainContent
+    component: MainContent,
   },
   {
     name: 'init-game',
@@ -61,27 +63,27 @@ const routes = [
       } else {
         next()
       }
-    }
+    },
   },
   {
     name: 'scan',
     path: '/scan',
-    component: ScanId
+    component: ScanId,
   },
   {
     name: 'leaderboard',
     path: '/leaderboard',
-    component: LeaderBoard
+    component: LeaderBoard,
   },
   {
     name: 'interactionHistory',
     path: '/interactions',
-    component: InteractionHistory
+    component: InteractionHistory,
   },
   {
     name: 'instructions',
     path: '/instructions',
-    component: Instructions
+    component: Instructions,
   },
   {
     name: 'import',
@@ -106,13 +108,13 @@ const routes = [
         }
         next(`/${key}`)
       }
-    }
-  }
+    },
+  },
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
 })
 
 router.beforeEach(to => {

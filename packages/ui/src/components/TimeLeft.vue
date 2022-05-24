@@ -10,9 +10,9 @@ const timeZone = 'America/Denver'
 export default {
   props: {
     timestamp: Number,
-    seconds: Boolean
+    seconds: Boolean,
   },
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     onBeforeUnmount(() => {
       clearInterval(polling)
     })
@@ -29,20 +29,20 @@ export default {
       xDays: '{{count}} d',
       xSeconds: '{{count}} s',
       xMinutes: '{{count}} m',
-      xHours: '{{count}} h'
+      xHours: '{{count}} h',
     }
     const shortEnLocale = {
       formatDistance: (token, count) =>
-        formatDistanceLocale[token].replace('{{count}}', count)
+        formatDistanceLocale[token].replace('{{count}}', count),
     }
     watch(dateNow, () => {
       const duration = intervalToDuration({
         start: utcToZonedTime(dateNow.value, timeZone),
-        end: utcToZonedTime(new Date(props.timestamp), timeZone)
+        end: utcToZonedTime(new Date(props.timestamp), timeZone),
       })
       timeLeft.value = formatDuration(duration, {
         format: props.seconds ? formatWithSeconds : format,
-        locale: shortEnLocale
+        locale: shortEnLocale,
       })
       if (
         utcToZonedTime(new Date(props.timestamp), timeZone) <
@@ -54,6 +54,6 @@ export default {
       }
     })
     return { timeLeft, dateNow }
-  }
+  },
 }
 </script>

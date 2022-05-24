@@ -5,8 +5,8 @@
 <script>
 export default {
   props: {
-    status: String
-  }
+    status: String,
+  },
 }
 </script>
 

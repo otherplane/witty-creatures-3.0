@@ -36,7 +36,7 @@ import { onMounted, computed, ref, watch } from 'vue'
 import { format } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
 export default {
-  setup () {
+  setup() {
     const player = useStore()
     const timeZone = 'America/Denver'
     onMounted(() => {
@@ -53,7 +53,7 @@ export default {
     watch(currentPage, async () => {
       await player.getInteractionHistory(offset.value, limit.value)
     })
-    function updateCurrentPage (page) {
+    function updateCurrentPage(page) {
       currentPage.value = page
     }
     return {
@@ -62,9 +62,9 @@ export default {
       timeZone,
       format,
       numberPages,
-      updateCurrentPage
+      updateCurrentPage,
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

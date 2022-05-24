@@ -6,9 +6,7 @@
         <span class="bold">Remember:</span>
       </p>
       <router-link to="/scan" class="link">
-        <CustomButton class="btn" type="primary">
-          CONTINUE
-        </CustomButton>
+        <CustomButton class="btn" type="primary"> CONTINUE </CustomButton>
       </router-link>
     </div>
   </MainLayout>

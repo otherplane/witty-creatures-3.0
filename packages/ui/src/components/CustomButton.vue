@@ -1,40 +1,43 @@
 <template>
-  <button class="btn" :class="[type]">
+  <button class="btn" :class="[color, type]">
     <slot class="btn-content"> </slot>
   </button>
 </template>
 
 <script setup>
 defineProps({
+  color: String,
   type: {
     type: String,
     default: 'default',
-    validator (value) {
-      return ['primary', 'secondary', 'disable', 'dark'].includes(value)
-    }
-  }
+    validator(value) {
+      return ['default', 'disable'].includes(value)
+    },
+  },
 })
 </script>
 
 <style scoped lang="scss">
 .btn {
   width: 100%;
-  color: $white;
-  padding: 16px 16px;
-  border-radius: 4px;
-  font-family: Roboto;
-  font-weight: bold;
-  &.primary {
-    color: $white;
-    background: var(--primary-color);
+  color: white;
+  padding: 14px 24px;
+  border-radius: 12px;
+
+  &.black {
+    background: black;
   }
-  &.secondary {
-    color: $white;
-    background: var(--primary-color);
+  &.green {
+    background: rgb(25, 208, 172);
   }
-  &.dark {
-    color: $white;
-    background: var(--primary-color);
+  &.purple {
+    background: rgb(195, 139, 217);
+  }
+  &.orange {
+    background: rgb(242, 157, 98);
+  }
+  &.grey {
+    background: rgb(128, 128, 128);
   }
   &.disable {
     opacity: 0.6;

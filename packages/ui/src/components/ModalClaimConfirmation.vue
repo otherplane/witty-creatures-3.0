@@ -42,14 +42,14 @@ import { defineComponent, getCurrentInstance } from 'vue'
 import bufficornMain from '@/assets/egg.svg?raw'
 export default defineComponent({
   emits: ['claim'],
-  setup () {
+  setup() {
     const instance = getCurrentInstance()
     return {
       bufficornMain,
-      emitClaim () {
+      emitClaim() {
         instance.emit('claim')
-      }
+      },
     }
-  }
+  },
 })
 </script>

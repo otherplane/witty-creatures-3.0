@@ -13,7 +13,7 @@ import { computed } from 'vue'
 import { useStore } from '@/stores/player'
 import { OPENSEA_BASE_URL } from '../constants'
 export default {
-  setup () {
+  setup() {
     const player = useStore()
     const title = computed(() => {
       return player.mintedAwards ? 'NFT AWARDS' : 'NFT AWARDS (PREVIEW)'
@@ -26,7 +26,7 @@ export default {
       }
     })
     return { importSvg, title, player, OPENSEA_BASE_URL, nft }
-  }
+  },
 }
 </script>
 

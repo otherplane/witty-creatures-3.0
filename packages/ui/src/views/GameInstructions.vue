@@ -12,13 +12,13 @@ import { useStore } from '@/stores/player'
 import { importSvg } from '@/composables/importSvg.js'
 import { onMounted } from 'vue'
 export default {
-  setup () {
+  setup() {
     const player = useStore()
     onMounted(() => {
       player.getTheme()
     })
     return { player, importSvg }
-  }
+  },
 }
 </script>
 

@@ -16,21 +16,21 @@ import VPagination from '@hennge/vue3-pagination'
 import { ref } from 'vue'
 export default {
   components: {
-    VPagination
+    VPagination,
   },
   props: {
     limit: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
-  setup (props, { emit }) {
+  setup(props, { emit }) {
     const page = ref(1)
-    function updatePage (page) {
+    function updatePage(page) {
       emit('update-page', page ? page - 1 : 0)
     }
     return { updatePage, page }
-  }
+  },
 }
 </script>
 <style lang="scss">

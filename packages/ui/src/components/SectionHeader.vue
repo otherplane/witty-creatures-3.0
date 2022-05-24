@@ -17,13 +17,13 @@ export default {
   props: {
     title: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
-  setup () {
+  setup() {
     const player = useStore()
     return { player, importSvg }
-  }
+  },
 }
 </script>
 

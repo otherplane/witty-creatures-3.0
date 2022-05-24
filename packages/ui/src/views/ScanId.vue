@@ -23,9 +23,9 @@ import { useModal } from '../composables/useModal'
 
 export default {
   components: {
-    StreamBarcodeReader
+    StreamBarcodeReader,
   },
-  setup (props, ctx) {
+  setup() {
     const modal = useModal()
     const player = useStore()
     const playerKey = ref(null)
@@ -34,11 +34,11 @@ export default {
     const router = useRouter()
     const previousRoute = ref('')
 
-    function submitAndRedirect () {
+    function submitAndRedirect() {
       router.push({ name: 'main', params: { id: playerKey.value } })
     }
 
-    function onDecode (value) {
+    function onDecode(value) {
       if (value) {
         decodedString.value = value
         if (!player.getToken()) {
@@ -49,7 +49,7 @@ export default {
       }
     }
 
-    function register () {
+    function register() {
       const chunks = decodedString.value.split('/')
       const key = chunks[chunks.length - 1]
       if (key) {
@@ -66,15 +66,15 @@ export default {
       onDecode,
       previousRoute,
       register,
-      modal
+      modal,
     }
   },
 
-  beforeRouteEnter (to, from, next) {
+  beforeRouteEnter(to, from, next) {
     next(vm => {
       vm.previousRoute = from.path
     })
-  }
+  },
 }
 </script>
 

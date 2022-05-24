@@ -2,9 +2,7 @@
   <transition name="fade">
     <div class="info">
       <div class="time-container">
-        <p class="bonus-title">
-          Time left to allow minting
-        </p>
+        <p class="bonus-title">Time left to allow minting</p>
         <TimeLeft
           class="time-left"
           :timestamp="player.timeToMintInMilli"
@@ -19,10 +17,10 @@
 <script>
 import { useStore } from '@/stores/player'
 export default {
-  setup () {
+  setup() {
     const player = useStore()
     return { player }
-  }
+  },
 }
 </script>
 

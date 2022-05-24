@@ -36,7 +36,7 @@ import { useStore } from '@/stores/player'
 import { onMounted, ref, computed, onBeforeUnmount } from 'vue'
 import { STATS_FILTERS } from '../constants'
 export default {
-  setup () {
+  setup() {
     const player = useStore()
     let primaryTab = ref('players')
     let secondaryTab = ref('overall')
@@ -64,7 +64,7 @@ export default {
       ].active = true
     }
     return { player, activateTab, tabs, primaryTab, secondaryTab, stats }
-  }
+  },
 }
 </script>
 

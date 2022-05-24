@@ -9,9 +9,9 @@
 <script>
 import wittyLogo from '@/assets/witnet-logo.svg?raw'
 export default {
-  setup () {
+  setup() {
     return { wittyLogo }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

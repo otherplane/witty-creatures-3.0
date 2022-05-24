@@ -1,6 +1,6 @@
 <template>
   <router-view />
-  <Notification />
+  <GameNotification />
 </template>
 
 <style lang="scss">

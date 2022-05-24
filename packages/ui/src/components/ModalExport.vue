@@ -44,24 +44,24 @@ import { copyTextToClipboard } from '../services/copyToClipboard'
 import { useStore } from '../stores/player'
 import bufficornMain from '@/assets/egg.svg?raw'
 export default defineComponent({
-  setup (props, ctx) {
+  setup() {
     const instance = getCurrentInstance()
     const importLink = createImportLink()
     const player = useStore()
     return {
-      exportInfo () {
+      exportInfo() {
         instance.parent.emit('close')
       },
       player,
       bufficornMain,
       importLink,
-      async copyToClipboard () {
+      async copyToClipboard() {
         await copyTextToClipboard(importLink)
         player.notify({ message: 'Copied', icon: 'none' })
         instance.parent.emit('close')
-      }
+      },
     }
-  }
+  },
 })
 </script>
 

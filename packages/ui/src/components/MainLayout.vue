@@ -17,29 +17,29 @@ export default defineComponent({
   props: {
     isBackground: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isBufficorn: {
       type: Boolean,
-      default: false
+      default: false,
     },
     maxHeight: {
       type: Boolean,
-      default: false
+      default: false,
     },
     padding: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
-  setup (props, ctx) {
+  setup() {
     const player = useStore()
     return {
       player,
       wittyCorn,
-      THEME_COLORS
+      THEME_COLORS,
     }
-  }
+  },
 })
 </script>
 <style scoped lang="scss">

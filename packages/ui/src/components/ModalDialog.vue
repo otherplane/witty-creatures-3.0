@@ -42,11 +42,11 @@ export default {
   props: {
     show: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   emits: ['close'],
-  setup (props, ctx) {
+  setup(props, ctx) {
     const showModal = ref(false)
     const modalRef = ref(null)
     watch(
@@ -57,11 +57,11 @@ export default {
         showModal.value = show
       }
     )
-    onClickOutside(modalRef, _ => ctx.emit('close'), { event: 'mousedown' })
+    onClickOutside(modalRef, () => ctx.emit('close'), { event: 'mousedown' })
     return {
       showModal,
-      modalRef
+      modalRef,
     }
-  }
+  },
 }
 </script>

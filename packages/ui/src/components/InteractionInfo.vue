@@ -51,11 +51,11 @@ import { ref } from 'vue'
 import { useStore } from '@/stores/player'
 import { importSvg } from '@/composables/importSvg.js'
 export default {
-  setup (props) {
+  setup() {
     const player = useStore()
     const show = ref(false)
     return { player, show, importSvg }
-  }
+  },
 }
 </script>
 

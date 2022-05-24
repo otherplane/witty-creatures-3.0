@@ -5,7 +5,7 @@
 <script>
 export default {
   props: {
-    creaturePreview: String
-  }
+    creaturePreview: String,
+  },
 }
 </script>

@@ -21,7 +21,7 @@ import { computed } from 'vue'
 import externalLink from '@/assets/external-black.svg?raw'
 import { EXPLORER_BASE_URL, OPENSEA_BASE_URL } from '../constants'
 export default {
-  setup () {
+  setup() {
     const player = useStore()
     const mintStatus = computed(() => {
       if (player.mintInfo.blockHash && player.minted) {
@@ -37,9 +37,9 @@ export default {
       openseaBaseUrl: OPENSEA_BASE_URL,
       player,
       externalLink,
-      mintStatus
+      mintStatus,
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>

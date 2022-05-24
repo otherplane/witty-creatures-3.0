@@ -43,9 +43,7 @@
       <EggSvg />
       <div class="sticky-btn" v-if="!player.gameOver">
         <router-link class="btn" :to="type === 'disable' ? '' : '/scan'">
-          <CustomButton type="dark" :slim="true">
-            INTERACTION
-          </CustomButton>
+          <CustomButton type="dark" :slim="true"> INTERACTION </CustomButton>
         </router-link>
         <CustomButton
           type="dark"
@@ -90,18 +88,17 @@ import {
   onMounted,
   onBeforeUnmount,
   reactive,
-  ref
 } from 'vue'
 import egg from '@/assets/egg.svg?raw'
 import { useModal } from '@/composables/useModal'
 import { useWeb3 } from '../composables/useWeb3'
 import { formatNumber } from '../utils'
 import { EXPLORER_BASE_URL, OPENSEA_BASE_URL } from '../constants'
-import { POLLER_MILLISECONDS, BASE_URL } from '@/constants.js'
+import { POLLER_MILLISECONDS } from '@/constants.js'
 import { importSvg } from '@/composables/importSvg.js'
 import { useRouter } from 'vue-router'
 export default {
-  setup () {
+  setup() {
     const modal = useModal()
     const player = useStore()
     const router = useRouter()
@@ -110,7 +107,7 @@ export default {
       mint: false,
       export: false,
       preview: false,
-      gameOver: false
+      gameOver: false,
     })
     const gameOver = player.gameOver
     let playerInfoPoller = null
@@ -156,7 +153,7 @@ export default {
     const mintStatus = computed(() =>
       player.mintInfo.blockHash ? 'minted' : 'pending'
     )
-    function openModal (name) {
+    function openModal(name) {
       const needProvider = name === 'mint'
       if (!web3WittyCreatures.isProviderConnected.value && needProvider) {
         modals['gameOver'] = true
@@ -165,14 +162,14 @@ export default {
       }
       modal.showModal()
     }
-    function closeModal () {
+    function closeModal() {
       modals.mint = false
       modals.export = false
       modals.preview = false
       modals.gameOver = false
       modal.hideModal()
     }
-    function mint () {
+    function mint() {
       if (type.value !== 'disable') {
         openModal('mint')
       }
@@ -194,9 +191,9 @@ export default {
       isProviderConnected: web3WittyCreatures.isProviderConnected,
       importSvg,
       egg,
-      formatNumber
+      formatNumber,
     }
-  }
+  },
 }
 </script>
 
