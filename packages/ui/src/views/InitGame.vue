@@ -1,7 +1,7 @@
 <template>
   <MainLayout :isBackground="true">
     <router-link to="/disclaimer" class="link">
-      <CustomButton class="btn" type="primary"> PLAY NOW </CustomButton>
+      <CustomButton class="btn" type="default"> PLAY NOW </CustomButton>
     </router-link>
   </MainLayout>
 </template>
