@@ -1,5 +1,5 @@
 // jest.config.js
-require('dotenv').config()
+require('dotenv').config({ path: './.env.test' });
 
 module.exports = {
   verbose: true,

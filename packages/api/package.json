@@ -46,8 +46,8 @@
     "fastify-tsconfig": "1.0.1",
     "jest": "28.1.0",
     "nodemon": "2.0.16",
-    "prettier": "2.6.2",
-    "ts-node": "10.8.0",
-    "typescript": "4.7.2"
+    "prettier": "2.5.1",
+    "ts-node": "10.4.0",
+    "typescript": "4.5.4"
   }
 }

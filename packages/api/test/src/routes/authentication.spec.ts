@@ -3,7 +3,7 @@ import { authenticatePlayer, initialPlayers } from '../../setup'
 describe('authentication.ts', () => {
   it('should authenticate PLAYER #0', async () => {
     const token = await authenticatePlayer(initialPlayers[0].key)
-
+    
     expect(token).toBeTruthy()
   })
 

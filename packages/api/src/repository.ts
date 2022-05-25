@@ -1,4 +1,10 @@
-import { Collection, Filter, ObjectId, OptionalUnlessRequiredId, WithId } from 'mongodb'
+import {
+  Collection,
+  Filter,
+  ObjectId,
+  OptionalUnlessRequiredId,
+  WithId,
+} from 'mongodb'
 
 export class Repository<T> {
   private collection: Collection<T>
@@ -33,7 +39,9 @@ export class Repository<T> {
   }
 
   public async create(element: T): Promise<WithId<T>> {
-    const success = await this.collection.insertOne(element as OptionalUnlessRequiredId<T>)
+    const success = await this.collection.insertOne(
+      element as OptionalUnlessRequiredId<T>
+    )
 
     if (!success.acknowledged)
       throw new Error(

@@ -5,7 +5,7 @@ import {
   initialPlayers,
 } from '../../setup'
 
-describe('player.ts', () => {
+describe.skip('player.ts', () => {
   it('should NOT get PLAYER #1 - no authorization header', async () => {
     await serverInject(
       {

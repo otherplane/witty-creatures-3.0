@@ -49,6 +49,10 @@ async function authenticatePlayer(key: string): Promise<string> {
         payload: { key },
       },
       (err, response) => {
+        if (response.json().error) {
+          throw new Error(JSON.stringify(response.json()))
+        }
+
         resolve(response.json().token)
       }
     )
