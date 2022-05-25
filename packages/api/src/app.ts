@@ -1,8 +1,8 @@
 import Ajv from 'ajv'
-import AutoLoad, { AutoloadPluginOptions } from 'fastify-autoload'
-import fastifyJwt from 'fastify-jwt'
+import AutoLoad, { AutoloadPluginOptions } from '@fastify/autoload'
+import fastifyJwt from '@fastify/jwt'
 import { FastifyPluginAsync, FastifyPluginCallback } from 'fastify'
-import { fastifyMongodb } from 'fastify-mongodb'
+import { fastifyMongodb } from '@fastify/mongodb'
 import fp from 'fastify-plugin'
 import { join } from 'path'
 
@@ -80,7 +80,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
   })
 
   // CORS
-  fastify.register(require('fastify-cors'), {
+  fastify.register(require('@fastify/cors'), {
     origin: '*',
     methods: ['GET', 'POST'],
   })
@@ -96,7 +96,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
     options: opts,
   })
 
-  fastify.register(require('fastify-static'), {
+  fastify.register(require('@fastify/static'), {
     root: join(__dirname, '../public'),
     // prefix: '/public/', // optional: default '/'
   })

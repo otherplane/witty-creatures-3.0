@@ -6,7 +6,7 @@ import {
   DEMO_ENDS_TIMESTAMP,
   GAME_ENDS_TIMESTAMP,
 } from '../constants'
-import { isMainnetTime } from './utils'
+import { isMainnetTime } from '@/utils'
 export const useStore = defineStore('player', {
   state: () => {
     return {
