@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import Fastify from 'fastify'
 import Web3 from 'web3'
 

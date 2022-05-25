@@ -7,7 +7,7 @@ import {
   ExtendedPlayerVTO,
 } from '../types'
 
-const players: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
+const players: FastifyPluginAsync = async (fastify, opts,): Promise<void> => {
   if (!fastify.mongo.db) throw Error('mongo db not found')
 
   const { playerModel } = fastify

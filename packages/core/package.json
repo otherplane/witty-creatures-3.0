@@ -11,7 +11,8 @@
     "fmt": "solhint --max-warnings 0 \"contracts/**/*.sol\" && eslint ./test && solhint \"test/**/*.sol\"",
     "fmt!": "solhint --max-warnings 0 \"contracts/**/*.sol\" --fix && eslint ./test --fix && solhint \"test/**/*.sol\" --fix",
     "migrate": "truffle migrate",
-    "test": "truffle test"
+    "test": "truffle test",
+    "test:unit": "yarn test"
   },
   "keywords": [],
   "dependencies": {
