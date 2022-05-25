@@ -138,7 +138,6 @@ const interactions: FastifyPluginAsync = async (
           lastInteraction,
           selfInteraction
         )
-        // TODO: INCUBATE
         try {
           // Add points to player
           await playerModel.addPoints(toPlayer.toDbVTO().key, points)

@@ -5,7 +5,7 @@ import {
   initialPlayers,
 } from '../../setup'
 
-describe.skip('player.ts', () => {
+describe('player.ts', () => {
   it('should NOT get PLAYER #1 - no authorization header', async () => {
     await serverInject(
       {
@@ -36,8 +36,10 @@ describe.skip('player.ts', () => {
   })
 
   it('should NOT get PLAYER#1 - valid token for PLAYER #2', async () => {
-    await authenticatePlayer(initialPlayers[0].key)
-    const token = await authenticatePlayer(initialPlayers[1].key)
+    const [, token] = await Promise.all([
+      authenticatePlayer(initialPlayers[0].key),
+      authenticatePlayer(initialPlayers[1].key),
+    ])
 
     await serverInject(
       {

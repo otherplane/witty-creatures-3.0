@@ -1,15 +1,17 @@
 import { authenticatePlayer, initialPlayers, serverInject } from '../../setup'
 
-describe.skip('Route /leaderboard', () => {
+describe('Route /leaderboard', () => {
   describe('should return leaderboard values for each entity', () => {
     it('players', async () => {
-      jest.setTimeout(15000)
-      const token = await authenticatePlayer(initialPlayers[0].key)
-      await authenticatePlayer(initialPlayers[1].key)
-      await authenticatePlayer(initialPlayers[2].key)
-      await authenticatePlayer(initialPlayers[3].key)
-      await authenticatePlayer(initialPlayers[4].key)
-      await authenticatePlayer(initialPlayers[5].key)
+      const tokens = await Promise.all([
+        authenticatePlayer(initialPlayers[0].key),
+        authenticatePlayer(initialPlayers[1].key),
+        authenticatePlayer(initialPlayers[2].key),
+        authenticatePlayer(initialPlayers[3].key),
+        authenticatePlayer(initialPlayers[4].key),
+        authenticatePlayer(initialPlayers[5].key),
+      ])
+      const token = tokens[0]
 
       await serverInject(
         {
@@ -39,13 +41,15 @@ describe.skip('Route /leaderboard', () => {
 
   describe('should return leaderboard values for each entity AFTER INTERACTION', () => {
     it('players', async () => {
-      jest.setTimeout(15000)
-      const token0 = await authenticatePlayer(initialPlayers[0].key)
-      await authenticatePlayer(initialPlayers[1].key)
-      await authenticatePlayer(initialPlayers[2].key)
-      await authenticatePlayer(initialPlayers[3].key)
-      await authenticatePlayer(initialPlayers[4].key)
+      const tokens = await Promise.all([
+        authenticatePlayer(initialPlayers[0].key),
+        authenticatePlayer(initialPlayers[1].key),
+        authenticatePlayer(initialPlayers[2].key),
+        authenticatePlayer(initialPlayers[3].key),
+        authenticatePlayer(initialPlayers[4].key)
+      ])
 
+      const token = tokens[0]
       // Trade with player 1
       await serverInject(
         {
@@ -55,7 +59,7 @@ describe.skip('Route /leaderboard', () => {
             to: initialPlayers[1].key,
           },
           headers: {
-            Authorization: token0,
+            Authorization: token,
           },
         },
         (err, response) => {
@@ -68,7 +72,7 @@ describe.skip('Route /leaderboard', () => {
           method: 'GET',
           url: '/leaderboard',
           headers: {
-            Authorization: token0,
+            Authorization: token,
           },
         },
         (err, response) => {
@@ -94,12 +98,14 @@ describe.skip('Route /leaderboard', () => {
   })
 
   it('should return correct values when PAGINATION params are given', async () => {
-    jest.setTimeout(15000)
-    const token = await authenticatePlayer(initialPlayers[0].key)
-    await authenticatePlayer(initialPlayers[1].key)
-    await authenticatePlayer(initialPlayers[2].key)
-    await authenticatePlayer(initialPlayers[3].key)
-    await authenticatePlayer(initialPlayers[4].key)
+    const tokens = await Promise.all([
+      authenticatePlayer(initialPlayers[0].key),
+      authenticatePlayer(initialPlayers[1].key),
+      authenticatePlayer(initialPlayers[2].key),
+      authenticatePlayer(initialPlayers[3].key),
+      authenticatePlayer(initialPlayers[4].key)
+    ])
+    const token = tokens[0]
 
     let firstPlayer
     await serverInject(

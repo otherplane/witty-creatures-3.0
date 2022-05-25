@@ -75,7 +75,7 @@ async function serverInject(
 async function sleep(ms: number) {
   return new Promise((resolve) => {
     return setTimeout(() => {
-      return resolve(null)
+      return resolve(true)
     }, ms)
   })
 }
@@ -83,21 +83,21 @@ async function sleep(ms: number) {
 const initialPlayers = [
   {
     key: 'ef12efbd765f9ad3',
-    username: 'planned-orangutan',
+    username: 'planned-platypus',
   },
   {
-    key: 'b75c34545e8cb4d2',
-    username: 'running-rabbit',
+    key: 'bf70268a8f1e2d67',
+    username: 'realistic-jay',
   },
   {
-    key: 'a17b86baba0cb804',
-    username: 'ridiculous-puma',
+    key: '895aa6083cc2dfaf',
+    username: 'mental-giraffe',
   },
-  { key: '21234f47b1c46620', username: 'verbal-turtle' },
-  { key: 'bf70268a8f1e2d67', username: 'realistic-piranha' },
+  { key: '104d81cea432f871', username: 'acute-guan' },
+  { key: 'e9d8e88334820666', username: 'continental-rodent' },
   {
-    key: '5a75dc3b46250ba5',
-    username: 'magnetic-limpet',
+    key: 'b5425e1b1ed66dcb',
+    username: 'deliberate-kite',
   },
 ]
 
