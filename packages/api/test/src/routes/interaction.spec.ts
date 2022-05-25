@@ -110,94 +110,98 @@ describe('Route /interactions', () => {
     )
   })
 
-  it('should sum less points if interaction with the same player occurs several times', async () => {
-    // jest.useFakeTimers('legacy')
-    const [token, token1] = await Promise.all([
-      authenticatePlayer(initialPlayers[0].key),
-      authenticatePlayer(initialPlayers[1].key)
-    ])
+  it(
+    'should sum less points if interaction with the same player occurs several times',
+    async () => {
+      // jest.useFakeTimers('legacy')
+      const [token, token1] = await Promise.all([
+        authenticatePlayer(initialPlayers[0].key),
+        authenticatePlayer(initialPlayers[1].key),
+      ])
 
-    await serverInject(
-      {
-        method: 'POST',
-        url: '/interactions',
-        payload: {
-          to: initialPlayers[1].key,
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/interactions',
+          payload: {
+            to: initialPlayers[1].key,
+          },
+          headers: {
+            Authorization: token,
+          },
         },
-        headers: {
-          Authorization: token,
+        (err, response) => {
+          expect(err).toBeFalsy()
+          expect(response.statusCode).toBe(200)
+          expect(response.headers['content-type']).toBe(
+            'application/json; charset=utf-8'
+          )
+          expect(response.json().to).toBe(initialPlayers[1].username)
+          expect(response.json().from).toBe(initialPlayers[0].username)
+          expect(response.json().timestamp).toBeTruthy()
+          expect(response.json().ends).toBe(
+            response.json().timestamp + INTERACTION_DURATION_MILLIS
+          )
+          expect(response.json().points).toBe(INTERACTION_POINTS)
+        }
+      )
+
+      await sleep(INTERACTION_COOLDOWN_MILLIS)
+
+      const secondInteractionPoints = Math.ceil(
+        INTERACTION_POINTS / INTERACTION_POINTS_DIVISOR
+      )
+
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/interactions',
+          payload: {
+            to: initialPlayers[1].key,
+          },
+          headers: {
+            Authorization: token,
+          },
         },
-      },
-      (err, response) => {
-        expect(err).toBeFalsy()
-        expect(response.statusCode).toBe(200)
-        expect(response.headers['content-type']).toBe(
-          'application/json; charset=utf-8'
-        )
-        expect(response.json().to).toBe(initialPlayers[1].username)
-        expect(response.json().from).toBe(initialPlayers[0].username)
-        expect(response.json().timestamp).toBeTruthy()
-        expect(response.json().ends).toBe(
-          response.json().timestamp + INTERACTION_DURATION_MILLIS
-        )
-        expect(response.json().points).toBe(INTERACTION_POINTS)
-      }
-    )
+        (err, response) => {
+          expect(err).toBeFalsy()
+          expect(response.statusCode).toBe(200)
+          expect(response.headers['content-type']).toBe(
+            'application/json; charset=utf-8'
+          )
+          expect(response.json().to).toBe(initialPlayers[1].username)
+          expect(response.json().from).toBe(initialPlayers[0].username)
+          expect(response.json().timestamp).toBeTruthy()
+          expect(response.json().ends).toBe(
+            response.json().timestamp + INTERACTION_DURATION_MILLIS
+          )
+          expect(response.json().points).toBe(secondInteractionPoints)
+        }
+      )
 
-    await sleep(INTERACTION_COOLDOWN_MILLIS)
-
-    const secondInteractionPoints = Math.ceil(
-      INTERACTION_POINTS / INTERACTION_POINTS_DIVISOR
-    )
-
-    await serverInject(
-      {
-        method: 'POST',
-        url: '/interactions',
-        payload: {
-          to: initialPlayers[1].key,
+      await serverInject(
+        {
+          method: 'GET',
+          url: `/players/${initialPlayers[1].key}`,
+          headers: {
+            Authorization: token1,
+          },
         },
-        headers: {
-          Authorization: token,
-        },
-      },
-      (err, response) => {
-        expect(err).toBeFalsy()
-        expect(response.statusCode).toBe(200)
-        expect(response.headers['content-type']).toBe(
-          'application/json; charset=utf-8'
-        )
-        expect(response.json().to).toBe(initialPlayers[1].username)
-        expect(response.json().from).toBe(initialPlayers[0].username)
-        expect(response.json().timestamp).toBeTruthy()
-        expect(response.json().ends).toBe(
-          response.json().timestamp + INTERACTION_DURATION_MILLIS
-        )
-        expect(response.json().points).toBe(secondInteractionPoints)
-      }
-    )
+        (err, response) => {
+          expect(err).toBeFalsy()
+          expect(response.statusCode).toBe(200)
+          expect(response.headers['content-type']).toBe(
+            'application/json; charset=utf-8'
+          )
 
-    await serverInject(
-      {
-        method: 'GET',
-        url: `/players/${initialPlayers[1].key}`,
-        headers: {
-          Authorization: token1,
-        },
-      },
-      (err, response) => {
-        expect(err).toBeFalsy()
-        expect(response.statusCode).toBe(200)
-        expect(response.headers['content-type']).toBe(
-          'application/json; charset=utf-8'
-        )
-
-        expect(response.json().player.score).toBe(
-          INTERACTION_POINTS + secondInteractionPoints
-        )
-      }
-    )
-  }, INTERACTION_COOLDOWN_MILLIS * 1.2)
+          expect(response.json().player.score).toBe(
+            INTERACTION_POINTS + secondInteractionPoints
+          )
+        }
+      )
+    },
+    INTERACTION_COOLDOWN_MILLIS * 1.2
+  )
 
   it('should NOT INTERACT if invalid token (check 1)', async () => {
     await serverInject(
@@ -318,7 +322,7 @@ describe('Route /interactions', () => {
   it('should NOT interact if FROM player is already interacting with other player(check 6)', async () => {
     const [token] = await Promise.all([
       authenticatePlayer(initialPlayers[0].key),
-      authenticatePlayer(initialPlayers[1].key)
+      authenticatePlayer(initialPlayers[1].key),
     ])
 
     await serverInject(
@@ -365,8 +369,8 @@ describe('Route /interactions', () => {
   it('should NOT interact if target player is already interacting (check 7)', async () => {
     const [token1, token2] = await Promise.all([
       await authenticatePlayer(initialPlayers[0].key),
-      await authenticatePlayer(initialPlayers[1].key)
-    ]) 
+      await authenticatePlayer(initialPlayers[1].key),
+    ])
     await serverInject(
       {
         method: 'POST',
@@ -408,71 +412,75 @@ describe('Route /interactions', () => {
     )
   })
 
-  it('should NOT interact if cooldown has not elapsed (check 8)', async () => {
-    const [token] = await Promise.all([
-      authenticatePlayer(initialPlayers[0].key),
-      authenticatePlayer(initialPlayers[1].key)
-    ])
+  it(
+    'should NOT interact if cooldown has not elapsed (check 8)',
+    async () => {
+      const [token] = await Promise.all([
+        authenticatePlayer(initialPlayers[0].key),
+        authenticatePlayer(initialPlayers[1].key),
+      ])
 
-    await serverInject(
-      {
-        method: 'POST',
-        url: '/interactions',
-        payload: {
-          to: initialPlayers[1].key,
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/interactions',
+          payload: {
+            to: initialPlayers[1].key,
+          },
+          headers: {
+            Authorization: token,
+          },
         },
-        headers: {
-          Authorization: token,
-        },
-      },
-      (err, response) => {
-        expect(err).toBeFalsy()
-        expect(response.statusCode).toBe(200)
-        expect(response.headers['content-type']).toBe(
-          'application/json; charset=utf-8'
-        )
-      }
-    )
+        (err, response) => {
+          expect(err).toBeFalsy()
+          expect(response.statusCode).toBe(200)
+          expect(response.headers['content-type']).toBe(
+            'application/json; charset=utf-8'
+          )
+        }
+      )
 
-    await sleep(INTERACTION_DURATION_MILLIS)
+      await sleep(INTERACTION_DURATION_MILLIS)
 
-    await serverInject(
-      {
-        method: 'POST',
-        url: '/interactions',
-        payload: {
-          to: initialPlayers[1].key,
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/interactions',
+          payload: {
+            to: initialPlayers[1].key,
+          },
+          headers: {
+            Authorization: token,
+          },
         },
-        headers: {
-          Authorization: token,
-        },
-      },
-      (err, response) => {
-        expect(err).toBeFalsy()
-        expect(response.statusCode).toBe(409)
-        expect(response.headers['content-type']).toBe(
-          'application/json; charset=utf-8'
-        )
-      }
-    )
+        (err, response) => {
+          expect(err).toBeFalsy()
+          expect(response.statusCode).toBe(409)
+          expect(response.headers['content-type']).toBe(
+            'application/json; charset=utf-8'
+          )
+        }
+      )
 
-    await sleep(INTERACTION_COOLDOWN_MILLIS)
+      await sleep(INTERACTION_COOLDOWN_MILLIS)
 
-    await serverInject(
-      {
-        method: 'POST',
-        url: '/interactions',
-        payload: {
-          to: initialPlayers[1].key,
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/interactions',
+          payload: {
+            to: initialPlayers[1].key,
+          },
+          headers: {
+            Authorization: token,
+          },
         },
-        headers: {
-          Authorization: token,
-        },
-      },
-      (err, response) => {
-        expect(err).toBeFalsy()
-        expect(response.statusCode).toBe(200)
-      }
-    )
-  }, (INTERACTION_COOLDOWN_MILLIS + INTERACTION_DURATION_MILLIS) * 1.2)
+        (err, response) => {
+          expect(err).toBeFalsy()
+          expect(response.statusCode).toBe(200)
+        }
+      )
+    },
+    (INTERACTION_COOLDOWN_MILLIS + INTERACTION_DURATION_MILLIS) * 1.2
+  )
 })

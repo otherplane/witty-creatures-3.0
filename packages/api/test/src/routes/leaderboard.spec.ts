@@ -46,7 +46,7 @@ describe('Route /leaderboard', () => {
         authenticatePlayer(initialPlayers[1].key),
         authenticatePlayer(initialPlayers[2].key),
         authenticatePlayer(initialPlayers[3].key),
-        authenticatePlayer(initialPlayers[4].key)
+        authenticatePlayer(initialPlayers[4].key),
       ])
 
       const token = tokens[0]
@@ -103,7 +103,7 @@ describe('Route /leaderboard', () => {
       authenticatePlayer(initialPlayers[1].key),
       authenticatePlayer(initialPlayers[2].key),
       authenticatePlayer(initialPlayers[3].key),
-      authenticatePlayer(initialPlayers[4].key)
+      authenticatePlayer(initialPlayers[4].key),
     ])
     const token = tokens[0]
 
