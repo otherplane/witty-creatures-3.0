@@ -13,7 +13,7 @@
     "bootstrap": "yarn lerna bootstrap",
     "build": "yarn lerna run build --stream --concurrency 1",
     "test": "yarn lerna run test --stream ",
-    "test:unit": "yarn lerna --scope test:unit",
+    "test:unit": "yarn lerna run --scope test:unit",
     "test:e2e": "yarn lerna run test:e2e --scope ui --stream",
     "lint": "yarn lerna run lint --stream --concurrency 1",
     "clean": "yarn lerna run clean --concurrency 4",
