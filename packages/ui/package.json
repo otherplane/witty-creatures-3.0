@@ -14,14 +14,15 @@
     "date-fns": "2.27.0",
     "date-fns-tz": "1.2.2",
     "pinia": "2.0.8",
+    "qrcode.vue": "^3.3.3",
     "query-string": "^7.1.1",
     "sass": "1.45.1",
     "svg-radar-chart": "^0.2.2",
     "virtual-dom-stringify": "^3.0.1",
     "vue": "3.2.26",
+    "vue-barcode-reader": "1.0.1",
     "vue-router": "4.0.12",
     "vue3-carousel": "^0.1.36",
-    "vue-barcode-reader": "1.0.1",
     "web3": "1.6.1"
   },
   "devDependencies": {

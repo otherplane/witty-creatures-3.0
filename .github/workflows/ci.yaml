@@ -15,13 +15,6 @@ jobs:
       - uses: actions/setup-node@v2.1.2
         with:
           node-version: '14'
-
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.6.0
-        with:
-          mongodb-version: '4.0'
-          mongodb-port: 27017
-
       - run: yarn
       - run: yarn bootstrap
       - run: yarn lint

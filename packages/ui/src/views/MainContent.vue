@@ -122,12 +122,16 @@ export default {
         openModal('export')
       } else {
         await player.getPlayerInfo()
-        if (
-          player.id &&
-          router.currentRoute.value.params.id &&
-          player.id !== router.currentRoute.value.params.id
-        ) {
-          await player.interact({ key: router.currentRoute.value.params.id })
+        if (router.currentRoute.value.params.id.includes('twitter')) {
+          player.saveContact(router.currentRoute.value.params.id)
+        } else {
+          if (
+            player.id &&
+            router.currentRoute.value.params.id &&
+            player.id !== router.currentRoute.value.params.id
+          ) {
+            await player.interact({ key: router.currentRoute.value.params.id })
+          }
         }
         if (player.gameOver) {
           await player.getMintInfo()

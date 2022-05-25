@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/App.vue'
 import MainContent from '../views/MainContent.vue'
+import SocialsForm from '../views/SocialsForm.vue'
 import InitGame from '../views/InitGame.vue'
 import Disclaimer from '../views/GameDisclaimer.vue'
 import Instructions from '../views/GameInstructions.vue'
@@ -67,6 +68,11 @@ const routes = [
     name: 'scan',
     path: '/scan',
     component: ScanId
+  },
+  {
+    name: 'socials',
+    path: '/socials',
+    component: SocialsForm
   },
   {
     name: 'leaderboard',

@@ -33,6 +33,8 @@ export const useStore = defineStore('player', {
       color: null,
       tokenIds: null,
       score: null,
+      socials: null,
+      contacts: null,
       bufficornsGlobalStats: null,
       playersGlobalStats: null,
       ranchesGlobalStats: null,
@@ -67,7 +69,6 @@ export const useStore = defineStore('player', {
     },
     demoOver () {
       //FIXME: make it reactive
-      console.log(this.demoOverTimeMilli)
       return this.demoOverTimeMilli < Date.now()
     },
     isMainnetTime () {
@@ -102,6 +103,45 @@ export const useStore = defineStore('player', {
     saveTheme (theme) {
       localStorage.setItem('theme', theme)
       this.theme = theme
+    },
+    // Socials
+    getSocials() {
+      const socials = JSON.parse(localStorage.getItem('socials'))
+      if (socials) {
+        this.socials = socials
+      }
+    },
+    saveSocials (info) {
+      localStorage.setItem('socials', JSON.stringify({ ...info }))
+      this.socials = info
+    },
+    deleteSocials () {
+      localStorage.removeItem('socials')
+      this.socials = null
+    },
+    // Socials
+    getContacts() {
+      const contacts = JSON.parse(localStorage.getItem('contacts'))
+      if (contacts) {
+        this.contacts = contacts
+      }
+    },
+    async saveContact(info) {
+      const rxg = (label) => new RegExp("(?<\=" + label + "\=)(.*?)(?=\&)");
+      const savedContacts = await JSON.parse(localStorage.getItem('contacts'))
+      let contacts = {}
+      if (savedContacts) {
+        contacts = { ...savedContacts }
+      }
+      contacts[info.match(rxg('username'))[0]] = {
+        username: info.match(rxg('username'))[0],
+        twitter: info.match(rxg('twitter'))[0],
+        telegram: info.match(rxg('telegram'))[0],
+        discord: info.match(rxg('discord'))[0],
+        timestamp: new Date().getTime(),
+      }
+      localStorage.setItem('contacts', JSON.stringify({ ...contacts }))
+      router.push('/socials')
     },
     // Mint info
     getMintInfo () {

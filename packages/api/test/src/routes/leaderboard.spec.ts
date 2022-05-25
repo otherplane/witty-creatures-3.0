@@ -1,6 +1,6 @@
 import { authenticatePlayer, initialPlayers, serverInject } from '../../setup'
 
-describe('Route /leaderboard', () => {
+describe.skip('Route /leaderboard', () => {
   describe('should return leaderboard values for each entity', () => {
     it('players', async () => {
       jest.setTimeout(15000)

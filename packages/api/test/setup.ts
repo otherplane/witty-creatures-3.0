@@ -1,17 +1,29 @@
-import { CollectionInfo, Db, MongoClient } from 'mongodb'
+import { CollectionInfo, Db } from 'mongodb'
 import Fastify from 'fastify'
 import { app } from '../src/app'
 import { FastifyInstance } from 'fastify'
 
 let server: FastifyInstance
 
-let client = new MongoClient(process.env.MONGO_URI)
-let db: Db
+const { MongoClient } = require('mongodb');
+
+
+let client;
+let db;
 
 beforeAll(async () => {
-  client = await client.connect()
-  db = await client.db(process.env.MONGO_INITDB_DATABASE)
-})
+  client = await MongoClient.connect('mongodb://username:password@localhost:27017/database', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  });
+  db = await client.db('database');
+});
+
+afterAll(async () => {
+  await client.close();
+});
+
+
 
 beforeEach(async () => {
   // Drop mongodb collections
@@ -57,7 +69,7 @@ async function authenticatePlayer(key: string): Promise<string> {
 
 async function serverInject(
   opts: {},
-  cb: (error, result) => Promise<void> | void
+  cb: (error: any, result: any) => Promise<void> | void
 ): Promise<null> {
   return new Promise((resolve, reject) => {
     server.inject(opts, async (error, result) => {
