@@ -16,13 +16,13 @@ services:
       - ./init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
       - ./mongodb_data:/data/db
 
-  server:
+  api:
     # production
     # image: witnet/witty-creatures-server
     # development
     build:
       context: packages/api
-    container_name: witty-creatures-server
+    container_name: witty-creatures-api
     ports:
       - $SERVER_PORT:3000
     links:

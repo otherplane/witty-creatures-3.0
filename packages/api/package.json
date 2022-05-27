@@ -1,5 +1,5 @@
 {
-  "name": "witty-creatures-server",
+  "name": "witty-creatures-api",
   "version": "1.0.0",
   "description": "",
   "main": "src/server.ts",
@@ -8,12 +8,13 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "start": "yarn build:ts && fastify start -l info dist/server.js",
+    "start": "yarn build:ts && node dist/server.js",
     "build:ts": "tsc",
     "build": "yarn build:ts",
     "docker:build": "docker build . --no-cache -t witnet/witty-creatures-api",
     "lint": "eslint . --ext .js,.ts,.cjs --fix --ignore-path .gitignore",
-    "test": "yarn build:ts && cross-env TS_NODE_FILES=true jest test/.*spec.ts  --no-coverage --runInBand"
+    "test": "yarn build:ts && cross-env TS_NODE_FILES=true jest test/.*spec.ts  --no-coverage --runInBand",
+    "test:unit": "yarn test"
   },
   "dependencies": {
     "@sinclair/typebox": "0.23.5",
