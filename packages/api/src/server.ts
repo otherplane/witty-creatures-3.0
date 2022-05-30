@@ -7,6 +7,10 @@ import Web3 from 'web3'
 import app from './app'
 import constants, { MINT_PRIVATE_KEY } from './constants'
 
+import { hola } from '@witty-creatures/common'
+
+console.log(hola)
+
 const server = Fastify({
   logger: {
     level: 'info',
