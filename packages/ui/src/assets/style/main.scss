@@ -54,6 +54,7 @@ html,
 body {
   font-family: 'Roboto';
   --primary-color: #{$black};
+  --primary-color-opacity-1: #{$black-opacity-1};
   background-color: $white;
   touch-action: pan-x pan-y;
 }
@@ -62,55 +63,55 @@ body {
   --secondary-color: #{$purple-secondary};
   --main-color: #{$purple-main-color};
   --base-color: #{$green-base-color};
-  --primary-color-opacity-1: #{$purple-opacity-1};
-  --primary-color-opacity-2: #{$purple-opacity-2};
-  --vc-nav-background-color: #{$purple};
-  --vc-pgn-active-color: #{$purple};
-  --vc-pgn-background-color: #{$purple-opacity-1};
+  --primary-color-opacity-1: #{$black-opacity-1};
+  --primary-color-opacity-2: #{$black-opacity-2};
+  --vc-pgn-active-color: #{$black};
+  --vc-nav-background-color: #{$black};
+  --vc-pgn-background-color: #{$black-opacity-1};
 }
 .green {
   --primary-color: #{$black};
   --secondary-color: #{$green-secondary};
   --main-color: #{$green-main-color};
   --base-color: #{$green-base-color};
-  --primary-color-opacity-1: #{$green-opacity-1};
-  --primary-color-opacity-2: #{$green-opacity-2};
-  --vc-nav-background-color: #{$green};
-  --vc-pgn-active-color: #{$green};
-  --vc-pgn-background-color: #{$green-secondary};
+  --primary-color-opacity-1: #{$black-opacity-1};
+  --primary-color-opacity-2: #{$black-opacity-2};
+  --vc-pgn-active-color: #{$black};
+  --vc-nav-background-color: #{$black};
+  --vc-pgn-background-color: #{$black-opacity-1};
 }
 .yellow {
   --primary-color: #{$black};
   --secondary-color: #{$yellow};
   --main-color: #{$yellow-main-color};
   --base-color: #{$yellow-base-color};
-  --primary-color-opacity-1: #{$yellow-opacity-1};
-  --primary-color-opacity-2: #{$yellow-opacity-2};
-  --vc-nav-background-color: #{$yellow};
-  --vc-pgn-active-color: #{$yellow};
-  --vc-pgn-background-color: #{$yellow-opacity-1};
+  --primary-color-opacity-1: #{$black-opacity-1};
+  --primary-color-opacity-2: #{$black-opacity-2};
+  --vc-pgn-active-color: #{$black};
+  --vc-nav-background-color: #{$black};
+  --vc-pgn-background-color: #{$black-opacity-1};
 }
 .blue {
   --primary-color: #{$black};
   --secondary-color: #{$blue-secondary};
   --main-color: #{$blue-main-color};
   --base-color: #{$blue-base-color};
-  --primary-color-opacity-1: #{$blue-opacity-1};
-  --primary-color-opacity-2: #{$blue-opacity-2};
-  --vc-nav-background-color: #{$blue};
-  --vc-pgn-active-color: #{$blue};
-  --vc-pgn-background-color: #{$blue-opacity-1};
+  --primary-color-opacity-1: #{$black-opacity-1};
+  --primary-color-opacity-2: #{$black-opacity-2};
+  --vc-pgn-active-color: #{$black};
+  --vc-nav-background-color: #{$black};
+  --vc-pgn-background-color: #{$black-opacity-1};
 }
 .red {
   --primary-color: #{$black};
   --secondary-color: #{$red-secondary};
   --main-color: #{$red-main-color};
   --base-color: #{$red-base-color};
-  --primary-color-opacity-1: #{$red-opacity-1};
-  --primary-color-opacity-2: #{$red-opacity-2};
-  --vc-nav-background-color: #{$red};
-  --vc-pgn-active-color: #{$red};
-  --vc-pgn-background-color: #{$red-secondary};
+  --primary-color-opacity-1: #{$black-opacity-1};
+  --primary-color-opacity-2: #{$black-opacity-2};
+  --vc-pgn-active-color: #{$black};
+  --vc-nav-background-color: #{$black};
+  --vc-pgn-background-color: #{$black-opacity-1};
 }
 .black {
   --primary-color: #{$black};
@@ -128,11 +129,11 @@ body {
   --secondary-color: #{$white-secondary};
   --main-color: #{$white-main-color};
   --base-color: #{$white-base-color};
-  --primary-color-opacity-1: #{$white-opacity-1};
-  --primary-color-opacity-2: #{$white-opacity-2};
-  --vc-nav-background-color: #{$white};
-  --vc-pgn-active-color: #{$white};
-  --vc-pgn-background-color: #{$white-secondary};
+  --primary-color-opacity-1: #{$black-opacity-1};
+  --primary-color-opacity-2: #{$black-opacity-2};
+  --vc-pgn-active-color: #{$black};
+  --vc-nav-background-color: #{$black};
+  --vc-pgn-background-color: #{$black-opacity-1};
 }
 
 .bg-white {

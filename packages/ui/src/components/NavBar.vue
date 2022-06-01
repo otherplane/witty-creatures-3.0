@@ -11,8 +11,15 @@
       </label>
       <div class="dropdown">
         <ul class="tab-container" :class="{ visible: isMenuVisible }">
-          <router-link class="tab" to="/leaderboard"> Leaderboard </router-link>
-          <router-link class="tab" to="/interactions"> History </router-link>
+          <router-link class="tab" to="/leaderboard">
+            Leaderboard
+          </router-link>
+          <router-link class="tab" to="/socials">
+            Add socials
+          </router-link>
+          <router-link class="tab" to="/interactions">
+            History
+          </router-link>
           <router-link class="tab" to="/instructions">
             Instructions
           </router-link>
@@ -127,7 +134,7 @@ export default {
     top: 8px;
     opacity: 1;
     width: 148px;
-    height: 174px;
+    height: 240px;
     .tab {
       cursor: pointer;
       opacity: 1;
