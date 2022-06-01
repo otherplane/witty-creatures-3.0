@@ -12,7 +12,7 @@ import {
   sleep,
 } from '../../setup'
 
-describe('Route /interactions', () => {
+describe.skip('Route /interactions', () => {
   it('should return the interaction object after interact with itself', async () => {
     const token = await authenticatePlayer(initialPlayers[0].key)
 
