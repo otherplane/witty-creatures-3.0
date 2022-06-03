@@ -9,7 +9,7 @@ import {
   INTERACTION_POINTS_MIN,
   SELF_INTERACTION_POINTS,
 } from '../constants'
-import { DbPlayerVTO, DbInteractionVTO } from '../types'
+import { DbPlayerVTO, DbInteractionVTO, SocialsParams } from '../types'
 import { Repository } from '../repository'
 import { Player } from '../domain/player'
 
@@ -48,6 +48,7 @@ export class PlayerModel {
       score,
       creationIndex: index,
       color,
+      socials: null,
     })
   }
 
@@ -100,6 +101,22 @@ export class PlayerModel {
     await this.collection.updateOne({ key }, { $inc: { score: points } })
 
     return await this.get(key)
+  }
+
+  public async addSocials(
+    key: string,
+    socials: SocialsParams
+  ): Promise<Player | null> {
+    console.log('add socials', socials, key)
+    try {
+      await this.repository.updateOne({ key }, { socials: socials })
+    } catch (err) {
+      console.log('error updating socilas', err)
+    }
+
+    const result = await this.get(key)
+    console.log('------->>>>>', result)
+    return result
   }
 
   public computePoints(

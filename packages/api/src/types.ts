@@ -8,6 +8,30 @@ export const ClaimPlayerParams = Type.Object({
 })
 export type ClaimPlayerParams = Static<typeof ClaimPlayerParams>
 
+// Socials
+
+export const SocialsParams = Type.Object({
+  twitter: Type.String(),
+  discord: Type.String(),
+  telegram: Type.String(),
+  name: Type.String(),
+  company: Type.String(),
+  share: Type.Boolean(),
+})
+export type SocialsParams = Static<typeof SocialsParams>
+
+export const SocialsResult = Type.Object({
+  twitter: Type.String(),
+  discord: Type.String(),
+  telegram: Type.String(),
+  name: Type.String(),
+  company: Type.String(),
+  share: Type.Boolean(),
+})
+export type SocialsResult = Static<typeof SocialsParams>
+
+//PlayerVTO
+
 export const PlayerVTO = Type.Object({
   key: Type.String(),
   token: Type.Optional(Type.String()),
@@ -16,6 +40,7 @@ export const PlayerVTO = Type.Object({
   nft: Type.Array(Type.Optional(Type.String())),
   creationIndex: Type.Integer(),
   color: Type.Integer(),
+  socials: Nullable(SocialsResult),
 })
 
 export type PlayerVTO = Static<typeof PlayerVTO>
@@ -28,6 +53,7 @@ export const DbPlayerVTO = Type.Object({
   nft: Type.Array(Type.Optional(Type.String())),
   creationIndex: Type.Integer(),
   color: Type.Integer(),
+  socials: Nullable(SocialsResult),
 })
 
 export type DbPlayerVTO = Static<typeof DbPlayerVTO>
@@ -78,6 +104,8 @@ export const Incubation = Type.Object({
   timestamp: Type.Number(),
   ends: Type.Number(),
   points: Type.Number(),
+  socialsFrom: Type.Optional(SocialsResult),
+  socialsTo: Type.Optional(SocialsResult),
 })
 export type Incubation = Static<typeof Incubation>
 
@@ -98,6 +126,8 @@ export const DbInteractionVTO = Type.Object({
   points: Type.Number(),
   timestamp: Type.Number(),
   ends: Type.Number(),
+  socialsTo: Nullable(SocialsResult),
+  socialsFrom: Nullable(SocialsResult),
 })
 export type DbInteractionVTO = Static<typeof DbInteractionVTO>
 
@@ -168,8 +198,29 @@ export const InteractionResult = Type.Object({
   from: Type.String(),
   to: Type.String(),
   timestamp: Type.Number(),
+  socialsFrom: Nullable(SocialsResult),
+  socialsTo: Nullable(SocialsResult),
 })
 export type InteractionResult = Static<typeof InteractionParams>
+
+// Share Socials
+
+export const ShareSocialsParams = Type.Object({
+  key: Type.String(),
+  socials: SocialsResult,
+})
+export type ShareSocialsParams = Static<typeof ShareSocialsParams>
+
+export const ShareSocialsResult = Type.Object({
+  points: Type.Number(),
+  ends: Type.Number(),
+  from: Type.String(),
+  to: Type.String(),
+  timestamp: Type.Number(),
+  socialsFrom: Type.Optional(SocialsResult),
+  socialsTo: Type.Optional(SocialsResult),
+})
+export type ShareSocialsResult = Static<typeof ShareSocialsResult>
 
 // Leaderboard
 

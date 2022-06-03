@@ -7,7 +7,8 @@ import App from '@/App.vue'
 
 import Home from '../views/App.vue'
 import MainContent from '../views/MainContent.vue'
-import SocialsForm from '../views/SocialsForm.vue'
+import UserSettings from '../views/UserSettings.vue'
+import ContactsList from '../views/ContactsList.vue'
 import InitGame from '../views/InitGame.vue'
 import Disclaimer from '../views/GameDisclaimer.vue'
 import Instructions from '../views/GameInstructions.vue'
@@ -72,9 +73,14 @@ const routes = [
     component: ScanId,
   },
   {
-    name: 'socials',
-    path: '/socials',
-    component: SocialsForm
+    name: 'settings',
+    path: '/settings',
+    component: UserSettings,
+  },
+  {
+    name: 'contacts',
+    path: '/contacts',
+    component: ContactsList,
   },
   {
     name: 'leaderboard',

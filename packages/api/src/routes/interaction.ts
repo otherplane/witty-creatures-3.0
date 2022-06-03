@@ -11,6 +11,8 @@ import {
   InteractionParams,
   InteractionHistoryParams,
   InteractionHistoryResponse,
+  ShareSocialsParams,
+  ShareSocialsResult,
 } from '../types'
 import {
   calculateRemainingCooldown,
@@ -149,13 +151,67 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
           to: toPlayer.username,
           points,
           timestamp: currentTimestamp,
+          socialsFrom: fromPlayer.socials?.share ? fromPlayer.socials : null,
+          socialsTo: toPlayer.socials?.share ? toPlayer.socials : null,
         })
-
+        console.log('interaction!!!', fromPlayer.socials)
         return reply.status(200).send(interaction)
       },
     }
   )
+  fastify.post<{ Body: ShareSocialsParams; Reply: ShareSocialsResult | Error }>(
+    '/share',
+    {
+      schema: {
+        body: ShareSocialsParams,
+        headers: AuthorizationHeader,
+        response: {
+          200: ShareSocialsResult,
+        },
+      },
+      handler: async (
+        request: FastifyRequest<{ Body: ShareSocialsParams }>,
+        reply
+      ) => {
+        // Check 1: token is valid
+        let fromKey: string
+        try {
+          const decoded: JwtVerifyPayload = fastify.jwt.verify(
+            request.headers.authorization as string
+          )
+          fromKey = decoded.id
+        } catch (err) {
+          return reply.status(403).send(new Error(`Forbidden: invalid token`))
+        }
 
+        // Check 2 (unreachable): valid server issued token refers to non-existent player
+        const fromPlayer = await playerModel.get(fromKey)
+        if (!fromPlayer) {
+          return reply
+            .status(404)
+            .send(new Error(`Player does not exist (key: ${fromKey})`))
+        }
+
+        // Check 3 (unreachable): trading player has been claimed
+        if (!fromPlayer.token) {
+          return reply
+            .status(409)
+            .send(
+              new Error(`Player should be claimed before interact with others`)
+            )
+        }
+        try {
+          // Share socials to update interaction
+          await interactionModel.shareSocials({
+            key: fromPlayer.toDbVTO().key,
+            socials: fromPlayer.toDbVTO()?.socials || null,
+          })
+        } catch (error) {
+          return reply.status(403).send(error as Error)
+        }
+      },
+    }
+  )
   // GET /history?limit=LIMIT&offset=OFFSET
   fastify.get<{
     Querystring: InteractionHistoryParams

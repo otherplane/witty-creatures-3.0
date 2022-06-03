@@ -2,7 +2,7 @@ import { Collection, Db } from 'mongodb'
 import { Interaction } from '../domain/interaction'
 
 import { Repository } from '../repository'
-import { DbInteractionVTO } from '../types'
+import { DbInteractionVTO, SocialsResult } from '../types'
 
 export class InteractionModel {
   private collection: Collection<DbInteractionVTO>
@@ -23,6 +23,20 @@ export class InteractionModel {
   }): Promise<Interaction | null> {
     const vto = await this.repository.getLast(search)
     return vto ? new Interaction(vto) : null
+  }
+
+  public async shareSocials({
+    key,
+    socials,
+  }: {
+    key: string
+    socials: SocialsResult | null
+  }): Promise<Interaction | null> {
+    const lastInteraction = this.getLast({ to: key })
+    //TODO: update interaction entry
+    console.log(socials)
+    // this.repository.updateOne({ to: key }, { socials })
+    return lastInteraction
   }
 
   public async getManyByUsername(

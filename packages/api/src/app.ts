@@ -51,7 +51,7 @@ const app: FastifyPluginAsync<AppOptions> = async (
   fastify.register(fastifyMongodb, {
     // force to close the mongodb connection when app stopped
     forceClose: true,
-    url: MONGO_URI ,
+    url: MONGO_URI,
   })
   // InitializeModels and callback
   const initializeModels: FastifyPluginCallback = async (
