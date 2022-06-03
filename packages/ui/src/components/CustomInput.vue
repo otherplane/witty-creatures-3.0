@@ -1,23 +1,36 @@
 <template>
-  <input class="input" v-model="value" :placeholder="`type your ${label} account`">
+  <input
+    class="input"
+    v-model.lazy="localValue"
+    :placeholder="`type your ${label} account`"
+  />
 </template>
 
 <script>
-import { ref, watch } from 'vue'
+import { computed } from 'vue'
 export default {
   props: {
     label: {
       type: String,
       required: true,
-    }
+    },
+    value: {
+      type: String,
+      default: '',
+    },
   },
-  setup (props, { emit }) {
-    const value = ref('')
-    watch(value, () => {
-      emit('value', { label: props.label, value: value.value })
+  emits: ['change'],
+  setup(props, { emit }) {
+    const localValue = computed({
+      get() {
+        return props.value
+      },
+      set(value) {
+        emit('change', { label: props.label, value })
+      },
     })
-    return { value }
-  }
+    return { localValue }
+  },
 }
 </script>
 
@@ -32,8 +45,8 @@ export default {
   &::placeholder {
     font-size: 18px;
   }
-  &:focus { 
-    outline: none; 
+  &:focus {
+    outline: none;
     border-bottom: 2px solid var(--primary-color);
   }
 }

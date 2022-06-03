@@ -103,6 +103,17 @@ export class ApiService {
     })
   }
 
+  socials({ data, token }) {
+    console.log('socials..........l')
+    const { twitter, discord, telegram, name, company, share } = data
+    console.log('...token....', token)
+    return this._post({
+      url: `${this.baseUrl}/socials`,
+      data: { twitter, discord, telegram, name, company, share },
+      params: { headers: { authorization: token } },
+    })
+  }
+
   getContractArgs({ address, token }) {
     return this._post({
       url: `${this.baseUrl}/mint`,

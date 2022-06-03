@@ -1,4 +1,9 @@
-import { DbPlayerVTO, ExtendedPlayerVTO, PlayerLeaderboardInfo } from '../types'
+import {
+  DbPlayerVTO,
+  ExtendedPlayerVTO,
+  PlayerLeaderboardInfo,
+  SocialsResult,
+} from '../types'
 import { Interaction } from './interaction'
 
 export class Player {
@@ -11,6 +16,7 @@ export class Player {
   username: string
   score: number
   nft: Array<string> = []
+  socials: SocialsResult | null
 
   constructor(vto: DbPlayerVTO) {
     this.key = vto.key
@@ -20,6 +26,7 @@ export class Player {
     this.token = vto.token
     this.creationIndex = vto.creationIndex
     this.color = vto.color
+    this.socials = vto.socials
   }
 
   toExtendedPlayerVTO({
@@ -55,6 +62,7 @@ export class Player {
       token: this.token,
       creationIndex: this.creationIndex,
       color: this.color,
+      socials: this.socials,
     }
 
     return shoWToken ? { ...vto, token: this.token } : vto
