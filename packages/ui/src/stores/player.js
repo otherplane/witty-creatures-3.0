@@ -81,7 +81,6 @@ export const useStore = defineStore('player', {
       this.app.config.globalProperties.$notify(payload)
     },
     saveClaimInfo(info) {
-      console.log(info)
       localStorage.setItem(
         'tokenInfo',
         JSON.stringify({ ...this.getToken(), ...info })
@@ -113,16 +112,28 @@ export const useStore = defineStore('player', {
         this.socials = socials
       }
     },
+    async shareSocials() {
+      const tokenInfo = this.getToken()
+      const request = await this.api.shareSocials({
+        token: tokenInfo.token,
+        id: tokenInfo && tokenInfo.key,
+      })
+      if (request.error) {
+        this.setError('shareSocials', request.error)
+        router.push('/init-game')
+      } else {
+        this.clearError('shareSocials')
+        this.interactionInfo = request
+        this.getPlayerInfo()
+      }
+    },
     async saveSocials(info) {
-      localStorage.setItem('socials', JSON.stringify({ ...info }))
       this.socials = info
       const tokenInfo = this.getToken()
       const request = await this.api.socials({
         token: tokenInfo.token,
         data: { ...info },
       })
-      console.log('-save socials--->>>', request)
-
       if (request.error) {
         this.setError('socials', request.error)
         router.push('/init-game')
@@ -210,7 +221,6 @@ export const useStore = defineStore('player', {
         token: tokenInfo.token,
         to: key,
       })
-
       if (request.error) {
         this.setError('interaction', request.error)
         router.push('/init-game')
@@ -266,7 +276,6 @@ export const useStore = defineStore('player', {
         this.setError('info', request.error)
       } else {
         this.clearError('info')
-        console.log('request......', request)
         const { key, username, score, color } = request.player
         this.id = key
         this.username = username

@@ -51,7 +51,6 @@ const authentication: FastifyPluginAsync = async (fastify): Promise<void> => {
             ...player,
             token,
           })
-          console.log('player updated!!', playerUpdated)
           return reply.status(200).send(playerUpdated.toDbVTO(true))
         } catch (error) {
           reply.status(409).send(error as Error)

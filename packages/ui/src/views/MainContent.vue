@@ -52,6 +52,9 @@
         >
           SELF INTERACTION
         </CustomButton>
+        <CustomButton type="dark" :slim="true" @click="player.shareSocials()">
+          SHARE SOCIALS
+        </CustomButton>
       </div>
       <div class="btn" v-if="player.gameOver">
         <CustomButton

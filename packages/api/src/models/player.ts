@@ -107,7 +107,6 @@ export class PlayerModel {
     key: string,
     socials: SocialsParams
   ): Promise<Player | null> {
-    console.log('add socials', socials, key)
     try {
       await this.repository.updateOne({ key }, { socials: socials })
     } catch (err) {
@@ -115,7 +114,6 @@ export class PlayerModel {
     }
 
     const result = await this.get(key)
-    console.log('------->>>>>', result)
     return result
   }
 

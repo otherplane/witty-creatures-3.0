@@ -104,12 +104,18 @@ export class ApiService {
   }
 
   socials({ data, token }) {
-    console.log('socials..........l')
     const { twitter, discord, telegram, name, company, share } = data
-    console.log('...token....', token)
     return this._post({
       url: `${this.baseUrl}/socials`,
       data: { twitter, discord, telegram, name, company, share },
+      params: { headers: { authorization: token } },
+    })
+  }
+
+  shareSocials({ id, token }) {
+    return this._post({
+      url: `${this.baseUrl}/share`,
+      data: { id },
       params: { headers: { authorization: token } },
     })
   }

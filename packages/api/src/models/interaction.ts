@@ -26,17 +26,16 @@ export class InteractionModel {
   }
 
   public async shareSocials({
-    key,
+    username,
     socials,
   }: {
-    key: string
+    username: string
     socials: SocialsResult | null
-  }): Promise<Interaction | null> {
-    const lastInteraction = this.getLast({ to: key })
-    //TODO: update interaction entry
-    console.log(socials)
-    // this.repository.updateOne({ to: key }, { socials })
-    return lastInteraction
+  }): Promise<DbInteractionVTO> {
+    return await this.repository.updateOne(
+      { to: username },
+      { socialsTo: socials }
+    )
   }
 
   public async getManyByUsername(

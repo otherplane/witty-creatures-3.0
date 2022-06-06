@@ -60,7 +60,7 @@ export default {
       telegram: player.socials?.telegram || '',
       name: player.socials?.name || '',
       company: player.socials?.company || '',
-      share: player.socials?.share || true,
+      share: player.socials?.share || false,
     })
     const defaultSelectOption = ref({
       key: 'ethereum',
