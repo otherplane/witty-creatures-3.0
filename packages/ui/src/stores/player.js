@@ -20,6 +20,7 @@ export const useStore = defineStore('player', {
       bonus: null,
       network: null,
       interactionInfo: null,
+      socialsSharedMessage: false,
       interactionIn: null,
       interactionOut: null,
       //TODO: make gameOverTimeMilli take GAME_ENDS_TIMESTAMP value when gameOver is defined
@@ -123,7 +124,6 @@ export const useStore = defineStore('player', {
         router.push('/init-game')
       } else {
         this.clearError('shareSocials')
-        this.interactionInfo = request
         this.getPlayerInfo()
       }
     },
@@ -139,7 +139,6 @@ export const useStore = defineStore('player', {
         router.push('/init-game')
       } else {
         this.clearError('socials')
-        this.interactionInfo = request
         this.getPlayerInfo()
       }
     },
@@ -276,8 +275,9 @@ export const useStore = defineStore('player', {
         this.setError('info', request.error)
       } else {
         this.clearError('info')
-        const { key, username, score, color } = request.player
+        const { key, username, score, color, socials } = request.player
         this.id = key
+        this.socials = socials
         this.username = username
         this.score = score
         this.color = color
