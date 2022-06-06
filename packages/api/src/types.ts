@@ -206,8 +206,7 @@ export type InteractionResult = Static<typeof InteractionParams>
 // Share Socials
 
 export const ShareSocialsParams = Type.Object({
-  key: Type.String(),
-  socials: SocialsResult,
+  id: Type.String(),
 })
 export type ShareSocialsParams = Static<typeof ShareSocialsParams>
 
@@ -217,8 +216,8 @@ export const ShareSocialsResult = Type.Object({
   from: Type.String(),
   to: Type.String(),
   timestamp: Type.Number(),
-  socialsFrom: Type.Optional(SocialsResult),
-  socialsTo: Type.Optional(SocialsResult),
+  socialsFrom: Nullable(SocialsResult),
+  socialsTo: Nullable(SocialsResult),
 })
 export type ShareSocialsResult = Static<typeof ShareSocialsResult>
 

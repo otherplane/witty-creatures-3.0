@@ -154,7 +154,6 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
           socialsFrom: fromPlayer.socials?.share ? fromPlayer.socials : null,
           socialsTo: toPlayer.socials?.share ? toPlayer.socials : null,
         })
-        console.log('interaction!!!', fromPlayer.socials)
         return reply.status(200).send(interaction)
       },
     }
@@ -166,7 +165,7 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
         body: ShareSocialsParams,
         headers: AuthorizationHeader,
         response: {
-          200: ShareSocialsResult,
+          200: InteractionResult,
         },
       },
       handler: async (
@@ -200,15 +199,12 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
               new Error(`Player should be claimed before interact with others`)
             )
         }
-        try {
-          // Share socials to update interaction
+        return reply.status(200).send(
           await interactionModel.shareSocials({
-            key: fromPlayer.toDbVTO().key,
-            socials: fromPlayer.toDbVTO()?.socials || null,
+            username: fromPlayer.toDbVTO().username,
+            socials: fromPlayer.toDbVTO().socials,
           })
-        } catch (error) {
-          return reply.status(403).send(error as Error)
-        }
+        )
       },
     }
   )
