@@ -38,11 +38,15 @@
           :value="player.socials?.telegram"
           @change="setValue"
         />
+        <CustomSwitch
+          :checked="player.socials?.share"
+          label="share"
+          @change="setValue"
+        />
         <CustomSelect
           :options="networks"
           :defaultOption="defaultSelectOption"
         />
-        <CustomButton type="primary" @click="saveSocials"> Save </CustomButton>
       </form>
     </div>
   </MainLayout>
@@ -53,14 +57,8 @@ import { ref, onBeforeMount } from 'vue'
 export default {
   setup() {
     const player = useStore()
-    let editSocials = ref(false)
-    let socials = ref({
-      twitter: player.socials?.twitter || '',
-      discord: player.socials?.discord || '',
-      telegram: player.socials?.telegram || '',
-      name: player.socials?.name || '',
-      company: player.socials?.company || '',
-      share: player.socials?.share || false,
+    onBeforeMount(async () => {
+      await player.getPlayerInfo()
     })
     const defaultSelectOption = ref({
       key: 'ethereum',
@@ -76,34 +74,18 @@ export default {
         key: 'moonbeam',
       },
     ]
+    const setValue = async value => {
+      await player.saveSocials({
+        ...player.socials,
+        [value.label]: value.value,
+      })
+    }
 
-    onBeforeMount(() => {
-      player.getSocials()
-      player.getPlayerInfo()
-    })
-    const setValue = value => {
-      socials.value[value.label] = value.value
-    }
-    const saveSocials = async () => {
-      await player.saveSocials(socials.value)
-      editSocials.value = false
-    }
-    const edit = () => {
-      editSocials.value = true
-    }
-    const deleteSocials = async () => {
-      await player.deleteSocials()
-    }
     return {
       player,
       networks,
       setValue,
-      socials,
       defaultSelectOption,
-      saveSocials,
-      edit,
-      editSocials,
-      deleteSocials,
     }
   },
 }

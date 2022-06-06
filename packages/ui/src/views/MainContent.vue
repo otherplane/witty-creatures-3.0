@@ -52,9 +52,6 @@
         >
           SELF INTERACTION
         </CustomButton>
-        <CustomButton type="dark" :slim="true" @click="player.shareSocials()">
-          SHARE SOCIALS
-        </CustomButton>
       </div>
       <div class="btn" v-if="player.gameOver">
         <CustomButton
@@ -76,8 +73,9 @@
     </div>
   </MainLayout>
 
-  <ModalDialog :show="modal.visible.value" v-on:close="closeModal">
+  <ModalDialog :show="modal.visible.value" @close="closeModal">
     <ModalExport v-if="modals.export" />
+    <ModalShareSocials v-if="modals.shareSocials" />
     <GameOverModal v-if="modals.gameOver" />
     <ModalMint v-if="modals.mint" />
   </ModalDialog>
@@ -91,6 +89,7 @@ import {
   onMounted,
   onBeforeUnmount,
   reactive,
+  watch,
 } from 'vue'
 import egg from '@/assets/egg.svg?raw'
 import { useModal } from '@/composables/useModal'
@@ -106,7 +105,9 @@ export default {
     const player = useStore()
     const router = useRouter()
     const web3WittyCreatures = useWeb3()
+    const interactionIn = computed(() => player?.interactionIn)
     const modals = reactive({
+      shareSocials: false,
       mint: false,
       export: false,
       preview: false,
@@ -170,6 +171,7 @@ export default {
       modal.showModal()
     }
     function closeModal() {
+      modals.shareSocials = false
       modals.mint = false
       modals.export = false
       modals.preview = false
@@ -181,6 +183,18 @@ export default {
         openModal('mint')
       }
     }
+    watch(interactionIn, () => {
+      if (
+        !player.socials?.share &&
+        interactionIn.value &&
+        !player.socialsSharedMessage
+      ) {
+        openModal('shareSocials')
+        player.socialsSharedMessage = true
+      } else {
+        closeModal('shareSocials')
+      }
+    })
     return {
       etherscanBaseUrl: EXPLORER_BASE_URL,
       openseaBaseUrl: OPENSEA_BASE_URL,

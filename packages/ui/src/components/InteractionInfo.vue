@@ -15,7 +15,7 @@
             class="time-left"
             :timestamp="player.interactionOut.ends"
             :seconds="true"
-            @clear-timestamp="player.interactionOut = null"
+            @clear-timestamp="clearTimestamp('interactionOut')"
           />
         </div>
       </div>
@@ -37,7 +37,7 @@
             class="time-left"
             :timestamp="player.interactionIn.ends"
             :seconds="true"
-            @clear-timestamp="player.interactionIn = null"
+            @clear-timestamp="clearTimestamp('interactionIn')"
           />
         </div>
       </div>
@@ -54,7 +54,11 @@ export default {
   setup() {
     const player = useStore()
     const show = ref(false)
-    return { player, show, importSvg }
+    const clearTimestamp = interactionType => {
+      player[interactionType] = null
+      player.socialsSharedMessage = false
+    }
+    return { player, show, importSvg, clearTimestamp }
   },
 }
 </script>
