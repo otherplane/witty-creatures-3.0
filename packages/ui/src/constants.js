@@ -46,6 +46,21 @@ export const THEME_COLORS = {
   6: 'blue',
 }
 
+export const NETWORKS = [
+  {
+    key: 'ethereum',
+    name: 'ethereans',
+  },
+  {
+    key: 'boba',
+    name: 'bobarians',
+  },
+  {
+    key: 'moonbeam',
+    name: 'moonbeam',
+  },
+]
+
 export const POLLER_MILLISECONDS = import.meta.env.VITE_POLLER_MILLISECONDS
   ? parseInt(import.meta.env.VITE_POLLER_MILLISECONDS)
   : 5000

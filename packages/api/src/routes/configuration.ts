@@ -3,27 +3,29 @@ import { FastifyPluginAsync, FastifyRequest } from 'fastify'
 import {
   AuthorizationHeader,
   JwtVerifyPayload,
-  SocialsParams,
-  SocialsResult,
+  ConfigParams,
+  ConfigResult,
 } from '../types'
 
-const socials: FastifyPluginAsync = async (fastify): Promise<void> => {
+import { validateSocials } from '../utils'
+
+const configuration: FastifyPluginAsync = async (fastify): Promise<void> => {
   if (!fastify.mongo.db) throw Error('mongo db not found')
 
   const { playerModel } = fastify
 
-  fastify.post<{ Body: SocialsParams; Reply: SocialsResult | Error }>(
-    '/socials',
+  fastify.post<{ Body: ConfigParams; Reply: ConfigResult | Error }>(
+    '/configuration',
     {
       schema: {
-        body: SocialsParams,
+        body: ConfigParams,
         headers: AuthorizationHeader,
         response: {
-          200: SocialsResult,
+          200: ConfigResult,
         },
       },
       handler: async (
-        request: FastifyRequest<{ Body: SocialsParams }>,
+        request: FastifyRequest<{ Body: ConfigParams }>,
         reply
       ) => {
         // Check 1: token is valid
@@ -45,39 +47,24 @@ const socials: FastifyPluginAsync = async (fastify): Promise<void> => {
             .send(new Error(`Player does not exist (key: ${fromKey})`))
         }
 
-        // Check 3 (unreachable): trading player has been claimed
-        if (!fromPlayer.token) {
-          return reply
-            .status(409)
-            .send(
-              new Error(`Player should be claimed before interact with others`)
-            )
-        }
         try {
-          // Add points to player
-          await playerModel.addSocials(fromPlayer.toDbVTO().key, {
-            twitter: request.body.twitter,
-            discord: request.body.discord,
-            telegram: request.body.telegram,
-            name: request.body.name,
-            company: request.body.company,
-            share: request.body.share,
-          })
+          // Update player configuration
+          await playerModel.addConfig(
+            fromPlayer.toDbVTO().key,
+            validateSocials(request.body.socials),
+            request.body.mintConfig
+          )
         } catch (error) {
+          console.log(error)
           return reply.status(403).send(error as Error)
         }
-
         return reply.status(200).send({
-          twitter: request.body.twitter,
-          discord: request.body.discord,
-          telegram: request.body.telegram,
-          name: request.body.name,
-          company: request.body.company,
-          share: request.body.share,
+          socials: validateSocials(request.body.socials),
+          mintConfig: request.body.mintConfig,
         })
       },
     }
   )
 }
 
-export default socials
+export default configuration

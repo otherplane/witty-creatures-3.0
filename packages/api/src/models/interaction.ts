@@ -2,7 +2,7 @@ import { Collection, Db } from 'mongodb'
 import { Interaction } from '../domain/interaction'
 
 import { Repository } from '../repository'
-import { DbInteractionVTO, SocialsResult } from '../types'
+import { DbInteractionVTO, Socials } from '../types'
 
 export class InteractionModel {
   private collection: Collection<DbInteractionVTO>
@@ -30,11 +30,39 @@ export class InteractionModel {
     socials,
   }: {
     username: string
-    socials: SocialsResult | null
+    socials: Socials
   }): Promise<DbInteractionVTO> {
+    const lastIncomingInteraction = await this.getLast({ to: username })
+    const lastOutgoingInteraction = await this.getLast({ from: username })
+    if (lastIncomingInteraction?.to === username) {
+      await this.repository.updateOne(
+        { from: username, timestamp: lastIncomingInteraction?.timestamp },
+        { socialsTo: socials }
+      )
+    }
+    if (lastIncomingInteraction?.from === username) {
+      await this.repository.updateOne(
+        { from: username, timestamp: lastOutgoingInteraction?.timestamp },
+        { socialsFrom: socials }
+      )
+    }
     return await this.repository.updateOne(
-      { to: username },
-      { socialsTo: socials }
+      { from: username, timestamp: lastOutgoingInteraction?.timestamp },
+      { socialsFrom: socials }
+    )
+  }
+
+  public async getContactsByUsername(
+    username: string,
+    paginationParams: { limit: number; offset: number }
+  ): Promise<Array<DbInteractionVTO>> {
+    return await this.repository.getSortedBy(
+      {
+        socialsTo: { $ne: null },
+        $or: [{ from: username }, { to: username }],
+      },
+      { timestamp: 'desc' },
+      paginationParams
     )
   }
 
@@ -53,6 +81,12 @@ export class InteractionModel {
 
   public async count(username: string): Promise<number> {
     return this.repository.count({
+      $or: [{ from: username }, { to: username }],
+    })
+  }
+  public async countContacts(username: string): Promise<number> {
+    return this.repository.count({
+      socialsTo: { $ne: null },
       $or: [{ from: username }, { to: username }],
     })
   }

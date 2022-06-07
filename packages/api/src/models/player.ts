@@ -9,7 +9,7 @@ import {
   INTERACTION_POINTS_MIN,
   SELF_INTERACTION_POINTS,
 } from '../constants'
-import { DbPlayerVTO, DbInteractionVTO, SocialsParams } from '../types'
+import { DbPlayerVTO, DbInteractionVTO, Socials } from '../types'
 import { Repository } from '../repository'
 import { Player } from '../domain/player'
 
@@ -49,6 +49,7 @@ export class PlayerModel {
       creationIndex: index,
       color,
       socials: null,
+      mintConfig: 'ethereum',
     })
   }
 
@@ -103,17 +104,22 @@ export class PlayerModel {
     return await this.get(key)
   }
 
-  public async addSocials(
+  public async addConfig(
     key: string,
-    socials: SocialsParams
+    socials: Socials,
+    mintConfig: string
   ): Promise<Player | null> {
     try {
-      await this.repository.updateOne({ key }, { socials: socials })
+      await this.repository.updateOne(
+        { key },
+        { socials: socials, mintConfig: mintConfig }
+      )
     } catch (err) {
-      console.log('error updating socilas', err)
+      console.log('error updating socials', err)
     }
 
     const result = await this.get(key)
+    console.log('result', result)
     return result
   }
 

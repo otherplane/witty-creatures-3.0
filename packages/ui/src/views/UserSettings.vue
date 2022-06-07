@@ -44,8 +44,10 @@
           @change="setValue"
         />
         <CustomSelect
-          :options="networks"
-          :defaultOption="defaultSelectOption"
+          :options="formatedNetworks"
+          :defaultOption="{ key: player.mintConfig }"
+          label="network"
+          @change="setValue"
         />
       </form>
     </div>
@@ -53,39 +55,40 @@
 </template>
 <script>
 import { useStore } from '@/stores/player'
-import { ref, onBeforeMount } from 'vue'
+import { onBeforeMount, computed } from 'vue'
+import { NETWORKS } from '@/constants'
 export default {
   setup() {
     const player = useStore()
     onBeforeMount(async () => {
       await player.getPlayerInfo()
     })
-    const defaultSelectOption = ref({
-      key: 'ethereum',
+    const formatedNetworks = computed(() => {
+      return NETWORKS.map(network => {
+        return { key: network.key }
+      })
     })
-    const networks = [
-      {
-        key: 'ethereum',
-      },
-      {
-        key: 'boba',
-      },
-      {
-        key: 'moonbeam',
-      },
-    ]
-    const setValue = async value => {
-      await player.saveSocials({
-        ...player.socials,
-        [value.label]: value.value,
+    const setValue = async ({ label, value }) => {
+      const setMintConfig = label === 'network'
+      const socials = setMintConfig
+        ? {
+            ...player.socials,
+          }
+        : {
+            ...player.socials,
+            [label]: value,
+          }
+      const mintConfig = setMintConfig ? value : player.mintConfig
+      await player.saveConfig({
+        socials,
+        mintConfig,
       })
     }
 
     return {
       player,
-      networks,
       setValue,
-      defaultSelectOption,
+      formatedNetworks,
     }
   },
 }
