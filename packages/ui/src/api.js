@@ -48,9 +48,9 @@ export class ApiService {
     })
   }
 
-  getInteractionsHistory(params) {
+  getContacts(params) {
     return this._get({
-      url: `${this.baseUrl}/interactions`,
+      url: `${this.baseUrl}/contacts`,
       config: {
         headers: { authorization: params.token },
         params: { offset: params.offset, limit: params.limit },
@@ -103,11 +103,10 @@ export class ApiService {
     })
   }
 
-  socials({ data, token }) {
-    const { twitter, discord, telegram, name, company, share } = data
+  saveConfig({ socials, mintConfig, token }) {
     return this._post({
-      url: `${this.baseUrl}/socials`,
-      data: { twitter, discord, telegram, name, company, share },
+      url: `${this.baseUrl}/configuration`,
+      data: { socials, mintConfig },
       params: { headers: { authorization: token } },
     })
   }

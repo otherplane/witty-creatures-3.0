@@ -1,4 +1,4 @@
-import { DbInteractionVTO, SocialsResult } from '../types'
+import { DbInteractionVTO, Socials } from '../types'
 
 export class Interaction {
   public from: string
@@ -6,8 +6,8 @@ export class Interaction {
   public points: number
   public timestamp: number
   public ends: number
-  public socialsTo: SocialsResult | null
-  public socialsFrom: SocialsResult | null
+  public socialsTo: Socials | null
+  public socialsFrom: Socials | null
 
   constructor(vto: DbInteractionVTO) {
     this.from = vto.from

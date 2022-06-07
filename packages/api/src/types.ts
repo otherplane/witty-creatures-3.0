@@ -1,7 +1,8 @@
 import { Static, Type, TSchema } from '@sinclair/typebox'
 export { Db, Collection, ObjectId, WithId } from 'mongodb'
 
-const Nullable = <T extends TSchema>(type: T) => Type.Union([type, Type.Null()])
+export const Nullable = <T extends TSchema>(type: T) =>
+  Type.Union([type, Type.Null()])
 
 export const ClaimPlayerParams = Type.Object({
   key: Type.String(),
@@ -10,25 +11,33 @@ export type ClaimPlayerParams = Static<typeof ClaimPlayerParams>
 
 // Socials
 
-export const SocialsParams = Type.Object({
-  twitter: Type.String(),
-  discord: Type.String(),
-  telegram: Type.String(),
-  name: Type.String(),
-  company: Type.String(),
-  share: Type.Boolean(),
-})
-export type SocialsParams = Static<typeof SocialsParams>
+export const Socials = Nullable(
+  Type.Object({
+    twitter: Type.Optional(Type.String()),
+    discord: Type.Optional(Type.String()),
+    telegram: Type.Optional(Type.String()),
+    name: Type.Optional(Type.String()),
+    company: Type.Optional(Type.String()),
+    share: Type.Optional(Type.Boolean()),
+  })
+)
 
-export const SocialsResult = Type.Object({
-  twitter: Type.String(),
-  discord: Type.String(),
-  telegram: Type.String(),
-  name: Type.String(),
-  company: Type.String(),
-  share: Type.Boolean(),
+export type Socials = Static<typeof Socials>
+
+// Configuration
+
+export const ConfigParams = Type.Object({
+  socials: Socials,
+  mintConfig: Type.String(),
 })
-export type SocialsResult = Static<typeof SocialsParams>
+
+export type ConfigParams = Static<typeof ConfigParams>
+
+export const ConfigResult = Type.Object({
+  socials: Socials,
+  mintConfig: Type.String(),
+})
+export type ConfigResult = Static<typeof ConfigResult>
 
 //PlayerVTO
 
@@ -40,7 +49,8 @@ export const PlayerVTO = Type.Object({
   nft: Type.Array(Type.Optional(Type.String())),
   creationIndex: Type.Integer(),
   color: Type.Integer(),
-  socials: Nullable(SocialsResult),
+  socials: Socials,
+  mintConfig: Type.String(),
 })
 
 export type PlayerVTO = Static<typeof PlayerVTO>
@@ -53,7 +63,8 @@ export const DbPlayerVTO = Type.Object({
   nft: Type.Array(Type.Optional(Type.String())),
   creationIndex: Type.Integer(),
   color: Type.Integer(),
-  socials: Nullable(SocialsResult),
+  socials: Socials,
+  mintConfig: Type.String(),
 })
 
 export type DbPlayerVTO = Static<typeof DbPlayerVTO>
@@ -104,8 +115,8 @@ export const Incubation = Type.Object({
   timestamp: Type.Number(),
   ends: Type.Number(),
   points: Type.Number(),
-  socialsFrom: Type.Optional(SocialsResult),
-  socialsTo: Type.Optional(SocialsResult),
+  socialsFrom: Type.Optional(Socials),
+  socialsTo: Type.Optional(Socials),
 })
 export type Incubation = Static<typeof Incubation>
 
@@ -126,8 +137,8 @@ export const DbInteractionVTO = Type.Object({
   points: Type.Number(),
   timestamp: Type.Number(),
   ends: Type.Number(),
-  socialsTo: Nullable(SocialsResult),
-  socialsFrom: Nullable(SocialsResult),
+  socialsTo: Socials,
+  socialsFrom: Socials,
 })
 export type DbInteractionVTO = Static<typeof DbInteractionVTO>
 
@@ -198,8 +209,8 @@ export const InteractionResult = Type.Object({
   from: Type.String(),
   to: Type.String(),
   timestamp: Type.Number(),
-  socialsFrom: Nullable(SocialsResult),
-  socialsTo: Nullable(SocialsResult),
+  socialsFrom: Socials,
+  socialsTo: Socials,
 })
 export type InteractionResult = Static<typeof InteractionParams>
 
@@ -216,8 +227,8 @@ export const ShareSocialsResult = Type.Object({
   from: Type.String(),
   to: Type.String(),
   timestamp: Type.Number(),
-  socialsFrom: Nullable(SocialsResult),
-  socialsTo: Nullable(SocialsResult),
+  socialsFrom: Socials,
+  socialsTo: Socials,
 })
 export type ShareSocialsResult = Static<typeof ShareSocialsResult>
 
@@ -265,3 +276,21 @@ export const InteractionHistoryResponse = Type.Object({
 export type InteractionHistoryResponse = Static<
   typeof InteractionHistoryResponse
 >
+
+// Contacts
+
+export const ContactListParams = Type.Object({
+  limit: Type.Optional(Type.Integer()),
+  offset: Type.Optional(Type.Integer()),
+})
+
+export type ContactListParams = Static<typeof ContactListParams>
+
+export const ContactListResponse = Type.Object({
+  contacts: Type.Object({
+    contacts: Type.Array(DbInteractionVTO),
+    total: Type.Integer(),
+  }),
+})
+
+export type ContactListResponse = Static<typeof ContactListResponse>

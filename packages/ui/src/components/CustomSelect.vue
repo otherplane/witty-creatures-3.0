@@ -1,6 +1,6 @@
 <template>
   <VSelect
-    v-model="selected"
+    v-model="localSelected"
     dir="rtl"
     :clearable="false"
     :filterable="false"
@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 export default {
   props: {
     options: {
@@ -30,19 +31,21 @@ export default {
       type: Object,
       required: true,
     },
-  },
-  data() {
-    return {
-      selected: this.defaultOption,
-    }
-  },
-  watch: {
-    selected: {
-      handler(selected) {
-        this.$emit('update-selected', selected)
-      },
-      deep: true,
+    label: {
+      type: String,
+      required: true,
     },
+  },
+  setup(props, { emit }) {
+    const localSelected = computed({
+      get() {
+        return props.defaultOption
+      },
+      set(selected) {
+        emit('change', { label: props.label, value: selected.key })
+      },
+    })
+    return { localSelected }
   },
 }
 </script>

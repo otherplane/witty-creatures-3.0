@@ -18,12 +18,12 @@
         Export contact list
       </CustomButton>
       <div
-        v-for="(contact, index) in player?.contacts"
+        v-for="(contact, index) in player.contacts?.contacts"
         :key="contact"
         class="contact-container"
         :class="{ even: index % 2 }"
       >
-        <p class="contact-label date">
+        <p v-if="contact.socialsFrom" class="contact-label date">
           {{
             format(
               utcToZonedTime(contact.timestamp, timeZone),
@@ -31,23 +31,54 @@
             )
           }}
         </p>
-        <p>
-          Twitter: <span class="highlight">{{ contact.twitter }}</span>
+        <p v-if="contact.socialsFrom?.name">
+          Name:
+          <span v-if="contact.from !== player.username" class="highlight">{{
+            contact.socialsFrom.name
+          }}</span>
+          <span v-else class="highlight">{{ contact.socialsTo.name }}</span>
         </p>
-        <p>
-          Telegram: <span class="highlight">{{ contact.telegram }}</span>
+        <p v-if="contact.socialsFrom?.company">
+          Company:
+          <span v-if="contact.from !== player.username" class="highlight">{{
+            contact.socialsFrom.company
+          }}</span>
+          <span v-else class="highlight">{{ contact.socialsTo.company }}</span>
         </p>
-        <p>
-          Discord: <span class="highlight">{{ contact.discord }}</span>
+        <p v-if="contact.socialsFrom?.twitter">
+          Twitter:
+          <span v-if="contact.from !== player.username" class="highlight">{{
+            contact.socialsFrom.twitter
+          }}</span>
+          <span v-else class="highlight">{{ contact.socialsTo.twitter }}</span>
+        </p>
+        <p v-if="contact.socialsFrom?.telegram">
+          Telegram:
+          <span v-if="contact.from !== player.username" class="highlight">{{
+            contact.socialsFrom.telegram
+          }}</span>
+          <span v-else class="highlight">{{ contact.socialsTo.telegram }}</span>
+        </p>
+        <p v-if="contact.socialsFrom?.discord">
+          Discord:
+          <span v-if="contact.from !== player.username" class="highlight">{{
+            contact.socialsFrom.discord
+          }}</span>
+          <span v-else class="highlight">{{ contact.socialsTo.discord }}</span>
         </p>
       </div>
+      <CustomPagination
+        v-if="numberPages > 1"
+        :limit="numberPages"
+        @update-page="updateCurrentPage"
+      />
     </div>
   </MainLayout>
 </template>
 
 <script>
 import { useStore } from '@/stores/player'
-import { onBeforeMount, computed, ref } from 'vue'
+import { onBeforeMount, computed, ref, watch } from 'vue'
 import { format } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
 
@@ -60,11 +91,22 @@ export default {
     const timeZone = 'Europe/Paris'
     const downloadLink = ref('downloadLink')
     const dataInput = ref(null)
+    const currentPage = ref(0)
+    const limit = ref(25)
     const dataStr = computed(
       () =>
         'data:text/json;charset=utf-8,' +
         encodeURIComponent(JSON.stringify(player.contacts))
     )
+    const numberPages = computed(() => {
+      return Math.ceil((player.contacts?.total || 0) / limit.value)
+    })
+    const offset = computed(() => {
+      return limit.value * currentPage.value
+    })
+    watch(currentPage, async () => {
+      await player.getContacts(offset.value, limit.value)
+    })
     const exportContacts = () => {
       downloadLink.value.click()
     }
@@ -90,6 +132,9 @@ export default {
       )
       reader.readAsText(file)
     }
+    function updateCurrentPage(page) {
+      currentPage.value = page
+    }
     return {
       player,
       utcToZonedTime,
@@ -100,6 +145,8 @@ export default {
       downloadLink,
       dataInput,
       readFile,
+      updateCurrentPage,
+      numberPages,
     }
   },
 }

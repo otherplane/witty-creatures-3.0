@@ -106,6 +106,7 @@ export default {
     const router = useRouter()
     const web3WittyCreatures = useWeb3()
     const interactionIn = computed(() => player?.interactionIn)
+    const interactionOut = computed(() => player?.interactionOut)
     const modals = reactive({
       shareSocials: false,
       mint: false,
@@ -123,16 +124,12 @@ export default {
         openModal('export')
       } else {
         await player.getPlayerInfo()
-        if (router.currentRoute.value.params.id.includes('twitter')) {
-          player.saveContact(router.currentRoute.value.params.id)
-        } else {
-          if (
-            player.id &&
-            router.currentRoute.value.params.id &&
-            player.id !== router.currentRoute.value.params.id
-          ) {
-            await player.interact({ key: router.currentRoute.value.params.id })
-          }
+        if (
+          player.id &&
+          router.currentRoute.value.params.id &&
+          player.id !== router.currentRoute.value.params.id
+        ) {
+          await player.interact({ key: router.currentRoute.value.params.id })
         }
         if (player.gameOver) {
           await player.getMintInfo()
@@ -185,8 +182,9 @@ export default {
     }
     watch(interactionIn, () => {
       if (
+        player.socials &&
         !player.socials?.share &&
-        interactionIn.value &&
+        (interactionIn.value || interactionOut.value) &&
         !player.socialsSharedMessage
       ) {
         openModal('shareSocials')
