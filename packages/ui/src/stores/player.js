@@ -121,7 +121,6 @@ export const useStore = defineStore('player', {
         token: tokenInfo.token,
         id: tokenInfo && tokenInfo.key,
       })
-      console.log('socialsShared', request)
       if (request.error) {
         this.setError('shareSocials', request.error)
         router.push('/init-game')
@@ -131,7 +130,6 @@ export const useStore = defineStore('player', {
       }
     },
     async saveConfig({ socials, mintConfig }) {
-      console.log(socials, mintConfig)
       this.socials = socials
       const tokenInfo = this.getToken()
       const request = await this.api.saveConfig({
@@ -139,7 +137,6 @@ export const useStore = defineStore('player', {
         socials: { ...socials },
         mintConfig: mintConfig,
       })
-      console.log('..save config request...', request)
       if (request.error) {
         this.setError('config', request.error)
         router.push('/init-game')
@@ -162,7 +159,6 @@ export const useStore = defineStore('player', {
         offset,
         limit,
       })
-      console.log('Contacts', request)
       if (request.error) {
         router.push('/init-game')
         this.setError('history', request.error)
@@ -278,7 +274,6 @@ export const useStore = defineStore('player', {
         this.clearError('info')
         const { key, username, score, color, socials, mintConfig } =
           request.player
-        console.log('socials....', socials, mintConfig)
         this.id = key
         this.socials = socials
         this.mintConfig = mintConfig

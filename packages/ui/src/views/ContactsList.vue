@@ -23,49 +23,18 @@
         class="contact-container"
         :class="{ even: index % 2 }"
       >
-        <p v-if="contact.socialsFrom" class="contact-label date">
-          {{
-            format(
-              utcToZonedTime(contact.timestamp, timeZone),
-              'yyyy-MM-dd HH:mm:ss'
-            )
-          }}
-        </p>
-        <p v-if="contact.socialsFrom?.name">
-          Name:
-          <span v-if="contact.from !== player.username" class="highlight">{{
-            contact.socialsFrom.name
-          }}</span>
-          <span v-else class="highlight">{{ contact.socialsTo.name }}</span>
-        </p>
-        <p v-if="contact.socialsFrom?.company">
-          Company:
-          <span v-if="contact.from !== player.username" class="highlight">{{
-            contact.socialsFrom.company
-          }}</span>
-          <span v-else class="highlight">{{ contact.socialsTo.company }}</span>
-        </p>
-        <p v-if="contact.socialsFrom?.twitter">
-          Twitter:
-          <span v-if="contact.from !== player.username" class="highlight">{{
-            contact.socialsFrom.twitter
-          }}</span>
-          <span v-else class="highlight">{{ contact.socialsTo.twitter }}</span>
-        </p>
-        <p v-if="contact.socialsFrom?.telegram">
-          Telegram:
-          <span v-if="contact.from !== player.username" class="highlight">{{
-            contact.socialsFrom.telegram
-          }}</span>
-          <span v-else class="highlight">{{ contact.socialsTo.telegram }}</span>
-        </p>
-        <p v-if="contact.socialsFrom?.discord">
-          Discord:
-          <span v-if="contact.from !== player.username" class="highlight">{{
-            contact.socialsFrom.discord
-          }}</span>
-          <span v-else class="highlight">{{ contact.socialsTo.discord }}</span>
-        </p>
+        <div v-if="contact.from !== player.username">
+          <ContactCard
+            :contact="contact.socialsFrom"
+            :timestamp="contact.timestamp"
+          />
+        </div>
+        <div v-if="contact.to !== player.username">
+          <ContactCard
+            :contact="contact.socialsTo"
+            :timestamp="contact.timestamp"
+          />
+        </div>
       </div>
       <CustomPagination
         v-if="numberPages > 1"
@@ -79,16 +48,14 @@
 <script>
 import { useStore } from '@/stores/player'
 import { onBeforeMount, computed, ref, watch } from 'vue'
-import { format } from 'date-fns'
-import { utcToZonedTime } from 'date-fns-tz'
 
 export default {
   setup() {
     const player = useStore()
     onBeforeMount(() => {
+      player.getPlayerInfo()
       player.getContacts()
     })
-    const timeZone = 'Europe/Paris'
     const downloadLink = ref('downloadLink')
     const dataInput = ref(null)
     const currentPage = ref(0)
@@ -137,10 +104,7 @@ export default {
     }
     return {
       player,
-      utcToZonedTime,
-      format,
       exportContacts,
-      timeZone,
       dataStr,
       downloadLink,
       dataInput,
@@ -168,17 +132,5 @@ export default {
   justify-content: center;
   column-gap: 24px;
   text-align: left;
-}
-.contact-label {
-  color: var(--primary-color);
-  font-weight: bold;
-}
-.highlight {
-  color: var(--primary-color);
-  font-weight: 600;
-}
-.date {
-  width: max-content;
-  font-size: 218x;
 }
 </style>

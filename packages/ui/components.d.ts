@@ -5,6 +5,7 @@ import 'vue'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    ContactCard: typeof import('./src/components/ContactCard.vue')['default']
     ContactList: typeof import('./src/components/ContactList.vue')['default']
     CountdownToAllowMint: typeof import('./src/components/CountdownToAllowMint.vue')['default']
     CustomButton: typeof import('./src/components/CustomButton.vue')['default']

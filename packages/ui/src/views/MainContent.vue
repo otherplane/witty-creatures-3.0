@@ -180,7 +180,7 @@ export default {
         openModal('mint')
       }
     }
-    watch(interactionIn, () => {
+    function checkSocialsOpenModal() {
       if (
         player.socials &&
         !player.socials?.share &&
@@ -192,6 +192,12 @@ export default {
       } else {
         closeModal('shareSocials')
       }
+    }
+    watch(interactionIn, () => {
+      checkSocialsOpenModal()
+    })
+    watch(interactionOut, () => {
+      checkSocialsOpenModal()
     })
     return {
       etherscanBaseUrl: EXPLORER_BASE_URL,
