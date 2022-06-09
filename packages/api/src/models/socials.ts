@@ -56,31 +56,26 @@ export class InteractionModel {
     username: string,
     paginationParams: { limit: number; offset: number }
   ): Promise<Array<DbInteractionVTO>> {
-    return await this.repository.getSortedBy(
+    // TODO(1): socialsFrom or socialsTo should have a value
+    // TODO(2): socials return must NOT be own
+    // if to === username delete socialsTo
+    // if from === username delete socialsFrom
+    // TODO(3): check if name is repeated
+    const validContactsInteractionOut = await this.repository.getSortedBy(
       {
-        $and: [
-          { $or: [{ from: username }, { to: username }] },
-          {
-            $or: [
-              {
-                $and: [
-                  { to: { $ne: username } },
-                  { ['socialsTo']: { $ne: null } },
-                ],
-              },
-              {
-                $and: [
-                  { from: { $ne: username } },
-                  { ['socialsFrom']: { $ne: null } },
-                ],
-              },
-            ],
-          },
-        ],
+        $or: [{ from: username }, { to: username }],
+        $and: [{ to: { $ne: username } }, { ['socialsTo']: { $ne: null } }],
       },
-      { timestamp: 'desc' },
-      paginationParams
+      { timestamp: 'desc' }
     )
+    const validContactsInteractionIn = await this.repository.getSortedBy(
+      {
+        $or: [{ from: username }, { to: username }],
+        $and: [{ from: { $ne: username } }, { ['socialsFrom']: { $ne: null } }],
+      },
+      { timestamp: 'desc' }
+    )
+    return validContactsInteractionOut.concat(validContactsInteractionIn)
   }
 
   public async getManyByUsername(
@@ -89,7 +84,7 @@ export class InteractionModel {
   ): Promise<Array<DbInteractionVTO>> {
     return await this.repository.getSortedBy(
       {
-        $or: [{ from: username }, { to: username }],
+        $or: [{ key: username }, { to: username }],
       },
       { timestamp: 'desc' },
       paginationParams
