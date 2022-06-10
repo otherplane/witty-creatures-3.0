@@ -1,5 +1,5 @@
 <template>
-  <span>{{ timeLeft || '0 s' }}</span>
+  <span>{{ timeLeft || '0s' }}</span>
 </template>
 
 <script>
@@ -26,10 +26,10 @@ export default {
     const formatWithSeconds = ['days', 'hours', 'minutes', 'seconds']
     const format = ['days', 'hours', 'minutes']
     const formatDistanceLocale = {
-      xDays: '{{count}} d',
-      xSeconds: '{{count}} s',
-      xMinutes: '{{count}} m',
-      xHours: '{{count}} h',
+      xDays: '{{count}}d',
+      xSeconds: '{{count}}s',
+      xMinutes: '{{count}}m',
+      xHours: '{{count}}h',
     }
     const shortEnLocale = {
       formatDistance: (token, count) =>

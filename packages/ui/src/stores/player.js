@@ -159,7 +159,7 @@ export const useStore = defineStore('player', {
         this.getPlayerInfo()
       }
     },
-    // Contacts
+    // Socials
     async getContacts(offset = 0, limit = 25) {
       await this.getTheme()
       const tokenInfo = this.getToken()
@@ -175,6 +175,7 @@ export const useStore = defineStore('player', {
       } else {
         this.clearError('history')
         this.contacts = request.contacts
+        console.log(this.contacts)
       }
     },
     // Mint info
@@ -215,6 +216,7 @@ export const useStore = defineStore('player', {
         this.clearError('auth')
         await this.getPlayerInfo()
         await this.getGlobalStats()
+        router.push(`/settings/${key}`)
       }
     },
     // Interaction

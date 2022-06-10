@@ -1,25 +1,33 @@
 <template>
-  <MainLayout>
-    <div class="disclaimer">
-      <p class="title">DISCLAIMER</p>
-      <p class="text">
+  <MainLayout class="disclaimer">
+    <SectionHeader title="Disclaimer" :from-auth="true" />
+    <GameScreen>
+      <p class="long-text">
         <span class="bold">Remember:</span>
+        once you claim your egg, it will be forever linked to your web browser
+        and the QR code will not work in a different browser. You are highly
+        encouraged to export your egg from the main screen of the game as
+        backup, or in case that you need to move your egg into a different
+        browser.
       </p>
-      <router-link to="/scan" class="link">
-        <CustomButton class="btn" type="primary"> CONTINUE </CustomButton>
-      </router-link>
-    </div>
+    </GameScreen>
+    <router-link to="/scan" class="link">
+      <CustomButton class="btn" type="primary"> CONTINUE </CustomButton>
+    </router-link>
   </MainLayout>
 </template>
 
 <style lang="scss" scoped>
 .disclaimer {
-  text-align: center;
-  display: grid;
-  row-gap: 24px;
-  margin-top: 10vh;
+  font-family: JoystixMonospace;
+  .title {
+    font-family: JoystixMonospace;
+  }
+  .long-text {
+    color: $dark-screen;
+  }
   .btn {
-    width: max-content;
+    width: 100%;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center w-full mb-12">
+  <div class="flex items-center justify-left w-full">
     <label for="toggleB" class="flex items-center cursor-pointer">
       <div class="relative">
         <input

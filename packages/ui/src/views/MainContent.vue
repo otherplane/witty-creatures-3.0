@@ -1,82 +1,42 @@
 <template>
-  <MainLayout v-if="player.username">
+  <MainLayout v-if="player.username" :threeCol="true">
     <NavBar class="navbar" @openExportModal="openModal('export')" />
-    <div class="main-content">
-      <div class="header">
-        <div class="player-info">
-          <p class="subtitle player-id">{{ player.username.toUpperCase() }}</p>
-          <p class="subtitle">
-            <span class="points-bold">{{ formatNumber(player.score) }}</span>
-            points
-          </p>
-          <p class="subtitle">
-            <span class="subtitle label">ID: </span>{{ player.id }}
-          </p>
-
-          <p v-if="!player.demoOver" class="subtitle">
-            <span class="subtitle label">DEMO ENDS IN:</span>
-            <TimeLeft
-              class="time-left"
-              :timestamp="player.demoOverTimeMilli"
-              :seconds="true"
-            />
-          </p>
-          <p v-else-if="!player.gameOver" class="subtitle">
-            <span class="subtitle label">GAME ENDS IN:</span>
-            <TimeLeft
-              class="time-left"
-              :timestamp="player.gameOverTimeMilli"
-              :seconds="true"
-            />
-          </p>
-          <p v-else class="subtitle">
-            <span class="subtitle label">GAME OVER</span>
-          </p>
-        </div>
-      </div>
-      <CountdownToAllowMint
-        v-if="!player.mintingAllow && player.previews.length"
-      />
-      <InteractionInfo />
-      <NFTPreview />
-      <MintInformation />
-      <EggSvg />
-      <div class="sticky-btn" v-if="!player.gameOver">
-        <router-link class="btn" :to="type === 'disable' ? '' : '/scan'">
-          <CustomButton type="dark" :slim="true"> INTERACTION </CustomButton>
-        </router-link>
-        <CustomButton
-          type="dark"
-          :slim="true"
-          @click="player.interact({ key: player.id })"
-        >
-          SELF INTERACTION
-        </CustomButton>
-      </div>
-      <div class="btn" v-if="player.gameOver">
-        <CustomButton
-          v-if="player.mintingAllow && !player.minted"
-          @click="mint"
-          type="dark"
-          :slim="true"
-        >
-          CLAIM NFT AWARDS
-        </CustomButton>
-        <a
-          v-if="player.errors.network"
-          @click="addPolygonNetwork()"
-          class="add-polygon"
-        >
-          Switch to Polygon Network
-        </a>
-      </div>
+    <MainScreen />
+    <div class="sticky-btn" v-if="!player.gameOver">
+      <!-- <router-link class="btn" :to="type === 'disable' ? '' : '/scan'">
+        <CustomButton type="dark" :slim="true"> INCUBATE </CustomButton>
+      </router-link> -->
+      <CustomButton
+        type="dark"
+        :slim="true"
+        @click="player.interact({ key: player.id })"
+      >
+        INCUBATE
+      </CustomButton>
+    </div>
+    <div class="btn" v-if="player.gameOver">
+      <CustomButton
+        v-if="player.mintingAllow && !player.minted"
+        @click="mint"
+        type="dark"
+        :slim="true"
+      >
+        CLAIM NFT AWARDS
+      </CustomButton>
+      <a
+        v-if="player.errors.network"
+        @click="addPolygonNetwork()"
+        class="add-polygon"
+      >
+        Switch to Polygon Network
+      </a>
     </div>
   </MainLayout>
 
   <ModalDialog :show="modal.visible.value" @close="closeModal">
     <ModalExport v-if="modals.export" />
     <ModalShareSocials v-if="modals.shareSocials" />
-    <GameOverModal v-if="modals.gameOver" />
+    <ModalGameOver v-if="modals.gameOver" />
     <ModalMint v-if="modals.mint" />
   </ModalDialog>
 </template>
@@ -94,7 +54,6 @@ import {
 import egg from '@/assets/egg.svg?raw'
 import { useModal } from '@/composables/useModal'
 import { useWeb3 } from '../composables/useWeb3'
-import { formatNumber } from '../utils'
 import { EXPLORER_BASE_URL, OPENSEA_BASE_URL } from '../constants'
 import { POLLER_MILLISECONDS } from '@/constants.js'
 import { importSvg } from '@/composables/importSvg.js'
@@ -114,9 +73,8 @@ export default {
       preview: false,
       gameOver: false,
     })
-    const gameOver = player.gameOver
     let playerInfoPoller = null
-    // TODO: HANDLE END OF GAME
+    // Handle end of game
     onBeforeMount(async () => {
       const token = await player.getToken()
       if (!token) {
@@ -124,11 +82,7 @@ export default {
         openModal('export')
       } else {
         await player.getPlayerInfo()
-        if (
-          player.id &&
-          router.currentRoute.value.params.id &&
-          player.id !== router.currentRoute.value.params.id
-        ) {
+        if (player.id && router.currentRoute.value.params.id) {
           await player.interact({ key: router.currentRoute.value.params.id })
         }
         if (player.gameOver) {
@@ -202,7 +156,6 @@ export default {
       etherscanBaseUrl: EXPLORER_BASE_URL,
       openseaBaseUrl: OPENSEA_BASE_URL,
       mint,
-      gameOver,
       player,
       type,
       closeModal,
@@ -215,51 +168,15 @@ export default {
       isProviderConnected: web3WittyCreatures.isProviderConnected,
       importSvg,
       egg,
-      formatNumber,
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.time-left {
-  margin-left: 4px;
-}
-.header {
+.main-content {
   display: grid;
-  grid-template-columns: max-content 1fr;
-  justify-content: space-between;
   grid-gap: 16px;
-  justify-items: flex-end;
-  align-items: flex-end;
-  margin-bottom: 8px;
-  .logo {
-    align-self: center;
-    width: 150px;
-    height: 148px;
-  }
-  .player-id {
-    width: max-content;
-    font-size: 18px;
-    color: var(--primary-color);
-    font-weight: bold;
-  }
-  .points-bold {
-    font-weight: bold;
-    font-size: 18px;
-  }
-  .trait-icon {
-    width: 16px;
-    display: inline-block;
-  }
-}
-.placeholder {
-  opacity: 0.3;
-}
-.main-img {
-  width: 100%;
-  height: 100%;
-  padding: 0 10vh 10vh 10vh;
 }
 .sticky-btn {
   position: sticky;
@@ -284,33 +201,6 @@ export default {
     .metamask {
       margin-right: 4px;
       width: 16px;
-    }
-  }
-}
-.buttons {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: max-content;
-  justify-self: center;
-  grid-template-rows: auto auto;
-  grid-gap: 16px;
-  .center-item {
-    grid-column: 1 / span 2;
-    align-self: center;
-    width: max-content;
-    justify-self: center;
-  }
-}
-@media (max-width: 330px) {
-  .header {
-    grid-template-columns: 1fr;
-    justify-items: flex-start;
-    align-items: flex-start;
-    .logo {
-      grid-row: 1;
-      width: 150px;
-      margin-top: 28px;
-      justify-self: center;
     }
   }
 }

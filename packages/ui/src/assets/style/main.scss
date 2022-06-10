@@ -6,8 +6,18 @@ $white: white;
 $transparent: transparent;
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto&family=Zilla+Slab:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap');
+@font-face{
+  font-family:"JoystixMonospace";
+  src: url(../fonts/joystixMonospace.ttf);
+}
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&family=Source+Code+Pro:wght@400;500;600;700;800;900&display=swap');
+
+$screen: #92A573;
+$dark-screen: #373B32;
+$screen-highlight: #373B3213;
 $black: #1a1a1a;
+$witnet-color: #66B7B2;
 $black-secondary: #727272;
 $black-base-color: #fff;
 $black-main-color: #333;
@@ -52,11 +62,14 @@ $white-opacity-2: #acacac10;
 
 html,
 body {
-  font-family: 'Roboto';
+  font-family: 'Source Code Pro', monospace;
   --primary-color: #{$black};
   --primary-color-opacity-1: #{$black-opacity-1};
   background-color: $white;
   touch-action: pan-x pan-y;
+}
+.title {
+  font-family: JoystixMonospace, sans-serif;
 }
 .purple {
   --primary-color: #{$black};
@@ -164,6 +177,13 @@ body {
   row-gap: 16px;
 }
 
+.bold {
+  background: $dark-screen;
+  color: $screen;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
 .btn {
   font-size: 18px;
 }
@@ -175,16 +195,11 @@ body {
   font-size: 14px;
   width: 216px;
   font-weight: lighter;
-  &.label {
-    font-size: 12px;
-    color: var(--primary-color);
-    font-weight: bold;
-  }
 }
 .title {
   font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
     sans-serif;
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 700;
   color: var(--primary-color);
 }

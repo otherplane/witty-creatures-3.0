@@ -1,34 +1,43 @@
 <template>
-  <div class="nav-container" ref="target">
-    <nav class="navbar" :class="{ open: isMenuVisible }">
-      <label class="responsive-menu" @click="toggleMenu">
-        <a class="target-burger" :class="{ visible: isMenuVisible }">
-          <ul class="buns">
-            <li class="bun"></li>
-            <li class="bun"></li>
+  <div>
+    <div class="nav-container" ref="target">
+      <nav class="navbar" :class="{ open: isMenuVisible }">
+        <label class="responsive-menu" @click="toggleMenu">
+          <a class="target-burger" :class="{ visible: isMenuVisible }">
+            <ul class="buns">
+              <li class="bun"></li>
+              <li class="bun center"></li>
+              <li class="bun"></li>
+            </ul>
+          </a>
+        </label>
+        <div class="dropdown">
+          <ul class="tab-container" :class="{ visible: isMenuVisible }">
+            <router-link class="tab" to="/leaderboard">
+              Leaderboard
+            </router-link>
+            <router-link class="tab" to="/settings"> Settings </router-link>
+            <router-link class="tab" to="/contacts"> Contacts </router-link>
+            <router-link class="tab" to="/interactions"> History </router-link>
+            <router-link class="tab" to="/instructions">
+              Instructions
+            </router-link>
+            <div class="tab" @click="openExportModal()" type="dark">
+              Get backup
+            </div>
           </ul>
-        </a>
-      </label>
-      <div class="dropdown">
-        <ul class="tab-container" :class="{ visible: isMenuVisible }">
-          <router-link class="tab" to="/leaderboard"> Leaderboard </router-link>
-          <router-link class="tab" to="/settings"> Settings </router-link>
-          <router-link class="tab" to="/contacts"> Contacts </router-link>
-          <router-link class="tab" to="/interactions"> History </router-link>
-          <router-link class="tab" to="/instructions">
-            Instructions
-          </router-link>
-          <div class="tab" @click="openExportModal()" type="dark">
-            Get backup
-          </div>
-        </ul>
-      </div>
-    </nav>
+        </div>
+      </nav>
+      <SvgImage class="main-logo" :svg="mainLogo" />
+    </div>
   </div>
 </template>
 
 <script>
+import mainLogo from '@/assets/witty-creatures-logo.svg?raw'
+import editionLogo from '@/assets/edition-logo.svg?raw'
 import { onClickOutside } from '@vueuse/core'
+
 import { ref } from 'vue'
 export default {
   setup(props, { emit }) {
@@ -37,6 +46,7 @@ export default {
     const isMenuVisible = ref(false)
     function openExportModal() {
       emit('openExportModal')
+      closeMenu()
     }
     function closeMenu() {
       isMenuVisible.value = false
@@ -61,56 +71,42 @@ export default {
       openExportModal,
       isMenuVisible,
       displayBox,
+      mainLogo,
+      editionLogo,
     }
   },
 }
 </script>
 
 <style scoped lang="scss">
+.nav-container {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: max-content;
+  grid-gap: 16px;
+  justify-content: center;
+}
 .navbar {
   display: block;
   top: 8px;
   left: 8px;
   padding: 0;
-  .logo-container {
-    display: grid;
-    grid-template-columns: max-content max-content;
-    grid-template-rows: 1fr 1fr;
-    align-items: center;
-    padding: 8px;
-    text-decoration: none;
-    column-gap: 8px;
-    .witnet-logo {
-      width: 90px;
-      grid-row: 1 / span 2;
-    }
-    .logo-subtitle-color {
-      font-size: 18px;
-      align-self: flex-start;
-      color: var(--primary-color);
-    }
-    .logo-subtitle {
-      font-size: 18px;
-      align-self: flex-end;
-      color: var(--primary-color);
-    }
-  }
   .responsive-menu {
     display: block;
     position: relative;
     z-index: 50px;
-    top: 0px;
+    top: 10px;
     left: 0px;
     width: 32px;
   }
   .dropdown {
     position: absolute;
     z-index: 50;
-    top: 58px;
+    margin-top: 8px;
   }
 }
 .tab-container {
-  background-color: $white;
+  background-color: var(--primary-color);
   border: 2px solid var(--primary-color);
   list-style: none;
   visibility: hidden;
@@ -128,7 +124,7 @@ export default {
     padding: 8px 0px;
     top: 8px;
     opacity: 1;
-    width: 148px;
+    width: 160px;
     height: 240px;
     .tab {
       cursor: pointer;
@@ -142,7 +138,7 @@ export default {
     align-items: center;
   }
   .tab {
-    width: 148px;
+    width: 160px;
     cursor: pointer;
     display: block;
     align-items: left;
@@ -151,9 +147,9 @@ export default {
     display: flex;
     align-items: center;
     border-radius: 4px;
-    color: var(--primary-color);
+    color: $white;
     font-size: 18px;
-    font-weight: 600;
+    font-weight: bold;
     opacity: 0;
     .btn {
       max-width: max-content;
@@ -162,11 +158,12 @@ export default {
       left: 16px;
     }
     &:hover {
-      color: var(--primary-color);
+      color: $witnet-color;
     }
   }
 }
 .target-burger {
+  cursor: pointer;
   display: block;
   transition: 0.5s;
   display: flex;
@@ -178,11 +175,14 @@ export default {
   }
   &.visible {
     ul.buns {
-      width: 32px;
-      height: 32px;
+      width: 24px;
+      height: 24px;
       li.bun {
         -webkit-transform: rotate(45deg) translateZ(0);
         transform: rotate(45deg) translateZ(0);
+        &.center {
+          display: none;
+        }
         &:last-child {
           -webkit-transform: rotate(-45deg) translateZ(0);
           transform: rotate(-45deg) translateZ(0);
@@ -191,8 +191,8 @@ export default {
     }
   }
   .buns {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     list-style: none;
     padding: 0;
     -webkit-transition: -webkit-transform 1s cubic-bezier(0.23, 1, 0.32, 1),
@@ -204,21 +204,32 @@ export default {
     color: var(--primary-color);
     .bun {
       width: 100%;
-      height: 3px;
+      height: 2.5px;
       background-color: var(--primary-color);
       position: absolute;
       top: 50%;
-      margin-top: -0.75px;
-      -webkit-transform: translateY(-3.75px) translateZ(0);
-      transform: translateY(-3.75px) translateZ(0);
+      margin-top: -2px;
+      -webkit-transform: translateY(-4px) translateZ(0);
+      transform: translateY(-4px) translateZ(0);
       -webkit-transition: -webkit-transform 1s cubic-bezier(0.23, 1, 0.32, 1),
         background-color 1s cubic-bezier(0.23, 1, 0.32, 1);
       transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1),
         background-color 1s cubic-bezier(0.23, 1, 0.32, 1);
-      &:last-child {
-        -webkit-transform: translateY(3.75px) translateZ(0);
-        transform: translateY(3.75px) translateZ(0);
+      &.center {
+        -webkit-transform: translateY(4px) translateZ(0);
+        transform: translateY(4px) translateZ(0);
       }
+      &:last-child {
+        -webkit-transform: translateY(12px) translateZ(0);
+        transform: translateY(12px) translateZ(0);
+      }
+    }
+  }
+}
+@media (max-width: 600px) {
+  .navbar {
+    .responsive-menu {
+      top: 0px;
     }
   }
 }

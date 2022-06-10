@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <GameScreen :padding="false">
     <div
       v-if="gameEntity === 'global' && player.playersGlobalStats"
       class="list"
@@ -20,27 +20,7 @@
         @update-page="updateCurrentPage"
       />
     </div>
-    <div
-      v-if="gameEntity === 'network' && player.playersNetworkStats.players"
-      class="list"
-    >
-      <PlayerGlobalData
-        v-for="(player, index) in player.playersNetworkStats.players"
-        :class="{ even: index % 2 }"
-        :index="index"
-        :key="player.username"
-        :name="player.username"
-        :position="player.position + 1"
-        :score="player.score"
-        :network="player.network"
-      />
-      <CustomPagination
-        v-if="numberPages > 1"
-        :limit="numberPages"
-        @update-page="updateCurrentPage"
-      />
-    </div>
-  </div>
+  </GameScreen>
 </template>
 
 <script>
@@ -53,7 +33,7 @@ export default {
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const player = useStore()
     // paginate data
     const currentPage = ref(0)

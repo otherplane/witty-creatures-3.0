@@ -5,6 +5,7 @@ import 'vue'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BaseModal: typeof import('./src/components/BaseModal.vue')['default']
     ContactCard: typeof import('./src/components/ContactCard.vue')['default']
     CountdownToAllowMint: typeof import('./src/components/CountdownToAllowMint.vue')['default']
     CustomButton: typeof import('./src/components/CustomButton.vue')['default']
@@ -17,6 +18,7 @@ declare module '@vue/runtime-core' {
     GameOverCounter: typeof import('./src/components/GameOverCounter.vue')['default']
     GameOverModal: typeof import('./src/components/GameOverModal.vue')['default']
     GameScreen: typeof import('./src/components/GameScreen.vue')['default']
+    Interaction: typeof import('./src/components/Interaction.vue')['default']
     InteractionEntry: typeof import('./src/components/InteractionEntry.vue')['default']
     InteractionInfo: typeof import('./src/components/InteractionInfo.vue')['default']
     LabelMintStatus: typeof import('./src/components/LabelMintStatus.vue')['default']

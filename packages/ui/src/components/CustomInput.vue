@@ -2,7 +2,7 @@
   <input
     class="input"
     v-model.lazy="localValue"
-    :placeholder="`type your ${label} account`"
+    :placeholder="`type your ${label}`"
   />
 </template>
 
