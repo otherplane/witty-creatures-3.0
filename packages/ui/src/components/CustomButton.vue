@@ -22,7 +22,7 @@ defineProps({
   color: $white;
   padding: 16px 16px;
   border-radius: 4px;
-  font-family: Roboto;
+  font-family: JoystixMonospace, sans-serif;
   font-weight: bold;
   &.primary {
     color: $white;

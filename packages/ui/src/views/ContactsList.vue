@@ -1,36 +1,39 @@
 <template>
   <MainLayout>
     <SectionHeader title="CONTACTS" />
-    <div v-if="player?.contacts" class="list-container">
-      <a
-        ref="downloadLink"
-        class="none"
-        :href="dataStr"
-        :download="'witty-creatures-contacts.json'"
-      ></a>
-      <input
-        ref="dataInput"
-        :style="{ display: 'none' }"
-        type="file"
-        @change="readFile"
-      />
-      <CustomButton type="primary" @click="exportContacts">
-        Export contact list
-      </CustomButton>
+    <GameScreen v-if="player?.contacts" :padding="false">
       <div
         v-for="(contact, index) in player.contacts?.contacts"
         :key="contact"
-        class="contact-container"
         :class="{ even: index % 2 }"
       >
         <ContactCard :contact="contact" />
       </div>
-      <CustomPagination
-        v-if="numberPages > 1"
-        :limit="numberPages"
-        @update-page="updateCurrentPage"
-      />
-    </div>
+    </GameScreen>
+    <CustomPagination
+      v-if="numberPages > 1"
+      :limit="numberPages"
+      @update-page="updateCurrentPage"
+    />
+    <CustomButton
+      v-if="player?.contacts"
+      type="primary"
+      @click="exportContacts"
+    >
+      Export contact list
+    </CustomButton>
+    <a
+      ref="downloadLink"
+      class="none"
+      :href="dataStr"
+      :download="'witty-creatures-contacts.json'"
+    ></a>
+    <input
+      ref="dataInput"
+      :style="{ display: 'none' }"
+      type="file"
+      @change="readFile"
+    />
   </MainLayout>
 </template>
 
@@ -112,14 +115,5 @@ export default {
 }
 .container {
   row-gap: 0px;
-}
-.contact-container {
-  padding: 16px;
-  display: grid;
-  grid-template-columns: max-content;
-  grid-template-rows: max-content;
-  justify-content: center;
-  column-gap: 24px;
-  text-align: left;
 }
 </style>

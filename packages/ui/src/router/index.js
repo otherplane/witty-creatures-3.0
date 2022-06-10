@@ -30,7 +30,7 @@ const routes = [
       const store = useStore()
       const loginInfo = store.getToken()
       if (loginInfo && loginInfo.token) {
-        next({ name: 'main', params: { id: loginInfo.key } })
+        next({ name: 'main' })
       } else {
         next('init-game')
       }
@@ -43,7 +43,7 @@ const routes = [
   },
   {
     name: 'main',
-    path: '/:id',
+    path: '/:id?',
     component: MainContent,
   },
   {
@@ -61,7 +61,7 @@ const routes = [
         store.clearTokenInfo()
       }
       if (loginInfo && loginInfo.token && !error) {
-        next({ name: 'main', params: { id: loginInfo.key } })
+        next({ name: 'main' })
       } else {
         next()
       }
@@ -74,7 +74,7 @@ const routes = [
   },
   {
     name: 'settings',
-    path: '/settings',
+    path: '/settings/:id?',
     component: UserSettings,
   },
   {

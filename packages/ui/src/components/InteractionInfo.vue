@@ -1,44 +1,46 @@
 <template>
   <div class="counter">
     <transition name="fade">
-      <div v-if="player.interactionOut" class="info left">
-        <p class="label">
-          Sending
-          <span class="highlight">{{
-            player.interactionOut?.points || 0
-          }}</span>
-          points to
-          <span class="highlight">{{ player.interactionOut?.to || '' }}</span>
+      <div class="incubation-info left" :class="{ disabled: disabledOut }">
+        <p>
+          Incubating
+          <span class="name">{{ player.interactionOut?.to || '' }}</span>
         </p>
-        <div class="time-container">
-          <TimeLeft
-            class="time-left"
-            :timestamp="player.interactionOut.ends"
-            :seconds="true"
-            @clear-timestamp="clearTimestamp('interactionOut')"
-          />
+        <div class="box-container">
+          <div class="info">
+            <TimeLeft
+              v-if="player.interactionOut?.ends"
+              class="time-left"
+              :timestamp="player.interactionOut?.ends"
+              :seconds="true"
+              @clear-timestamp="clearTimestamp('interactionOut')"
+            />
+          </div>
+          <div class="info">
+            <p>+{{ player.interactionOut?.points || '' }}p</p>
+          </div>
         </div>
       </div>
     </transition>
     <transition name="fade">
-      <div v-if="player.interactionIn" class="info right">
-        <p class="label">
-          Receiving
-          <span class="highlight">{{
-            player.interactionIn?.points || 'null'
-          }}</span>
-          points from
-          <span class="highlight">{{
-            player.interactionIn?.from || 'null'
-          }}</span>
+      <div class="incubation-info right" :class="{ disabled: disabledIn }">
+        <p>
+          Incubated by
+          <span class="name">{{ player.interactionIn?.from || '' }}</span>
         </p>
-        <div class="time-container">
-          <TimeLeft
-            class="time-left"
-            :timestamp="player.interactionIn.ends"
-            :seconds="true"
-            @clear-timestamp="clearTimestamp('interactionIn')"
-          />
+        <div class="box-container">
+          <div class="info">
+            <TimeLeft
+              v-if="player.interactionIn?.ends"
+              class="time-left"
+              :timestamp="player.interactionIn?.ends"
+              :seconds="true"
+              @clear-timestamp="clearTimestamp('interactionIn')"
+            />
+          </div>
+          <div class="info">
+            <p>+{{ player.interactionIn?.points || '' }}p</p>
+          </div>
         </div>
       </div>
     </transition>
@@ -47,7 +49,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useStore } from '@/stores/player'
 import { importSvg } from '@/composables/importSvg.js'
 export default {
@@ -58,7 +60,9 @@ export default {
       player[interactionType] = null
       player.socialsSharedMessage = false
     }
-    return { player, show, importSvg, clearTimestamp }
+    const disabledIn = computed(() => !player.interactionIn)
+    const disabledOut = computed(() => !player.interactionOut)
+    return { player, show, importSvg, clearTimestamp, disabledIn, disabledOut }
   },
 }
 </script>
@@ -75,32 +79,59 @@ export default {
 .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
+.name {
+  min-height: 20px;
+  background-color: $dark-screen;
+  color: $screen;
+  border-radius: 4px;
+  padding-left: 4px;
+  min-width: 50px;
+  font-family: JoystixMonospace, sans-serif;
+  display: block;
+}
 
 .counter {
-  margin-bottom: 16px;
+  margin: 8px 0;
+  color: $dark-screen;
   display: grid;
   grid-template-columns: 1fr 1fr;
   column-gap: 16px;
-  text-align: center;
+  text-align: left;
   grid-template-rows: max-content;
-  .time-container {
-    width: 100%;
-    background-color: var(--primary-color-opacity-2);
-    color: var(--primary-color);
+
+  .box-container {
+    margin-top: 4px;
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: 1fr 1fr;
+  }
+  .info {
+    width: max-content;
+    background-color: $dark-screen;
+    color: $screen;
     font-weight: 600;
-    padding: 0px 8px;
+    padding: 2px 4px;
     border-radius: 4px;
     text-align: left;
     display: flex;
+    min-width: 100%;
+    min-height: 25px;
+    font-size: 14px;
   }
   .trait-icon {
     display: inline-block;
     width: 14px;
   }
-  .info {
+  .incubation-info {
     display: grid;
     grid-template-rows: max-content 1fr;
     align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+    &.disabled {
+      opacity: 0.2;
+      transition: opacity 0.3s ease-in-out;
+    }
   }
   .left {
     grid-column: 1;
@@ -114,21 +145,11 @@ export default {
     grid-template-rows: max-content 1fr;
     align-items: center;
   }
-  .label {
-    text-align: left;
-    margin-bottom: 8px;
-    color: var(--primary-color);
-    font-weight: bold;
-    font-size: 12px;
-    .highlight {
-      color: var(--primary-color);
-    }
-  }
   .time-left {
     width: max-content;
     overflow: hidden;
     text-align: left;
-    font-size: 18px;
+    font-size: 14px;
   }
 }
 </style>

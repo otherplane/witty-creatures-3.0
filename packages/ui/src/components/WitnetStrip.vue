@@ -22,6 +22,7 @@ export default {
   position: relative;
   text-align: end;
   top: 0px;
+  z-index: 20;
   padding: 8px 16px;
   display: grid;
   grid-template-columns: 100px 150px;
