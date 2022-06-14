@@ -6,7 +6,9 @@
         v-for="(egg, index) in eggList"
         :key="index"
         class="egg"
-        :color="egg"
+        :eggIndex="index"
+        :color="egg.color"
+        :speed="egg.speed"
       />
     </GameScreen>
     <router-link to="/disclaimer" class="link">
@@ -21,18 +23,54 @@ import { ref } from 'vue'
 export default {
   setup() {
     const eggList = ref([
-      'yellow',
-      'red',
-      'blue',
-      'green',
-      'black',
-      'yellow',
-      'red',
-      'blue',
-      'green',
-      'blue',
-      'black',
-      'yellow',
+      {
+        color: 'yellow',
+        speed: 0.7,
+      },
+      {
+        color: 'red',
+        speed: 0.9,
+      },
+      {
+        color: 'blue',
+        speed: 1,
+      },
+      {
+        color: 'green',
+        speed: 2,
+      },
+      {
+        color: 'black',
+        speed: 0.6,
+      },
+      {
+        color: 'yellow',
+        speed: 1.2,
+      },
+      {
+        color: 'red',
+        speed: 0.8,
+      },
+      {
+        color: 'blue',
+        speed: 0.7,
+      },
+      {
+        color: 'green',
+        speed: 1.3,
+      },
+      {
+        color: 'blue',
+        speed: 0.9,
+      },
+      {
+        color: 'black',
+        speed: 1.5,
+      },
+      {
+        color: 'yellow',
+        speed: 2,
+      },
     ])
     return { mainLogo, eggList }
   },

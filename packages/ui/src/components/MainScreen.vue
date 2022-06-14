@@ -5,7 +5,7 @@
       <span class="points-bold">{{ formatNumber(player.score) }}</span>
       points
     </p>
-    <EggSvg class="egg" />
+    <EggSvg class="egg" :speed="0.7" />
     <InteractionInfo />
     <NFTPreview />
     <MintInformation />
