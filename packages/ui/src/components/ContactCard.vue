@@ -1,7 +1,7 @@
 <template>
   <div ref="contactRef">
     <div @click="toggleDetails" class="contact-container">
-      <EggSvg class="egg" color="black" />
+      <EggSvg class="egg" :color="THEME_COLORS[color]" />
       <p v-if="contact.name" class="name">
         Name:
         <span>{{ contact.name }}</span>
@@ -44,6 +44,7 @@ import { utcToZonedTime } from 'date-fns-tz'
 import { ref, reactive, onBeforeUnmount } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 import { useStore } from '../stores/player'
+import { THEME_COLORS } from '../constants'
 import { copyTextToClipboard } from '../services/copyToClipboard'
 import telegramSvg from '@/assets/telegram.svg?raw'
 import twitterSvg from '@/assets/twitter.svg?raw'
@@ -104,6 +105,7 @@ export default {
       twitterSvg,
       discordSvg,
       contactRef,
+      THEME_COLORS,
       async copyToClipboard(value) {
         await copyTextToClipboard(value)
         player.notify({ message: 'Copied', icon: 'none' })
