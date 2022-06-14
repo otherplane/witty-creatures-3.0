@@ -23,18 +23,7 @@
         class="contact-container"
         :class="{ even: index % 2 }"
       >
-        <div v-if="contact.from !== player.username">
-          <ContactCard
-            :contact="contact.socialsFrom"
-            :timestamp="contact.timestamp"
-          />
-        </div>
-        <div v-if="contact.to !== player.username">
-          <ContactCard
-            :contact="contact.socialsTo"
-            :timestamp="contact.timestamp"
-          />
-        </div>
+        <ContactCard :contact="contact" />
       </div>
       <CustomPagination
         v-if="numberPages > 1"

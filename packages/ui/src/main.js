@@ -5,7 +5,7 @@ import './index.css'
 import './main.scss'
 import router from './router'
 import vSelect from 'vue-select'
-import OpenIndicator from './components/OpenIndicator.vue'
+import OpenIndicator from './components/svg/OpenIndicator.vue'
 
 vSelect.props.components.default = () => ({ OpenIndicator })
 

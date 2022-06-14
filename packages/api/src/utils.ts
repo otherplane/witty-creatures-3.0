@@ -5,7 +5,7 @@ import {
   PLAYER_MAINNET_TIMESTAMP,
   COLORS_COUNT,
 } from './constants'
-import { Incubation, Socials } from './types'
+import { Incubation, Social } from './types'
 import {
   uniqueNamesGenerator,
   adjectives,
@@ -27,11 +27,9 @@ export function calculateRemainingCooldown(
   return remainingMillis > 0 ? remainingMillis : 0
 }
 
-export function validateSocials(socials: Socials) {
-  console.log(socials)
+export function checkEmptySocials(socials: Social | null) {
   const valuesToCheck = { ...socials }
-  delete valuesToCheck?.share
-  console.log('values to check', valuesToCheck, socials)
+  delete valuesToCheck?.key
   // Socials with invalid or empty values
   if (valuesToCheck && Object.values(valuesToCheck).every(value => !value)) {
     return null

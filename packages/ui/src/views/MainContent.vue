@@ -108,7 +108,7 @@ export default {
     const interactionIn = computed(() => player?.interactionIn)
     const interactionOut = computed(() => player?.interactionOut)
     const modals = reactive({
-      shareSocials: false,
+      shareConfig: false,
       mint: false,
       export: false,
       preview: false,
@@ -182,8 +182,7 @@ export default {
     }
     function checkSocialsOpenModal() {
       if (
-        player.socials &&
-        !player.socials?.share &&
+        !player.shareConfig &&
         (interactionIn.value || interactionOut.value) &&
         !player.socialsSharedMessage
       ) {

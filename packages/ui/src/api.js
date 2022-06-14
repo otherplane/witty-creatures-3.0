@@ -58,6 +58,16 @@ export class ApiService {
     })
   }
 
+  getSocials({ id, token }) {
+    return this._get({
+      url: `${this.baseUrl}/socials`,
+      config: {
+        headers: { authorization: token },
+        params: { id },
+      },
+    })
+  }
+
   getMintedAwardsImages(params) {
     return this._get({
       url: `${this.baseUrl}/players/images`,
@@ -103,18 +113,18 @@ export class ApiService {
     })
   }
 
-  saveConfig({ socials, mintConfig, token }) {
+  saveConfig({ socials, shareConfig, mintConfig, token }) {
     return this._post({
       url: `${this.baseUrl}/configuration`,
-      data: { socials, mintConfig },
+      data: { socials, shareConfig, mintConfig },
       params: { headers: { authorization: token } },
     })
   }
 
-  shareSocials({ id, token }) {
+  shareSocials({ to, token }) {
     return this._post({
-      url: `${this.baseUrl}/share`,
-      data: { id },
+      url: `${this.baseUrl}/socialsShare`,
+      data: { to },
       params: { headers: { authorization: token } },
     })
   }
