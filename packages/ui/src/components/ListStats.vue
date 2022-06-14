@@ -1,11 +1,31 @@
 <template>
   <div>
     <div
-      v-if="gameEntity === 'players' && player.playersGlobalStats"
+      v-if="gameEntity === 'global' && player.playersGlobalStats"
       class="list"
     >
       <PlayerGlobalData
         v-for="(player, index) in player.playersGlobalStats.players"
+        :class="{ even: index % 2 }"
+        :index="index"
+        :key="player.username"
+        :name="player.username"
+        :position="player.position + 1"
+        :score="player.score"
+        :network="player.network"
+      />
+      <CustomPagination
+        v-if="numberPages > 1"
+        :limit="numberPages"
+        @update-page="updateCurrentPage"
+      />
+    </div>
+    <div
+      v-if="gameEntity === 'network' && player.playersNetworkStats.players"
+      class="list"
+    >
+      <PlayerGlobalData
+        v-for="(player, index) in player.playersNetworkStats.players"
         :class="{ even: index % 2 }"
         :index="index"
         :key="player.username"
@@ -32,10 +52,6 @@ export default {
       type: String,
       required: true,
     },
-    entityAttribute: {
-      type: String,
-      required: true,
-    },
   },
   setup(props) {
     const player = useStore()
@@ -57,21 +73,7 @@ export default {
     function updateCurrentPage(page) {
       currentPage.value = page
     }
-    // filter list by attribute
-    function filterListByLabel({ list, label }) {
-      const filter = label === 'overall' ? 'score' : label
-      return list.sort((a, b) => {
-        return b[filter] - a[filter] || a.creationIndex - b.creationIndex
-      })
-    }
-    const sortedPlayersData = computed(() =>
-      filterListByLabel({
-        list: player.playerGlobalStats || [],
-        label: props.entityAttribute,
-      })
-    )
     return {
-      sortedPlayersData,
       player,
       updateCurrentPage,
       numberPages,

@@ -170,6 +170,27 @@ export class PlayerModel {
     return vto ? new Player(vto) : null
   }
 
+  public async getPlayersByNetwork(
+    name: string,
+    paginationParams: {
+      limit: number
+      offset: number
+    }
+  ): Promise<Array<Player> | null> {
+    const vtos = await this.repository.getSortedBy(
+      {
+        token: { $exists: true, $ne: undefined },
+        mintConfig: name,
+      },
+      {
+        testnetPoints: -1,
+      },
+      paginationParams
+    )
+
+    return vtos.map(vto => new Player(vto))
+  }
+
   public async getMany(paginationParams: {
     limit: number
     offset: number
@@ -190,5 +211,11 @@ export class PlayerModel {
 
   public async countActive() {
     return this.repository.count({ token: { $exists: true, $ne: undefined } })
+  }
+  public async countActiveByNetwork(network: string) {
+    return this.repository.count({
+      token: { $exists: true, $ne: undefined },
+      mintConfig: network,
+    })
   }
 }

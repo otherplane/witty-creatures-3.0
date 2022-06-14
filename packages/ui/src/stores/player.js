@@ -40,8 +40,8 @@ export const useStore = defineStore('player', {
       contacts: null,
       shareConfig: null,
       bufficornsGlobalStats: null,
+      playersNetworkStats: null,
       playersGlobalStats: null,
-      ranchesGlobalStats: null,
       errors: {
         showMintedAwards: null,
         preview: null,
@@ -260,6 +260,7 @@ export const useStore = defineStore('player', {
       await this.getTheme()
       await this.getPlayerInfo()
       const request = await this.api.getLeaderboardInfo({
+        filter: this.mintConfig,
         offset,
         limit,
       })
@@ -267,7 +268,8 @@ export const useStore = defineStore('player', {
         this.setError('getLeaderboardInfo', request.error)
       } else {
         this.clearError('getLeaderboardInfo')
-        this.playersGlobalStats = request.players
+        this.playersGlobalStats = request.global
+        this.playersNetworkStats = request.network
       }
     },
     // Player Info
