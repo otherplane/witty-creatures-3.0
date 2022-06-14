@@ -39,12 +39,6 @@ export default {
       resetTabs()
       primaryTab.value = primaryValue
       tabs.value[primaryTab.value].active = true
-<<<<<<< HEAD
-=======
-      tabs.value[primaryTab.value].subTabs[
-        secondaryValue || defaultSubTab.value
-      ].active = true
->>>>>>> feat(ui): main view, init-flow, modals, favicon, navbar
     }
     return { player, activateTab, tabs, primaryTab, stats }
   },

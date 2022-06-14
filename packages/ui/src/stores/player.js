@@ -39,7 +39,6 @@ export const useStore = defineStore('player', {
       mintConfig: null,
       contacts: null,
       shareConfig: null,
-      bufficornsGlobalStats: null,
       playersNetworkStats: null,
       playersGlobalStats: null,
       errors: {
