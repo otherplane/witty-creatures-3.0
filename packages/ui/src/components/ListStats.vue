@@ -12,6 +12,7 @@
         :name="player.username"
         :position="player.position + 1"
         :score="player.score"
+        :network="player.network"
       />
       <CustomPagination
         v-if="numberPages > 1"

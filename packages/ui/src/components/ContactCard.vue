@@ -33,7 +33,11 @@ export default {
   props: {
     contact: {
       type: Object,
-      requiered: true,
+      required: true,
+    },
+    color: {
+      type: Number,
+      required: true,
     },
   },
   setup() {
