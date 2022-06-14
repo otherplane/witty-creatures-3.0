@@ -101,7 +101,13 @@ export class ApiService {
   getLeaderboardInfo(params) {
     return this._get({
       url: `${this.baseUrl}/leaderboard`,
-      config: { params: { offset: params.offset, limit: params.limit } },
+      config: {
+        params: {
+          filter: params.filter,
+          offset: params.offset,
+          limit: params.limit,
+        },
+      },
     })
   }
 

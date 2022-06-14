@@ -14,6 +14,7 @@ export default {
     name: String,
     score: Number,
     position: Number,
+    network: String,
   },
 }
 </script>

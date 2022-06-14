@@ -22,17 +22,15 @@ export const BASE_URL =
 export const ATTRIBUTES = {}
 
 export const STATS_FILTERS = {
-  players: {
-    key: 'players',
+  global: {
+    key: 'global',
     active: false,
-    default: 'overall',
     showSubtabs: false,
-    subTabs: {
-      overall: {
-        key: 'overall',
-        active: false,
-      },
-    },
+  },
+  network: {
+    key: 'network',
+    active: false,
+    showSubtabs: false,
   },
 }
 

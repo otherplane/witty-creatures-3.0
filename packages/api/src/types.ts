@@ -290,12 +290,16 @@ export type PlayerLeaderboardInfo = Static<typeof PlayerLeaderboardInfo>
 export const LeaderboardParams = Type.Object({
   limit: Type.Optional(Type.Integer()),
   offset: Type.Optional(Type.Integer()),
-  filter: Type.Optional(Type.String()),
+  filter: Type.String(),
 })
 export type LeaderboardParams = Static<typeof LeaderboardParams>
 
 export const LeaderboardResponse = Type.Object({
-  players: Type.Object({
+  global: Type.Object({
+    players: Type.Array(PlayerLeaderboardInfo),
+    total: Type.Integer(),
+  }),
+  network: Type.Object({
     players: Type.Array(PlayerLeaderboardInfo),
     total: Type.Integer(),
   }),
