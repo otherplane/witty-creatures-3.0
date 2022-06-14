@@ -39,7 +39,7 @@
           @change="setValue"
         />
         <CustomSwitch
-          :checked="player.socials?.share"
+          :checked="player.shareConfig"
           label="share"
           @change="setValue"
         />
@@ -62,6 +62,7 @@ export default {
     const player = useStore()
     onBeforeMount(async () => {
       await player.getPlayerInfo()
+      await player.getSocials()
     })
     const formatedNetworks = computed(() => {
       return NETWORKS.map(network => {
@@ -69,20 +70,27 @@ export default {
       })
     })
     const setValue = async ({ label, value }) => {
-      const setMintConfig = label === 'network'
-      const socials = setMintConfig
-        ? {
-            ...player.socials,
-          }
-        : {
-            ...player.socials,
-            [label]: value,
-          }
-      const mintConfig = setMintConfig ? value : player.mintConfig
-      await player.saveConfig({
-        socials,
-        mintConfig,
-      })
+      // TODO: refactor
+      if (label) {
+        const setMintConfig = label === 'network'
+        const setShareConfig = label === 'share'
+        const socials =
+          setMintConfig || setShareConfig
+            ? {
+                ...player.socials,
+              }
+            : {
+                ...player.socials,
+                [label]: value,
+              }
+        const mintConfig = setMintConfig ? value : player.mintConfig
+        const shareConfig = setShareConfig ? value : player.shareConfig
+        await player.saveConfig({
+          socials,
+          shareConfig,
+          mintConfig,
+        })
+      }
     }
 
     return {

@@ -2,7 +2,7 @@ import { Collection, Db } from 'mongodb'
 import { Interaction } from '../domain/interaction'
 
 import { Repository } from '../repository'
-import { DbInteractionVTO, Socials } from '../types'
+import { DbInteractionVTO } from '../types'
 
 export class InteractionModel {
   private collection: Collection<DbInteractionVTO>
@@ -24,33 +24,33 @@ export class InteractionModel {
     const vto = await this.repository.getLast(search)
     return vto ? new Interaction(vto) : null
   }
-
-  public async shareSocials({
-    username,
-    socials,
-  }: {
-    username: string
-    socials: Socials
-  }): Promise<DbInteractionVTO> {
-    const lastIncomingInteraction = await this.getLast({ to: username })
-    const lastOutgoingInteraction = await this.getLast({ from: username })
-    if (lastIncomingInteraction?.to === username) {
-      await this.repository.updateOne(
-        { from: username, timestamp: lastIncomingInteraction?.timestamp },
-        { socialsTo: socials }
-      )
-    }
-    if (lastIncomingInteraction?.from === username) {
-      await this.repository.updateOne(
-        { from: username, timestamp: lastOutgoingInteraction?.timestamp },
-        { socialsFrom: socials }
-      )
-    }
-    return await this.repository.updateOne(
-      { from: username, timestamp: lastOutgoingInteraction?.timestamp },
-      { socialsFrom: socials }
-    )
-  }
+  // TODO: delete
+  // public async shareSocials({
+  //   username,
+  //   socials,
+  // }: {
+  //   username: string
+  //   socials: Socials | null
+  // }): Promise<DbInteractionVTO> {
+  //   const lastIncomingInteraction = await this.getLast({ to: username })
+  //   const lastOutgoingInteraction = await this.getLast({ from: username })
+  //   if (lastIncomingInteraction?.to === username) {
+  //     await this.repository.updateOne(
+  //       { from: username, timestamp: lastIncomingInteraction?.timestamp },
+  //       { socialsTo: socials }
+  //     )
+  //   }
+  //   if (lastIncomingInteraction?.from === username) {
+  //     await this.repository.updateOne(
+  //       { from: username, timestamp: lastOutgoingInteraction?.timestamp },
+  //       { socialsFrom: socials }
+  //     )
+  //   }
+  //   return await this.repository.updateOne(
+  //     { from: username, timestamp: lastOutgoingInteraction?.timestamp },
+  //     { socialsFrom: socials }
+  //   )
+  // }
 
   public async getContactsByUsername(
     username: string,

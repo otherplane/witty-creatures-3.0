@@ -2,7 +2,8 @@ import {
   DbPlayerVTO,
   ExtendedPlayerVTO,
   PlayerLeaderboardInfo,
-  Socials,
+  Social,
+  ContactIndex,
 } from '../types'
 import { Interaction } from './interaction'
 
@@ -15,8 +16,10 @@ export class Player {
   color: number
   username: string
   score: number
+  shareConfig: boolean
   nft: Array<string> = []
-  socials: Socials | null
+  socials: Social | null
+  contacts: Array<ContactIndex> = []
   mintConfig: string
 
   constructor(vto: DbPlayerVTO) {
@@ -27,7 +30,9 @@ export class Player {
     this.token = vto.token
     this.creationIndex = vto.creationIndex
     this.color = vto.color
+    this.shareConfig = vto.shareConfig
     this.socials = vto.socials
+    this.contacts = vto.contacts
     this.mintConfig = vto.mintConfig
   }
 
@@ -64,6 +69,8 @@ export class Player {
       token: this.token,
       creationIndex: this.creationIndex,
       color: this.color,
+      shareConfig: this.shareConfig,
+      contacts: this.contacts,
       socials: this.socials,
       mintConfig: this.mintConfig,
     }

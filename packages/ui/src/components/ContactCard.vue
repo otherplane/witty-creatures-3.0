@@ -1,6 +1,8 @@
 <template>
   <p class="contact-label date">
-    {{ format(utcToZonedTime(timestamp, timeZone), 'yyyy-MM-dd HH:mm:ss') }}
+    {{
+      format(utcToZonedTime(contact.timestamp, timeZone), 'yyyy-MM-dd HH:mm:ss')
+    }}
   </p>
   <p v-if="contact.name">
     Name:
@@ -31,10 +33,6 @@ export default {
   props: {
     contact: {
       type: Object,
-      requiered: true,
-    },
-    timestamp: {
-      type: Number,
       requiered: true,
     },
   },

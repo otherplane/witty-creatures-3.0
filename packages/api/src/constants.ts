@@ -89,7 +89,7 @@ export const WITMON_ERC721_ADDRESS =
 
 export const MONGO_URI: string =
   process.env.MONGO_URI ||
-  'MONGO_URI=mongodb://your_username:your_password@localhost:27017/database'
+  'mongodb://your_username:your_password@localhost:27017/database'
 
 // Mainnet date in millis
 // If `PLAYER_MAINNET_TIMESTAMP=0`, checks are ignored (for testing purposes)

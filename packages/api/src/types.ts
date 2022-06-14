@@ -11,35 +11,83 @@ export type ClaimPlayerParams = Static<typeof ClaimPlayerParams>
 
 // Socials
 
-export const Socials = Nullable(
+export const ExtendedSocial = Type.Object({
+  timestamp: Type.Number(),
+  key: Type.Optional(Type.String()),
+  twitter: Type.Optional(Type.String()),
+  discord: Type.Optional(Type.String()),
+  telegram: Type.Optional(Type.String()),
+  name: Type.Optional(Type.String()),
+  company: Type.Optional(Type.String()),
+})
+
+export type ExtendedSocial = Static<typeof ExtendedSocial>
+
+export const DbSocialVTO = Type.Object({
+  key: Type.String(),
+  twitter: Type.Optional(Type.String()),
+  discord: Type.Optional(Type.String()),
+  telegram: Type.Optional(Type.String()),
+  name: Type.Optional(Type.String()),
+  company: Type.Optional(Type.String()),
+})
+
+export type DbSocialVTO = Static<typeof DbSocialVTO>
+
+export const Social = Type.Object({
+  key: Type.String(),
+  twitter: Type.Optional(Type.String()),
+  discord: Type.Optional(Type.String()),
+  telegram: Type.Optional(Type.String()),
+  name: Type.Optional(Type.String()),
+  company: Type.Optional(Type.String()),
+})
+
+export type Social = Static<typeof Social>
+
+export const SocialParams = Type.Object({
+  id: Type.String(),
+})
+
+export type SocialParams = Static<typeof SocialParams>
+
+export const SocialResult = Nullable(
   Type.Object({
+    key: Type.String(),
     twitter: Type.Optional(Type.String()),
     discord: Type.Optional(Type.String()),
     telegram: Type.Optional(Type.String()),
     name: Type.Optional(Type.String()),
     company: Type.Optional(Type.String()),
-    share: Type.Optional(Type.Boolean()),
   })
 )
 
-export type Socials = Static<typeof Socials>
+export type SocialResult = Static<typeof SocialResult>
 
 // Configuration
 
 export const ConfigParams = Type.Object({
-  socials: Socials,
+  socials: Nullable(Social),
+  shareConfig: Type.Boolean(),
   mintConfig: Type.String(),
 })
 
 export type ConfigParams = Static<typeof ConfigParams>
 
 export const ConfigResult = Type.Object({
-  socials: Socials,
+  socials: Nullable(Social),
+  shareConfig: Type.Boolean(),
   mintConfig: Type.String(),
 })
 export type ConfigResult = Static<typeof ConfigResult>
 
 //PlayerVTO
+
+export const ContactIndex = Type.Object({
+  timestamp: Type.Number(),
+  key: Type.String(),
+})
+export type ContactIndex = Static<typeof ContactIndex>
 
 export const PlayerVTO = Type.Object({
   key: Type.String(),
@@ -49,7 +97,9 @@ export const PlayerVTO = Type.Object({
   nft: Type.Array(Type.Optional(Type.String())),
   creationIndex: Type.Integer(),
   color: Type.Integer(),
-  socials: Socials,
+  shareConfig: Type.Boolean(),
+  socials: Nullable(Social),
+  contacts: Type.Array(Type.Optional(ContactIndex)),
   mintConfig: Type.String(),
 })
 
@@ -63,7 +113,9 @@ export const DbPlayerVTO = Type.Object({
   nft: Type.Array(Type.Optional(Type.String())),
   creationIndex: Type.Integer(),
   color: Type.Integer(),
-  socials: Socials,
+  shareConfig: Type.Boolean(),
+  socials: Nullable(Social),
+  contacts: Type.Array(Type.Optional(ContactIndex)),
   mintConfig: Type.String(),
 })
 
@@ -115,8 +167,6 @@ export const Incubation = Type.Object({
   timestamp: Type.Number(),
   ends: Type.Number(),
   points: Type.Number(),
-  socialsFrom: Type.Optional(Socials),
-  socialsTo: Type.Optional(Socials),
 })
 export type Incubation = Static<typeof Incubation>
 
@@ -137,8 +187,6 @@ export const DbInteractionVTO = Type.Object({
   points: Type.Number(),
   timestamp: Type.Number(),
   ends: Type.Number(),
-  socialsTo: Socials,
-  socialsFrom: Socials,
 })
 export type DbInteractionVTO = Static<typeof DbInteractionVTO>
 
@@ -209,26 +257,18 @@ export const InteractionResult = Type.Object({
   from: Type.String(),
   to: Type.String(),
   timestamp: Type.Number(),
-  socialsFrom: Socials,
-  socialsTo: Socials,
 })
 export type InteractionResult = Static<typeof InteractionParams>
 
 // Share Socials
 
 export const ShareSocialsParams = Type.Object({
-  id: Type.String(),
+  to: Type.String(),
 })
 export type ShareSocialsParams = Static<typeof ShareSocialsParams>
 
 export const ShareSocialsResult = Type.Object({
-  points: Type.Number(),
-  ends: Type.Number(),
-  from: Type.String(),
   to: Type.String(),
-  timestamp: Type.Number(),
-  socialsFrom: Socials,
-  socialsTo: Socials,
 })
 export type ShareSocialsResult = Static<typeof ShareSocialsResult>
 
@@ -288,7 +328,7 @@ export type ContactListParams = Static<typeof ContactListParams>
 
 export const ContactListResponse = Type.Object({
   contacts: Type.Object({
-    contacts: Type.Array(DbInteractionVTO),
+    contacts: Type.Array(ExtendedSocial),
     total: Type.Integer(),
   }),
 })

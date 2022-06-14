@@ -4,6 +4,7 @@ import {
   ObjectId,
   OptionalUnlessRequiredId,
   WithId,
+  SetFields,
 } from 'mongodb'
 
 export class Repository<T> {
@@ -24,7 +25,6 @@ export class Repository<T> {
     const isAlreadyBootstrapped =
       (await this.collection.estimatedDocumentCount()) > 0
 
-    console.log('is BOOTSTRAPED!!!!', await this.collection.find({}).toArray())
     // Prevent accidental bootstrapping if the collection is already bootstrapped
     if (isAlreadyBootstrapped && !force) {
       return null
@@ -92,6 +92,24 @@ export class Repository<T> {
       return (await this.getOne(filter)) as WithId<T>
     } catch (error) {
       throw new Error(`Element does not exist (name: ${element[this.keyName]})`)
+    }
+  }
+
+  public async pushToSet(
+    filter: Filter<T>,
+    element: SetFields<T>
+  ): Promise<WithId<T>> {
+    try {
+      const success = await this.collection.updateOne(filter, {
+        $addToSet: element,
+      })
+
+      if (!success.acknowledged)
+        throw new Error(`Element could not be updated (name: ${element})`)
+
+      return (await this.getOne(filter)) as WithId<T>
+    } catch (error) {
+      throw new Error(`Element does not exist (name: ${element})`)
     }
   }
 

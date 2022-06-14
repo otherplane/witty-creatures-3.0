@@ -9,7 +9,7 @@ import {
   INTERACTION_POINTS_MIN,
   SELF_INTERACTION_POINTS,
 } from '../constants'
-import { DbPlayerVTO, DbInteractionVTO, Socials } from '../types'
+import { DbPlayerVTO, DbInteractionVTO } from '../types'
 import { Repository } from '../repository'
 import { Player } from '../domain/player'
 
@@ -49,6 +49,8 @@ export class PlayerModel {
       creationIndex: index,
       color,
       socials: null,
+      contacts: [],
+      shareConfig: false,
       mintConfig: 'ethereum',
     })
   }
@@ -103,24 +105,43 @@ export class PlayerModel {
 
     return await this.get(key)
   }
-
-  public async addConfig(
+  // Delete add Config
+  public async updateConfig(
     key: string,
-    socials: Socials,
-    mintConfig: string
+    mintConfig: string,
+    shareConfig: boolean
   ): Promise<Player | null> {
     try {
-      await this.repository.updateOne(
-        { key },
-        { socials: socials, mintConfig: mintConfig }
-      )
+      await this.repository.updateOne({ key }, { mintConfig, shareConfig })
     } catch (err) {
-      console.log('error updating socials', err)
+      console.log('error updating network', err)
     }
 
     const result = await this.get(key)
-    console.log('result', result)
     return result
+  }
+
+  // Share socials
+  public async shareSocials({
+    fromPlayer,
+    toPlayer,
+  }: {
+    fromPlayer: string
+    toPlayer: string
+  }): Promise<{ to: string }> {
+    console.log('SHAAAAREEE!!!!!', fromPlayer, toPlayer)
+    const vto = await this.repository.get({ key: toPlayer })
+    console.log('TO PLAYER!!!!!', vto)
+    const timestamp = new Date().getTime()
+    try {
+      await this.repository.pushToSet(
+        { key: toPlayer },
+        { contacts: { key: fromPlayer, timestamp } }
+      )
+    } catch (err) {
+      console.log('error updating network', err)
+    }
+    return { to: toPlayer }
   }
 
   public computePoints(

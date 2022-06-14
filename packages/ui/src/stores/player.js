@@ -38,6 +38,7 @@ export const useStore = defineStore('player', {
       socials: null,
       mintConfig: null,
       contacts: null,
+      shareConfig: null,
       bufficornsGlobalStats: null,
       playersGlobalStats: null,
       ranchesGlobalStats: null,
@@ -109,18 +110,13 @@ export const useStore = defineStore('player', {
       this.theme = theme
     },
     // Socials
-    getSocials() {
-      const socials = JSON.parse(localStorage.getItem('socials'))
-      if (socials) {
-        this.socials = socials
-      }
-    },
     async shareSocials() {
       const tokenInfo = this.getToken()
       const request = await this.api.shareSocials({
         token: tokenInfo.token,
-        id: tokenInfo && tokenInfo.key,
+        to: tokenInfo && tokenInfo.key,
       })
+      console.log('::shareSocials', request)
       if (request.error) {
         this.setError('shareSocials', request.error)
         router.push('/init-game')
@@ -129,14 +125,35 @@ export const useStore = defineStore('player', {
         this.getPlayerInfo()
       }
     },
-    async saveConfig({ socials, mintConfig }) {
+    async getSocials() {
+      const tokenInfo = this.getToken()
+      const request = await this.api.getSocials({
+        token: tokenInfo.token,
+        id: tokenInfo && tokenInfo.key,
+      })
+      if (request?.error) {
+        this.setError('getSocials', request.error)
+        router.push('/init-game')
+      } else {
+        this.socials = request
+        this.clearError('getSocials')
+        this.getPlayerInfo()
+      }
+    },
+    async saveConfig({ socials, shareConfig, mintConfig }) {
+      console.log({ socials, shareConfig, mintConfig })
       this.socials = socials
       const tokenInfo = this.getToken()
       const request = await this.api.saveConfig({
         token: tokenInfo.token,
-        socials: { ...socials },
-        mintConfig: mintConfig,
+        socials: {
+          key: tokenInfo.key,
+          ...socials,
+        },
+        shareConfig,
+        mintConfig,
       })
+      console.log('::saveConfig', request)
       if (request.error) {
         this.setError('config', request.error)
         router.push('/init-game')
@@ -145,11 +162,7 @@ export const useStore = defineStore('player', {
         this.getPlayerInfo()
       }
     },
-    deleteSocials() {
-      localStorage.removeItem('socials')
-      this.socials = null
-    },
-    // Socials
+    // Contacts
     async getContacts(offset = 0, limit = 25) {
       await this.getTheme()
       const tokenInfo = this.getToken()
@@ -159,6 +172,7 @@ export const useStore = defineStore('player', {
         offset,
         limit,
       })
+      console.log('::getContacts', request)
       if (request.error) {
         router.push('/init-game')
         this.setError('history', request.error)
@@ -272,10 +286,11 @@ export const useStore = defineStore('player', {
         this.setError('info', request.error)
       } else {
         this.clearError('info')
-        const { key, username, score, color, socials, mintConfig } =
+        console.log('request', request)
+        const { key, username, score, color, mintConfig, shareConfig } =
           request.player
         this.id = key
-        this.socials = socials
+        this.shareConfig = shareConfig
         this.mintConfig = mintConfig
         this.username = username
         this.score = score

@@ -593,7 +593,7 @@ describe.skip('Route /interactions', () => {
   )
 })
 
-describe.skip('Route /share', () => {
+describe.skip('Route /socialsShare', () => {
   it(
     'should share the socials given',
     async () => {
@@ -631,7 +631,7 @@ describe.skip('Route /share', () => {
       await serverInject(
         {
           method: 'POST',
-          url: '/share',
+          url: '/socialsShare',
           payload: {
             id: initialPlayers[1].key,
           },

@@ -11,14 +11,11 @@ import {
   InteractionParams,
   InteractionHistoryParams,
   InteractionHistoryResponse,
-  ContactListParams,
-  ContactListResponse,
   ShareSocialsParams,
   ShareSocialsResult,
 } from '../types'
 import {
   calculateRemainingCooldown,
-  validateSocials,
   isTimeToMint,
   printRemainingMillis,
 } from '../utils'
@@ -146,7 +143,18 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
         } catch (error) {
           return reply.status(403).send(error as Error)
         }
-
+        if (fromPlayer.shareConfig) {
+          await playerModel.shareSocials({
+            fromPlayer: fromPlayer.toDbVTO().key,
+            toPlayer: toPlayer.toDbVTO().key,
+          })
+        }
+        if (toPlayer.shareConfig) {
+          await playerModel.shareSocials({
+            fromPlayer: toPlayer.toDbVTO().key,
+            toPlayer: fromPlayer.toDbVTO().key,
+          })
+        }
         // Create and return `interact` object
         const interaction = await interactionModel.create({
           ends: currentTimestamp + INTERACTION_DURATION_MILLIS,
@@ -154,25 +162,19 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
           to: toPlayer.username,
           points,
           timestamp: currentTimestamp,
-          socialsFrom: fromPlayer.socials?.share
-            ? validateSocials(fromPlayer.socials)
-            : null,
-          socialsTo: toPlayer.socials?.share
-            ? validateSocials(toPlayer.socials)
-            : null,
         })
         return reply.status(200).send(interaction)
       },
     }
   )
   fastify.post<{ Body: ShareSocialsParams; Reply: ShareSocialsResult | Error }>(
-    '/share',
+    '/socialsShare',
     {
       schema: {
         body: ShareSocialsParams,
         headers: AuthorizationHeader,
         response: {
-          200: InteractionResult,
+          200: ShareSocialsResult,
         },
       },
       handler: async (
@@ -202,77 +204,31 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
         if (!fromPlayer.token) {
           return reply
             .status(409)
-            .send(
-              new Error(`Player should be claimed before interact with others`)
-            )
+            .send(new Error(`Player should be claimed before sharing socials`))
         }
+        const toPlayer = await playerModel.get(request.body.to)
+        if (!toPlayer) {
+          return reply
+            .status(404)
+            .send(new Error(`Player does not exist (key: ${fromKey})`))
+        }
+
+        // Check 3 (unreachable): trading player has been claimed
+        if (!toPlayer.token) {
+          return reply
+            .status(409)
+            .send(new Error(`Player should be claimed before sharing socials`))
+        }
+
         return reply.status(200).send(
-          await interactionModel.shareSocials({
-            username: fromPlayer.toDbVTO().username,
-            socials: fromPlayer.toDbVTO().socials,
+          await playerModel.shareSocials({
+            fromPlayer: fromPlayer.toDbVTO().key,
+            toPlayer: toPlayer.toDbVTO().key,
           })
         )
       },
     }
   )
-  // GET /history?limit=LIMIT&offset=OFFSET
-  fastify.get<{
-    Querystring: ContactListParams
-    Reply: ContactListResponse | Error
-  }>('/contacts', {
-    schema: {
-      querystring: ContactListParams,
-      headers: AuthorizationHeader,
-      response: {
-        200: ContactListResponse,
-      },
-    },
-    handler: async (
-      request: FastifyRequest<{ Querystring: ContactListParams }>,
-      reply
-    ) => {
-      // Check 1: token is valid
-      let fromKey: string
-      try {
-        const decoded: JwtVerifyPayload = fastify.jwt.verify(
-          request.headers.authorization as string
-        )
-        fromKey = decoded.id
-      } catch (err) {
-        return reply.status(403).send(new Error(`Forbidden: invalid token`))
-      }
-
-      // Check 2 (unreachable): valid server issued token refers to non-existent player
-      const player = await playerModel.get(fromKey)
-      if (!player) {
-        return reply
-          .status(404)
-          .send(new Error(`Player does not exist (key: ${fromKey})`))
-      }
-
-      // Check 3 (unreachable): interaction player has been claimed
-      if (!player.token) {
-        return reply
-          .status(409)
-          .send(
-            new Error(`Player should be claimed before interact with others`)
-          )
-      }
-
-      return reply.status(200).send({
-        contacts: {
-          contacts: await interactionModel.getContactsByUsername(
-            player.username,
-            {
-              limit: request.query.limit || 10,
-              offset: request.query.offset || 0,
-            }
-          ),
-          total: await interactionModel.countContacts(player.username),
-        },
-      })
-    },
-  })
   // GET /history?limit=LIMIT&offset=OFFSET
   fastify.get<{
     Querystring: InteractionHistoryParams
