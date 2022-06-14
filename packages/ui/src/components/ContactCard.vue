@@ -1,7 +1,7 @@
 <template>
   <div ref="contactRef">
     <div @click="toggleDetails" class="contact-container">
-      <EggSvg class="egg" :color="THEME_COLORS[color]" />
+      <EggSvg class="egg" :color="THEME_COLORS[color]" :speed="1" />
       <p v-if="contact.name" class="name">
         Name:
         <span>{{ contact.name }}</span>
@@ -14,8 +14,8 @@
         {{ format(utcToZonedTime(timestamp, timeZone), 'LLL dd @ HH:mm') }}
       </p>
     </div>
-    <transition name="dropdown">
-      <div v-if="showDetails" class="details">
+    <div :id="`details-${timestamp}`" class="details">
+      <div class="content">
         <div v-for="social in socialDetails" :key="social.key">
           <a
             v-if="social.label && social.url"
@@ -34,7 +34,7 @@
           </p>
         </div>
       </div>
-    </transition>
+    </div>
   </div>
 </template>
 
@@ -42,13 +42,15 @@
 import { format } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
 import { ref, reactive, onBeforeUnmount } from 'vue'
-import { onClickOutside } from '@vueuse/core'
 import { useStore } from '../stores/player'
 import { THEME_COLORS } from '../constants'
 import { copyTextToClipboard } from '../services/copyToClipboard'
 import telegramSvg from '@/assets/telegram.svg?raw'
 import twitterSvg from '@/assets/twitter.svg?raw'
 import discordSvg from '@/assets/discord.svg?raw'
+import gsap from 'gsap'
+import { Sine } from 'gsap'
+
 export default {
   props: {
     contact: {
@@ -60,7 +62,7 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const player = useStore()
     const timeZone = 'Europe/Paris'
     const showDetails = ref(false)
@@ -87,13 +89,26 @@ export default {
     })
     const toggleDetails = () => {
       showDetails.value = !showDetails.value
+      console.log('toggle details----')
+      if (!showDetails.value) {
+        console.log('a')
+        gsap.to(`#details-${props.timestamp}`, {
+          duration: 0.2,
+          height: 0,
+          ease: Sine.easeIn,
+        })
+      } else {
+        console.log('b')
+        gsap.to(`#details-${props.timestamp}`, {
+          duration: 0.2,
+          height: 104,
+          ease: Sine.easeIn,
+        })
+      }
     }
     const hideDetails = () => {
       showDetails.value = false
     }
-    onClickOutside(contactRef, () => {
-      hideDetails()
-    })
     return {
       showDetails,
       socialDetails,
@@ -118,8 +133,12 @@ export default {
 <style lang="scss" scoped>
 .details {
   background: $dark-screen;
-  padding: 16px;
+  height: 0;
+  overflow: hidden;
   margin-bottom: 1px;
+  .content {
+    padding: 16px;
+  }
   .social {
     text-decoration: underline;
     cursor: pointer;
@@ -138,6 +157,7 @@ export default {
   column-gap: 16px;
   padding: 16px;
   grid-template-rows: repeat(3, max-content);
+  border-bottom: 2px solid $dark-screen;
   .contact-label {
     color: $dark-screen;
     font-weight: bold;
