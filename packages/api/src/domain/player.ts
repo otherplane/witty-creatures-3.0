@@ -92,6 +92,7 @@ export class Player {
         )
         .map((p, index) => ({
           username: p.username,
+          network: p.mintConfig,
           creationIndex: p.creationIndex,
           score: p.score,
           color: p.color,

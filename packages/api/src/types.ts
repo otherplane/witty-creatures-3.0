@@ -183,7 +183,11 @@ export type ExtendedIncubation = Static<typeof ExtendedIncubation>
 
 export const DbInteractionVTO = Type.Object({
   from: Type.String(),
+  fromNetwork: Type.String(),
+  fromColor: Type.Number(),
   to: Type.String(),
+  toNetwork: Type.String(),
+  toColor: Type.Number(),
   points: Type.Number(),
   timestamp: Type.Number(),
   ends: Type.Number(),
@@ -276,6 +280,7 @@ export type ShareSocialsResult = Static<typeof ShareSocialsResult>
 
 export const PlayerLeaderboardInfo = Type.Object({
   username: Type.String(),
+  network: Type.String(),
   score: Type.Integer(),
   position: Type.Integer(),
   creationIndex: Type.Integer(),

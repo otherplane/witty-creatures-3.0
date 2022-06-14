@@ -159,7 +159,11 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
         const interaction = await interactionModel.create({
           ends: currentTimestamp + INTERACTION_DURATION_MILLIS,
           from: fromPlayer.username,
+          fromNetwork: fromPlayer.mintConfig,
+          fromColor: fromPlayer.color,
           to: toPlayer.username,
+          toNetwork: toPlayer.mintConfig,
+          toColor: toPlayer.color,
           points,
           timestamp: currentTimestamp,
         })

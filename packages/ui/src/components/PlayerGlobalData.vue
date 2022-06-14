@@ -2,6 +2,7 @@
   <div class="players-container">
     <p class="item player-name">{{ position }}</p>
     <p class="item player-name">{{ name }}</p>
+    <p class="item player-name">{{ network }}</p>
     <p class="item player-score">{{ score }}</p>
   </div>
 </template>

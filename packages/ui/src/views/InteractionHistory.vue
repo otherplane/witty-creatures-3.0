@@ -17,7 +17,9 @@
           }}
         </p>
         <p>
-          <span class="highlight">{{ interaction.from }}</span>
+          <span class="highlight"
+            >{{ interaction.fromNetwork }}{{ interaction.from }}</span
+          >
           sent <span class="highlight">{{ interaction.points }}</span> points to
           <span class="highlight">{{ interaction.to }}</span>
         </p>
