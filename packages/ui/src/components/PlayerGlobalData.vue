@@ -47,6 +47,7 @@ export default {
     justify-self: flex-start;
   }
   .network {
+    width: 30px;
     padding: 8px;
   }
   .player-score {

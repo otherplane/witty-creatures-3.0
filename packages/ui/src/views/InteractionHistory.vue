@@ -6,6 +6,7 @@
         v-for="(interaction, index) in player.history?.interactions"
         :key="interaction.timestamp"
         :class="{ even: index % 2 }"
+        :network="interaction.fromNetwork"
         :points="interaction.points"
         :from="interaction.from"
         :timestamp="interaction.timestamp"
