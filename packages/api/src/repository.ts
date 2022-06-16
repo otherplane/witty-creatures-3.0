@@ -5,6 +5,7 @@ import {
   OptionalUnlessRequiredId,
   WithId,
   SetFields,
+  MatchKeysAndValues,
 } from 'mongodb'
 
 export class Repository<T> {
@@ -97,9 +98,20 @@ export class Repository<T> {
 
   public async pushToSet(
     filter: Filter<T>,
+    secondaryFilter: Filter<T>,
+    update: MatchKeysAndValues<T>,
     element: SetFields<T>
   ): Promise<WithId<T>> {
     try {
+      const itemToUpdate = await this.getOne({
+        ...filter,
+        ...secondaryFilter,
+      })
+      if (itemToUpdate) {
+        await this.collection.updateOne(filter, {
+          $set: update,
+        })
+      }
       const success = await this.collection.updateOne(filter, {
         $addToSet: element,
       })

@@ -1,6 +1,6 @@
 import { authenticatePlayer, initialPlayers, serverInject } from '../../setup'
 
-describe.skip('Route /leaderboard', () => {
+describe('Route /leaderboard', () => {
   describe('should return leaderboard values for each entity', () => {
     it('players', async () => {
       const tokens = await Promise.all([

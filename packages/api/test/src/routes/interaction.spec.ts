@@ -12,7 +12,7 @@ import {
   sleep,
 } from '../../setup'
 
-describe.skip('Route /interactions', () => {
+describe('Route /interactions', () => {
   it('should return the interaction object after interact with itself', async () => {
     const token = await authenticatePlayer(initialPlayers[0].key)
 
@@ -487,15 +487,15 @@ describe.skip('Route /interactions', () => {
   it(
     'should share socials if share field is true',
     async () => {
-      const [token] = await Promise.all([
+      const [token0, token1] = await Promise.all([
         authenticatePlayer(initialPlayers[0].key),
         authenticatePlayer(initialPlayers[1].key),
       ])
-
       const socials = {
+        ownerKey: initialPlayers[0].key,
         twitter: '@twitter',
-        share: true,
       }
+      const shareConfig = true
       const mintConfig = 'boba'
       await serverInject(
         {
@@ -503,18 +503,18 @@ describe.skip('Route /interactions', () => {
           url: '/configuration',
           payload: {
             socials,
+            shareConfig,
             mintConfig,
           },
           headers: {
-            Authorization: token,
+            Authorization: token0,
           },
         },
         (err, response) => {
           const configuration = response.json()
           expect(err).toBeFalsy()
-          expect(configuration.socials).toBe(socials)
+          expect(configuration.socials).toStrictEqual(socials)
           expect(configuration.mintConfig).toBe(mintConfig)
-          console.log(configuration)
         }
       )
 
@@ -526,12 +526,28 @@ describe.skip('Route /interactions', () => {
             to: initialPlayers[1].key,
           },
           headers: {
-            Authorization: token,
+            Authorization: token0,
           },
         },
         (err, response) => {
           expect(err).toBeFalsy()
           expect(response.statusCode).toBe(200)
+        }
+      )
+
+      await serverInject(
+        {
+          method: 'GET',
+          url: '/contacts',
+          headers: {
+            Authorization: token1,
+          },
+        },
+        (err, response) => {
+          const contacts = response.json()
+          expect(err).toBeFalsy()
+          expect(contacts.contacts.contacts[0].ownerKey).toBe(socials.ownerKey)
+          expect(contacts.contacts.contacts[0].twitter).toBe(socials.twitter)
         }
       )
     },
@@ -541,15 +557,16 @@ describe.skip('Route /interactions', () => {
   it(
     'should NOT share socials if share field is false',
     async () => {
-      const [token] = await Promise.all([
+      const [token0, token1] = await Promise.all([
         authenticatePlayer(initialPlayers[0].key),
         authenticatePlayer(initialPlayers[1].key),
       ])
 
       const socials = {
         twitter: '@twitter',
-        share: false,
+        ownerKey: initialPlayers[0].key,
       }
+      const shareConfig = false
       const mintConfig = 'boba'
       await serverInject(
         {
@@ -557,18 +574,18 @@ describe.skip('Route /interactions', () => {
           url: '/configuration',
           payload: {
             socials,
+            shareConfig,
             mintConfig,
           },
           headers: {
-            Authorization: token,
+            Authorization: token0,
           },
         },
         (err, response) => {
           const configuration = response.json()
           expect(err).toBeFalsy()
-          expect(configuration.socials).toBe(socials)
+          expect(configuration.socials).toStrictEqual(socials)
           expect(configuration.mintConfig).toBe(mintConfig)
-          console.log(configuration)
         }
       )
 
@@ -580,118 +597,12 @@ describe.skip('Route /interactions', () => {
             to: initialPlayers[1].key,
           },
           headers: {
-            Authorization: token,
+            Authorization: token0,
           },
         },
         (err, response) => {
           expect(err).toBeFalsy()
           expect(response.statusCode).toBe(200)
-        }
-      )
-    },
-    (INTERACTION_COOLDOWN_MILLIS + INTERACTION_DURATION_MILLIS) * 1.2
-  )
-})
-
-describe.skip('Route /socialsShare', () => {
-  it(
-    'should share the socials given',
-    async () => {
-      const [token] = await Promise.all([
-        authenticatePlayer(initialPlayers[0].key),
-        authenticatePlayer(initialPlayers[1].key),
-      ])
-
-      const socials = {
-        twitter: '@twitter',
-        share: false,
-      }
-      const mintConfig = 'boba'
-      await serverInject(
-        {
-          method: 'POST',
-          url: '/configuration',
-          payload: {
-            socials,
-            mintConfig,
-          },
-          headers: {
-            Authorization: token,
-          },
-        },
-        (err, response) => {
-          const configuration = response.json()
-          expect(err).toBeFalsy()
-          expect(configuration.socials).toBe(socials)
-          expect(configuration.mintConfig).toBe(mintConfig)
-          console.log(configuration)
-        }
-      )
-
-      await serverInject(
-        {
-          method: 'POST',
-          url: '/socialsShare',
-          payload: {
-            id: initialPlayers[1].key,
-          },
-          headers: {
-            Authorization: token,
-          },
-        },
-        (err, response) => {
-          const socials = response.json()
-          expect(err).toBeFalsy()
-          expect(socials).toBe(socials)
-        }
-      )
-    },
-    (INTERACTION_COOLDOWN_MILLIS + INTERACTION_DURATION_MILLIS) * 1.2
-  )
-})
-
-describe.skip('Route /contacts', () => {
-  it(
-    'should get the listed contacts',
-    async () => {
-      const [token] = await Promise.all([
-        authenticatePlayer(initialPlayers[0].key),
-        authenticatePlayer(initialPlayers[1].key),
-      ])
-
-      const socials = {
-        twitter: '@twitter',
-        share: true,
-      }
-      const mintConfig = 'boba'
-
-      const expected = {
-        contacts: [
-          {
-            twitter: '@twitter',
-            share: true,
-          },
-        ],
-        total: 1,
-      }
-      await serverInject(
-        {
-          method: 'POST',
-          url: '/configuration',
-          payload: {
-            socials,
-            mintConfig,
-          },
-          headers: {
-            Authorization: token,
-          },
-        },
-        (err, response) => {
-          const configuration = response.json()
-          expect(err).toBeFalsy()
-          expect(configuration.socials).toBe(socials)
-          expect(configuration.mintConfig).toBe(mintConfig)
-          console.log(configuration)
         }
       )
 
@@ -700,13 +611,88 @@ describe.skip('Route /contacts', () => {
           method: 'GET',
           url: '/contacts',
           headers: {
-            Authorization: token,
+            Authorization: token1,
           },
         },
         (err, response) => {
           const contacts = response.json()
           expect(err).toBeFalsy()
-          expect(contacts).toBe(expected)
+          expect(contacts.contacts.contacts.length).toBe(0)
+        }
+      )
+    },
+    (INTERACTION_COOLDOWN_MILLIS + INTERACTION_DURATION_MILLIS) * 1.2
+  )
+})
+
+describe('Route /socialsShare', () => {
+  it(
+    'should share the socials given',
+    async () => {
+      const [token0, token1] = await Promise.all([
+        authenticatePlayer(initialPlayers[0].key),
+        authenticatePlayer(initialPlayers[1].key),
+      ])
+
+      const socials = {
+        ownerKey: initialPlayers[0].key,
+        twitter: '@twitter',
+      }
+      const shareConfig = false
+      const mintConfig = 'boba'
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/configuration',
+          payload: {
+            socials,
+            shareConfig,
+            mintConfig,
+          },
+          headers: {
+            Authorization: token0,
+          },
+        },
+        (err, response) => {
+          const configuration = response.json()
+          expect(err).toBeFalsy()
+          expect(configuration.socials).toStrictEqual(socials)
+          expect(configuration.shareConfig).toBe(shareConfig)
+          expect(configuration.mintConfig).toBe(mintConfig)
+        }
+      )
+
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/socialsShare',
+          payload: {
+            to: initialPlayers[1].key,
+          },
+          headers: {
+            Authorization: token0,
+          },
+        },
+        (err, response) => {
+          const socialsResponse = response.json()
+          expect(err).toBeFalsy()
+          expect(socialsResponse).toStrictEqual({ to: initialPlayers[1].key })
+        }
+      )
+
+      await serverInject(
+        {
+          method: 'GET',
+          url: '/contacts',
+          headers: {
+            Authorization: token1,
+          },
+        },
+        (err, response) => {
+          const contacts = response.json()
+          expect(err).toBeFalsy()
+          expect(contacts.contacts.contacts[0].ownerKey).toBe(socials.ownerKey)
+          expect(contacts.contacts.contacts[0].twitter).toBe(socials.twitter)
         }
       )
     },

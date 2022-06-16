@@ -29,7 +29,7 @@ export function calculateRemainingCooldown(
 
 export function checkEmptySocials(socials: Social | null) {
   const valuesToCheck = { ...socials }
-  delete valuesToCheck?.key
+  delete valuesToCheck?.ownerKey
   // Socials with invalid or empty values
   if (valuesToCheck && Object.values(valuesToCheck).every(value => !value)) {
     return null

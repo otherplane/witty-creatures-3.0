@@ -7,6 +7,7 @@ import {
   ExtendedPlayerVTO,
   ContactListParams,
   ContactListResponse,
+  ContactIndex,
 } from '../types'
 
 const players: FastifyPluginAsync = async (fastify): Promise<void> => {
@@ -114,20 +115,27 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
             new Error(`Player should be claimed before interact with others`)
           )
       }
-      const contactPromises = player.contacts
-        .sort((contactA, contactB) => contactB.timestamp - contactA.timestamp)
+      const contactPromises: Array<Promise<ContactIndex>> = player.contacts
+        .sort(
+          (contactA: ContactIndex, contactB: ContactIndex) =>
+            contactB.timestamp - contactA.timestamp
+        )
         .slice(request.query.offset, request.query.limit)
-        .map(async contact => {
-          return {
-            ...(await socialModel.get(contact.key)),
-            timestamp: contact.timestamp,
+        .map(async (contact: ContactIndex): Promise<ContactIndex> => {
+          // We can assume that the contact exist because it was pushed to the player contacts
+          try {
+            return {
+              ...(await socialModel.get(contact.ownerKey)),
+              timestamp: contact.timestamp,
+            } as ContactIndex
+          } catch (err) {
+            // Unreachable
+            throw new Error(`Error ${err}`)
           }
         })
-
-      const allPromise = Promise.all(contactPromises)
       let contacts
       try {
-        contacts = await allPromise
+        contacts = await Promise.all(contactPromises)
       } catch (error) {
         reply.status(409).send(new Error(`Error fetching contacts`))
       }

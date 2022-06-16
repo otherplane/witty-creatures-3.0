@@ -13,7 +13,7 @@ export type ClaimPlayerParams = Static<typeof ClaimPlayerParams>
 
 export const ExtendedSocial = Type.Object({
   timestamp: Type.Number(),
-  key: Type.Optional(Type.String()),
+  ownerKey: Type.Optional(Type.String()),
   twitter: Type.Optional(Type.String()),
   discord: Type.Optional(Type.String()),
   telegram: Type.Optional(Type.String()),
@@ -24,7 +24,7 @@ export const ExtendedSocial = Type.Object({
 export type ExtendedSocial = Static<typeof ExtendedSocial>
 
 export const DbSocialVTO = Type.Object({
-  key: Type.String(),
+  ownerKey: Type.String(),
   twitter: Type.Optional(Type.String()),
   discord: Type.Optional(Type.String()),
   telegram: Type.Optional(Type.String()),
@@ -35,7 +35,7 @@ export const DbSocialVTO = Type.Object({
 export type DbSocialVTO = Static<typeof DbSocialVTO>
 
 export const Social = Type.Object({
-  key: Type.String(),
+  ownerKey: Type.String(),
   twitter: Type.Optional(Type.String()),
   discord: Type.Optional(Type.String()),
   telegram: Type.Optional(Type.String()),
@@ -53,7 +53,7 @@ export type SocialParams = Static<typeof SocialParams>
 
 export const SocialResult = Nullable(
   Type.Object({
-    key: Type.String(),
+    ownerKey: Type.String(),
     twitter: Type.Optional(Type.String()),
     discord: Type.Optional(Type.String()),
     telegram: Type.Optional(Type.String()),
@@ -85,7 +85,7 @@ export type ConfigResult = Static<typeof ConfigResult>
 
 export const ContactIndex = Type.Object({
   timestamp: Type.Number(),
-  key: Type.String(),
+  ownerKey: Type.String(),
 })
 export type ContactIndex = Static<typeof ContactIndex>
 

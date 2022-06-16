@@ -1,4 +1,10 @@
 import { authenticatePlayer, serverInject, initialPlayers } from '../../setup'
+import {
+  INTERACTION_COOLDOWN_MILLIS,
+  INTERACTION_DURATION_MILLIS,
+} from '../../../src/constants'
+
+import { sleep } from '../../setup'
 
 describe('player.ts', () => {
   it('should NOT get PLAYER #1 - no authorization header', async () => {
@@ -15,7 +21,7 @@ describe('player.ts', () => {
     )
   })
 
-  it.skip('should NOT get PLAYER #1 - invalid jwt token', async () => {
+  it('should NOT get PLAYER #1 - invalid jwt token', async () => {
     await serverInject(
       {
         method: 'GET',
@@ -54,7 +60,7 @@ describe('player.ts', () => {
     )
   })
 
-  test.skip('should NOT get PLAYER #12345 - valid token but non-existent player', async () => {
+  test('should NOT get PLAYER #12345 - valid token but non-existent player', async () => {
     const token = await authenticatePlayer(initialPlayers[0].key)
 
     await serverInject(
@@ -100,91 +106,166 @@ describe('player.ts', () => {
       }
     )
   })
+})
 
-  // test('should get EGG #1 - get after incubation', async (t) => {
-  //   // Before test: Claim an egg
-  //   const token = await claimEgg(t)(0)
+describe('Route /contacts', () => {
+  it('should get the listed contacts', async () => {
+    const [token0, token1] = await Promise.all([
+      authenticatePlayer(initialPlayers[0].key),
+      authenticatePlayer(initialPlayers[1].key),
+    ])
 
-  //   await new Promise((resolve) => {
-  //     server.inject(
-  //       {
-  //         method: 'POST',
-  //         url: '/eggs/incubate',
-  //         payload: {
-  //           target: initialEggs[0].key,
-  //         },
-  //         headers: {
-  //           Authorization: `${token}`,
-  //         },
-  //       },
-  //       (err, response) => {
-  //         t.error(err)
-  //         t.equal(response.statusCode, 200)
-  //         resolve(true)
-  //       }
-  //     )
-  //   })
+    const socials = {
+      ownerKey: initialPlayers[0].key,
+      twitter: '@twitter',
+    }
+    const mintConfig = 'boba'
+    const shareConfig = true
 
-  //   await new Promise((resolve) => {
-  //     server.inject(
-  //       {
-  //         method: 'GET',
-  //         url: `/eggs/${initialEggs[0].key}`,
-  //         headers: {
-  //           Authorization: `${token}`,
-  //         },
-  //       },
-  //       (err, response) => {
-  //         t.error(err)
-  //         t.equal(response.statusCode, 200)
-  //         t.equal(
-  //           response.headers['content-type'],
-  //           'application/json; charset=utf-8'
-  //         )
-  //         t.ok(response.json().incubating)
-  //         t.ok(response.json().incubatedBy)
-  //         t.ok(response.json().egg)
-  //         t.same(response.json().egg.rarityIndex, 0)
+    await serverInject(
+      {
+        method: 'POST',
+        url: '/configuration',
+        payload: {
+          socials,
+          shareConfig,
+          mintConfig,
+        },
+        headers: {
+          Authorization: token0,
+        },
+      },
+      (err, response) => {
+        const configuration = response.json()
+        expect(err).toBeFalsy()
+        expect(configuration.socials).toStrictEqual(socials)
+        expect(configuration.mintConfig).toBe(mintConfig)
+      }
+    )
 
-  //         // Check incubated by (self-incubation)
-  //         t.same(response.json().incubatedBy.from, initialEggs[0].username)
-  //         t.same(response.json().incubatedBy.to, initialEggs[0].username)
-  //         t.ok(response.json().incubatedBy.remainingDuration > 0)
-  //         t.ok(
-  //           response.json().incubatedBy.remainingDuration <=
-  //             INCUBATION_DURATION_MILLIS
-  //         )
-  //         t.ok(
-  //           response.json().incubatedBy.remainingCooldown >
-  //             INCUBATION_DURATION_MILLIS
-  //         )
-  //         t.ok(
-  //           response.json().incubatedBy.remainingCooldown <=
-  //             INCUBATION_DURATION_MILLIS + INCUBATION_COOLDOWN_MILLIS
-  //         )
+    await serverInject(
+      {
+        method: 'POST',
+        url: '/interactions',
+        payload: {
+          to: initialPlayers[1].key,
+        },
+        headers: {
+          Authorization: token0,
+        },
+      },
+      (err, response) => {
+        expect(err).toBeFalsy()
+        expect(response.statusCode).toBe(200)
+      }
+    )
 
-  //         // Check incubating (self-incubation)
-  //         t.same(response.json().incubating.from, initialEggs[0].username)
-  //         t.same(response.json().incubating.to, initialEggs[0].username)
-  //         t.ok(response.json().incubating.remainingDuration > 0)
-  //         t.ok(
-  //           response.json().incubating.remainingDuration <=
-  //             INCUBATION_DURATION_MILLIS
-  //         )
-  //         t.ok(
-  //           response.json().incubating.remainingCooldown >
-  //             INCUBATION_DURATION_MILLIS
-  //         )
-  //         t.ok(
-  //           response.json().incubating.remainingCooldown <=
-  //             INCUBATION_DURATION_MILLIS + INCUBATION_COOLDOWN_MILLIS
-  //         )
+    await serverInject(
+      {
+        method: 'GET',
+        url: '/contacts',
+        headers: {
+          Authorization: token1,
+        },
+      },
+      (err, response) => {
+        const contacts = response.json()
+        expect(err).toBeFalsy()
+        expect(contacts.contacts.contacts[0].ownerKey).toBe(socials.ownerKey)
+        expect(contacts.contacts.contacts[0].twitter).toBe(socials.twitter)
+        expect(contacts.contacts.total).toBe(1)
+      }
+    )
+  })
+  it(
+    'should avoid adding repeated contacts',
+    async () => {
+      const [token0, token1] = await Promise.all([
+        authenticatePlayer(initialPlayers[0].key),
+        authenticatePlayer(initialPlayers[1].key),
+      ])
 
-  //         t.end()
+      const socials = {
+        ownerKey: initialPlayers[0].key,
+        twitter: '@twitter',
+      }
+      const mintConfig = 'boba'
+      const shareConfig = true
 
-  //         resolve(true)
-  //       }
-  //     )
-  //   })
-  // })
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/configuration',
+          payload: {
+            socials,
+            shareConfig,
+            mintConfig,
+          },
+          headers: {
+            Authorization: token0,
+          },
+        },
+        (err, response) => {
+          const configuration = response.json()
+          expect(err).toBeFalsy()
+          expect(configuration.socials).toStrictEqual(socials)
+          expect(configuration.mintConfig).toBe(mintConfig)
+        }
+      )
+
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/interactions',
+          payload: {
+            to: initialPlayers[1].key,
+          },
+          headers: {
+            Authorization: token0,
+          },
+        },
+        (err, response) => {
+          expect(err).toBeFalsy()
+          expect(response.statusCode).toBe(200)
+        }
+      )
+
+      await sleep(INTERACTION_DURATION_MILLIS + INTERACTION_DURATION_MILLIS)
+
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/interactions',
+          payload: {
+            to: initialPlayers[1].key,
+          },
+          headers: {
+            Authorization: token0,
+          },
+        },
+        (err, response) => {
+          expect(err).toBeFalsy()
+          expect(response.statusCode).toBe(200)
+        }
+      )
+
+      await serverInject(
+        {
+          method: 'GET',
+          url: '/contacts',
+          headers: {
+            Authorization: token1,
+          },
+        },
+        (err, response) => {
+          const contacts = response.json()
+          expect(err).toBeFalsy()
+          expect(contacts.contacts.contacts[0].ownerKey).toBe(socials.ownerKey)
+          expect(contacts.contacts.contacts[0].twitter).toBe(socials.twitter)
+          expect(contacts.contacts.total).toBe(1)
+        }
+      )
+    },
+    (INTERACTION_COOLDOWN_MILLIS + INTERACTION_DURATION_MILLIS) * 1.2
+  )
 })

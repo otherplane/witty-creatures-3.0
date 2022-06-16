@@ -9,12 +9,13 @@ export class SocialModel {
   private repository: Repository<DbSocialVTO>
 
   constructor(db: Db) {
-    this.collection = db.collection('socials')
-    this.repository = new Repository(this.collection, 'key')
+    this.collection = db.collection('social')
+    this.repository = new Repository(this.collection, 'ownerKey')
   }
 
   public async create(vto: DbSocialVTO): Promise<Social> {
-    return new Social(await this.repository.create(vto))
+    const result = await this.repository.create(vto)
+    return new Social(result)
   }
 
   public async getLast(search: {
@@ -26,14 +27,13 @@ export class SocialModel {
   }
 
   public async update(socials: Social): Promise<Social | null> {
-    const { key } = socials
-    const vto = await this.repository.updateOne({ key }, socials)
+    const { ownerKey } = socials
+    const vto = await this.repository.updateOne({ ownerKey }, socials)
     return vto ? new Social(vto) : null
   }
 
   public async get(key: string): Promise<Social | null> {
-    const vto = await this.repository.getOne({ key })
-
+    const vto = await this.repository.getOne({ ownerKey: key })
     return vto ? new Social(vto) : null
   }
 }
