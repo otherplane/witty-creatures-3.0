@@ -1,7 +1,7 @@
 import { DbSocialVTO } from '../types'
 
 export class Social {
-  public key: string
+  public ownerKey: string
   public twitter?: string
   public discord?: string
   public telegram?: string
@@ -9,7 +9,7 @@ export class Social {
   public company?: string
 
   constructor(vto: DbSocialVTO) {
-    this.key = vto.key
+    this.ownerKey = vto.ownerKey
     this.twitter = vto.twitter
     this.discord = vto.discord
     this.telegram = vto.telegram
@@ -19,7 +19,7 @@ export class Social {
 
   toVTO(): DbSocialVTO {
     return {
-      key: this.key,
+      ownerKey: this.ownerKey,
       twitter: this.twitter,
       discord: this.discord,
       telegram: this.telegram,

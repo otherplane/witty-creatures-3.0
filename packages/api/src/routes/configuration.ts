@@ -26,7 +26,6 @@ const configuration: FastifyPluginAsync = async (fastify): Promise<void> => {
       },
     },
     handler: async (request: FastifyRequest<{ Body: SocialParams }>, reply) => {
-      console.log('params', request)
       // Check 1: token is valid
       let fromKey: string
       try {
@@ -89,23 +88,24 @@ const configuration: FastifyPluginAsync = async (fastify): Promise<void> => {
 
         try {
           const socialsToUpdate = {
-            key: fromPlayer.toDbVTO().key,
+            ownerKey: fromPlayer.toDbVTO().key,
             ...checkEmptySocials(request.body.socials),
           }
-          playerSocials
-            ? await socialModel.update(new Social(socialsToUpdate))
-            : await socialModel.create(socialsToUpdate)
+          if (playerSocials) {
+            await socialModel.update(new Social(socialsToUpdate))
+          } else {
+            await socialModel.create(socialsToUpdate)
+          }
           await playerModel.updateConfig(
             fromPlayer.toDbVTO().key,
             request.body.mintConfig,
             request.body.shareConfig
           )
         } catch (error) {
-          console.log(error)
           return reply.status(403).send(error as Error)
         }
         return reply.status(200).send({
-          socials: checkEmptySocials(request.body.socials),
+          socials: await socialModel.get(fromPlayer.toDbVTO().key),
           shareConfig: request.body.shareConfig,
           mintConfig: request.body.mintConfig,
         })

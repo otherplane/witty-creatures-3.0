@@ -129,14 +129,13 @@ export class PlayerModel {
     fromPlayer: string
     toPlayer: string
   }): Promise<{ to: string }> {
-    console.log('SHAAAAREEE!!!!!', fromPlayer, toPlayer)
-    const vto = await this.repository.get({ key: toPlayer })
-    console.log('TO PLAYER!!!!!', vto)
     const timestamp = new Date().getTime()
     try {
       await this.repository.pushToSet(
         { key: toPlayer },
-        { contacts: { key: fromPlayer, timestamp } }
+        { contacts: { $elemMatch: { ownerKey: fromPlayer } } },
+        { ['contacts.$']: { ownerKey: fromPlayer, timestamp } },
+        { contacts: { ownerKey: fromPlayer, timestamp } }
       )
     } catch (err) {
       console.log('error updating network', err)

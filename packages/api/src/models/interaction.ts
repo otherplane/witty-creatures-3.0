@@ -24,64 +24,6 @@ export class InteractionModel {
     const vto = await this.repository.getLast(search)
     return vto ? new Interaction(vto) : null
   }
-  // TODO: delete
-  // public async shareSocials({
-  //   username,
-  //   socials,
-  // }: {
-  //   username: string
-  //   socials: Socials | null
-  // }): Promise<DbInteractionVTO> {
-  //   const lastIncomingInteraction = await this.getLast({ to: username })
-  //   const lastOutgoingInteraction = await this.getLast({ from: username })
-  //   if (lastIncomingInteraction?.to === username) {
-  //     await this.repository.updateOne(
-  //       { from: username, timestamp: lastIncomingInteraction?.timestamp },
-  //       { socialsTo: socials }
-  //     )
-  //   }
-  //   if (lastIncomingInteraction?.from === username) {
-  //     await this.repository.updateOne(
-  //       { from: username, timestamp: lastOutgoingInteraction?.timestamp },
-  //       { socialsFrom: socials }
-  //     )
-  //   }
-  //   return await this.repository.updateOne(
-  //     { from: username, timestamp: lastOutgoingInteraction?.timestamp },
-  //     { socialsFrom: socials }
-  //   )
-  // }
-
-  public async getContactsByUsername(
-    username: string,
-    paginationParams: { limit: number; offset: number }
-  ): Promise<Array<DbInteractionVTO>> {
-    return await this.repository.getSortedBy(
-      {
-        $and: [
-          { $or: [{ from: username }, { to: username }] },
-          {
-            $or: [
-              {
-                $and: [
-                  { to: { $ne: username } },
-                  { ['socialsTo']: { $ne: null } },
-                ],
-              },
-              {
-                $and: [
-                  { from: { $ne: username } },
-                  { ['socialsFrom']: { $ne: null } },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      { timestamp: 'desc' },
-      paginationParams
-    )
-  }
 
   public async getManyByUsername(
     username: string,
@@ -98,12 +40,6 @@ export class InteractionModel {
 
   public async count(username: string): Promise<number> {
     return this.repository.count({
-      $or: [{ from: username }, { to: username }],
-    })
-  }
-  public async countContacts(username: string): Promise<number> {
-    return this.repository.count({
-      socialsTo: { $ne: null },
       $or: [{ from: username }, { to: username }],
     })
   }

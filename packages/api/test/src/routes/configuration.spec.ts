@@ -1,19 +1,21 @@
 import { authenticatePlayer, initialPlayers, serverInject } from '../../setup'
 
-describe.skip('Route /configuration', () => {
+describe('Route /configuration', () => {
   describe('should save configuration given', () => {
     it('returns given socials', async () => {
       const token = await authenticatePlayer(initialPlayers[0].key)
       const socials = {
         twitter: '@twitter',
-        share: true,
+        ownerKey: initialPlayers[0].key,
       }
+      const shareConfig = true
       const mintConfig = 'boba'
       await serverInject(
         {
           method: 'POST',
           url: '/configuration',
           payload: {
+            shareConfig,
             socials,
             mintConfig,
           },
@@ -24,9 +26,8 @@ describe.skip('Route /configuration', () => {
         (err, response) => {
           const configuration = response.json()
           expect(err).toBeFalsy()
-          expect(configuration.socials).toBe(socials)
+          expect(configuration.socials).toStrictEqual(socials)
           expect(configuration.mintConfig).toBe(mintConfig)
-          console.log(configuration)
         }
       )
     })
