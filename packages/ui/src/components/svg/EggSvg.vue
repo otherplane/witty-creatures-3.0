@@ -1,6 +1,7 @@
 <template>
   <svg
     width="95"
+    class="egg"
     :class="color"
     height="144"
     viewBox="0 -10 95 154"
@@ -356,3 +357,12 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.egg {
+  width: 100%;
+  height: auto;
+  align-self: center;
+  justify-self: center;
+}
+</style>

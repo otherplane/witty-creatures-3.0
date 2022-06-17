@@ -8,8 +8,6 @@
   font-family: 'Source Code Pro', monospace;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  display: grid;
-  grid-template-rows: max-content 1fr;
-  height: 100vh;
+  min-height: 100vh;
 }
 </style>
