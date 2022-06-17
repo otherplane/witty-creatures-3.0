@@ -1,5 +1,5 @@
 <template>
-  <MainLayout :isBackground="true">
+  <MainLayout :threeCol="true">
     <SvgImage :svg="mainLogo" class="logo" />
     <GameScreen class="screen-container">
       <EggSvg
@@ -89,5 +89,16 @@ export default {
 .link {
   width: 100%;
   justify-self: center;
+}
+@media (max-height: 1060px) {
+  .background {
+    height: 100vh;
+  }
+  .screen-container {
+    .egg {
+      height: 100px;
+      width: auto;
+    }
+  }
 }
 </style>

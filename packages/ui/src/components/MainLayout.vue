@@ -34,14 +34,13 @@ export default defineComponent({
 .background {
   min-height: 100vh;
   display: grid;
-  grid-template-rows: max-content;
+  grid-template-rows: max-content 1fr;
 }
 .layout {
+  display: grid;
   width: 100%;
   max-width: 700px;
-  display: grid;
   grid-gap: 16px;
-  display: grid;
   grid-template-rows: max-content 1fr;
   grid-template-columns: 1fr;
   margin: 0 auto;
@@ -49,19 +48,7 @@ export default defineComponent({
     grid-template-rows: max-content 1fr max-content;
   }
   &.padding {
-    margin-top: 16px;
-    padding: 16px;
-  }
-  &.max-height {
-    min-height: 80vh;
-  }
-}
-@media (max-width: 600px) {
-  .bufficorn-img {
-    height: 50vh;
-    right: -50px;
-    position: fixed;
-    bottom: 0;
+    padding: 24px 16px 16px 16px;
   }
 }
 </style>

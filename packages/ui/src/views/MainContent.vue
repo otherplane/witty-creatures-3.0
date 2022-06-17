@@ -3,16 +3,9 @@
     <NavBar class="navbar" @openExportModal="openModal('export')" />
     <MainScreen />
     <div class="sticky-btn" v-if="!player.gameOver">
-      <!-- <router-link class="btn" :to="type === 'disable' ? '' : '/scan'">
+      <router-link class="btn" :to="type === 'disable' ? '' : '/scan'">
         <CustomButton type="dark" :slim="true"> INCUBATE </CustomButton>
-      </router-link> -->
-      <CustomButton
-        type="dark"
-        :slim="true"
-        @click="player.interact({ key: player.id })"
-      >
-        INCUBATE
-      </CustomButton>
+      </router-link>
     </div>
     <div class="btn" v-if="player.gameOver">
       <CustomButton

@@ -89,16 +89,13 @@ export default {
     })
     const toggleDetails = () => {
       showDetails.value = !showDetails.value
-      console.log('toggle details----')
       if (!showDetails.value) {
-        console.log('a')
         gsap.to(`#details-${props.timestamp}`, {
           duration: 0.2,
           height: 0,
           ease: Sine.easeIn,
         })
       } else {
-        console.log('b')
         gsap.to(`#details-${props.timestamp}`, {
           duration: 0.2,
           height: 104,

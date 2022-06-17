@@ -102,7 +102,7 @@ export default {
   .dropdown {
     position: absolute;
     z-index: 50;
-    margin-top: 8px;
+    margin-top: 16px;
   }
 }
 .tab-container {
@@ -230,6 +230,9 @@ export default {
   .navbar {
     .responsive-menu {
       top: 0px;
+    }
+    .dropdown {
+      margin-top: 8px;
     }
   }
 }
