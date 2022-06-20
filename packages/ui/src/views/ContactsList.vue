@@ -3,25 +3,26 @@
     <SectionHeader title="CONTACTS" />
     <GameScreen v-if="player?.contacts" :padding="false">
       <div
-        v-for="(contact, index) in player.contacts?.contacts"
+        v-for="(contact, index) in player.contacts"
         :key="contact"
         :class="{ even: index % 2 }"
       >
         <ContactCard :contact="contact" />
       </div>
+      <CustomInfiniteLoading
+        :getItems="player.getContacts"
+        :list="player.contacts || []"
+        :total="totalItems"
+        @result="pushItems"
+      />
     </GameScreen>
-    <CustomPagination
-      v-if="numberPages > 1"
-      :limit="numberPages"
-      @update-page="updateCurrentPage"
-    />
-    <CustomButton
+    <!-- <CustomButton
       v-if="player?.contacts"
       type="primary"
       @click="exportContacts"
     >
       Export contact list
-    </CustomButton>
+    </CustomButton> -->
     <a
       ref="downloadLink"
       class="none"
@@ -39,7 +40,7 @@
 
 <script>
 import { useStore } from '@/stores/player'
-import { onBeforeMount, computed, ref, watch } from 'vue'
+import { onBeforeMount, computed, ref } from 'vue'
 
 export default {
   setup() {
@@ -50,24 +51,20 @@ export default {
     })
     const downloadLink = ref('downloadLink')
     const dataInput = ref(null)
-    const currentPage = ref(0)
-    const limit = ref(25)
     const dataStr = computed(
       () =>
         'data:text/json;charset=utf-8,' +
         encodeURIComponent(JSON.stringify(player.contacts))
     )
-    const numberPages = computed(() => {
-      return Math.ceil((player.contacts?.total || 0) / limit.value)
-    })
-    const offset = computed(() => {
-      return limit.value * currentPage.value
-    })
-    watch(currentPage, async () => {
-      await player.getContacts(offset.value, limit.value)
-    })
     const exportContacts = () => {
       downloadLink.value.click()
+    }
+    const totalItems = ref(0)
+    const pushItems = items => {
+      if (items) {
+        player.contacts.push(...items.result)
+        totalItems.value = items.total
+      }
     }
     const readFile = () => {
       const file = dataInput.value.files[0]
@@ -91,18 +88,15 @@ export default {
       )
       reader.readAsText(file)
     }
-    function updateCurrentPage(page) {
-      currentPage.value = page
-    }
     return {
       player,
       exportContacts,
+      totalItems,
       dataStr,
       downloadLink,
       dataInput,
       readFile,
-      updateCurrentPage,
-      numberPages,
+      pushItems,
     }
   },
 }
