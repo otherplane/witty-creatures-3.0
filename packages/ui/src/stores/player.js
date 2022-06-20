@@ -29,15 +29,15 @@ export const useStore = defineStore('player', {
       timeToMintInMilli: GAME_ENDS_TIMESTAMP + TIME_TO_MINT_MILLISECONDS,
       previews: [],
       mintedAwards: [],
-      history: null,
+      history: [],
       mintInfo: null,
       mintParams: null,
       color: null,
       tokenIds: null,
       score: null,
       socials: null,
-      mintConfig: null,
       contacts: null,
+      mintConfig: null,
       shareConfig: null,
       playersNetworkStats: null,
       playersGlobalStats: null,
@@ -173,8 +173,10 @@ export const useStore = defineStore('player', {
         this.setError('history', request.error)
       } else {
         this.clearError('history')
-        this.contacts = request.contacts
-        console.log(this.contacts)
+        return {
+          result: request.contacts?.contacts,
+          total: request.contacts?.total,
+        }
       }
     },
     // Mint info
@@ -253,7 +255,11 @@ export const useStore = defineStore('player', {
         this.setError('history', request.error)
       } else {
         this.clearError('history')
-        this.history = request.interactions
+        // this.history = request.interactions
+        return {
+          result: request.interactions?.interactions,
+          total: request.interactions?.total,
+        }
       }
     },
     // Leaderboard
@@ -269,8 +275,16 @@ export const useStore = defineStore('player', {
         this.setError('getLeaderboardInfo', request.error)
       } else {
         this.clearError('getLeaderboardInfo')
-        this.playersGlobalStats = request.global
-        this.playersNetworkStats = request.network
+        return {
+          global: {
+            result: request.global.players,
+            total: request.global.total,
+          },
+          network: {
+            result: request.network.players,
+            total: request.network.total,
+          },
+        }
       }
     },
     // Player Info

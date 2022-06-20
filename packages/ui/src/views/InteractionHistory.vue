@@ -3,7 +3,7 @@
     <SectionHeader title="HISTORY" />
     <GameScreen :padding="false" class="screen-container">
       <InteractionEntry
-        v-for="(interaction, index) in player.history?.interactions"
+        v-for="(interaction, index) in player.history"
         :key="interaction.timestamp"
         :class="{ even: index % 2 }"
         :network="interaction.fromNetwork"
@@ -11,41 +11,32 @@
         :from="interaction.from"
         :timestamp="interaction.timestamp"
       />
+      <CustomInfiniteLoading
+        :getItems="player.getInteractionHistory"
+        :list="player.history || []"
+        :total="totalItems"
+        @result="pushItems"
+      />
     </GameScreen>
-    <CustomPagination
-      v-if="numberPages > 1"
-      :limit="numberPages"
-      @update-page="updateCurrentPage"
-    />
   </MainLayout>
 </template>
 <script>
 import { useStore } from '@/stores/player'
-import { onMounted, computed, ref, watch } from 'vue'
+import { ref } from 'vue'
 export default {
   setup() {
     const player = useStore()
-    onMounted(() => {
-      player.getInteractionHistory()
-    })
-    const currentPage = ref(0)
-    const limit = ref(25)
-    const numberPages = computed(() => {
-      return Math.ceil((player.history?.total || 0) / limit.value)
-    })
-    const offset = computed(() => {
-      return limit.value * currentPage.value
-    })
-    watch(currentPage, async () => {
-      await player.getInteractionHistory(offset.value, limit.value)
-    })
-    function updateCurrentPage(page) {
-      currentPage.value = page
+    const totalItems = ref(0)
+    const pushItems = items => {
+      if (items) {
+        player.history.push(...items.result)
+        totalItems.value = items.total
+      }
     }
     return {
       player,
-      numberPages,
-      updateCurrentPage,
+      totalItems,
+      pushItems,
     }
   },
 }
@@ -54,6 +45,14 @@ export default {
 .even {
   background: $screen-highlight;
   border-radius: 4px;
+}
+.infinite-scroll {
+  font-family: 'Source Code Pro', monospace;
+  font-weight: bold;
+  color: $screen;
+  display: grid;
+  padding: 4px;
+  justify-content: center;
 }
 .container {
   row-gap: 0px;

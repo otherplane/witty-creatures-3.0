@@ -8,6 +8,7 @@ declare module '@vue/runtime-core' {
     ContactCard: typeof import('./src/components/ContactCard.vue')['default']
     CountdownToAllowMint: typeof import('./src/components/CountdownToAllowMint.vue')['default']
     CustomButton: typeof import('./src/components/CustomButton.vue')['default']
+    CustomInfiniteLoading: typeof import('./src/components/CustomInfiniteLoading.vue')['default']
     CustomInput: typeof import('./src/components/CustomInput.vue')['default']
     CustomPagination: typeof import('./src/components/CustomPagination.vue')['default']
     CustomSelect: typeof import('./src/components/CustomSelect.vue')['default']

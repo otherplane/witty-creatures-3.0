@@ -23,6 +23,7 @@
     "pinia": "2.0.13",
     "query-string": "7.1.1",
     "sass": "1.45.1",
+    "v3-infinite-loading": "^1.0.6",
     "vue": "3.2.33",
     "vue-barcode-reader": "1.0.1",
     "vue-router": "4.0.14",

@@ -5,7 +5,7 @@
       class="list"
     >
       <PlayerGlobalData
-        v-for="(player, index) in player.playersGlobalStats.players"
+        v-for="(player, index) in player.playersGlobalStats"
         :class="{ even: index % 2 }"
         :index="index"
         :key="player.username"
@@ -14,10 +14,12 @@
         :score="player.score"
         :network="player.network"
       />
-      <CustomPagination
-        v-if="numberPages > 1"
-        :limit="numberPages"
-        @update-page="updateCurrentPage"
+      <CustomInfiniteLoading
+        :getItems="player.getGlobalStats"
+        filter="global"
+        :total="totalGlobalItems"
+        :list="player.playersGlobalStats || []"
+        @result="pushGlobalItems"
       />
     </div>
     <div
@@ -25,7 +27,7 @@
       class="list"
     >
       <PlayerGlobalData
-        v-for="(player, index) in player.playersNetworkStats.players"
+        v-for="(player, index) in player.playersNetworkStats"
         :class="{ even: index % 2 }"
         :index="index"
         :key="player.username"
@@ -34,10 +36,12 @@
         :score="player.score"
         :network="player.network"
       />
-      <CustomPagination
-        v-if="numberPages > 1"
-        :limit="numberPages"
-        @update-page="updateCurrentPage"
+      <CustomInfiniteLoading
+        :getItems="player.getGlobalStats"
+        filter="network"
+        :total="totalNetworkItems"
+        :list="player.playersNetworkStats || []"
+        @result="pushNetworkItems"
       />
     </div>
   </GameScreen>
@@ -45,7 +49,7 @@
 
 <script>
 import { useStore } from '@/stores/player'
-import { computed, onBeforeMount, ref, watch } from 'vue'
+import { onBeforeMount, ref } from 'vue'
 export default {
   props: {
     gameEntity: {
@@ -55,28 +59,29 @@ export default {
   },
   setup() {
     const player = useStore()
-    // paginate data
-    const currentPage = ref(0)
-    const limit = ref(25)
-    const numberPages = computed(() => {
-      return Math.ceil((player.playersGlobalStats?.total || 0) / limit.value)
-    })
-    const offset = computed(() => {
-      return limit.value * currentPage.value
-    })
     onBeforeMount(async () => {
       await player.getGlobalStats()
     })
-    watch(currentPage, async () => {
-      await player.getGlobalStats(offset.value, limit.value)
-    })
-    function updateCurrentPage(page) {
-      currentPage.value = page
+    const totalGlobalItems = ref(0)
+    const pushGlobalItems = items => {
+      if (items) {
+        player.playersGlobalStats.push(...items.global.result)
+        totalGlobalItems.value = items.global.total
+      }
+    }
+    const totalNetworkItems = ref(0)
+    const pushNetworkItems = items => {
+      if (items) {
+        player.playersNetworkStats.push(...items.network.result)
+        totalNetworkItems.value = items.network.total
+      }
     }
     return {
       player,
-      updateCurrentPage,
-      numberPages,
+      pushGlobalItems,
+      pushNetworkItems,
+      totalNetworkItems,
+      totalGlobalItems,
     }
   },
 }
