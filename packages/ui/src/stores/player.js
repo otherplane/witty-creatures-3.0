@@ -145,7 +145,7 @@ export const useStore = defineStore('player', {
       const request = await this.api.saveConfig({
         token: tokenInfo.token,
         socials: {
-          key: tokenInfo.key,
+          ownerKey: tokenInfo.key,
           ...socials,
         },
         shareConfig,
