@@ -19,10 +19,10 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { useLocalValue } from '@/composables/localValueGetSet'
 export default {
   props: {
-    checked: {
+    value: {
       type: Boolean,
       default: false,
     },
@@ -31,15 +31,9 @@ export default {
       required: true,
     },
   },
-  setup(props, { emit }) {
-    const localValue = computed({
-      get() {
-        return props.checked
-      },
-      set(value) {
-        emit('change', { label: props.label, value })
-      },
-    })
+  setup() {
+    const { localValue } = useLocalValue()
+    console.log(localValue)
     return { localValue }
   },
 }

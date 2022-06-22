@@ -8,7 +8,7 @@
         <CustomSelect
           class="field margin"
           :options="formatedNetworks"
-          :defaultOption="{ key: player.mintConfig }"
+          :value="{ key: player.mintConfig }"
           label="network"
           @change="setValue"
         />
@@ -61,7 +61,7 @@
         <label class="form-label">Share socials by default</label>
         <CustomSwitch
           class="field margin"
-          :checked="player.socials?.share"
+          :value="player.socials?.share"
           label="share"
           @change="setValue"
         />
