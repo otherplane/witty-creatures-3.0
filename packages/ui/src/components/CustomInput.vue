@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { useLocalValue } from '@/composables/localValueGetSet.js'
 export default {
   props: {
     label: {
@@ -19,16 +19,8 @@ export default {
       default: '',
     },
   },
-  emits: ['change'],
-  setup(props, { emit }) {
-    const localValue = computed({
-      get() {
-        return props.value
-      },
-      set(value) {
-        emit('change', { label: props.label, value })
-      },
-    })
+  setup() {
+    const { localValue } = useLocalValue()
     return { localValue }
   },
 }

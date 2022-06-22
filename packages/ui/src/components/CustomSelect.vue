@@ -1,6 +1,6 @@
 <template>
   <VSelect
-    v-model="localSelected"
+    v-model="localValue"
     dir="rtl"
     :clearable="false"
     :filterable="false"
@@ -20,14 +20,14 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { useLocalValue } from '@/composables/localValueGetSet'
 export default {
   props: {
     options: {
       type: Array,
       required: true,
     },
-    defaultOption: {
+    value: {
       type: Object,
       required: true,
     },
@@ -36,16 +36,10 @@ export default {
       required: true,
     },
   },
-  setup(props, { emit }) {
-    const localSelected = computed({
-      get() {
-        return props.defaultOption
-      },
-      set(selected) {
-        emit('change', { label: props.label, value: selected.key })
-      },
-    })
-    return { localSelected }
+  setup() {
+    const { localValue } = useLocalValue()
+    console.log(localValue)
+    return { localValue }
   },
 }
 </script>
