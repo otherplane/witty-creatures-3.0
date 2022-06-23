@@ -1,9 +1,5 @@
 name: Run lint, test and build
 
-env:
-  CI: true
-  MONGO_INITDB_DATABASE: 'db'
-
 on: pull_request
 jobs:
   lint_and_test:
