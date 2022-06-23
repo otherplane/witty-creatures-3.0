@@ -22,6 +22,8 @@ jobs:
         with:
           mongodb-version: '4.0'
           mongodb-port: 27017
+          mongodb-username: username 
+          mongodb-password: password 
 
       - run: yarn
       - run: yarn bootstrap
