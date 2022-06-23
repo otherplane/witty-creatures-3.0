@@ -1,5 +1,6 @@
 import { DbInteractionVTO } from '../types'
 
+// example
 export class Interaction {
   public from: string
   public to: string
