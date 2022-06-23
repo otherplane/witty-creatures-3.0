@@ -126,21 +126,37 @@ export class PlayerModel {
     fromPlayer,
     toPlayer,
   }: {
-    fromPlayer: string
-    toPlayer: string
+    fromPlayer: Player
+    toPlayer: Player
   }): Promise<{ to: string }> {
     const timestamp = new Date().getTime()
-    try {
-      await this.repository.pushToSet(
-        { key: toPlayer },
-        { contacts: { $elemMatch: { ownerKey: fromPlayer } } },
-        { ['contacts.$']: { ownerKey: fromPlayer, timestamp } },
-        { contacts: { ownerKey: fromPlayer, timestamp } }
-      )
-    } catch (err) {
-      console.log('error updating network', err)
+
+    const isRepeatedContact = toPlayer.contacts.find(
+      contact => contact.ownerKey === fromPlayer.key
+    )
+
+    if (isRepeatedContact) {
+      try {
+        await this.repository.updateSetItem(
+          { key: toPlayer.key },
+          { contacts: { $elemMatch: { ownerKey: fromPlayer.key } } },
+          { ['contacts.$']: { ownerKey: fromPlayer.key, timestamp } }
+        )
+      } catch (err) {
+        console.log('error updating network', err)
+      }
+    } else {
+      try {
+        await this.repository.pushToSet(
+          { key: toPlayer.key },
+          { contacts: { ownerKey: fromPlayer.key, timestamp } }
+        )
+      } catch (err) {
+        console.log('error updating network', err)
+      }
     }
-    return { to: toPlayer }
+
+    return { to: toPlayer.key }
   }
 
   public computePoints(

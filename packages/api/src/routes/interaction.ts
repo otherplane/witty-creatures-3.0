@@ -145,14 +145,14 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
         }
         if (fromPlayer.shareConfig) {
           await playerModel.shareSocials({
-            fromPlayer: fromPlayer.toDbVTO().key,
-            toPlayer: toPlayer.toDbVTO().key,
+            fromPlayer: fromPlayer,
+            toPlayer: toPlayer,
           })
         }
         if (toPlayer.shareConfig) {
           await playerModel.shareSocials({
-            fromPlayer: toPlayer.toDbVTO().key,
-            toPlayer: fromPlayer.toDbVTO().key,
+            fromPlayer: toPlayer,
+            toPlayer: fromPlayer,
           })
         }
         // Create and return `interact` object
@@ -226,8 +226,8 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
 
         return reply.status(200).send(
           await playerModel.shareSocials({
-            fromPlayer: fromPlayer.toDbVTO().key,
-            toPlayer: toPlayer.toDbVTO().key,
+            fromPlayer: fromPlayer,
+            toPlayer: toPlayer,
           })
         )
       },

@@ -98,30 +98,43 @@ export class Repository<T> {
 
   public async pushToSet(
     filter: Filter<T>,
-    secondaryFilter: Filter<T>,
-    update: MatchKeysAndValues<T>,
     element: SetFields<T>
+  ): Promise<WithId<T>> {
+    try {
+      const success = await this.collection.updateOne(filter, {
+        $addToSet: element,
+      })
+      if (!success.acknowledged)
+        throw new Error(`Element could not be updated (name: ${element})`)
+      return (await this.getOne(filter)) as WithId<T>
+    } catch (error) {
+      throw new Error(`Element does not exist (name: ${element})`)
+    }
+  }
+
+  public async updateSetItem(
+    filter: Filter<T>,
+    setKey: Filter<T>,
+    update: MatchKeysAndValues<T>
   ): Promise<WithId<T>> {
     try {
       const itemToUpdate = await this.getOne({
         ...filter,
-        ...secondaryFilter,
+        ...setKey,
       })
-      if (itemToUpdate) {
-        await this.collection.updateOne(filter, {
-          $set: update,
-        })
+      if (!itemToUpdate) {
+        throw new Error('Element does not exist (name: ${element})')
       }
-      const success = await this.collection.updateOne(filter, {
-        $addToSet: element,
+      const result = await this.collection.updateOne(filter, {
+        $set: update,
       })
-
-      if (!success.acknowledged)
-        throw new Error(`Element could not be updated (name: ${element})`)
-
+      if (!result.acknowledged)
+        throw new Error(
+          `Element could not be updated (filter: ${filter}, setKey ${setKey})`
+        )
       return (await this.getOne(filter)) as WithId<T>
     } catch (error) {
-      throw new Error(`Element does not exist (name: ${element})`)
+      throw error as Error
     }
   }
 
