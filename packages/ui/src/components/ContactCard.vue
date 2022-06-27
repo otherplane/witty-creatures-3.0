@@ -1,7 +1,7 @@
 <template>
   <div ref="contactRef">
     <div @click="toggleDetails" class="contact-container">
-      <EggSvg class="egg" :color="THEME_COLORS[color]" :speed="1" />
+      <EggSvg class="egg" :color="THEME_COLORS[contact?.color]" :speed="1" />
       <p v-if="contact.name" class="name">
         Name:
         <span>{{ contact.name }}</span>
@@ -11,10 +11,12 @@
         <span>{{ contact.company }}</span>
       </p>
       <p class="contact-label date">
-        {{ format(utcToZonedTime(timestamp, timeZone), 'LLL dd @ HH:mm') }}
+        {{
+          format(utcToZonedTime(contact.timestamp, timeZone), 'LLL dd @ HH:mm')
+        }}
       </p>
     </div>
-    <div :id="`details-${timestamp}`" class="details">
+    <div :id="`details-${contact?.timestamp}`" class="details">
       <div class="content">
         <div v-for="social in socialDetails" :key="social.key">
           <a
@@ -57,10 +59,6 @@ export default {
       type: Object,
       required: true,
     },
-    color: {
-      type: Number,
-      required: true,
-    },
   },
   setup(props) {
     const player = useStore()
@@ -90,13 +88,13 @@ export default {
     const toggleDetails = () => {
       showDetails.value = !showDetails.value
       if (!showDetails.value) {
-        gsap.to(`#details-${props.timestamp}`, {
+        gsap.to(`#details-${props.contact.timestamp}`, {
           duration: 0.2,
           height: 0,
           ease: Sine.easeIn,
         })
       } else {
-        gsap.to(`#details-${props.timestamp}`, {
+        gsap.to(`#details-${props.contact.timestamp}`, {
           duration: 0.2,
           height: 104,
           ease: Sine.easeIn,

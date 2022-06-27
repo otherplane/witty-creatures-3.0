@@ -1,7 +1,7 @@
 <template>
   <MainLayout>
     <SectionHeader title="CONTACTS" />
-    <GameScreen v-if="player?.contacts" :padding="false">
+    <GameScreen :padding="false">
       <div
         v-for="(contact, index) in player.contacts"
         :key="contact"

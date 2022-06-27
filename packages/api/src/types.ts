@@ -19,6 +19,7 @@ export const ExtendedSocial = Type.Object({
   telegram: Type.Optional(Type.String()),
   name: Type.Optional(Type.String()),
   company: Type.Optional(Type.String()),
+  color: Type.Optional(Type.Number()),
 })
 
 export type ExtendedSocial = Static<typeof ExtendedSocial>

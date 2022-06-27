@@ -36,11 +36,11 @@ export const useStore = defineStore('player', {
       tokenIds: null,
       score: null,
       socials: null,
-      contacts: null,
+      contacts: [],
       mintConfig: null,
       shareConfig: null,
-      playersNetworkStats: null,
-      playersGlobalStats: null,
+      playersNetworkStats: [],
+      playersGlobalStats: [],
       errors: {
         showMintedAwards: null,
         preview: null,
@@ -113,7 +113,7 @@ export const useStore = defineStore('player', {
       const tokenInfo = this.getToken()
       const request = await this.api.shareSocials({
         token: tokenInfo.token,
-        to: tokenInfo && tokenInfo.key,
+        to: this.interactionIn?.from || this.interactionOut?.to,
       })
       if (request.error) {
         this.setError('shareSocials', request.error)

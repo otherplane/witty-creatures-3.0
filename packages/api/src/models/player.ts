@@ -100,6 +100,12 @@ export class PlayerModel {
     return vto ? new Player(vto) : null
   }
 
+  public async getByUsername(username: string): Promise<Player | null> {
+    const vto = await this.repository.getOne({ username })
+
+    return vto ? new Player(vto) : null
+  }
+
   public async addPoints(key: string, points: number): Promise<Player | null> {
     await this.collection.updateOne({ key }, { $inc: { score: points } })
 
