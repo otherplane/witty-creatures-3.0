@@ -210,7 +210,7 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
             .status(409)
             .send(new Error(`Player should be claimed before sharing socials`))
         }
-        const toPlayer = await playerModel.get(request.body.to)
+        const toPlayer = await playerModel.getByUsername(request.body.to)
         if (!toPlayer) {
           return reply
             .status(404)

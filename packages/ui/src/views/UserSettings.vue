@@ -61,7 +61,7 @@
         <label class="form-label">Share socials by default</label>
         <CustomSwitch
           class="field margin"
-          :value="player.socials?.share"
+          :value="player.shareConfig"
           label="share"
           @change="setValue"
         />

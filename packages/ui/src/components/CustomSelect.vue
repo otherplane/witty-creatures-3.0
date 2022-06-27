@@ -38,7 +38,6 @@ export default {
   },
   setup() {
     const { localValue } = useLocalValue()
-    console.log(localValue)
     return { localValue }
   },
 }

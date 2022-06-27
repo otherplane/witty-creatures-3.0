@@ -1,9 +1,6 @@
 <template>
   <GameScreen :padding="false">
-    <div
-      v-if="gameEntity === 'global' && player.playersGlobalStats"
-      class="list"
-    >
+    <div v-if="gameEntity === 'global'" class="list">
       <PlayerGlobalData
         v-for="(player, index) in player.playersGlobalStats"
         :class="{ even: index % 2 }"
@@ -22,10 +19,7 @@
         @result="pushGlobalItems"
       />
     </div>
-    <div
-      v-if="gameEntity === 'network' && player.playersNetworkStats.players"
-      class="list"
-    >
+    <div v-if="gameEntity === 'network'" class="list">
       <PlayerGlobalData
         v-for="(player, index) in player.playersNetworkStats"
         :class="{ even: index % 2 }"
@@ -49,7 +43,7 @@
 
 <script>
 import { useStore } from '@/stores/player'
-import { onBeforeMount, ref } from 'vue'
+import { ref } from 'vue'
 export default {
   props: {
     gameEntity: {
@@ -59,9 +53,6 @@ export default {
   },
   setup() {
     const player = useStore()
-    onBeforeMount(async () => {
-      await player.getGlobalStats()
-    })
     const totalGlobalItems = ref(0)
     const pushGlobalItems = items => {
       if (items) {

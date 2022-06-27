@@ -129,9 +129,11 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
         .slice(request.query.offset, request.query.limit)
         .map(async (contact: ContactIndex): Promise<ContactIndex> => {
           // We can assume that the contact exist because it was pushed to the player contacts
+          const ownerInfo = await playerModel.get(contact.ownerKey)
           try {
             return {
               ...(await socialModel.get(contact.ownerKey)),
+              color: ownerInfo ? ownerInfo.color : null,
               timestamp: contact.timestamp,
             } as ContactIndex
           } catch (err) {
