@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Static, Type, TSchema } from '@sinclair/typebox'
 export { Db, Collection, ObjectId, WithId } from 'mongodb'
 
@@ -122,9 +123,82 @@ export const DbPlayerVTO = Type.Object({
 
 export type DbPlayerVTO = Static<typeof DbPlayerVTO>
 
-//TODO: define Medal type
-export const Medal = Type.String()
-export type Medal = Static<typeof Medal>
+//TODO: define NFT type
+export const PlayerAward = Type.Object({
+  category: Type.Number(),
+  ranking: Type.Number(),
+  playerId: Type.Number(),
+})
+export type PlayerAward = Static<typeof PlayerAward>
+
+// Preview
+
+export const PreviewImageNameReply = Type.Array(Type.String())
+export type PreviewImageNameReply = Static<typeof PreviewImageNameReply>
+
+export const PreviewParams = Type.Object({
+  token_ids: Type.Array(Type.String()),
+})
+export type PreviewParams = Static<typeof PreviewParams>
+
+export const PreviewReply = Type.Array(PlayerAward)
+
+export type PreviewReply = Static<typeof PreviewReply>
+
+// NFT
+export enum MouthTrait {
+  Mouth1 = 'mouth-1',
+  Mouth2 = 'mouth-2',
+  Mouth3 = 'mouth-3',
+  Mouth4 = 'mouth-4',
+}
+export enum EyesTrait {
+  Eyes1 = 'eyes-1',
+  Eyes2 = 'eyes-2',
+  Eyes3 = 'eyes-3',
+  Eyes4 = 'eyes-4',
+}
+export enum HeadTrait {
+  Head1 = 'head-1',
+  Head2 = 'head-2',
+  Head3 = 'head-3',
+  Head4 = 'head-4',
+}
+export enum ClothesTrait {
+  Clothes1 = 'clothes-1',
+  Clothes2 = 'clothes-2',
+  Clothes3 = 'clothes-3',
+  Clothes4 = 'clothes-4',
+}
+export enum ObjectTrait {
+  Object1 = 'object-1',
+  Object2 = 'object-2',
+  Object3 = 'object-3',
+  Object4 = 'object-4',
+}
+export enum BackgroundTrait {
+  Background1 = 'backgound-1',
+  Background2 = 'backgound-2',
+  Background3 = 'backgound-3',
+  Background4 = 'backgound-4',
+}
+
+export const Award = Type.Object({
+  mouth: Type.String(MouthTrait),
+  eyes: Type.String(EyesTrait),
+  head: Type.String(HeadTrait),
+  clothes: Type.String(ClothesTrait),
+  object: Nullable(Type.String(ObjectTrait)),
+  background: Nullable(Type.String(BackgroundTrait)),
+})
+export type Award = Static<typeof Award>
+
+export const PlayerImagesReponse = Type.Array(
+  Type.Object({
+    svg: Type.String(),
+  })
+)
+export type PlayerImagesReponse = Static<typeof PlayerImagesReponse>
 
 export const IndexedEgg = Type.Intersect([
   PlayerVTO,
@@ -198,6 +272,11 @@ export type DbInteractionVTO = Static<typeof DbInteractionVTO>
 export const ProtectedPlayerVTO = Type.Omit(PlayerVTO, ['token'])
 export type ProtectedPlayerVTO = Static<typeof ProtectedPlayerVTO>
 
+export type GetTokenInfoResponse = {
+  category: number
+  ranking: number
+}
+
 export const ExtendedPlayerVTO = Type.Object({
   player: ProtectedPlayerVTO,
   lastInteractionIn: Nullable(DbInteractionVTO),
@@ -219,10 +298,10 @@ export const MintOutput = Type.Object({
   }),
   data: Type.Object({
     address: Type.String(),
-    index: Type.Number(),
-    rank: Type.Number(),
-    score: Type.Number(),
-    total: Type.Number(),
+    playerName: Type.String(),
+    playerId: Type.Number(),
+    playerScore: Type.Number(),
+    playerAwards: Type.Array(PlayerAward),
   }),
 })
 export type MintOutput = Static<typeof MintOutput>

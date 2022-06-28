@@ -10,12 +10,14 @@ import { PLAYERS_COUNT, JWT_SECRET, MONGO_URI } from './constants'
 import { PlayerModel } from './models/player'
 import { InteractionModel } from './models/interaction'
 import { SocialModel } from './models/social'
+import { MintModel } from './models/mint'
 
 declare module 'fastify' {
   interface FastifyInstance {
     playerModel: PlayerModel
     socialModel: SocialModel
     interactionModel: InteractionModel
+    mintModel: MintModel
   }
 }
 
@@ -64,9 +66,11 @@ const app: FastifyPluginAsync<AppOptions> = async (
     if (!fastify.mongo.db) throw Error('mongo db not found')
     const playerModel = new PlayerModel(fastify.mongo.db)
     const socialModel = new SocialModel(fastify.mongo.db)
+    const mintModel = new MintModel(fastify.mongo.db)
     const interactionModel = new InteractionModel(fastify.mongo.db)
 
     fastify.decorate('playerModel', playerModel)
+    fastify.decorate('mintModel', mintModel)
     fastify.decorate('interactionModel', interactionModel)
     fastify.decorate('socialModel', socialModel)
 
