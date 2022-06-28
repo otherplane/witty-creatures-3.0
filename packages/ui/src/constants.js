@@ -45,17 +45,53 @@ export const THEME_COLORS = {
 }
 
 export const NETWORKS = {
-  ethereum: {
-    key: 'ethereum',
-    name: 'ethereans',
+  1: {
+    name: 'Ethereum Mainnet',
+    id: '1',
+    kind: 'ethereans',
+    contractAddress: import.meta.env.VITE_ETHEREUM_CONTRACT_ADDRESS,
+    rpcUrls: ['https://mainnet.infura.io/v3/'],
+    blockExplorerUrls: ['https://etherscan.io/'],
   },
-  boba: {
-    key: 'boba',
-    name: 'bobarians',
+  288: {
+    name: 'Boba Network',
+    id: '288',
+    kind: 'bobarians',
+    contractAddress: import.meta.env.VITE_BOBA_CONTRACT_ADDRESS,
+    rpcUrls: ['https://mainnet.boba.network'],
+    blockExplorerUrls: ['https://blockexplorer.boba.network/'],
   },
-  moonbeam: {
-    key: 'moonbeam',
-    name: 'moonbeam',
+  321: {
+    name: 'KCC Mainnet',
+    id: '321',
+    kind: 'moonbeam',
+    contractAddress: import.meta.env.VITE_MOONBEAM_CONTRACT_ADDRESS,
+    rpcUrls: ['https://rpc-mainnet.kcc.network'],
+    blockExplorerUrls: ['https://explorer.kcc.io/'],
+  },
+  66: {
+    name: 'OKX Chain',
+    id: '66',
+    kind: 'okx',
+    contractAddress: import.meta.env.VITE_OKX_CONTRACT_ADDRESS,
+    rpcUrls: ['https://exchainrpc.okex.org'],
+    blockExplorerUrls: [''],
+  },
+  1088: {
+    name: 'Metis Mainnet',
+    id: '1088',
+    kind: 'metis',
+    contractAddress: import.meta.env.VITE_METIS_CONTRACT_ADDRESS,
+    rpcUrls: ['https://andromeda.metis.io/?owner=1088'],
+    blockExplorerUrls: ['https://andromeda-explorer.metis.io/'],
+  },
+  137: {
+    name: 'Polygon Mainnet',
+    id: 137,
+    kind: 'polygon',
+    contractAddress: import.meta.env.VITE_POLYGON_CONTRACT_ADDRESS,
+    rpcUrls: ['https://polygon-rpc.com/'],
+    blockExplorerUrls: ['https://polygonscan.com'],
   },
 }
 

@@ -16,7 +16,7 @@ describe('Route /leaderboard', () => {
       await serverInject(
         {
           method: 'GET',
-          url: '/leaderboard?filter=ethereum',
+          url: '/leaderboard?filter=1',
           headers: {
             Authorization: token,
           },
@@ -52,7 +52,7 @@ describe('Route /leaderboard', () => {
         ownerKey: initialPlayers[0].key,
       }
       const shareConfig = true
-      const mintConfig = 'boba'
+      const mintConfig = 288
       await serverInject(
         {
           method: 'POST',
@@ -76,7 +76,7 @@ describe('Route /leaderboard', () => {
       await serverInject(
         {
           method: 'GET',
-          url: '/leaderboard?filter=boba',
+          url: '/leaderboard?filter=288',
           headers: {
             Authorization: token,
           },
@@ -130,7 +130,7 @@ describe('Route /leaderboard', () => {
       await serverInject(
         {
           method: 'GET',
-          url: '/leaderboard?filter=ethereum',
+          url: '/leaderboard?filter=288',
           headers: {
             Authorization: token,
           },
@@ -171,7 +171,7 @@ describe('Route /leaderboard', () => {
       await serverInject(
         {
           method: 'GET',
-          url: '/leaderboard?filter=ethereum&limit=1&offset=0',
+          url: '/leaderboard?filter=1&limit=1&offset=0',
           headers: {
             Authorization: token,
           },
@@ -189,7 +189,7 @@ describe('Route /leaderboard', () => {
       await serverInject(
         {
           method: 'GET',
-          url: '/leaderboard?filter=ethereum&limit=1&offset=1',
+          url: '/leaderboard?filter=1&limit=1&offset=1',
           headers: {
             Authorization: token,
           },

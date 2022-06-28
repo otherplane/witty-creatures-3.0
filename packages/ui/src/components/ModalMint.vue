@@ -17,13 +17,13 @@ import { useStore } from '@/stores/player'
 export default defineComponent({
   setup() {
     const instance = getCurrentInstance()
-    const w3Witmon = useWeb3()
+    const web3WittyCreatures = useWeb3()
     const player = useStore()
     return {
       player,
       bufficornMain,
       mint() {
-        w3Witmon.mint()
+        web3WittyCreatures.mint()
         instance.parent.emit('close')
       },
     }

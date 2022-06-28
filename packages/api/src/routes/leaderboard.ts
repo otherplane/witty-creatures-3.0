@@ -30,7 +30,7 @@ const leaderboard: FastifyPluginAsync = async (fastify): Promise<void> => {
 
       const totalPlayers = await playerModel.countActive()
       const sortedPlayers: Array<Player> | null =
-        await playerModel.getPlayersByNetwork(request.query.filter || '', {
+        await playerModel.getPlayersByNetwork(request.query.filter, {
           limit: request.query.limit || 10,
           offset: request.query.offset || 0,
         })
