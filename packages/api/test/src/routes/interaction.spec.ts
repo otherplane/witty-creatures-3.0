@@ -633,7 +633,6 @@ describe('Route /socialsShare', () => {
         authenticatePlayer(initialPlayers[0].key),
         authenticatePlayer(initialPlayers[1].key),
       ])
-
       const socials = {
         ownerKey: initialPlayers[0].key,
         twitter: '@twitter',
@@ -667,7 +666,7 @@ describe('Route /socialsShare', () => {
           method: 'POST',
           url: '/socialsShare',
           payload: {
-            to: initialPlayers[1].key,
+            to: initialPlayers[1].username,
           },
           headers: {
             Authorization: token0,
