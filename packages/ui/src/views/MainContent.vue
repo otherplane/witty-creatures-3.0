@@ -80,10 +80,9 @@ export default {
         }
         if (player.gameOver) {
           await player.getMintInfo()
-          await player.getPreviews()
+          await player.getPreview()
           if (player.minted) {
             await web3WittyCreatures.getTokenIds()
-            await player.getMintedAwardsImages()
           }
         }
       }

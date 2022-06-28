@@ -19,7 +19,10 @@
         @result="pushGlobalItems"
       />
     </div>
-    <div v-if="gameEntity === 'network'" class="list">
+    <div
+      v-if="gameEntity === 'network' && player.playersNetworkStats"
+      class="list"
+    >
       <PlayerGlobalData
         v-for="(player, index) in player.playersNetworkStats"
         :class="{ even: index % 2 }"

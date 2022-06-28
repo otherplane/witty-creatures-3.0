@@ -2,6 +2,8 @@ import { FastifyPluginAsync, FastifyRequest } from 'fastify'
 import { checkEmptySocials } from '../utils'
 import { Social } from '../domain/social'
 
+import Web3 from 'web3'
+import { WEB3_PROVIDER, WITTY_CREATURES_ERC721_ADDRESS } from '../constants'
 import {
   AuthorizationHeader,
   GetByStringKeyParams,
@@ -14,7 +16,12 @@ import {
   SocialResult,
   ConfigParams,
   ConfigResult,
+  PlayerImagesReponse,
 } from '../types'
+import { SvgService } from '../svgService'
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const CONTRACT_ERCC721_ABI = require('../assets/WittyCreaturesABI.json')
 
 const players: FastifyPluginAsync = async (fastify): Promise<void> => {
   if (!fastify.mongo.db) throw Error('mongo db not found')
@@ -251,6 +258,67 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
       },
     }
   )
+  fastify.get<{
+    Reply: PlayerImagesReponse | Error
+  }>('/players/image', {
+    schema: {
+      headers: AuthorizationHeader,
+      response: {
+        200: PlayerImagesReponse,
+      },
+    },
+    handler: async (request: FastifyRequest, reply) => {
+      // Check 1: token is valid
+      let fromKey: string
+      try {
+        const decoded: JwtVerifyPayload = fastify.jwt.verify(
+          request.headers.authorization as string
+        )
+        fromKey = decoded.id
+      } catch (err) {
+        return reply.status(403).send(new Error(`Forbidden: invalid token`))
+      }
+
+      // Check 2 (unreachable): valid server issued token refers to non-existent player
+      const player = await playerModel.get(fromKey)
+      if (!player) {
+        return reply
+          .status(404)
+          .send(new Error(`Player does not exist (key: ${fromKey})`))
+      }
+      const result: Array<{ svg: string }> = []
+      let callResult
+      const web3 = new Web3(new Web3.providers.HttpProvider(WEB3_PROVIDER))
+      const contract = new web3.eth.Contract(
+        CONTRACT_ERCC721_ABI,
+        WITTY_CREATURES_ERC721_ADDRESS
+      )
+      try {
+        callResult = await contract.methods.getTokenInfo(1).call()
+      } catch (err) {
+        console.error('[Server] Metadata error:', err)
+        return reply.status(404).send(new Error(`Metadata`))
+      }
+      console.log('callResult', callResult[0])
+      //TODO: Call get svg metadata
+      // const [head, eyes, mouth, clothes, background, object]: [string, string, string, string, string, string] = callResult[0]
+      const svg = SvgService.getSVG({
+        head: 'head-1',
+        eyes: 'eyes-1',
+        mouth: 'mouth-1',
+        clothes: 'clothes-1',
+        background: 'background-1',
+        object: 'object-1',
+      })
+
+      result.push({
+        svg: svg.replace(/\n/g, ''),
+      })
+
+      // return extended player
+      return reply.status(200).send(result)
+    },
+  })
 }
 
 export default players

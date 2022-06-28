@@ -89,7 +89,7 @@ export function useWeb3() {
       try {
         const contract = new web3.eth.Contract(jsonInterface, CONTRACT_ADDRESS)
         const result = await contract.methods
-          .getFarmerTokens(player.farmerId)
+          .getPlayerTokens(player.playerId)
           .call()
         player.setTokenIds(result)
         return result
@@ -131,8 +131,7 @@ export function useWeb3() {
         })
         .on('confirmation', (confirmationNumber, receipt) => {
           player.saveMintInfo(receipt)
-          const data = player.getMintedAwardsImages()
-          player.setData(data)
+          player.getMintedAwardsImages()
         })
         .then(newContractInstance => {
           console.log('newContractInstance', newContractInstance)

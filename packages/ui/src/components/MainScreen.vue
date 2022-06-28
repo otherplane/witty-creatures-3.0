@@ -5,9 +5,9 @@
       <span class="points-bold">{{ formatNumber(player.score) }}</span>
       points
     </p>
-    <EggSvg class="egg" :speed="0.7" />
+    <NFTPreview v-if="player.nft[0]" />
+    <EggSvg v-else class="egg" :speed="0.7" />
     <InteractionInfo />
-    <NFTPreview />
     <MintInformation />
     <GameOverCounter class="counter" />
     <CountdownToAllowMint
