@@ -1,13 +1,5 @@
 <template>
-  <p v-if="!player.demoOver" class="counter">
-    <span>DEMO ENDS IN: </span>
-    <TimeLeft
-      class="time-left"
-      :timestamp="player.demoOverTimeMilli"
-      :seconds="true"
-    />
-  </p>
-  <p v-else-if="!player.gameOver" class="counter">
+  <p v-if="!player.gameOver" class="counter">
     <span>GAME ENDS IN: </span>
     <TimeLeft
       class="time-left"

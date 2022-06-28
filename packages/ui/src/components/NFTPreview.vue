@@ -1,9 +1,6 @@
 <template>
-  <div class="nft-container" v-if="player.previews.length >= 1">
-    <p class="nft-title">{{ title }}</p>
-    <div class="nft-container">
-      {{ nft }}
-    </div>
+  <div class="nft">
+    <img id="medal-img" :src="nft" />
   </div>
 </template>
 
@@ -16,14 +13,11 @@ export default {
   setup() {
     const player = useStore()
     const title = computed(() => {
-      return player.mintedAwards ? 'NFT AWARDS' : 'NFT AWARDS (PREVIEW)'
+      return player.mintedAwards ? 'NFT' : 'NFT (PREVIEW)'
     })
     const nft = computed(() => {
-      if (player.mintedAwards.length) {
-        return player.mintedAwards
-      } else {
-        return player.previews
-      }
+      let blob = new Blob([player.nft[0]?.svg], { type: 'image/svg+xml' })
+      return URL.createObjectURL(blob)
     })
     return { importSvg, title, player, OPENSEA_BASE_URL, nft }
   },
@@ -31,25 +25,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.nft-container {
-  width: 700px;
-}
-.nft-container {
-  overflow: hidden;
-  display: grid;
-  border-radius: 4px;
-  margin: 16px 0px;
-  justify-content: center;
-}
-.nft-title {
-  font-weight: bold;
-  font-family: Zilla Slab, sans-serif;
-  font-size: 12px;
-  color: var(--primary-color);
-}
-@media (max-width: 600px) {
-  .nft-container {
-    width: 90vw;
-  }
+.nft {
+  width: 50%;
+  height: auto;
+  align-self: center;
+  justify-self: center;
 }
 </style>

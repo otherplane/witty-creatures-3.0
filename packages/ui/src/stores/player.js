@@ -1,11 +1,7 @@
 import { defineStore } from 'pinia'
 import { ApiService } from '@/api'
 import router from '../router'
-import {
-  TIME_TO_MINT_MILLISECONDS,
-  DEMO_ENDS_TIMESTAMP,
-  GAME_ENDS_TIMESTAMP,
-} from '../constants'
+import { TIME_TO_MINT_MILLISECONDS, GAME_ENDS_TIMESTAMP } from '../constants'
 import { isMainnetTime } from '@/utils'
 export const useStore = defineStore('player', {
   state: () => {
@@ -13,11 +9,7 @@ export const useStore = defineStore('player', {
       api: new ApiService(),
       id: null,
       theme: null,
-      nft: [],
       username: '',
-      ranch: {},
-      selectedBufficorn: null,
-      bonus: null,
       network: null,
       interactionInfo: null,
       socialsSharedMessage: false,
@@ -25,11 +17,9 @@ export const useStore = defineStore('player', {
       interactionOut: null,
       //TODO: make gameOverTimeMilli take GAME_ENDS_TIMESTAMP value when gameOver is defined
       gameOverTimeMilli: GAME_ENDS_TIMESTAMP,
-      demoOverTimeMilli: DEMO_ENDS_TIMESTAMP,
       timeToMintInMilli: GAME_ENDS_TIMESTAMP + TIME_TO_MINT_MILLISECONDS,
-      previews: [],
-      mintedAwards: [],
-      history: [],
+      nft: [],
+      history: null,
       mintInfo: null,
       mintParams: null,
       color: null,
@@ -42,7 +32,7 @@ export const useStore = defineStore('player', {
       playersNetworkStats: [],
       playersGlobalStats: [],
       errors: {
-        showMintedAwards: null,
+        showNFT: null,
         preview: null,
         auth: null,
         interaction: null,
@@ -70,10 +60,6 @@ export const useStore = defineStore('player', {
       } else {
         return false
       }
-    },
-    demoOver() {
-      //FIXME: make it reactive
-      return this.demoOverTimeMilli < Date.now()
     },
     isMainnetTime() {
       return isMainnetTime()
@@ -157,6 +143,9 @@ export const useStore = defineStore('player', {
         this.clearError('config')
         this.getPlayerInfo()
       }
+    },
+    setTokenIds(tokenIds) {
+      this.tokenIds = tokenIds
     },
     // Socials
     async getContacts(offset = 0, limit = 25) {
@@ -317,13 +306,19 @@ export const useStore = defineStore('player', {
       }
     },
     // Web3
-    // TODO: get minted nft
-    async getMintedAwardsImages() {
-      // To Be Implemented
-    },
-    // TODO: get preview
-    async getPreviews() {
-      // To Be Implemented
+    // Minted NFTs
+    async getPreview() {
+      const tokenInfo = this.getToken()
+      const request = await this.api.getNFTImage({
+        token: tokenInfo.token,
+      })
+      if (request.error) {
+        this.setError('showNFT', request.error)
+        router.push('/init-game')
+      } else {
+        this.clearError('showNFT')
+        this.nft = await request
+      }
     },
     async getContractArgs(address) {
       const tokenInfo = this.getToken()
