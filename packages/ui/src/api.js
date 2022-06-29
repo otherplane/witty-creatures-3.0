@@ -73,7 +73,6 @@ export class ApiService {
       url: `${this.baseUrl}/players/image`,
       config: {
         headers: { authorization: params.token },
-        params: { token_ids: params.tokenIds },
       },
     })
   }

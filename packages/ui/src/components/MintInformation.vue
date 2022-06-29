@@ -1,58 +1,77 @@
 <template>
   <div v-if="player.mintInfo" class="mint-content">
-    <LabelMintStatus v-if="player.mintInfo" :status="mintStatus" />
-    <p v-if="mintStatus === 'error'">Try claiming your NFTs again</p>
-    <p class="label">TRANSACTION HASH</p>
-    <div class="mint-status" v-if="player?.mintInfo?.transactionHash">
-      <div class="info address">
+    <div v-if="player.mintExternalConfirmation">
+      <p class="label">MINTING BLOCK</p>
+      <p class="link bold">
         <a
-          :href="`${explorerBaseUrl}/${player.mintInfo.transactionHash}`"
+          :href="`${NETWORKS[player.mintConfig].blockExplorerUrls[0]}/block/${
+            player.mintInfo.blockNumber
+          }`"
           target="_blank"
-          >{{ player.mintInfo.transactionHash }}
+          >{{ truncate(player.mintInfo.blockNumber) }}
         </a>
-        <svgImage class="external-link-icon" :svg="externalLink" />
+        <SvgImage class="external-link-icon" :svg="externalLink" />
+      </p>
+    </div>
+    <div class="info" v-else>
+      <p class="label">MINTING TRANSACTION</p>
+      <p class="link bold">
+        <a
+          :href="`${NETWORKS[player.mintConfig].blockExplorerUrls[0]}/tx/${
+            player.mintInfo.transactionHash
+          }`"
+          target="_blank"
+          >{{ truncate(player.mintInfo.transactionHash) }}
+        </a>
+        <SvgImage class="external-link-icon" :svg="externalLink" />
+      </p>
+    </div>
+    <div class="info" v-if="player?.mintConfirmation">
+      <div class="link bold">
+        <a
+          :href="`${NETWORKS[player.mintConfig].marketplace}/${
+            player.guildRanking
+          }`"
+          target="_blank"
+          >See token #{{ player.guildRanking }} on
+          {{ NETWORKS[player.mintConfig].marketplaceName }}</a
+        >
+        <SvgImage class="external-link-icon" :svg="externalLink" />
       </div>
     </div>
   </div>
 </template>
 <script>
 import { useStore } from '@/stores/player'
-import { computed } from 'vue'
 import externalLink from '@/assets/external-black.svg?raw'
-import { EXPLORER_BASE_URL, OPENSEA_BASE_URL } from '../constants'
+import { truncate } from '@/utils'
+import { OPENSEA_BASE_URL, NETWORKS, TOKEN_STATUS } from '../constants'
 export default {
   setup() {
     const player = useStore()
-    const mintStatus = computed(() => {
-      if (player.mintInfo.blockHash && player.minted) {
-        return 'minted'
-      } else if (player.mintInfo.blockHash && !player.minted) {
-        return 'error'
-      } else {
-        return 'pending'
-      }
-    })
     return {
-      explorerBaseUrl: EXPLORER_BASE_URL,
       openseaBaseUrl: OPENSEA_BASE_URL,
       player,
       externalLink,
-      mintStatus,
+      NETWORKS,
+      TOKEN_STATUS,
+      truncate,
     }
   },
 }
 </script>
 <style lang="scss" scoped>
 .mint-content {
-  background-color: var(--primary-color-opacity-2);
-  justify-items: center;
   border-radius: 4px;
   display: grid;
-  row-gap: 8px;
-  padding: 16px;
-  margin-bottom: 32px;
-  .label {
+  align-items: flex-end;
+  grid-template-rows: max-content max-content;
+  row-gap: 4px;
+  .status {
     font-weight: bold;
+    grid-gap: 8px;
+    font-size: 13px;
+    display: grid;
   }
   .opensea {
     font-weight: bold;
@@ -65,11 +84,19 @@ export default {
   }
   .info {
     font-size: 16px;
-    color: $black;
     justify-content: center;
-    text-decoration: underline;
-    line-break: anywhere;
+    .label {
+      color: $dark-screen;
+      font-weight: bold;
+    }
+    .link {
+      text-decoration: underline;
+      line-break: anywhere;
+      font-weight: bold;
+      padding-bottom: 4px;
+    }
     .external-link-icon {
+      width: 12px;
       margin-left: 4px;
       display: inline-block;
     }

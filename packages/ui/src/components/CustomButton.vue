@@ -10,7 +10,7 @@ defineProps({
     type: String,
     default: 'default',
     validator(value) {
-      return ['primary', 'secondary', 'disable', 'dark'].includes(value)
+      return ['primary', 'disable'].includes(value)
     },
   },
 })
@@ -26,19 +26,21 @@ defineProps({
   font-weight: bold;
   &.primary {
     color: $white;
-    background: var(--primary-color);
-  }
-  &.secondary {
-    color: $white;
-    background: var(--primary-color);
-  }
-  &.dark {
-    color: $white;
-    background: var(--primary-color);
+    -webkit-transition: all 3ms linear;
+    -ms-transition: all 3ms linear;
+    transition: all 3ms linear;
+    background-color: var(--primary-color);
+    border: 2px solid var(--primary-color);
   }
   &.disable {
-    opacity: 0.6;
+    color: var(--primary-color-opacity-2);
+    -webkit-transition: all 3ms linear;
+    -ms-transition: all 3ms linear;
+    transition: all 3ms linear;
+    background-color: $white;
+    border: 2px solid var(--primary-color-opacity-2);
     cursor: no-drop;
+    opacity: 0.7;
   }
 }
 </style>

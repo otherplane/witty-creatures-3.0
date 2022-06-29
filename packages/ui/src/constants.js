@@ -16,8 +16,7 @@ export const VITE_TEST = import.meta.env.VITE_TEST || false
 export const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL || 'http://0.0.0.0:4000'
 
-export const BASE_URL =
-  import.meta.env.VITE_BASE_URL || 'https://bufficorns.com'
+export const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3000'
 
 export const ATTRIBUTES = {}
 
@@ -38,10 +37,17 @@ export const THEME_COLORS = {
   0: 'green',
   1: 'black',
   2: 'red',
-  3: 'purple',
-  4: 'white',
-  5: 'yellow',
-  6: 'blue',
+  3: 'yellow',
+  4: 'blue',
+}
+
+export const TOKEN_STATUS = {
+  inexistent: 0,
+  incubating: 1,
+  randomizing: 2,
+  hatching: 3,
+  minted: 4,
+  frozen: 5,
 }
 
 export const NETWORKS = {
@@ -52,6 +58,9 @@ export const NETWORKS = {
     contractAddress: import.meta.env.VITE_ETHEREUM_CONTRACT_ADDRESS,
     rpcUrls: ['https://mainnet.infura.io/v3/'],
     blockExplorerUrls: ['https://etherscan.io/'],
+    marketplace: OPENSEA_BASE_URL,
+    marketplaceName: 'OpenSea',
+    confirmationCount: 3,
   },
   288: {
     name: 'Boba Network',
@@ -60,6 +69,9 @@ export const NETWORKS = {
     contractAddress: import.meta.env.VITE_BOBA_CONTRACT_ADDRESS,
     rpcUrls: ['https://mainnet.boba.network'],
     blockExplorerUrls: ['https://blockexplorer.boba.network/'],
+    marketplace: OPENSEA_BASE_URL,
+    marketplaceName: 'OpenSea',
+    confirmationCount: 3,
   },
   321: {
     name: 'KCC Mainnet',
@@ -68,6 +80,9 @@ export const NETWORKS = {
     contractAddress: import.meta.env.VITE_MOONBEAM_CONTRACT_ADDRESS,
     rpcUrls: ['https://rpc-mainnet.kcc.network'],
     blockExplorerUrls: ['https://explorer.kcc.io/'],
+    marketplace: OPENSEA_BASE_URL,
+    marketplaceName: 'OpenSea',
+    confirmationCount: 3,
   },
   66: {
     name: 'OKX Chain',
@@ -76,6 +91,9 @@ export const NETWORKS = {
     contractAddress: import.meta.env.VITE_OKX_CONTRACT_ADDRESS,
     rpcUrls: ['https://exchainrpc.okex.org'],
     blockExplorerUrls: [''],
+    marketplace: OPENSEA_BASE_URL,
+    marketplaceName: 'OpenSea',
+    confirmationCount: 3,
   },
   1088: {
     name: 'Metis Mainnet',
@@ -84,6 +102,20 @@ export const NETWORKS = {
     contractAddress: import.meta.env.VITE_METIS_CONTRACT_ADDRESS,
     rpcUrls: ['https://andromeda.metis.io/?owner=1088'],
     blockExplorerUrls: ['https://andromeda-explorer.metis.io/'],
+    marketplace: OPENSEA_BASE_URL,
+    marketplaceName: 'OpenSea',
+    confirmationCount: 3,
+  },
+  80001: {
+    name: 'Polygon Mumbai',
+    id: 80001,
+    kind: 'polygon',
+    contractAddress: import.meta.env.VITE_POLYGON_MUMBAI_CONTRACT_ADDRESS,
+    rpcUrls: ['https://rpc-mumbai.maticvigil.com'],
+    blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+    marketplace: OPENSEA_BASE_URL,
+    marketplaceName: 'OpenSea',
+    confirmationCount: 3,
   },
   137: {
     name: 'Polygon Mainnet',
@@ -92,6 +124,9 @@ export const NETWORKS = {
     contractAddress: import.meta.env.VITE_POLYGON_CONTRACT_ADDRESS,
     rpcUrls: ['https://polygon-rpc.com/'],
     blockExplorerUrls: ['https://polygonscan.com'],
+    marketplace: OPENSEA_BASE_URL,
+    marketplaceName: 'OpenSea',
+    confirmationCount: 3,
   },
 }
 

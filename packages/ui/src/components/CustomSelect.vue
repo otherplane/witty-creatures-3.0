@@ -64,10 +64,10 @@ export default {
     color: white;
   }
   .vs__dropdown-menu {
-    background: var(--secondary-color);
+    background: $white;
     right: 0;
     top: 50px;
-    border: var(--primary-color);
+    border: 1px solid var(--primary-color);
     box-shadow: var(--selected-options-shadow);
     border-radius: 4px 4px 4px 4px;
     max-height: max-content;
@@ -77,11 +77,13 @@ export default {
     font-family: Almarai, sans-serif;
     padding: 12px;
     font-weight: 600;
-    color: white;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
   }
 
   .vs__dropdown-option--highlight {
     background: var(--primary-color);
+    color: $white;
   }
 
   .vs--single.vs--open.vs__dropdown-toggle {

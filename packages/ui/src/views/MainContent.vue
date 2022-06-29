@@ -4,19 +4,24 @@
     <MainScreen />
     <div class="sticky-btn" v-if="!player.gameOver">
       <router-link class="btn" :to="type === 'disable' ? '' : '/scan'">
-        <CustomButton type="dark" :slim="true"> INCUBATE </CustomButton>
+        <CustomButton :type="type" :slim="true"> INCUBATE </CustomButton>
       </router-link>
     </div>
-    <div class="btn" v-if="player.gameOver">
+    <div class="sticky-btn" v-if="player.gameOver">
       <CustomButton
-        v-if="player.mintingAllow && !player.minted"
+        v-if="player.gameOver"
         @click="mint"
-        type="dark"
+        :type="type"
         :slim="true"
       >
-        CLAIM NFT AWARDS
+        CLAIM NFT
       </CustomButton>
-      <a v-if="player.errors.network" @click="addNetwork()" class="add-polygon">
+      <a
+        v-if="player.gameOver && player.errors.network"
+        @click="addNetwork()"
+        class="add-network"
+      >
+        <SvgImage class="metamask" :svg="metamask" />
         Switch to {{ NETWORKS[player.mintConfig].name }} Network
       </a>
     </div>
@@ -41,14 +46,21 @@ import {
   watch,
 } from 'vue'
 import egg from '@/assets/egg.svg?raw'
+import metamask from '@/assets/metamask.svg?raw'
 import { useModal } from '@/composables/useModal'
 import { useWeb3 } from '../composables/useWeb3'
-import { EXPLORER_BASE_URL, OPENSEA_BASE_URL, NETWORKS } from '../constants'
+import {
+  EXPLORER_BASE_URL,
+  OPENSEA_BASE_URL,
+  NETWORKS,
+  TOKEN_STATUS,
+} from '../constants'
 import { POLLER_MILLISECONDS } from '@/constants.js'
 import { importSvg } from '@/composables/importSvg.js'
 import { useRouter } from 'vue-router'
 export default {
   setup() {
+    let playerInfoPoller = null
     const modal = useModal()
     const player = useStore()
     const router = useRouter()
@@ -62,7 +74,6 @@ export default {
       preview: false,
       gameOver: false,
     })
-    let playerInfoPoller = null
     // Handle end of game
     onBeforeMount(async () => {
       const token = await player.getToken()
@@ -74,14 +85,6 @@ export default {
         if (player.id && router.currentRoute.value.params.id) {
           await player.interact({ key: router.currentRoute.value.params.id })
         }
-        if (player.gameOver) {
-          console.log(web3WittyCreatures.isProviderConnected.value)
-          await player.getMintInfo()
-          await player.getPreview()
-          if (player.minted) {
-            await web3WittyCreatures.getTokenId()
-          }
-        }
       }
     })
     onMounted(() => {
@@ -92,19 +95,25 @@ export default {
     onBeforeUnmount(() => {
       clearInterval(playerInfoPoller)
     })
-    const type = computed(() =>
+    const type = computed(() => {
       // TODO: update player.incubating naming when contracts are available
-      player.incubating || (player.data && parseInt(player.data.tokenId) < 0)
-        ? 'disable'
-        : 'primary'
-    )
-    const mintStatus = computed(() =>
-      player.mintInfo.blockHash ? 'minted' : 'pending'
-    )
+      if (
+        (player.gameOver && player.tokenStatus === TOKEN_STATUS.minted) ||
+        (player.gameOver && !player.nft.length) ||
+        (player.gameOver && player.errors.network)
+      ) {
+        return 'disable'
+      } else {
+        return 'primary'
+      }
+    })
     async function openModal(name) {
       const needProvider = name === 'mint'
-      console.log(needProvider, web3WittyCreatures.isProviderConnected)
-      if (!web3WittyCreatures.isProviderConnected.value && needProvider) {
+      await web3WittyCreatures.enableProvider()
+      if (
+        !(await web3WittyCreatures.isProviderConnected.value) &&
+        needProvider
+      ) {
         modals['gameOver'] = true
       } else {
         modals[name] = true
@@ -153,12 +162,12 @@ export default {
       openModal,
       modal,
       modals,
-      mintStatus,
       enableProvider: web3WittyCreatures.enableProvider,
       addNetwork: web3WittyCreatures.addNetwork,
       isProviderConnected: web3WittyCreatures.isProviderConnected,
       importSvg,
       egg,
+      metamask,
     }
   },
 }
@@ -180,15 +189,17 @@ export default {
   .btn {
     width: 100%;
   }
-  .add-polygon {
-    width: max-content;
-    color: $white;
+  .add-network {
+    font-size: 14px;
+    width: 100%;
+    text-decoration: underline;
     cursor: pointer;
     font-weight: 600;
     padding: 4px 8px;
     border-radius: 4px;
-    background-color: var(--secondary-color);
+    color: var(--primary-color);
     display: flex;
+    align-items: center;
     .metamask {
       margin-right: 4px;
       width: 16px;

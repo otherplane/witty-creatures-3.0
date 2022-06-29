@@ -38,7 +38,8 @@ export default {
     font-family: JoystixMonospace, sans-serif;
   }
   .network {
-    height: 60%;
+    width: 30px;
+    max-height: 30px;
     grid-row: 1 / span 2;
   }
 }

@@ -5,7 +5,7 @@ import {
   PLAYER_MAINNET_TIMESTAMP,
   COLORS_COUNT,
 } from './constants'
-import { Incubation, Social } from './types'
+import { Incubation, Social, Award } from './types'
 import {
   uniqueNamesGenerator,
   adjectives,
@@ -100,4 +100,35 @@ export function generateUsernameList(count: number): Array<string> {
 
   // Convert set into array to allow indexing by index
   return Array.from(usernames)
+}
+
+export function toCamelCase(value: string): string {
+  return value
+    .replace(/\s(.)/g, $1 => {
+      return $1.toUpperCase()
+    })
+    .replace(/\s/g, '')
+    .replace(/^(.)/, $1 => {
+      return $1.toLowerCase()
+    })
+    .replace(/([()])/g, '')
+}
+
+export function toKebabCase(value: string | number) {
+  if (typeof value === 'string') {
+    return value.toLowerCase().split(' ').join('-')
+  } else {
+    return value
+  }
+}
+
+export function normalizedAttributes(
+  list: Array<{ trait_type: string; value: string | number }>
+): Award {
+  return list.reduce((acc, trait) => {
+    return {
+      ...acc,
+      [toCamelCase(trait.trait_type)]: toKebabCase(trait.value),
+    }
+  }, {} as Award)
 }

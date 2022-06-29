@@ -10,9 +10,9 @@ const VALID_ETH_ADDRESS_2 = '0x784cc5908e1a3d29b4d31df67d99622c4baa7b71'
 // Keccak256 digest for mint with VALID_ETH_ADDRESS and
 
 const MESSAGE_DIGEST =
-  'df4eea1da897bfd3d163b324a1a14c5b0a54e0467e9e503e87c746e0e7941863'
+  '5e6114ce12407eb40075547dc0eeb91f3de4349ef4e5f5e7c5276d7097d45721'
 const MESSAGE_DIGEST_2 =
-  '72192c7b10025f02332cf60f5e922981e644a14f4d27902676950e8677ff50c3'
+  '0f41fc685872ceef755b4de3f0880a923485bf7d42947f284eb99334ca812c2a'
 
 const INVALID_ETH_ADDRESS_1 = '0x00'
 const INVALID_ETH_ADDRESS_2 = 'foo'
@@ -46,7 +46,7 @@ describe('mint.ts', () => {
     )
   })
 
-  it.skip('should NOT mint an egg with invalid address', async () => {
+  it('should NOT mint an egg with invalid address', async () => {
     const token = await authenticatePlayer(initialPlayers[0].key)
 
     await serverInject(
@@ -86,7 +86,7 @@ describe('mint.ts', () => {
     )
   })
 
-  it.skip('should NOT mint an egg with an invalid token', async () => {
+  it('should NOT mint an egg with an invalid token', async () => {
     const token = 'foo'
 
     await serverInject(
@@ -132,7 +132,7 @@ describe('mint.ts', () => {
     )
   })
 
-  it.skip('should cache mint result when called a second time', async () => {
+  it('should cache mint result when called a second time', async () => {
     const token = await authenticatePlayer(initialPlayers[0].key)
 
     await serverInject(
@@ -183,7 +183,7 @@ describe('mint.ts', () => {
     )
   })
 
-  it.skip('should allow to change address when called a second time', async () => {
+  it('should allow to change address when called a second time', async () => {
     const token = await authenticatePlayer(initialPlayers[0].key)
 
     await serverInject(

@@ -12,6 +12,8 @@ export class Player {
   token?: string | undefined
   lastInteractionIn?: number | undefined
   lastInteractionOut?: number | undefined
+  guildRanking?: number
+  globalRanking?: number
   key: string
   color: number
   username: string
@@ -37,9 +39,13 @@ export class Player {
   }
 
   toExtendedPlayerVTO({
+    globalRanking,
+    guildRanking,
     lastInteractionOut,
     lastInteractionIn,
   }: {
+    globalRanking: number
+    guildRanking: number
     lastInteractionIn?: Interaction | null
     lastInteractionOut: Interaction | null
   }): ExtendedPlayerVTO {
@@ -49,6 +55,8 @@ export class Player {
       player: {
         ...protectedplayerVTO,
       },
+      globalRanking,
+      guildRanking,
       lastInteractionIn: lastInteractionIn?.isActive()
         ? lastInteractionIn.toVTO()
         : null,
@@ -73,6 +81,8 @@ export class Player {
       contacts: this.contacts,
       socials: this.socials,
       mintConfig: this.mintConfig,
+      guildRanking: this.guildRanking,
+      globalRanking: this.globalRanking,
     }
 
     return shoWToken ? { ...vto, token: this.token } : vto

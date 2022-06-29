@@ -27,6 +27,7 @@ export default {
 <style lang="scss" scoped>
 .nft {
   width: 50%;
+  margin-bottom: 16px;
   height: auto;
   align-self: center;
   justify-self: center;

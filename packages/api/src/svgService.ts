@@ -31,63 +31,56 @@ import Background3 from './assets/background'
 import Background4 from './assets/background'
 
 const mouthNameToSvg: Record<string, any> = {
-  'mouth-1': Mouth1,
+  'bored-mouth': Mouth1,
   'mouth-2': Mouth2,
   'mouth-3': Mouth3,
   'mouth-4': Mouth4,
 }
 const eyesNameToSvg: Record<string, any> = {
-  'eyes-1': Eyes1,
+  default: Eyes1,
   'eyes-2': Eyes2,
   'eyes-3': Eyes3,
   'eyes-4': Eyes4,
 }
 const headNameToSvg: Record<string, any> = {
-  'head-1': Head1,
+  default: Head1,
   'head-2': Head2,
   'head-3': Head3,
   'head-4': Head4,
 }
 const clothesNameToSvg: Record<string, any> = {
-  'clothes-1': Clothes1,
+  default: Clothes1,
   'clothes-2': Clothes2,
   'clothes-3': Clothes3,
   'clothes-4': Clothes4,
 }
 const objectNameToSvg: Record<string, any> = {
-  'object-1': Object1,
+  default: Object1,
   'object-2': Object2,
   'object-3': Object3,
   'object-4': Object4,
 }
 const backgroundNameToSvg: Record<string, any> = {
-  'backgound-1': Background1,
+  Plane: Background1,
   'backgound-2': Background2,
   'backgound-3': Background3,
   'backgound-4': Background4,
 }
 
 export class SvgService {
-  static getSVG(traits: {
-    mouth: string
-    background: string
-    eyes: string
-    object: string
-    clothes: string
-    head: string
-  }): string {
-    const svgTraits: Award = {
+  static getSVG(traits: Award): string {
+    const svgTraits = {
       mouth: mouthNameToSvg[traits.mouth],
       background: backgroundNameToSvg[traits.background],
       eyes: eyesNameToSvg[traits.eyes],
       object: objectNameToSvg[traits.object],
-      clothes: clothesNameToSvg[traits.clothes],
+      outfit: clothesNameToSvg[traits.outfit],
       head: headNameToSvg[traits.head],
     }
     const svg1 = `<svg width="533" height="514" viewBox="0 0 533 514" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="533" height="514" fill="url(#paint0_linear_268_14)"/>
     <g id="clothes">
-    ${svgTraits.clothes}
+    ${svgTraits.outfit}
     </g>
     <g id="head">
     ${svgTraits.head}
