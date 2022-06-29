@@ -20,7 +20,7 @@ export class Player {
   nft: Array<string> = []
   socials: Social | null
   contacts: Array<ContactIndex> = []
-  mintConfig: string
+  mintConfig: number
 
   constructor(vto: DbPlayerVTO) {
     this.key = vto.key

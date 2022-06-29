@@ -71,7 +71,7 @@ export type SocialResult = Static<typeof SocialResult>
 export const ConfigParams = Type.Object({
   socials: Nullable(Social),
   shareConfig: Type.Boolean(),
-  mintConfig: Type.String(),
+  mintConfig: Type.Integer(),
 })
 
 export type ConfigParams = Static<typeof ConfigParams>
@@ -79,7 +79,7 @@ export type ConfigParams = Static<typeof ConfigParams>
 export const ConfigResult = Type.Object({
   socials: Nullable(Social),
   shareConfig: Type.Boolean(),
-  mintConfig: Type.String(),
+  mintConfig: Type.Integer(),
 })
 export type ConfigResult = Static<typeof ConfigResult>
 
@@ -102,7 +102,7 @@ export const PlayerVTO = Type.Object({
   shareConfig: Type.Boolean(),
   socials: Nullable(Social),
   contacts: Type.Array(Type.Optional(ContactIndex)),
-  mintConfig: Type.String(),
+  mintConfig: Type.Integer(),
 })
 
 export type PlayerVTO = Static<typeof PlayerVTO>
@@ -118,7 +118,7 @@ export const DbPlayerVTO = Type.Object({
   shareConfig: Type.Boolean(),
   socials: Nullable(Social),
   contacts: Type.Array(Type.Optional(ContactIndex)),
-  mintConfig: Type.String(),
+  mintConfig: Type.Integer(),
 })
 
 export type DbPlayerVTO = Static<typeof DbPlayerVTO>
@@ -258,10 +258,10 @@ export type ExtendedIncubation = Static<typeof ExtendedIncubation>
 
 export const DbInteractionVTO = Type.Object({
   from: Type.String(),
-  fromNetwork: Type.String(),
+  fromNetwork: Type.Integer(),
   fromColor: Type.Number(),
   to: Type.String(),
-  toNetwork: Type.String(),
+  toNetwork: Type.Integer(),
   toColor: Type.Number(),
   points: Type.Number(),
   timestamp: Type.Number(),
@@ -297,11 +297,13 @@ export const MintOutput = Type.Object({
     signature: Type.String(),
   }),
   data: Type.Object({
-    address: Type.String(),
-    playerName: Type.String(),
-    playerId: Type.Number(),
-    playerScore: Type.Number(),
-    playerAwards: Type.Array(PlayerAward),
+    globalRanking: Type.Number(),
+    // TODO: transform mintConfig to number
+    guildId: Type.Number(),
+    guildPlayers: Type.Number(),
+    guildRanking: Type.Number(),
+    index: Type.Number(),
+    score: Type.Number(),
   }),
 })
 export type MintOutput = Static<typeof MintOutput>
@@ -360,7 +362,7 @@ export type ShareSocialsResult = Static<typeof ShareSocialsResult>
 
 export const PlayerLeaderboardInfo = Type.Object({
   username: Type.String(),
-  network: Type.String(),
+  network: Type.Integer(),
   score: Type.Integer(),
   position: Type.Integer(),
   creationIndex: Type.Integer(),
@@ -370,7 +372,7 @@ export type PlayerLeaderboardInfo = Static<typeof PlayerLeaderboardInfo>
 export const LeaderboardParams = Type.Object({
   limit: Type.Optional(Type.Integer()),
   offset: Type.Optional(Type.Integer()),
-  filter: Type.String(),
+  filter: Type.Integer(),
 })
 export type LeaderboardParams = Static<typeof LeaderboardParams>
 

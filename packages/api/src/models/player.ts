@@ -51,7 +51,7 @@ export class PlayerModel {
       socials: null,
       contacts: [],
       shareConfig: false,
-      mintConfig: 'ethereum',
+      mintConfig: 1,
     })
   }
 
@@ -114,7 +114,7 @@ export class PlayerModel {
   // Delete add Config
   public async updateConfig(
     key: string,
-    mintConfig: string,
+    mintConfig: number,
     shareConfig: boolean
   ): Promise<Player | null> {
     try {
@@ -193,7 +193,7 @@ export class PlayerModel {
   }
 
   public async getPlayersByNetwork(
-    name: string,
+    name: number,
     paginationParams: {
       limit: number
       offset: number
@@ -205,7 +205,7 @@ export class PlayerModel {
         mintConfig: name,
       },
       {
-        testnetPoints: -1,
+        score: -1,
       },
       paginationParams
     )
@@ -223,7 +223,7 @@ export class PlayerModel {
         token: { $exists: true, $ne: undefined },
       },
       {
-        testnetPoints: -1,
+        score: -1,
       },
       paginationParams
     )
@@ -231,10 +231,47 @@ export class PlayerModel {
     return vtos.map(vto => new Player(vto))
   }
 
+  public async getGlobalPosition(key: string): Promise<number> {
+    const eggs = await this.repository.getSortedBy(
+      {
+        token: { $exists: true, $ne: undefined },
+      },
+      {
+        score: -1,
+      }
+    )
+
+    const index = (await eggs).findIndex(eggSorted => eggSorted.key === key)
+    return index + 1
+  }
+
+  public async getNetworkPosition({
+    key,
+    network,
+  }: {
+    key: string
+    network: number
+  }): Promise<number> {
+    const eggsByNetwork = await this.repository.getSortedBy(
+      {
+        token: { $exists: true, $ne: undefined },
+        mintConfig: network,
+      },
+      {
+        score: -1,
+      }
+    )
+
+    const index = (await eggsByNetwork).findIndex(
+      eggSorted => eggSorted.key === key
+    )
+    return index + 1
+  }
+
   public async countActive() {
     return this.repository.count({ token: { $exists: true, $ne: undefined } })
   }
-  public async countActiveByNetwork(network: string) {
+  public async countActiveByNetwork(network: number) {
     return this.repository.count({
       token: { $exists: true, $ne: undefined },
       mintConfig: network,
