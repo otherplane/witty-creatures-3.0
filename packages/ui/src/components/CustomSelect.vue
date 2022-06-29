@@ -10,11 +10,11 @@
     placeholder="Choose an option"
   >
     <template #selected-option-container="{ option }">
-      <span class="vs__selected">{{ option.key }}</span>
+      <span class="vs__selected">{{ option.name }}</span>
     </template>
 
     <template #option="option">
-      <span>{{ option.key }}</span>
+      <span>{{ option.name }}</span>
     </template>
   </VSelect>
 </template>

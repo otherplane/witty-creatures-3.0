@@ -2,10 +2,10 @@ import { DbInteractionVTO } from '../types'
 
 export class Interaction {
   public from: string
-  public fromNetwork: string
+  public fromNetwork: number
   public fromColor: number
   public to: string
-  public toNetwork: string
+  public toNetwork: number
   public toColor: number
   public points: number
   public timestamp: number

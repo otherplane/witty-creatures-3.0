@@ -496,7 +496,7 @@ describe('Route /interactions', () => {
         twitter: '@twitter',
       }
       const shareConfig = true
-      const mintConfig = 'boba'
+      const mintConfig = 288
       await serverInject(
         {
           method: 'POST',
@@ -567,7 +567,7 @@ describe('Route /interactions', () => {
         ownerKey: initialPlayers[0].key,
       }
       const shareConfig = false
-      const mintConfig = 'boba'
+      const mintConfig = 288
       await serverInject(
         {
           method: 'POST',
@@ -638,7 +638,7 @@ describe('Route /socialsShare', () => {
         twitter: '@twitter',
       }
       const shareConfig = false
-      const mintConfig = 'boba'
+      const mintConfig = 288
       await serverInject(
         {
           method: 'POST',

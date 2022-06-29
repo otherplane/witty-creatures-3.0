@@ -114,7 +114,6 @@ export class SvgService {
     </g>
     </defs>
     </svg>`
-    console.log(traits.background, svg1)
     return svg1
   }
 }

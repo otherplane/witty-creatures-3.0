@@ -8,7 +8,10 @@
         <CustomSelect
           class="field margin"
           :options="formatedNetworks"
-          :value="{ key: player.mintConfig }"
+          :value="{
+            key: NETWORKS[player.mintConfig]?.id,
+            name: NETWORKS[player.mintConfig]?.name,
+          }"
           label="network"
           @change="setValue"
         />
@@ -87,7 +90,12 @@ export default {
       await player.getSocials()
     })
     const formatedNetworks = computed(() => {
-      return Object.values(NETWORKS)
+      return Object.values(NETWORKS).map(network => {
+        return {
+          key: network.id,
+          name: network.name,
+        }
+      })
     })
     const setValue = async ({ label, value }) => {
       // TODO: refactor
@@ -114,6 +122,7 @@ export default {
     }
 
     return {
+      NETWORKS,
       player,
       setValue,
       formatedNetworks,

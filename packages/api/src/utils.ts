@@ -5,14 +5,12 @@ import {
   PLAYER_MAINNET_TIMESTAMP,
   COLORS_COUNT,
 } from './constants'
-import { Incubation, Social, PlayerAward } from './types'
+import { Incubation, Social } from './types'
 import {
   uniqueNamesGenerator,
   adjectives,
   animals,
 } from 'unique-names-generator'
-import { Player } from './domain/player'
-import { PlayerModel } from './models/player'
 
 export function calculateRemainingCooldown(
   interactionEnds: number,
@@ -102,16 +100,4 @@ export function generateUsernameList(count: number): Array<string> {
 
   // Convert set into array to allow indexing by index
   return Array.from(usernames)
-}
-
-export async function calculateAllPlayerAwards(
-  player: Player,
-  fastifyInstance: {
-    playerModel: PlayerModel
-  }
-): Promise<Array<PlayerAward>> {
-  console.log('player and playerModel', player, !!fastifyInstance.playerModel)
-  const playerAwards: Array<PlayerAward> = []
-
-  return playerAwards
 }

@@ -2,7 +2,6 @@ import { FastifyPluginAsync, FastifyRequest } from 'fastify'
 import keccak from 'keccak'
 import secp256k1 from 'secp256k1'
 import Web3 from 'web3'
-
 import {
   PLAYER_MINT_TIMESTAMP,
   MINT_PRIVATE_KEY,
@@ -11,17 +10,12 @@ import {
 } from '../constants'
 import {
   AuthorizationHeader,
-  PlayerAward,
   JwtVerifyPayload,
   MintOutput,
   MintParams,
 } from '../types'
-import {
-  fromHexToUint8Array,
-  isTimeToMint,
-  calculateAllPlayerAwards,
-} from '../utils'
-
+import { fromHexToUint8Array, isTimeToMint } from '../utils'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const WITTY_CREATURES_ERC721_ABI = require('../assets/WittyCreaturesABI.json')
 
 const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
@@ -75,7 +69,6 @@ const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
           .status(405)
           .send(new Error(`Player has no id (key: ${key})`))
       }
-
       // If previously minted, reply with same mint output
       const prevMint = await mintModel.get(player.color)
       if (prevMint) {
@@ -86,17 +79,14 @@ const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       if (!web3.utils.isAddress(request.body.address)) {
         return reply
           .status(409)
-          .send(new Error(`Mint address should be a valid Ethereum addresss`))
+          .send(new Error(`Mint address should be a valid addresss`))
       }
-
       // Fetch metadata from contract using Web3
-      const abi = WITTY_CREATURES_ERC721_ABI
 
       const contract = new web3.eth.Contract(
-        abi,
+        WITTY_CREATURES_ERC721_ABI,
         WITTY_CREATURES_ERC721_ADDRESS
       )
-
       const contractStatus = await contract.methods.getStatus().call()
 
       if (contractStatus.toString() !== '2') {
@@ -105,14 +95,17 @@ const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
           .send(new Error(`Forbidden: contract is not ready yet`))
       }
 
-      const playerId = player.creationIndex
-      const playerScore = player.score
-      const playerName = player.username
-
-      const playerAwards: Array<PlayerAward> = await calculateAllPlayerAwards(
-        player,
-        fastify
+      const sortedPlayersTotal = await playerModel.countActiveByNetwork(
+        player.mintConfig
       )
+      const globalRanking = await playerModel.getGlobalPosition(player.key)
+      const guildRanking = await playerModel.getNetworkPosition({
+        key: player.key,
+        network: player.mintConfig,
+      })
+      const index = player.creationIndex
+      const score = player.score
+      const username = player.username
 
       const message = web3.eth.abi.encodeParameters(
         [
@@ -129,7 +122,7 @@ const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
             },
           },
         ],
-        [request.body.address, playerId, playerScore, playerName, playerAwards]
+        [request.body.address, index, score, username]
       )
 
       if (!message) {
@@ -161,10 +154,12 @@ const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
         },
         data: {
           address: request.body.address,
-          playerId,
-          playerScore,
-          playerName,
-          playerAwards,
+          globalRanking,
+          guildId: Number(player.mintConfig),
+          guildPlayers: sortedPlayersTotal,
+          guildRanking,
+          index,
+          score,
         },
       }
 
