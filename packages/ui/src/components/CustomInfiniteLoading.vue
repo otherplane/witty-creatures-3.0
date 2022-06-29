@@ -58,11 +58,6 @@ export default {
 
 <style lang="scss" scoped>
 .infinite-scroll {
-  font-family: 'Source Code Pro', monospace;
-  font-weight: bold;
-  color: $screen;
-  display: grid;
-  padding: 4px;
-  justify-content: center;
+  display: none;
 }
 </style>

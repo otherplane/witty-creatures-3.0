@@ -3,7 +3,7 @@
     <p class="points bold">+{{ points }}p</p>
     <p class="origin">
       from
-      <span class="name">{{ network }}</span>
+      <span class="name">{{ NETWORKS[network].kind }}</span>
       <span class="name">{{ from }}</span>
     </p>
     <p class="interaction-label date">
@@ -20,6 +20,7 @@
 <script>
 import { formatDistanceToNowStrict } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
+import { NETWORKS } from '@/constants'
 export default {
   props: {
     points: {
@@ -45,6 +46,7 @@ export default {
       utcToZonedTime,
       timeZone,
       formatDistanceToNowStrict,
+      NETWORKS,
     }
   },
 }

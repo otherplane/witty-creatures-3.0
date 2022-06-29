@@ -6,7 +6,6 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ContactCard: typeof import('./src/components/ContactCard.vue')['default']
-    CountdownToAllowMint: typeof import('./src/components/CountdownToAllowMint.vue')['default']
     CustomButton: typeof import('./src/components/CustomButton.vue')['default']
     CustomInfiniteLoading: typeof import('./src/components/CustomInfiniteLoading.vue')['default']
     CustomInput: typeof import('./src/components/CustomInput.vue')['default']
@@ -30,7 +29,6 @@ declare module '@vue/runtime-core' {
     ModalExport: typeof import('./src/components/ModalExport.vue')['default']
     ModalGameOver: typeof import('./src/components/ModalGameOver.vue')['default']
     ModalMint: typeof import('./src/components/ModalMint.vue')['default']
-    ModalOpenEgg: typeof import('./src/components/ModalOpenEgg.vue')['default']
     ModalShareSocials: typeof import('./src/components/ModalShareSocials.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
     NFTPreview: typeof import('./src/components/NFTPreview.vue')['default']
@@ -44,6 +42,7 @@ declare module '@vue/runtime-core' {
     TabButton: typeof import('./src/components/TabButton.vue')['default']
     TimeLeft: typeof import('./src/components/TimeLeft.vue')['default']
     UserName: typeof import('./src/components/UserName.vue')['default']
+    WaitingToPreview: typeof import('./src/components/WaitingToPreview.vue')['default']
     WitnetStrip: typeof import('./src/components/WitnetStrip.vue')['default']
     WittyCreature: typeof import('./src/components/svg/WittyCreature.vue')['default']
   }

@@ -1,9 +1,9 @@
 import { FastifyPluginAsync, FastifyRequest } from 'fastify'
-import { checkEmptySocials } from '../utils'
+import { checkEmptySocials, normalizedAttributes } from '../utils'
 import { Social } from '../domain/social'
 
 import Web3 from 'web3'
-import { WEB3_PROVIDER, WITTY_CREATURES_ERC721_ADDRESS } from '../constants'
+import { NETWORKS } from '../constants'
 import {
   AuthorizationHeader,
   GetByStringKeyParams,
@@ -17,11 +17,12 @@ import {
   ConfigParams,
   ConfigResult,
   PlayerImagesReponse,
+  NetworkConfig,
 } from '../types'
 import { SvgService } from '../svgService'
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const CONTRACT_ERCC721_ABI = require('../assets/WittyCreaturesABI.json')
+const WITTY_CREATURES_ERC721_ABI = require('../assets/WittyCreaturesAPI.abi.json')
 
 const players: FastifyPluginAsync = async (fastify): Promise<void> => {
   if (!fastify.mongo.db) throw Error('mongo db not found')
@@ -73,6 +74,11 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
 
       const extendedPlayer: ExtendedPlayerVTO =
         await player.toExtendedPlayerVTO({
+          guildRanking: await playerModel.getNetworkPosition({
+            key: player.key,
+            network: player.mintConfig,
+          }),
+          globalRanking: await playerModel.getGlobalPosition(player.key),
           // get last incoming interaction
           lastInteractionIn: await fastify.interactionModel.getLast({
             to: player.username,
@@ -288,28 +294,45 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
       }
       const result: Array<{ svg: string }> = []
       let callResult
-      const web3 = new Web3(new Web3.providers.HttpProvider(WEB3_PROVIDER))
+      const networkConfig: NetworkConfig = NETWORKS
+      const provider = networkConfig[player.mintConfig].rpcUrls[0]
+      const contractAddress = networkConfig[player.mintConfig].contractAddress
+      const web3 = new Web3(new Web3.providers.HttpProvider(provider))
       const contract = new web3.eth.Contract(
-        CONTRACT_ERCC721_ABI,
-        WITTY_CREATURES_ERC721_ADDRESS
+        WITTY_CREATURES_ERC721_ABI,
+        contractAddress
       )
+      const name = player.username
+      const globalRanking = await playerModel.getGlobalPosition(player.key)
+      const guildId = Number(player.mintConfig)
+      const guildPlayers = await playerModel.countActiveByNetwork(
+        player.mintConfig
+      )
+      const guildRanking = await playerModel.getNetworkPosition({
+        key: player.key,
+        network: player.mintConfig,
+      })
+      const index = player.creationIndex
+      const score = player.score
       try {
-        callResult = await contract.methods.getTokenInfo(1).call()
+        callResult = await contract.methods
+          .preview(
+            name,
+            globalRanking,
+            guildId,
+            guildPlayers,
+            guildRanking,
+            index,
+            score
+          )
+          .call()
       } catch (err) {
         console.error('[Server] Metadata error:', err)
         return reply.status(404).send(new Error(`Metadata`))
       }
-      console.log('callResult', callResult[0])
-      //TODO: Call get svg metadata
-      // const [head, eyes, mouth, clothes, background, object]: [string, string, string, string, string, string] = callResult[0]
-      const svg = SvgService.getSVG({
-        head: 'head-1',
-        eyes: 'eyes-1',
-        mouth: 'mouth-1',
-        clothes: 'clothes-1',
-        background: 'background-1',
-        object: 'object-1',
-      })
+      const svg = SvgService.getSVG(
+        normalizedAttributes(JSON.parse(callResult).attributes)
+      )
 
       result.push({
         svg: svg.replace(/\n/g, ''),

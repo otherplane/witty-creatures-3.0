@@ -15,11 +15,15 @@ export const useStore = defineStore('player', {
       socialsSharedMessage: false,
       interactionIn: null,
       interactionOut: null,
+      tokenStatus: null,
+      mintConfirmation: false,
+      mintExternalConfirmation: false,
       //TODO: make gameOverTimeMilli take GAME_ENDS_TIMESTAMP value when gameOver is defined
       gameOverTimeMilli: GAME_ENDS_TIMESTAMP,
+      gameOver: false,
       timeToMintInMilli: GAME_ENDS_TIMESTAMP + TIME_TO_MINT_MILLISECONDS,
       nft: [],
-      history: null,
+      history: [],
       mintInfo: null,
       mintParams: null,
       color: null,
@@ -28,11 +32,14 @@ export const useStore = defineStore('player', {
       socials: null,
       contacts: [],
       mintConfig: null,
+      globalRanking: null,
+      guildRanking: null,
       shareConfig: null,
       playersNetworkStats: [],
       playersGlobalStats: [],
       errors: {
         showNFT: null,
+        mint: null,
         preview: null,
         auth: null,
         interaction: null,
@@ -46,10 +53,6 @@ export const useStore = defineStore('player', {
     }
   },
   getters: {
-    gameOver() {
-      //FIXME: make it reactive
-      return this.gameOverTimeMilli < Date.now()
-    },
     mintingAllow() {
       //FIXME: make it reactive
       return this.timeToMintInMilli < Date.now()
@@ -74,14 +77,6 @@ export const useStore = defineStore('player', {
         'tokenInfo',
         JSON.stringify({ ...this.getToken(), ...info })
       )
-    },
-    // TODO: set NFT preview data
-    setPreviewData(preview) {
-      console.log(preview)
-    },
-    savePreview(preview) {
-      localStorage.setItem('preview', preview)
-      this.preview = preview
     },
     // Color theme
     getTheme() {
@@ -144,7 +139,7 @@ export const useStore = defineStore('player', {
         this.getPlayerInfo()
       }
     },
-    setTokenIds(tokenIds) {
+    setTokenId(tokenIds) {
       this.tokenIds = tokenIds
     },
     // Socials
@@ -178,6 +173,18 @@ export const useStore = defineStore('player', {
     saveMintInfo(info) {
       localStorage.setItem('mintInfo', JSON.stringify({ ...info }))
       this.mintInfo = info
+    },
+    clearMintInfo() {
+      localStorage.removeItem('mintInfo')
+      this.mintInfo = null
+    },
+    clearMintBlockInfo() {
+      this.mintInfo = {
+        ...this.mintInfo,
+        blockNumber: 0,
+        blockHash: 0,
+      }
+      localStorage.setItem('mintInfo', JSON.stringify(this.mintInfo))
     },
     // Token Info
     getToken() {
@@ -231,7 +238,6 @@ export const useStore = defineStore('player', {
     },
     // History
     async getInteractionHistory(offset = 0, limit = 25) {
-      await this.getTheme()
       const tokenInfo = this.getToken()
       const request = await this.api.getInteractionHistory({
         token: tokenInfo && tokenInfo.token,
@@ -296,7 +302,12 @@ export const useStore = defineStore('player', {
         this.username = username
         this.score = score
         this.color = color
-        // this.saveTheme(ranch.name)
+        if (request.guildRanking) {
+          this.guildRanking = request.guildRanking
+        }
+        if (request.globalRanking) {
+          this.globalRanking = request.globalRanking
+        }
         if (request.lastInteractionIn) {
           this.interactionIn = request.lastInteractionIn
         }
@@ -326,10 +337,9 @@ export const useStore = defineStore('player', {
         address,
         token: tokenInfo.token,
       })
-
       this.mintInformation = request
 
-      return this.mintCreatureParams
+      return request
     },
   },
 })

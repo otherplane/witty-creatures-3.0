@@ -12,3 +12,9 @@ export function formatNumber(num) {
 export function isMainnetTime() {
   return Date.now() >= PLAYER_MAINNET_TIMESTAMP * 1000
 }
+
+export function truncate(str) {
+  return str.length > 25
+    ? `${str.substring(0, 14)}...${str.substring(str.length - 14, str.length)}`
+    : str
+}

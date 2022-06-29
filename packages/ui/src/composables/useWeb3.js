@@ -2,8 +2,8 @@ import { onMounted, ref, computed } from 'vue'
 import Web3 from 'web3/dist/web3.min.js'
 
 import { useStore } from '@/stores/player'
-import jsonInterface from '../WittyCreaturesUI.json'
-import { CONTRACT_ADDRESS, NETWORKS } from '../constants'
+import jsonInterface from '../WittyCreaturesUI.abi.json'
+import { NETWORKS } from '../constants'
 
 async function requestAccounts(web3) {
   return await web3.givenProvider.request({ method: 'eth_requestAccounts' })
@@ -21,6 +21,7 @@ function createErrorMessage(message) {
 
 export function useWeb3() {
   let web3
+  let readOnlyWeb3
   const isProviderConnected = ref(false)
   const mintedAddress = ref('')
   const player = useStore()
@@ -32,33 +33,121 @@ export function useWeb3() {
   const errorSwitchingNetworks = computed(
     () => `There was an error adding ${network.value.name} network`
   )
-  const errorDataMessage = `There was an error getting the NFT data`
-  const errorMintMessage = `There was an error minting your NFT.`
+  const errorMintMessage = `There was an error minting your NFT, please try again`
 
   onMounted(async () => {
     await player.getPlayerInfo()
     if (window.ethereum) {
       web3 = new Web3(window.ethereum || 'ws://localhost:8545')
-      if (player.gameOver) {
+      if (player.gameOver && player.nft.length) {
         enableProvider()
       }
     }
   })
 
   async function enableProvider() {
+    if (web3) {
+      const accounts = await requestAccounts(web3)
+      if (accounts[0]) {
+        isProviderConnected.value = true
+        if ((await web3.eth.net.getId()) !== Number(network.value?.id)) {
+          return player.setError(
+            'network',
+            createErrorMessage(errorNetworkMessage.value)
+          )
+        } else {
+          player.clearError('network')
+        }
+      }
+    }
+  }
+
+  async function getMintConfirmationStatus() {
     const accounts = await requestAccounts(web3)
     if (accounts[0]) {
       isProviderConnected.value = true
-      if ((await web3.eth.net.getId()) !== network.value?.id) {
-        return player.setError(
-          'network',
-          createErrorMessage(errorNetworkMessage.value)
-        )
+      // Connected to selected network
+      if ((await web3.eth.net.getId()) === Number(network.value?.id)) {
+        if (player.mintInfo?.blockNumber && player.mintInfo?.blockHash) {
+          const mintBlockHash = (
+            await web3.eth.getBlock(player.mintInfo?.blockNumber)
+          ).hash
+          if (mintBlockHash === player.mintInfo?.blockHash) {
+            const mintConfirmations =
+              (await web3.eth.getBlockNumber()) - player.mintInfo?.blockNumber
+            if (mintConfirmations < 0) {
+              // Chain reorganization. Force getting a new transaction receipt
+              player.clearMintBlockInfo()
+            } else if (mintConfirmations >= network.value.confirmationCount) {
+              // Token minted and confirmed
+              player.mintConfirmation = true
+            }
+          } else {
+            player.setError(
+              'mint',
+              createErrorMessage('Chain rollback detected, please try again')
+            )
+            player.clearMintBlockInfo()
+          }
+        } else {
+          const receipt = await web3.eth.getTransactionReceipt(
+            player.mintInfo.transactionHash
+          )
+          if (receipt) {
+            if (receipt.status) {
+              player.saveMintInfo({
+                ...player.mintInfo,
+                blockNumber: receipt.blockNumber,
+                blockHash: receipt.blockHash,
+              })
+            } else {
+              player.setError('mint', createErrorMessage(errorMintMessage))
+              player.clearMintInfo()
+            }
+          } else {
+            const txCount = await web3.eth.getTransactionCount(
+              player.mintInfo.from
+            )
+            if (txCount !== player.mintInfo.txCount) {
+              // Minted in another device: Get block number from the contract
+              const contract = new web3.eth.Contract(
+                jsonInterface,
+                network.value.contractAddress
+              )
+              try {
+                const { mintBlock } = await contract.methods.getTokenIntrinsics(
+                  player.guildRanking
+                )
+                if (mintBlock) {
+                  player.mintExternalConfirmation = true
+                  const mintBlockHash = await web3.eth.getBlock(mintBlock).hash
+                  player.saveMintInfo({
+                    blockNumber: mintBlock,
+                    blockHash: mintBlockHash,
+                  })
+                } else {
+                  player.clearMintInfo()
+                }
+              } catch {
+                player.setError(
+                  'mint',
+                  createErrorMessage(
+                    'Error getting block number from the contract'
+                  )
+                )
+              }
+            }
+          }
+        }
+      } else {
+        player.clearError('network')
       }
     }
   }
 
   async function addNetwork() {
+    player.clearError('addNetwork')
+    player.clearError('network')
     await window.ethereum
       .request({
         method: 'wallet_switchEthereumChain',
@@ -89,64 +178,74 @@ export function useWeb3() {
       })
   }
 
-  async function getTokenId() {
-    if ((await web3.eth.net.getId()) !== network.value.id) {
-      return player.setError('network', createErrorMessage(errorNetworkMessage))
-    } else {
-      try {
-        const contract = new web3.eth.Contract(jsonInterface, CONTRACT_ADDRESS)
-        const result = await contract.methods
-          .getPlayerTokens(player.playerId)
-          .call()
-        player.setTokenId(result)
-        return result
-      } catch (err) {
-        console.error(err)
-        player.setError('contractData', createErrorMessage(errorDataMessage))
-      }
+  async function getTokenStatus() {
+    try {
+      readOnlyWeb3 = new Web3(
+        new Web3.providers.HttpProvider(network.value.rpcUrls[0])
+      )
+      const contract = new readOnlyWeb3.eth.Contract(
+        jsonInterface,
+        network.value.contractAddress
+      )
+      const result = await contract.methods
+        .getTokenStatus(player.guildRanking)
+        .call()
+      player.tokenStatus = Number(result)
+      return result
+    } catch (err) {
+      console.error(err)
     }
   }
 
   async function mint() {
-    if ((await web3.eth.net.getId()) !== network.value.id) {
+    if ((await web3.eth.net.getId()) !== Number(network.value.id)) {
       return player.setError('network', createErrorMessage(errorNetworkMessage))
     } else {
       const contract = new web3.eth.Contract(
         jsonInterface,
         network.value.contractAddress
       )
+      // tokenOwner
       const from = (await requestAccounts(web3))[0]
       const mintArgs = await player.getContractArgs(from)
-      const farmerAwards = mintArgs.data.farmerAwards.map(medal =>
-        Object.values(medal)
-      )
+      const gasPrice = await web3.eth.getGasPrice()
+      const tokenOwner = await web3.eth.getTransacionCount(tokenOwner)
+      const txCount = await web3.eth.getTransactionCount(from)
 
-      contract.methods
-        .mintFarmerAwards(
-          mintArgs.data.address,
-          mintArgs.data.ranchId,
-          mintArgs.data.farmerId,
-          mintArgs.data.farmerScore,
-          mintArgs.data.farmerName,
-          farmerAwards,
-          `0x${mintArgs.envelopedSignature.signature}`
-        )
-        .send({ from })
-        .on('error', error => {
-          player.setError('mint', createErrorMessage(errorMintMessage))
-          console.error(error)
-        })
-        .on('transactionHash', function (transactionHash) {
-          player.saveMintInfo({ transactionHash })
-        })
-        .on('confirmation', (confirmationNumber, receipt) => {
-          player.saveMintInfo(receipt)
-          player.getNFTImage()
-        })
-        .then(newContractInstance => {
-          console.log('newContractInstance', newContractInstance)
-          console.log('Witmon minted: ', newContractInstance.transactionHash)
-        })
+      const {
+        address,
+        globalRanking,
+        guildId,
+        guildPlayers,
+        guildRanking,
+        index,
+        score,
+        username,
+      } = mintArgs.data
+      try {
+        contract.methods
+          .mint(
+            address,
+            username,
+            globalRanking,
+            guildId,
+            guildPlayers,
+            guildRanking,
+            index,
+            score,
+            `0x${mintArgs.envelopedSignature.signature}`
+          )
+          .send({ from, gasPrice })
+          .on('error', error => {
+            player.setError('mint', createErrorMessage(error.message))
+            console.error(error)
+          })
+          .on('transactionHash', function (txHash) {
+            player.saveMintInfo({ txHash, txCount, from })
+          })
+      } catch (error) {
+        player.setError('mint', createErrorMessage(errorMintMessage))
+      }
     }
   }
 
@@ -155,7 +254,8 @@ export function useWeb3() {
     mintedAddress,
     isProviderConnected,
     enableProvider,
+    getMintConfirmationStatus,
+    getTokenStatus,
     addNetwork,
-    getTokenId,
   }
 }

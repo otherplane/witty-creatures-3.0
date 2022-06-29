@@ -36,7 +36,7 @@ export const INTERACTION_COOLDOWN_MILLIS = process.env
 // Number of different theme colors
 export const COLORS_COUNT = process.env.COLORS_COUNT
   ? parseInt(process.env.COLORS_COUNT)
-  : 7
+  : 5
 
 // Self interaction points
 export const SELF_INTERACTION_POINTS = process.env.SELF_INTERACTION_POINTS
@@ -80,12 +80,12 @@ export const PLAYER_MINT_TIMESTAMP = process.env.PLAYER_MINT_TIMESTAMP
 
 // Web3 provider URL
 export const WEB3_PROVIDER =
-  process.env.WEB3_PROVIDER || 'https://rpc-mainnet.maticvigil.com'
+  process.env.WEB3_PROVIDER || 'https://rpc-mumbai.maticvigil.com'
 
 // WittyCreaturesERC721 contract address
 export const WITTY_CREATURES_ERC721_ADDRESS =
   process.env.WITTY_CREATURES_ERC721_ADDRESS ||
-  '0xE41D6D1cFe55A0fc2035dD663D873D15f21d93c2'
+  '0xC7F98D8b8b2e0C83D87baC9ACCC8bFFc8fDbF3b8'
 
 export const MONGO_URI: string =
   process.env.MONGO_URI ||
@@ -96,6 +96,52 @@ export const MONGO_URI: string =
 export const PLAYER_MAINNET_TIMESTAMP = process.env.PLAYER_MAINNET_TIMESTAMP
   ? parseInt(process.env.PLAYER_MAINNET_TIMESTAMP)
   : 1645131600 // Thursday, February 17, 2022 09:00:00 PM (UTC)
+
+export const NETWORKS = {
+  [1]: {
+    name: 'Ethereum Mainnet',
+    id: 1,
+    contractAddress: process.env.ETHEREUM_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://mainnet.infura.io/v3/'],
+  },
+  [288]: {
+    name: 'Boba Network',
+    id: 288,
+    contractAddress: process.env.BOBA_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://mainnet.boba.network'],
+  },
+  [321]: {
+    name: 'KCC Mainnet',
+    id: 321,
+    contractAddress: process.env.MOONBEAM_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://rpc-mainnet.kcc.network'],
+  },
+  [66]: {
+    name: 'OKX Chain',
+    id: 66,
+    contractAddress: process.env.OKX_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://exchainrpc.okex.org'],
+  },
+  [1088]: {
+    name: 'Metis Mainnet',
+    id: 1088,
+    kind: 'metis',
+    contractAddress: process.env.METIS_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://andromeda.metis.io/?owner=1088'],
+  },
+  [80001]: {
+    name: 'Polygon Mumbai',
+    id: 80001,
+    contractAddress: process.env.POLYGON_MUMBAI_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://rpc-mumbai.maticvigil.com'],
+  },
+  [137]: {
+    name: 'Polygon Mainnet',
+    id: 137,
+    contractAddress: process.env.POLYGON_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://polygon-rpc.com/'],
+  },
+}
 
 export default {
   PLAYER_KEY_LENGTH_BYTES,

@@ -46,14 +46,6 @@ export default {
   background: $screen-highlight;
   border-radius: 4px;
 }
-.infinite-scroll {
-  font-family: 'Source Code Pro', monospace;
-  font-weight: bold;
-  color: $screen;
-  display: grid;
-  padding: 4px;
-  justify-content: center;
-}
 .container {
   row-gap: 0px;
 }

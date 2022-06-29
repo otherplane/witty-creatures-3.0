@@ -1,7 +1,7 @@
 <template>
   <ModalBase
-    title="Export information"
-    description="Copy the link to import your creature in another browser:"
+    title="Eggxport information"
+    description="Copy the link to import your egg in another browser:"
     :subtitle="importLink"
     allowText="Copy"
     cancelText="Cancel"

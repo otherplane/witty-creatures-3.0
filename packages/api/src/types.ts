@@ -183,13 +183,39 @@ export enum BackgroundTrait {
   Background4 = 'backgound-4',
 }
 
+export enum ColorTrait {
+  Blue = 'backgound-1',
+  Red = 'backgound-2',
+  Yellow = 'backgound-3',
+  Black = 'backgound-4',
+}
+
+export const Network = Type.Object({
+  name: Type.String(),
+  id: Type.Integer(),
+  contractAddress: Type.String(),
+  rpcUrls: Type.Array(Type.String()),
+})
+
+export interface NetworkConfig {
+  [key: number]: Static<typeof Network>
+}
+
 export const Award = Type.Object({
-  mouth: Type.String(MouthTrait),
+  background: Type.String(BackgroundTrait),
+  birthDate: Type.Integer(),
+  eggColor: Type.String(ColorTrait),
   eyes: Type.String(EyesTrait),
+  globalRanking: Type.Integer(),
+  guild: Type.String(),
+  guildRanking: Type.Integer(),
   head: Type.String(HeadTrait),
-  clothes: Type.String(ClothesTrait),
-  object: Nullable(Type.String(ObjectTrait)),
-  background: Nullable(Type.String(BackgroundTrait)),
+  mintCostUsd: Type.Number(),
+  mouth: Type.String(MouthTrait),
+  object: Type.String(ObjectTrait),
+  outfit: Type.String(ClothesTrait),
+  rarity: Type.String(),
+  score: Type.Integer(),
 })
 export type Award = Static<typeof Award>
 
@@ -279,6 +305,8 @@ export type GetTokenInfoResponse = {
 
 export const ExtendedPlayerVTO = Type.Object({
   player: ProtectedPlayerVTO,
+  guildRanking: Type.Integer(),
+  globalRanking: Type.Integer(),
   lastInteractionIn: Nullable(DbInteractionVTO),
   lastInteractionOut: Nullable(DbInteractionVTO),
 })
@@ -297,8 +325,9 @@ export const MintOutput = Type.Object({
     signature: Type.String(),
   }),
   data: Type.Object({
+    address: Type.String(),
+    username: Type.String(),
     globalRanking: Type.Number(),
-    // TODO: transform mintConfig to number
     guildId: Type.Number(),
     guildPlayers: Type.Number(),
     guildRanking: Type.Number(),

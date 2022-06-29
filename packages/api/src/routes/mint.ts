@@ -6,7 +6,6 @@ import {
   PLAYER_MINT_TIMESTAMP,
   MINT_PRIVATE_KEY,
   WEB3_PROVIDER,
-  WITTY_CREATURES_ERC721_ADDRESS,
 } from '../constants'
 import {
   AuthorizationHeader,
@@ -16,7 +15,6 @@ import {
 } from '../types'
 import { fromHexToUint8Array, isTimeToMint } from '../utils'
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const WITTY_CREATURES_ERC721_ABI = require('../assets/WittyCreaturesABI.json')
 
 const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   if (!fastify.mongo.db) throw Error('mongo db not found')
@@ -47,7 +45,6 @@ const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       } catch (err) {
         return reply.status(403).send(new Error(`Forbidden: invalid token`))
       }
-
       // Unreachable: valid server issued token refers to non-existent player
       const player = await playerModel.get(key)
       if (!player) {
@@ -55,14 +52,12 @@ const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
           .status(404)
           .send(new Error(`Player does not exist (key: ${key})`))
       }
-
       // Check 3 (unreachable): incubating player egg has been claimed
       if (!player.token) {
         return reply
           .status(405)
           .send(new Error(`Player has not been claimed yet (key: ${key})`))
       }
-
       // Check 4 (unreachable): player must have database id
       if (!player.key) {
         return reply
@@ -81,50 +76,42 @@ const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
           .status(409)
           .send(new Error(`Mint address should be a valid addresss`))
       }
-      // Fetch metadata from contract using Web3
 
-      const contract = new web3.eth.Contract(
-        WITTY_CREATURES_ERC721_ABI,
-        WITTY_CREATURES_ERC721_ADDRESS
-      )
-      const contractStatus = await contract.methods.getStatus().call()
-
-      if (contractStatus.toString() !== '2') {
-        return reply
-          .status(403)
-          .send(new Error(`Forbidden: contract is not ready yet`))
-      }
-
+      const username = player.username
+      const globalRanking = await playerModel.getGlobalPosition(player.key)
+      const guildId = Number(player.mintConfig)
       const sortedPlayersTotal = await playerModel.countActiveByNetwork(
         player.mintConfig
       )
-      const globalRanking = await playerModel.getGlobalPosition(player.key)
       const guildRanking = await playerModel.getNetworkPosition({
         key: player.key,
         network: player.mintConfig,
       })
       const index = player.creationIndex
       const score = player.score
-      const username = player.username
 
       const message = web3.eth.abi.encodeParameters(
         [
           'address',
-          'uint256',
-          'uint256',
-          'uint256',
           'string',
-          {
-            'WittyCreatures.Award[]': {
-              category: 'uint8',
-              ranking: 'uint256',
-              bufficornId: 'uint256',
-            },
-          },
+          'uint256',
+          'uint256',
+          'uint256',
+          'uint256',
+          'uint256',
+          'uint256',
         ],
-        [request.body.address, index, score, username]
+        [
+          request.body.address,
+          username,
+          globalRanking,
+          guildId,
+          sortedPlayersTotal,
+          guildRanking,
+          index,
+          score,
+        ]
       )
-
       if (!message) {
         throw Error('Mint failed because signature message is empty')
       }
@@ -132,7 +119,6 @@ const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       // Compute Keccak256 from data
       const messageBuffer = Buffer.from(message.substring(2), 'hex')
       const messageHash = keccak('keccak256').update(messageBuffer).digest()
-
       // Sign message
       // Note: web3.eth.accounts.sign is not used because it prefixes the message to sign
       const signatureObj = secp256k1.ecdsaSign(
@@ -145,7 +131,6 @@ const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
       const signature = Buffer.from(signatureObj.signature)
         .toString('hex')
         .concat(signV)
-
       const response = {
         envelopedSignature: {
           message: message.substring(2),
@@ -154,15 +139,15 @@ const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
         },
         data: {
           address: request.body.address,
+          username,
           globalRanking,
-          guildId: Number(player.mintConfig),
+          guildId,
           guildPlayers: sortedPlayersTotal,
           guildRanking,
           index,
           score,
         },
       }
-
       return reply.status(200).send(response)
     },
   })

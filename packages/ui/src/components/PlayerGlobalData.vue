@@ -3,7 +3,7 @@
     <p class="item">{{ position }}</p>
     <img class="network bold" :src="importSvg(network)" />
     <p class="item player-name">
-      <span>{{ network }}</span>
+      <span>{{ NETWORKS[network].kind }}</span>
       <span>{{ name }}</span>
     </p>
     <p class="item player-score">{{ score }}</p>
@@ -12,17 +12,19 @@
 
 <script>
 import { importSvg } from '@/composables/importSvg.js'
+import { NETWORKS } from '@/constants'
 export default {
   props: {
     index: Number,
     name: String,
-    network: String,
+    network: Number,
     score: Number,
     position: Number,
   },
   setup() {
     return {
       importSvg,
+      NETWORKS,
     }
   },
 }
@@ -47,7 +49,8 @@ export default {
     justify-self: flex-start;
   }
   .network {
-    width: 30px;
+    width: 40px;
+    max-height: 40px;
     padding: 8px;
   }
   .player-score {

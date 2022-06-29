@@ -22,7 +22,7 @@
             <router-link class="tab" to="/instructions">
               Instructions
             </router-link>
-            <div class="tab" @click="openExportModal()" type="dark">
+            <div class="tab" @click="openExportModal()" type="primary">
               Get backup
             </div>
           </ul>

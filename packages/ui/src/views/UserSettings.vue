@@ -3,9 +3,10 @@
     <div class="container">
       <SectionHeader title="SETTINGS" :from-auth="fromAuth" />
       <form class="form">
-        <h3 class="form-title">Network settings</h3>
-        <label class="form-label">Network</label>
+        <h3 v-if="fromAuth" class="form-title">Network settings</h3>
+        <label v-if="fromAuth" class="form-label">Network</label>
         <CustomSelect
+          v-if="fromAuth"
           class="field margin"
           :options="formatedNetworks"
           :value="{
@@ -70,7 +71,7 @@
         />
       </form>
       <router-link v-if="fromAuth" to="/">
-        <CustomButton type="dark" :slim="true"> CONTINUE </CustomButton>
+        <CustomButton type="primary" :slim="true"> CONTINUE </CustomButton>
       </router-link>
     </div>
   </MainLayout>
