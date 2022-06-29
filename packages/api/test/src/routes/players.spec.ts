@@ -119,7 +119,7 @@ describe('Route /contacts', () => {
       ownerKey: initialPlayers[0].key,
       twitter: '@twitter',
     }
-    const mintConfig = 'boba'
+    const mintConfig = 288
     const shareConfig = true
 
     await serverInject(
@@ -189,7 +189,7 @@ describe('Route /contacts', () => {
         ownerKey: initialPlayers[0].key,
         twitter: '@twitter',
       }
-      const mintConfig = 'boba'
+      const mintConfig = 288
       const shareConfig = true
 
       await serverInject(
@@ -279,7 +279,7 @@ describe('Route /configuration', () => {
         ownerKey: initialPlayers[0].key,
       }
       const shareConfig = true
-      const mintConfig = 'boba'
+      const mintConfig = 288
       await serverInject(
         {
           method: 'POST',

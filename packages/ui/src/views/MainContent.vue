@@ -16,12 +16,8 @@
       >
         CLAIM NFT AWARDS
       </CustomButton>
-      <a
-        v-if="player.errors.network"
-        @click="addPolygonNetwork()"
-        class="add-polygon"
-      >
-        Switch to Polygon Network
+      <a v-if="player.errors.network" @click="addNetwork()" class="add-polygon">
+        Switch to {{ NETWORKS[player.mintConfig].name }} Network
       </a>
     </div>
   </MainLayout>
@@ -47,7 +43,7 @@ import {
 import egg from '@/assets/egg.svg?raw'
 import { useModal } from '@/composables/useModal'
 import { useWeb3 } from '../composables/useWeb3'
-import { EXPLORER_BASE_URL, OPENSEA_BASE_URL } from '../constants'
+import { EXPLORER_BASE_URL, OPENSEA_BASE_URL, NETWORKS } from '../constants'
 import { POLLER_MILLISECONDS } from '@/constants.js'
 import { importSvg } from '@/composables/importSvg.js'
 import { useRouter } from 'vue-router'
@@ -79,10 +75,11 @@ export default {
           await player.interact({ key: router.currentRoute.value.params.id })
         }
         if (player.gameOver) {
+          console.log(web3WittyCreatures.isProviderConnected.value)
           await player.getMintInfo()
           await player.getPreview()
           if (player.minted) {
-            await web3WittyCreatures.getTokenIds()
+            await web3WittyCreatures.getTokenId()
           }
         }
       }
@@ -104,8 +101,9 @@ export default {
     const mintStatus = computed(() =>
       player.mintInfo.blockHash ? 'minted' : 'pending'
     )
-    function openModal(name) {
+    async function openModal(name) {
       const needProvider = name === 'mint'
+      console.log(needProvider, web3WittyCreatures.isProviderConnected)
       if (!web3WittyCreatures.isProviderConnected.value && needProvider) {
         modals['gameOver'] = true
       } else {
@@ -147,6 +145,7 @@ export default {
     return {
       etherscanBaseUrl: EXPLORER_BASE_URL,
       openseaBaseUrl: OPENSEA_BASE_URL,
+      NETWORKS,
       mint,
       player,
       type,
@@ -156,7 +155,7 @@ export default {
       modals,
       mintStatus,
       enableProvider: web3WittyCreatures.enableProvider,
-      addPolygonNetwork: web3WittyCreatures.addPolygonNetwork,
+      addNetwork: web3WittyCreatures.addNetwork,
       isProviderConnected: web3WittyCreatures.isProviderConnected,
       importSvg,
       egg,

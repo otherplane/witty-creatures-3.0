@@ -2,8 +2,8 @@
   <ModalBase
     title="Incubation time is over"
     description="Preview and mint the NFT, you need to connect to a web3 provider (e.g. MetaMask). Create a backup if needed."
-    :subtitle="importLink"
     :cancel="false"
+    cancelText=""
     allowText="Close"
     @allow="$parent.$emit('close')"
   />
