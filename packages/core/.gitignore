@@ -2,7 +2,10 @@
 node_modules
 
 # Build artifacts
-build/contracts
+build/
+
+# Flattened contracts
+flattened/
 
 # Environmental configuration files
 .env
