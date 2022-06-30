@@ -561,7 +561,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         returns (string memory _str)
     {
         uint256 _integer = _decimals6 / 10 ** 6;
-        uint256 _fraction2 = (_decimals6 - _integer) / 10 ** 4;
+        uint256 _fraction2 = (_decimals6 - _integer * 10 ** 6) / 10 ** 4;
         return string(abi.encodePacked(
             _integer.toString(),
             ".",
