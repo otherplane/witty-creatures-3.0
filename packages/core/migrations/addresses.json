@@ -1,0 +1,18 @@
+{
+    "ethereum.goerli": {
+        "Wc3Decorator": "",
+        "Wc3Token": ""
+    },
+    "ethereum.mainnet": {
+        "Wc3Decorator": "",
+        "Wc3Token": ""
+    },
+    "okxchain.mainnet": {
+        "Wc3Decorator": "",
+        "Wc3Token": ""
+    },
+    "polygon.goerli": {
+        "Wc3Decorator": "0xCc2A2F1f0603f218e4E16c7782B7e72162279fCE",
+        "Wc3Token": "0xC7F98D8b8b2e0C83D87baC9ACCC8bFFc8fDbF3b8"
+    }
+}

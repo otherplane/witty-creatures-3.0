@@ -102,6 +102,12 @@ module.exports = {
           confirmations: 2,
         }
       },
+      polygon: {
+        "polygon.goerli": {
+          gasPrice: 50 * 10 ** 9,
+          confirmations: 2,
+        }
+      }
     }
   )
 }
