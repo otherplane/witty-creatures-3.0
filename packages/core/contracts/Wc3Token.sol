@@ -505,19 +505,19 @@ contract Wc3Token
 
     function _verifySignature(
             address _tokenOwner,
-            string calldata _name,
+            string memory _name,
             uint256 _globalRanking,
             uint256 _guildId,
             uint256 _guildPlayers,
             uint256 _guildRanking,
             uint256 _index,
             uint256 _score,
-            bytes calldata _signature
+            bytes memory _signature
         )
         internal view
         virtual
     {
-        bytes32 _hash = keccak256(abi.encodePacked(
+        bytes32 _hash = keccak256(abi.encode(
             _tokenOwner,
             _name,
             _globalRanking,
