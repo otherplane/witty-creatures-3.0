@@ -1,0 +1,67 @@
+{
+    "name": "Bobarian Calm Bison",
+    "description": "Witty Creature #{index} at EthCC'5 (Paris), 2022.",
+    "external_url": "https://api-ethcc22.wittycreatures.com/metadata/{guildRanking}",
+    "image": "https://api-ethcc22.wittycreatures.com/image/{guildRanking}",
+    "attributes": [
+        {
+            "display_type": "number",
+            "trait_type": "Global Ranking",
+            "value": {globalRanking}
+        },        
+        {
+            "trait_type": "Guild",
+            "value": "OKXCHAIN"
+        },
+        {
+            "display_type": "number",
+            "trait_type": "Guild Ranking",
+            "value": {guildRanking}
+        },
+        {
+            "trait_type": "Hatch Cost (USD)",
+            "value": 123.45
+        },
+        {
+            "display_type": "date",
+            "trait_type": "Hatch Date",
+            "value": 1643880506
+        },      
+        {
+            "trait_type": "Rarity",
+            "value": "Legendary"
+        },               
+        {
+            "trait_type": "Score",
+            "value": 1234567
+        },
+        {
+            "trait_type": "Background",
+            "value": "Tron"
+        },
+        {
+            "trait_type": "Color",
+            "value": "Blue"
+        },
+        {
+            "trait_type": "Eyes",
+            "value": "Laser eyes"
+        },
+        {
+            "trait_type": "Head",
+            "value": "Punk"
+        },
+        {
+            "trait_type": "Object",
+            "value": "Laptop"
+        },
+        {
+            "trait_type": "Outfit",
+            "value": "Egyptian"
+        },
+        {
+            "trait_type": "Mouth",
+            "value": "Happy"
+        }
+    ]
+}
