@@ -551,7 +551,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         _traits.backgroundIndex = _phenotype.randomUint8(_nonce ++, ranges.totalBackgrounds);
         _traits.eyesIndex = _phenotype.randomUint8(_nonce ++, _TRAITS_RANDOM_SPREAD_RANK);
         _traits.headIndex = _phenotype.randomUint8(_nonce ++, _TRAITS_RANDOM_SPREAD_RANK);
-        _traits.objectIndex = _phenotype.randomUint8(_nonce ++, ranges.totalBackgrounds);
+        _traits.objectIndex = _phenotype.randomUint8(_nonce ++, ranges.totalObjects);
         _traits.outfitIndex = _phenotype.randomUint8(_nonce ++, _TRAITS_RANDOM_SPREAD_RANK);
         _traits.mouthIndex = _phenotype.randomUint8(_nonce ++, _TRAITS_RANDOM_SPREAD_RANK);
     }
