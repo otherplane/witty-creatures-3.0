@@ -5,28 +5,33 @@
     "image": "https://api-ethcc22.wittycreatures.com/image/{guildRanking}",
     "attributes": [
         {
+            "display_type": "date",
+            "trait_type": "Birth date",
+            "value": 1643880506
+        },
+        {
+            "trait_type": "Egg color",
+            "value": "Gold"
+        },
+        {
             "display_type": "number",
-            "trait_type": "Global Ranking",
+            "trait_type": "Global ranking",
             "value": {globalRanking}
         },        
         {
             "trait_type": "Guild",
-            "value": "OKXCHAIN"
+            "value": "Bobarian"
         },
         {
             "display_type": "number",
-            "trait_type": "Guild Ranking",
+            "trait_type": "Guild ranking",
             "value": {guildRanking}
         },
         {
-            "trait_type": "Hatch Cost (USD)",
+            "trait_type": "Mint cost (USD)",
             "value": 123.45
         },
-        {
-            "display_type": "date",
-            "trait_type": "Hatch Date",
-            "value": 1643880506
-        },      
+        
         {
             "trait_type": "Rarity",
             "value": "Legendary"
@@ -37,31 +42,27 @@
         },
         {
             "trait_type": "Background",
-            "value": "Tron"
-        },
-        {
-            "trait_type": "Color",
-            "value": "Blue"
+            "value": "Plain"
         },
         {
             "trait_type": "Eyes",
-            "value": "Laser eyes"
+            "value": "Default"
         },
         {
             "trait_type": "Head",
-            "value": "Punk"
+            "value": "Default"
         },
         {
             "trait_type": "Object",
-            "value": "Laptop"
+            "value": "None"
         },
         {
             "trait_type": "Outfit",
-            "value": "Egyptian"
+            "value": "Default"
         },
         {
             "trait_type": "Mouth",
-            "value": "Happy"
+            "value": "Default"
         }
     ]
 }
