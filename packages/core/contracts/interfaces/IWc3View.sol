@@ -8,6 +8,7 @@ import "./IWc3Decorator.sol";
 /// @author Otherplane Labs, 2022.
 interface IWc3View {
     function decorator() external view returns (IWc3Decorator);
+    function guildId() external view returns (uint256);
     function randomizer() external view returns (IWitnetRandomness);
     function router() external view returns (IWitnetPriceRouter);
     function signator() external view returns (address);
@@ -31,5 +32,7 @@ interface IWc3View {
     ) external view returns (string memory);
     
     function totalSupply() external view returns (uint256);
+    function usdPriceAssetId() external view returns (bytes32);
+    function usdPriceCaption() external view returns (string memory);
     function version() external view returns (string memory);
 }

@@ -15,6 +15,15 @@ contract WitnetPriceRouterMock {
         price = _price;
     }
 
+    function currencyPairId(
+            string memory _caption
+        )
+        public pure
+        returns (bytes32)
+    {
+        return keccak256(abi.encodePacked(_caption));
+    }
+
     function valueFor(
             bytes32 _erc2362id
         )

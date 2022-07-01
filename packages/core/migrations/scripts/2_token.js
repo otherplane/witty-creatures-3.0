@@ -47,7 +47,7 @@ module.exports = async function (deployer, network, accounts) {
     if (!WitnetPriceRouterMock.isDeployed()) {
       await deployer.deploy(
         WitnetPriceRouterMock,
-        /* _caption */ `Price-${settings.specs.default.currencySymbol}/USD-6`,
+        /* _caption */ settings.specs.default.usdPriceCaption,
         /* _price   */ 123456789, // $ 123,456789
       )
     }
@@ -74,7 +74,7 @@ module.exports = async function (deployer, network, accounts) {
       settings.common.percentiles,
       settings.common.expirationBlocks,
       settings.common.totalEggs,      
-      specs.currencySymbol,
+      specs.usdPriceCaption,
       specs.mintGasLimit,
     )
     if (network !== "test" && network !== "develop") {

@@ -12,8 +12,8 @@ module.exports = {
   specs: {
     default: {
       guild: "Ethereum",
-      currencySymbol: "ETH",
       mintGasLimit: 250000,
+      usdPriceCaption: "Price-ETH/USD-6",
       backgrounds: [
         "Tron",
         "Outer space",
@@ -72,8 +72,7 @@ module.exports = {
     },
     polygon: {
       guild: "Polygon",
-      currencySymbol: "MATIC",
-      backgrounds: [ "Polygon" ],
+      usdPriceCaption: "Price-MATIC/USD-6",
     },
   },
   compilers: {
