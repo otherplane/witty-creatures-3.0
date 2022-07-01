@@ -31,11 +31,10 @@ contract Wc3Token
 
     IWitnetRandomness immutable public override randomizer;
     IWitnetPriceRouter immutable public override router;
+    uint256 immutable override public guildId;
+    bytes32 immutable override public usdPriceAssetId;
 
-    uint256 immutable public guildId;
-    bytes32 immutable public usdPriceAssetId;
     bytes32 immutable internal __version;
-
     Wc3Lib.Storage internal __storage;    
 
     modifier inStatus(Wc3Lib.Status _status) {
@@ -63,7 +62,7 @@ contract Wc3Token
             uint8[] memory _percentileMarks,
             uint256 _expirationBlocks,
             uint256 _totalEggs,
-            string memory _currencySymbol,
+            string memory _usdPriceCaption,
             uint256 _mintGasLimit            
         )
         ERC721("Witty Creatures EthCC'5", "WC3")
@@ -92,19 +91,14 @@ contract Wc3Token
             _signator
         );        
 
-        string memory _usdPriceCaption = string(abi.encodePacked(
-           "Price-",
-           _currencySymbol,
-           "/USD-6" 
-        ));
+        usdPriceAssetId = router.currencyPairId(_usdPriceCaption);
         require(
-            router.supportsCurrencyPair(keccak256(bytes(_usdPriceCaption))),
+            router.supportsCurrencyPair(usdPriceAssetId),
             string(abi.encodePacked(
                 bytes("Wc3Token: unsupported currency pair: "),
                 _usdPriceCaption
             ))
         );
-        usdPriceAssetId = keccak256(bytes(_usdPriceCaption));
     }
 
     /// @dev Required for receiving unused funds back when calling to `randomizer.randomize()`
@@ -448,6 +442,14 @@ contract Wc3Token
         returns (uint256)
     {
         return __storage.totalSupply;
+    }
+
+    function usdPriceCaption()
+        public view
+        override
+        returns (string memory)
+    {
+        return router.lookupERC2362ID(usdPriceAssetId);
     }
 
     function version()
