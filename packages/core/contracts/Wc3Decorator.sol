@@ -22,8 +22,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
     string internal constant _TRAITS_DEFAULT_HEAD = "Default";
     string internal constant _TRAITS_DEFAULT_MOUTH = "Default";
     string internal constant _TRAITS_DEFAULT_OBJECT = "None";
-    string internal constant _TRAITS_DEFAULT_OUTFIT = "Default";
-    
+    string internal constant _TRAITS_DEFAULT_OUTFIT = "Default";    
 
     bytes32 internal immutable __version;
 
