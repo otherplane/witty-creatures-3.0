@@ -23,9 +23,9 @@ module.exports = async function (_deployer) {
     const realm = utils.getRealmNetworkFromArgs()[0]
     const specs = merge(settings.specs.default, settings.specs[realm])
     const ranges = await decorator.ranges()
-    if (ranges.totalBackgrounds.toNumber() !== specs.backgrounds.length) {
-      console.info(`     >> Setting backgrounds: ${specs.backgrounds}...`)
-      await decorator.setBackgrounds(specs.backgrounds)
+    if (ranges.totalBackgrounds.toNumber() !== specs.traitTags.backgrounds.length) {
+      console.info(`     >> Setting backgrounds: ${specs.traitTags.backgrounds}...`)
+      await decorator.setBackgrounds(specs.traitTags.backgrounds)
     } else {
       console.info(  "     >> Backgrounds:", JSON.stringify(await decorator.getBackgrounds()))
     }
@@ -35,33 +35,33 @@ module.exports = async function (_deployer) {
     } else {
       console.info(  "     >> Colors:", JSON.stringify(await decorator.getColors()))
     }
-    if (ranges.totalEyes.toNumber() !== specs.eyes.length) {
-      console.info(`     >> Setting eyes: ${specs.eyes}...`)
-      await decorator.setEyes(specs.eyes)
+    if (ranges.totalEyes.toNumber() !== specs.traitTags.eyes.length) {
+      console.info(`     >> Setting eyes: ${specs.traitTags.eyes}...`)
+      await decorator.setEyes(specs.traitTags.eyes)
     } else {
       console.info(  "     >> Eyes:", JSON.stringify(await decorator.getEyes()))
     }
-    if (ranges.totalHeads.toNumber() !== specs.heads.length) {
-      console.info(`     >> Setting heads: ${specs.heads}...`)
-      await decorator.setHeads(specs.heads)
+    if (ranges.totalHeads.toNumber() !== specs.traitTags.heads.length) {
+      console.info(`     >> Setting heads: ${specs.traitTags.heads}...`)
+      await decorator.setHeads(specs.traitTags.heads)
     } else {
       console.info(  "     >> Heads:", JSON.stringify(await decorator.getHeads()))
     }
-    if (ranges.totalMouths.toNumber() !== specs.mouths.length) {
-      console.info(`     >> Setting mouths: ${specs.mouths}...`)
-      await decorator.setMouths(specs.mouths)
+    if (ranges.totalMouths.toNumber() !== specs.traitTags.mouths.length) {
+      console.info(`     >> Setting mouths: ${specs.traitTags.mouths}...`)
+      await decorator.setMouths(specs.traitTags.mouths)
     } else {
       console.info(  "     >> Mouths:", JSON.stringify(await decorator.getMouths()))
     }
-    if (ranges.totalObjects.toNumber() !== specs.objects.length) {
-      console.info(`     >> Setting objects: ${specs.objects}...`)
-      await decorator.setObjects(specs.objects)
+    if (ranges.totalObjects.toNumber() !== specs.traitTags.objects.length) {
+      console.info(`     >> Setting objects: ${specs.traitTags.objects}...`)
+      await decorator.setObjects(specs.traitTags.objects)
     } else {
       console.info(  "     >> Objects:", JSON.stringify(await decorator.getObjects()))
     }
-    if (ranges.totalOutfits.toNumber() !== specs.outfits.length) {
-      console.info(`     >> Setting outfits: ${specs.outfits}...`)
-      await decorator.setOutfits(specs.outfits)
+    if (ranges.totalOutfits.toNumber() !== specs.traitTags.outfits.length) {
+      console.info(`     >> Setting outfits: ${specs.traitTags.outfits}...`)
+      await decorator.setOutfits(specs.traitTags.outfits)
     } else {
       console.info(  "     >> Outfits:", JSON.stringify(await decorator.getOutfits()))
     }
