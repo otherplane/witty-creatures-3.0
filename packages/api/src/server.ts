@@ -10,7 +10,12 @@ import constants, { MINT_PRIVATE_KEY } from './constants'
 const server = Fastify({
   logger: {
     level: 'info',
-    prettyPrint: true,
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        colorize: true,
+      },
+    },
   },
 })
 
@@ -25,7 +30,7 @@ server
     console.log('[Server] ECDSA public Key: ', account.address)
     console.log('[Server] Non-sensitive config:', constants)
 
-    server.listen(4000, '0.0.0.0', function (err) {
+    server.listen({ port: 4000, host: '0.0.0.0' }, function (err) {
       if (err) {
         server.log.error(err)
         process.exit(1)
