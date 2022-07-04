@@ -414,7 +414,9 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         string memory _eggColor = string(abi.encodePacked(
             "{",
                 "\"trait_type\": \"Egg color\",",
-                "\"value\": ", colors[_intrinsics.index % ranges.totalColors],
+                "\"value\": \"", (
+                    colors[_intrinsics.index % ranges.totalColors]
+                ), "\""
             "},"
         ));
         string memory _globalRanking = string(abi.encodePacked(
@@ -427,7 +429,9 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         string memory _guild = string(abi.encodePacked(
             "{", 
                 "\"trait_type\": \"Guild\",",
-                "\"value\": ", guilds[block.chainid],
+                "\"value\": \"", (
+                    guilds[block.chainid]
+                ), "\""
             "},"
         ));
         string memory _guildRanking = string(abi.encodePacked(
@@ -446,7 +450,9 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         string memory _rarity = string(abi.encodePacked(
             "{", 
                 "\"trait_type\": \"Rarity\",",
-                "\"value\": ", _intrinsics.rarity.toString(),
+                "\"value\": \"", (
+                    _intrinsics.rarity.toString()
+                ), "\""
             "},"
         ));
         string memory _score = string(abi.encodePacked(
