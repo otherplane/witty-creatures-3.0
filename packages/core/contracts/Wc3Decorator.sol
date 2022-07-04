@@ -396,7 +396,10 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
     {
         return string(abi.encodePacked(
             _loadAttributesIntrinsics(_intrinsics),
-            _loadAttributesRandomized(_traits)
+            _loadAttributesRandomized(
+                _intrinsics.rarity,
+                _traits
+            )
         ));        
     }
 
@@ -473,7 +476,10 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         ));
     }
 
-    function _loadAttributesRandomized(TraitIndexes memory _traits)
+    function _loadAttributesRandomized(
+            Wc3Lib.WittyCreatureRarity _rarity,
+            TraitIndexes memory _traits
+        )
         internal view
         returns (string memory)
     {
@@ -481,9 +487,10 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "{",
                 "\"trait_type\": \"Background\",",
                 "\"value\": \"", (
-                    bytes(backgrounds[_traits.backgroundIndex]).length == 0
-                        ? _TRAITS_DEFAULT_BACKGROUND
-                        : backgrounds[_traits.backgroundIndex]
+                    _rarity != Wc3Lib.WittyCreatureRarity.Legendary
+                        || bytes(backgrounds[_traits.backgroundIndex]).length == 0
+                    ? _TRAITS_DEFAULT_BACKGROUND
+                    : backgrounds[_traits.backgroundIndex]
                 ), "\""
             "},"
         ));
@@ -521,9 +528,10 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "{",
                 "\"trait_type\": \"Object\",",
                 "\"value\": \"", (
-                    bytes(objects[_traits.objectIndex]).length == 0
-                        ? _TRAITS_DEFAULT_OBJECT
-                        : objects[_traits.objectIndex]
+                    _rarity == Wc3Lib.WittyCreatureRarity.Common 
+                        || bytes(objects[_traits.objectIndex]).length == 0
+                    ? _TRAITS_DEFAULT_OBJECT
+                    : objects[_traits.objectIndex]
                 ), "\""
             "},"
         ));
