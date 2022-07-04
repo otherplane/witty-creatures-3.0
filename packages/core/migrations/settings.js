@@ -3,7 +3,7 @@ const { merge } = require("lodash")
 module.exports = {
   common: {
     baseURI: "https://api-ethcc22.wittycreatures.com/",
-    colors: [ "Green", "Black", "Red", "Gold", "Blue", ],
+    colors: [ "Emerald", "Obsidian", "Ruby", "Gold", "Zaphire", ],
     expirationBlocks: 0,
     percentiles: [ 10, 30, 60 ],
     // signator: "",
