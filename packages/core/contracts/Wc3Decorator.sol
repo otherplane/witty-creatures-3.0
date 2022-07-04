@@ -348,7 +348,6 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         )
         external view
         virtual override
-        isForged
         returns (string memory _json)
     {
         TraitIndexes memory _traits = _splitPhenotype(
