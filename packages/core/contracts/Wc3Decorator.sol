@@ -511,7 +511,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "{",
                 "\"trait_type\": \"Mouth\",",
                 "\"value\": \"", (
-                    bytes(mouths[_traits.objectIndex]).length == 0
+                    bytes(mouths[_traits.mouthIndex]).length == 0
                         ? _TRAITS_DEFAULT_MOUTH
                         : mouths[_traits.mouthIndex]
                 ), "\""
