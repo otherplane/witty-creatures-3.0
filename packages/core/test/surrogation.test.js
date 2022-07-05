@@ -13,7 +13,7 @@ contract('Wc3MintMock', _accounts => {
     })
 
     it('should verify correctly a valid signature', async () => {
-      const lol = await wc3.mint(
+      await wc3.mint(
         /* _tokenOwner */ "0x184cc5908e1a3d29b4d31df67d99622c4baa7b71",
         /* _name */ "planned-platypus",
         /* _globalRanking */ 1, 
@@ -25,7 +25,6 @@ contract('Wc3MintMock', _accounts => {
         // eslint-disable-next-line max-len
         '0xa8ac4dd071e16c7ae27f20961bed4fda2b8ddf9e3f4884878dd61fa49666367512d30fd2e9c78250dff56e246da36e21fd4d158c647e9468f305fbaa144766171b'
       )
-      console.log("lol =>", lol)
     })
   })
 })
