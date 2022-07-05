@@ -367,6 +367,10 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "\"description\": \"Witty Creature #",
                 _intrinsics.eggIndex.toString(),
             " at EthCC'5 (Paris), July 2022."
+            " The [Witnet multi-chain decentralized oracle](https://witnet.io) was used"
+            " for retrieving both randomness and the [USD price at the moment this token"
+            " got minted](https://witnet.network/).",
+                _intrinsics.mintUsdPriceWitnetProof.toHexString(), 
             "\","
         ));
         string memory _externalUrl = string(abi.encodePacked(

@@ -1,8 +1,11 @@
 {
     "name": "Bobarian Calm Bison",
-    "description": "Witty Creature #{index} at EthCC'5 (Paris), 2022.",
-    "external_url": "https://api-ethcc22.wittycreatures.com/metadata/{guildRanking}",
-    "image": "https://api-ethcc22.wittycreatures.com/image/{guildRanking}",
+    "description": 
+        "Witty Creature #{index} at EthCC'5 (Paris), 2022." 
+        "Randomized by the [Witnet Multi-chain Decentralized Oracle](https://witnet.io)."
+        "The [USD price at the moment this token got minted](https://witnet.network/{mintUsdPriceWitnetProof}) was also provided by Witnet's layer-1 side-chain.",
+    "external_url": "https://api-ethcc22.wittycreatures.com/metadata/{eggGuildRanking}",
+    "image": "https://api-ethcc22.wittycreatures.com/image/{eggGuildRanking}",
     "attributes": [
         {
             "display_type": "date",
@@ -16,7 +19,7 @@
         {
             "display_type": "number",
             "trait_type": "Global ranking",
-            "value": {globalRanking}
+            "value": {eggGlobalRanking}
         },        
         {
             "trait_type": "Guild",
@@ -25,7 +28,8 @@
         {
             "display_type": "number",
             "trait_type": "Guild ranking",
-            "value": {guildRanking}
+            "value": {eggGuildRanking}
+        },
         },
         {
             "trait_type": "Mint cost (USD)",
