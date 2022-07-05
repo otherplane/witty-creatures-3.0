@@ -4,7 +4,8 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-// import "@openzeppelin/contracts/utils/Strings.sol";
+
+import "witnet-solidity-bridge/contracts/interfaces/IWitnetPriceFeed.sol";
 
 import "./interfaces/IWc3Admin.sol";
 import "./interfaces/IWc3Events.sol";
@@ -23,7 +24,6 @@ contract Wc3Token
         IWc3Surrogates,
         IWc3View
 {
-    // using Strings for bytes32;
     using Strings for uint256;
     using Wc3Lib for bytes32;
     using Wc3Lib for string;
@@ -363,6 +363,19 @@ contract Wc3Token
         return __storage.hatchingBlock;
     }
 
+    function getHatchingRandomness()
+        public view
+        override
+        returns (bytes32 _hatchingRandomness)
+    {
+        uint _hatchingBlock = __storage.hatchingBlock;
+        if (_hatchingBlock > 0) {
+            try randomizer.getRandomnessAfter(_hatchingBlock) returns (bytes32 _randomness) {
+                _hatchingRandomness = _randomness;
+            } catch {}
+        }
+    }
+
     function getSettings()
         external view
         override
@@ -396,7 +409,7 @@ contract Wc3Token
     }
 
     function preview(
-            string calldata _name,
+            string memory _name,
             uint256 _globalRanking,
             uint256 _guildId,
             uint256 _guildPlayers,
@@ -404,7 +417,7 @@ contract Wc3Token
             uint256 _index,
             uint256 _score
         )
-        external view
+        public view
         virtual override
         inStatus(Wc3Lib.Status.Hatching)
         returns (string memory)

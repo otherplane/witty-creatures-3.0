@@ -16,6 +16,7 @@ interface IWc3View {
     function estimateMintUsdCost6(uint _gasPrice) external view returns (uint64, bytes32);
     
     function getHatchingBlock() external view returns (uint256);
+    function getHatchingRandomness() external view returns (bytes32);
     function getSettings() external view returns (Wc3Lib.Settings memory);    
     function getStatus() external view returns (Wc3Lib.Status);
     function getTokenIntrinsics(uint256 _tokenId) external view returns (Wc3Lib.WittyCreature memory);
