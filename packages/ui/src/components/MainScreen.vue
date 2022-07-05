@@ -6,7 +6,7 @@
         <span class="points-bold">{{ formatNumber(player.score) }}</span>
         points
       </p>
-      <LabelMintStatus v-if="player.mintInfo" class="mint-status" />
+      <LabelMintStatus v-if="player.tokenStatus" class="mint-status" />
     </div>
     <NFTPreview v-if="player.nft[0]" />
     <EggSvg v-else class="egg" :speed="0.7" />

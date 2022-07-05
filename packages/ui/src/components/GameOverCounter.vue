@@ -9,7 +9,7 @@
         @clear-timestamp="getTokenStatus"
       />
     </p>
-    <p v-if="player.gameOver && player.mintInfo?.transactionHash"></p>
+    <p v-if="player.gameOver && player.mintInfo?.txHash"></p>
     <p class="game-over bold" v-else>GAME OVER</p>
   </div>
 </template>
@@ -57,7 +57,7 @@ export default {
         clearInterval(tokenStatusPoller)
       }
       clearInterval(mintConfirmationStatusPoller)
-      if (player.mintInfo?.transactionHash && !player.mintConfirmation) {
+      if (player.mintInfo?.txHash && !player.mintConfirmation) {
         mintConfirmationStatusPoller = await setInterval(async () => {
           await web3WittyCreatures.getMintConfirmationStatus()
         }, POLLER_MILLISECONDS)

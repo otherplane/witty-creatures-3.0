@@ -102,8 +102,7 @@ const routes = [
     path: '/import',
     beforeEnter: (to, from, next) => {
       const { username, token, key } = to.query
-      const transactionHash = to.query.transactionHash
-      const blockHash = to.query.blockHash
+      const txHash = to.query.txHash
 
       if (!username || !token || !key) {
         next('/')
@@ -112,11 +111,8 @@ const routes = [
           'tokenInfo',
           JSON.stringify({ username, token, key })
         )
-        if (transactionHash) {
-          localStorage.setItem(
-            'mintInfo',
-            JSON.stringify({ transactionHash, blockHash })
-          )
+        if (txHash) {
+          localStorage.setItem('mintInfo', JSON.stringify({ txHash }))
         }
         next(`/${key}`)
       }
