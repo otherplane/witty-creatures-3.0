@@ -13,36 +13,42 @@
             "value": 1643880506
         },
         {
-            "trait_type": "Egg color",
+            "trait_type": "Egg Color",
             "value": "Gold"
         },
         {
+            "trait_type": "Egg Rarity",
+            "value": "Legendary"
+        },               
+        {
+            "trait_type": "Egg Score",
+            "value": 1234567
+        },
+        {
             "display_type": "number",
-            "trait_type": "Global ranking",
+            "trait_type": "Global Ranking",
             "value": {eggGlobalRanking}
         },        
         {
             "trait_type": "Guild",
-            "value": "Bobarian"
+            "value": "Boba Network"
         },
         {
             "display_type": "number",
-            "trait_type": "Guild ranking",
+            "trait_type": "Guild Ranking",
             "value": {eggGuildRanking}
         },
+        {
+            "trait_type": "Mint gas price (gwei)",
+            "value": 38.12
         },
         {
             "trait_type": "Mint cost (USD)",
             "value": 123.45
         },
-        
         {
-            "trait_type": "Rarity",
-            "value": "Legendary"
-        },               
-        {
-            "trait_type": "Score",
-            "value": 1234567
+            "trait_type": "Witnet Randomness",
+            "value": "0x{randomness.toHexString()}"
         },
         {
             "trait_type": "Background",
