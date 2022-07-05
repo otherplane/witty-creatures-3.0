@@ -28,6 +28,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
 
     string public override baseURI;
     bool public override forged;
+    uint256 public override immutable guildId;
     TraitRanges public ranges;
 
     mapping (uint256 => string) public backgrounds;
@@ -84,6 +85,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         __version = _version.toBytes32();
         setBaseURI(_baseURI);
         setGuildTag(block.chainid, _chainName);
+        guildId = block.chainid;
     }
 
     function version()
