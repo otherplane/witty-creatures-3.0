@@ -429,6 +429,20 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
                 ), "\""
             "},"
         ));
+        string memory _eggRarity = string(abi.encodePacked(
+            "{", 
+                "\"trait_type\": \"Egg rarity\",",
+                "\"value\": \"", (
+                    _intrinsics.eggRarity.toString()
+                ), "\""
+            "},"
+        ));
+        string memory _eggScore = string(abi.encodePacked(
+            "{", 
+                "\"trait_type\": \"Egg score\",",
+                "\"value\": ", _intrinsics.eggScore.toString(),
+            "},"
+        ));
         string memory _globalRanking = string(abi.encodePacked(
             "{",
                 "\"display_type\": \"number\",",
@@ -451,35 +465,28 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
                 "\"value\": ", _intrinsics.eggGuildRanking.toString(),
             "},"
         ));
-        string memory _mintCost = string(abi.encodePacked(
+        string memory _mintGasPrice = string(abi.encodePacked(
+            "{", 
+                "\"trait_type\": \"Mint gas price (gwei)\",",
+                "\"value\": ", _toStringDecimals2(_intrinsics.mintGasPrice / 10 ** 3),
+            "},"
+        ));
+        string memory _mintUsdCost = string(abi.encodePacked(
             "{", 
                 "\"trait_type\": \"Mint cost (USD)\",",
                 "\"value\": ", _toStringDecimals2(_intrinsics.mintUsdCost6),
             "},"
         ));
-        string memory _rarity = string(abi.encodePacked(
-            "{", 
-                "\"trait_type\": \"Rarity\",",
-                "\"value\": \"", (
-                    _intrinsics.eggRarity.toString()
-                ), "\""
-            "},"
-        ));
-        string memory _score = string(abi.encodePacked(
-            "{", 
-                "\"trait_type\": \"Score\",",
-                "\"value\": ", _intrinsics.eggScore.toString(),
-            "},"
-        ));
         return string(abi.encodePacked(
             _birthDate,
             _eggColor,
+            _eggRarity,
+            _eggScore,
             _globalRanking,
             _guild,
             _guildRanking,
-            _mintCost,
-            _rarity,
-            _score
+            _mintGasPrice,
+            _mintUsdCost
         ));
     }
 
