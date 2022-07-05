@@ -221,6 +221,34 @@ library Wc3Lib {
         }
     }
 
+    /// Converts bytes32 into hex string.
+    function toHexString(bytes32 _bytes32)
+        internal pure
+        returns (string memory)
+    {
+        if (_bytes32 == 0) {
+            return "0";
+        } else {
+            bytes32 _temp = _bytes32;
+            uint _length;
+            while (_temp != 0) {
+                _length ++;
+                _temp = _temp >> 4;
+            }
+            bytes memory _bstr = new bytes(_length);
+            uint _k = _length;
+            while (_bytes32 != 0) {
+                uint _char = uint(_bytes32) & 0xf;
+                _bstr[-- _k] = (_char > 9
+                    ? bytes1(uint8(55 + _char))
+                    : bytes1(uint8(48 + _char))
+                );
+                _bytes32 = _bytes32 >> 4;
+            }
+            return string(_bstr);
+        }
+    }
+
     /// Converts bytes32 into string.
     function toString(bytes32 _bytes32)
         internal pure
