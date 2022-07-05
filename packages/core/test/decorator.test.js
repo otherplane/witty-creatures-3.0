@@ -4,8 +4,6 @@ const Wc3Decorator = artifacts.require('Wc3Decorator')
 
 contract('Wc3Decorator', _accounts => {
   let decorator
-  let randomness
-
   before(async () => {
     decorator = await Wc3Decorator.deployed()
   })
@@ -23,22 +21,24 @@ contract('Wc3Decorator', _accounts => {
     })
     describe('toJSON(bytes32,WittyCreature)', async () => {
       let metadatas = []
-      let randomness
       describe('common creatures', async () => {
-        randomness = "0xb754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2"
+        let randomness = "0xb754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2"
         before('baseURI()', async () => {
           for (let j = 0; j < 50; j++) {
             metadatas[j] = await decorator.toJSON.call(
               randomness,
               [
-                /* name*/ `Name${j}`,
-                /* birthTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
-                /* globalRanking */ 123 - j,
-                /* guildRanking */ 1 + parseInt(Math.random() * 50),
-                /* index */ j,
-                /* mintUsdCost6 */ 123450000,
-                /* rarity */ 2,
-                /* score */ 12345 + (50 - j) * 99,
+                /* eggName*/ `Name${j}`,
+                /* eggGlobalRanking */ 123 - j,
+                /* eggGuildRanking */ 1 + parseInt(Math.random() * 50),
+                /* eggIndex */ j,
+                /* eggRarity */ 2,
+                /* eggScore */ 12345 + (50 - j) * 99,
+                /* mintBlock */ 10001 + j,
+                /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
+                /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
+                /* mintUsdCost6 */ 123450000, // $123.45
+                /* mintUsdPrictWitnetProof */ randomness
               ]
             )
           }
@@ -53,12 +53,15 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata description contains index", async () => {
+        it("metadata description contains eggIndex + 1", async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
+            if (j == 0) {
+              console.log(metadata)
+            }
             try {
               assert(
-                metadata.description.indexOf(j.toString()) >= 0,
+                metadata.description.indexOf((j + 1).toString()) >= 0,
                 `Token id #${j} not found:\n${await metadatas[j]}`
               )
             } catch (ex) {
@@ -207,20 +210,23 @@ contract('Wc3Decorator', _accounts => {
         })
       })
       describe('rare creatures', async () => {
-        randomness = "0xc754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2"
+        let randomness = "0xc754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2"
         before('baseURI()', async () => {
           for (let j = 0; j < 50; j++) {
             metadatas[j] = await decorator.toJSON.call(
               randomness,
               [
-                /* name*/ `Name${j}`,
-                /* birthTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
-                /* globalRanking */ 123 - j,
-                /* guildRanking */ 1 + parseInt(Math.random() * 50),
-                /* index */ j,
-                /* mintUsdCost6 */ 123450000,
-                /* rarity */ 1,
-                /* score */ 12345 + (50 - j) * 99,
+                /* eggName*/ `Name${j}`,
+                /* eggGlobalRanking */ 123 - j,
+                /* eggGuildRanking */ 1 + parseInt(Math.random() * 50),
+                /* eggIndex */ j,
+                /* eggRarity */ 1,
+                /* eggScore */ 12345 + (50 - j) * 99,
+                /* mintBlock */ 10001 + j,
+                /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
+                /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
+                /* mintUsdCost6 */ 123450000, // $123.45
+                /* mintUsdPrictWitnetProof */ randomness
               ]
             )
           }
@@ -235,12 +241,15 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata description contains index", async () => {
+        it("metadata description contains eggIndex + 1", async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
+            if (j == 0) {
+              console.log(metadata)
+            }
             try {
               assert(
-                metadata.description.indexOf(j.toString()) >= 0,
+                metadata.description.indexOf((j + 1).toString()) >= 0,
                 `Token id #${j} not found:\n${await metadatas[j]}`
               )
             } catch (ex) {
@@ -390,20 +399,24 @@ contract('Wc3Decorator', _accounts => {
         })
       })
       describe('legendary creatures', async () => {
-        randomness = "0xd754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2"
+        let randomness = "0xd754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2"
         before('baseURI()', async () => {
           for (let j = 0; j < 50; j++) {
             metadatas[j] = await decorator.toJSON.call(
               randomness,
               [
-                /* name*/ `Name${j}`,
-                /* birthTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
-                /* globalRanking */ 123 - j,
-                /* guildRanking */ 1 + parseInt(Math.random() * 50),
-                /* index */ j,
-                /* mintUsdCost6 */ 123450000,
-                /* rarity */ 0,
-                /* score */ 12345 + (50 - j) * 99,
+                /* eggName*/ `Name${j}`,
+                /* eggGlobalRanking */ 123 - j,
+                /* eggGuildRanking */ 1 + parseInt(Math.random() * 50),
+                /* eggIndex */ j,
+                /* eggRarity */ 0,
+                /* eggScore */ 12345 + (50 - j) * 99,
+                /* mintBlock */ 10001 + j,
+                /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
+                /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
+                /* mintUsdCost6 */ 123450000, // $123.45
+                /* mintUsdPrictWitnetProof */ randomness
+                
               ]
             )
           }
@@ -418,12 +431,15 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata description contains index", async () => {
+        it("metadata description contains eggIndex + 1", async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
+            if (j == 0) {
+              console.log(metadata)
+            }
             try {
               assert(
-                metadata.description.indexOf(j.toString()) >= 0,
+                metadata.description.indexOf((j + 1).toString()) >= 0,
                 `Token id #${j} not found:\n${await metadatas[j]}`
               )
             } catch (ex) {

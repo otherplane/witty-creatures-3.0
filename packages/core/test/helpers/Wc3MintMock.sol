@@ -58,7 +58,7 @@ contract Wc3MintMock is IWc3Surrogates, IWc3Events {
     }
 
     function _verifyGuildFacts(
-            uint _guildId,
+            uint,
             uint _guildPlayers,
             uint _guildRanking
         )
