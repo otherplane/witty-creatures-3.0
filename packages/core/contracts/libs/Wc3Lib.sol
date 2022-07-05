@@ -240,8 +240,8 @@ library Wc3Lib {
             while (_bytes32 != 0) {
                 uint _char = uint(_bytes32) & 0xf;
                 _bstr[-- _k] = (_char > 9
-                    ? bytes1(uint8(55 + _char))
-                    : bytes1(uint8(48 + _char))
+                    ? bytes1(uint8(87 + _char)) // lower-case letters
+                    : bytes1(uint8(48 + _char)) // decimal digits
                 );
                 _bytes32 = _bytes32 >> 4;
             }

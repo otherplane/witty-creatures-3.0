@@ -367,13 +367,13 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         ));
         string memory _description = string(abi.encodePacked(
             "\"description\": \"Witty Creature #",
-                _intrinsics.eggIndex.toString(),
+                (_intrinsics.eggIndex + 1).toString(),
             " at EthCC'5 (Paris), July 2022."
             " The [Witnet multi-chain decentralized oracle](https://witnet.io) was used"
-            " for retrieving both randomness and the [USD price at the moment this token"
-            " got minted](https://witnet.network/).",
+            " for both generating randomness, and retrieving the [USD price at the moment this token"
+            " got minted](https://witnet.network/",
                 _intrinsics.mintUsdPriceWitnetProof.toHexString(), 
-            "\","
+            ").\","
         ));
         string memory _externalUrl = string(abi.encodePacked(
             "\"external_url\": \"", _baseURI, "metadata/", _tokenIdStr, "\","
@@ -414,10 +414,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         return string(abi.encodePacked(
             _witnetRandomness,
             _loadAttributesIntrinsics(_intrinsics),
-            _loadAttributesRandomized(
-                _intrinsics.eggRarity,
-                _traits
-            )
+            _loadAttributesRandomized(_intrinsics.eggRarity, _traits)
         ));        
     }
 
