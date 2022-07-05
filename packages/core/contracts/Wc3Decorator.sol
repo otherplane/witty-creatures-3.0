@@ -384,6 +384,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         string memory _attributes = string(abi.encodePacked(
             "\"attributes\": [",
                 _loadAttributes(
+                    _randomness,
                     _intrinsics,
                     _traits
                 ),
@@ -395,13 +396,23 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
     }
 
     function _loadAttributes(
+            bytes32 _randomness,
             Wc3Lib.WittyCreature memory _intrinsics,
             TraitIndexes memory _traits
         )
         internal view
         returns (string memory)
     {
+        string memory _witnetRandomness = string(abi.encodePacked(
+            "{", 
+                "\"trait_type\": \"Witnet Randomness\",",
+                "\"value\": \"0x", (
+                    _randomness.toHexString()
+                ), "\""
+            "},"
+        ));
         return string(abi.encodePacked(
+            _witnetRandomness,
             _loadAttributesIntrinsics(_intrinsics),
             _loadAttributesRandomized(
                 _intrinsics.eggRarity,
