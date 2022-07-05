@@ -18,10 +18,10 @@
       <p class="link bold">
         <a
           :href="`${NETWORKS[player.mintConfig].blockExplorerUrls[0]}/tx/${
-            player.mintInfo.transactionHash
+            player.mintInfo.txHash
           }`"
           target="_blank"
-          >{{ truncate(player.mintInfo.transactionHash) }}
+          >{{ truncate(player.mintInfo.txHash) }}
         </a>
         <SvgImage class="external-link-icon" :svg="externalLink" />
       </p>

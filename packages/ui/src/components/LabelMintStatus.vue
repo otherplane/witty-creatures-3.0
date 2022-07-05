@@ -8,20 +8,13 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useStore } from '@/stores/player'
 export default {
   setup() {
     const player = useStore()
-    const showMintError = ref(player.mintInfo.blockHash && !player.minted)
-    if (showMintError.value) {
-      player.setError(
-        'mint',
-        'There was an error minting your NFT, please try again'
-      )
-    }
     const mintStatus = computed(() => {
-      if (player.mintConfirmation) {
+      if (player.mintConfirmation || player.externalConfirmation) {
         return 'minted'
       } else if (player.errors.mint) {
         return 'error'

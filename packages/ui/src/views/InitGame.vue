@@ -84,7 +84,7 @@ export default {
 .screen-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-gap: 16px;
+  grid-gap: 8px;
 }
 .link {
   width: 100%;

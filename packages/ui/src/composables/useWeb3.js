@@ -83,6 +83,7 @@ export function useWeb3() {
               player.mintConfirmation = true
             }
           } else {
+            console.log(1)
             player.setError(
               'mint',
               createErrorMessage('Chain rollback detected, please try again')
@@ -90,10 +91,12 @@ export function useWeb3() {
             player.clearMintBlockInfo()
           }
         } else {
+          console.log(2)
           const receipt = await web3.eth.getTransactionReceipt(
-            player.mintInfo.transactionHash
+            player.mintInfo.txHash
           )
           if (receipt) {
+            console.log(3)
             if (receipt.status) {
               player.saveMintInfo({
                 ...player.mintInfo,
@@ -104,7 +107,9 @@ export function useWeb3() {
               player.setError('mint', createErrorMessage(errorMintMessage))
               player.clearMintInfo()
             }
+            console.log(4)
           } else {
+            console.log(5)
             const txCount = await web3.eth.getTransactionCount(
               player.mintInfo.from
             )
