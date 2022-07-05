@@ -353,20 +353,21 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         TraitIndexes memory _traits = _splitPhenotype(
             keccak256(abi.encodePacked(
                 _randomness,
-                _intrinsics.index
+                _intrinsics.eggIndex
             ))
         );
         
-        string memory _tokenIdStr = _intrinsics.guildRanking.toString();
+        string memory _tokenIdStr = _intrinsics.eggGuildRanking.toString();
         string memory _baseURI = baseURI;
 
         string memory _name = string(abi.encodePacked(
-            "\"name\": \"", _intrinsics.name, "\","
+            "\"name\": \"", _intrinsics.eggName, "\","
         ));
         string memory _description = string(abi.encodePacked(
             "\"description\": \"Witty Creature #",
-                _intrinsics.index.toString(),
-            " at EthCC'5 (Paris), July 2022.\","
+                _intrinsics.eggIndex.toString(),
+            " at EthCC'5 (Paris), July 2022."
+            "\","
         ));
         string memory _externalUrl = string(abi.encodePacked(
             "\"external_url\": \"", _baseURI, "metadata/", _tokenIdStr, "\","
@@ -397,7 +398,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         return string(abi.encodePacked(
             _loadAttributesIntrinsics(_intrinsics),
             _loadAttributesRandomized(
-                _intrinsics.rarity,
+                _intrinsics.eggRarity,
                 _traits
             )
         ));        
@@ -411,14 +412,14 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "{",
                 "\"display_type\": \"date\",",
                 "\"trait_type\": \"Birth date\",",
-                "\"value\": ", _intrinsics.birthTimestamp.toString(),
+                "\"value\": ", _intrinsics.mintTimestamp.toString(),
             "},"
         ));
         string memory _eggColor = string(abi.encodePacked(
             "{",
                 "\"trait_type\": \"Egg color\",",
                 "\"value\": \"", (
-                    colors[_intrinsics.index % ranges.totalColors]
+                    colors[_intrinsics.eggIndex % ranges.totalColors]
                 ), "\""
             "},"
         ));
@@ -426,7 +427,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "{",
                 "\"display_type\": \"number\",",
                 "\"trait_type\": \"Global ranking\",",
-                "\"value\": ", _intrinsics.globalRanking.toString(),
+                "\"value\": ", _intrinsics.eggGlobalRanking.toString(),
             "},"
         ));
         string memory _guild = string(abi.encodePacked(
@@ -441,7 +442,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "{",
                 "\"display_type\": \"number\",",
                 "\"trait_type\": \"Guild ranking\",",
-                "\"value\": ", _intrinsics.guildRanking.toString(),
+                "\"value\": ", _intrinsics.eggGuildRanking.toString(),
             "},"
         ));
         string memory _mintCost = string(abi.encodePacked(
@@ -454,14 +455,14 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "{", 
                 "\"trait_type\": \"Rarity\",",
                 "\"value\": \"", (
-                    _intrinsics.rarity.toString()
+                    _intrinsics.eggRarity.toString()
                 ), "\""
             "},"
         ));
         string memory _score = string(abi.encodePacked(
             "{", 
                 "\"trait_type\": \"Score\",",
-                "\"value\": ", _intrinsics.score.toString(),
+                "\"value\": ", _intrinsics.eggScore.toString(),
             "},"
         ));
         return string(abi.encodePacked(

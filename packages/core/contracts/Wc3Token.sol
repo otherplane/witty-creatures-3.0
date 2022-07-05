@@ -307,7 +307,7 @@ contract Wc3Token
 
         // Verify the token has not been already minted:
         require(
-            __storage.intrinsics[_tokenId].birthTimestamp == 0,
+            __storage.intrinsics[_tokenId].mintTimestamp == 0,
             "Wc3Token: already minted"
         );
 
@@ -344,11 +344,15 @@ contract Wc3Token
     function estimateMintUsdCost6(uint _gasPrice)
         public view
         override
-        returns (uint64)
+        returns (uint64 _mintUsdCost6, bytes32 _mintUsdPriceWitnetProof)
     {
-        (int _lastKnownPrice,,) = router.valueFor(usdPriceAssetId);
-        uint _estimatedFee = _gasPrice * __storage.mintGasLimit;
-        return uint64((_estimatedFee * uint(_lastKnownPrice)) / 10 ** 18);
+        IWitnetPriceFeed _pf = IWitnetPriceFeed(address(router.getPriceFeed(usdPriceAssetId)));
+        if (address(_pf) != address(0)) {
+            int _lastKnownPrice;
+            (_lastKnownPrice,, _mintUsdPriceWitnetProof,) = _pf.lastValue();
+            uint _estimatedFee = _gasPrice * __storage.mintGasLimit;
+            _mintUsdCost6 = uint64((_estimatedFee * uint(_lastKnownPrice)) / 10 ** 18);
+        }
     }
 
     function getHatchingBlock()
@@ -412,18 +416,24 @@ contract Wc3Token
             _guildRanking
         );
 
+        // Rely on the Witnet oracle to fetch current USD price:
+        (uint64 _mintUsdCost6, bytes32 _mintUsdPriceWitnetProof) = estimateMintUsdCost6(tx.gasprice);
+
         // Preview creature image:
         return decorator().toJSON(
             randomizer.getRandomnessAfter(__storage.hatchingBlock),
             Wc3Lib.WittyCreature({
-                name: _name,
-                birthTimestamp: 0,
-                mintUsdCost6: estimateMintUsdCost6(tx.gasprice),
-                globalRanking: _globalRanking,
-                guildRanking: _guildRanking,
-                index: _index,
-                rarity: __storage.rarity((_guildRanking * 100) / _guildPlayers),
-                score: _score
+                eggName: _name,
+                eggGlobalRanking: _globalRanking,
+                eggGuildRanking: _guildRanking,
+                eggIndex: _index,
+                eggRarity: __storage.eggRarity((_guildRanking * 100) / _guildPlayers),
+                eggScore: _score,
+                mintBlock: block.number,
+                mintGasPrice: tx.gasprice,
+                mintTimestamp: block.timestamp,
+                mintUsdCost6: _mintUsdCost6,
+                mintUsdPriceWitnetProof: _mintUsdPriceWitnetProof
             })
         );
     }
@@ -476,15 +486,22 @@ contract Wc3Token
         internal
         virtual
     {
+        // Rely on the Witnet oracle to fetch current USD price:
+        (uint64 _mintUsdCost6, bytes32 _mintUsdPriceWitnetProof) = estimateMintUsdCost6(tx.gasprice);
+        
+        // Save intrinsics into storage:
         __storage.intrinsics[_guildRanking] = Wc3Lib.WittyCreature({
-            name: _name,
-            birthTimestamp: block.timestamp,
-            mintUsdCost6: estimateMintUsdCost6(tx.gasprice),
-            globalRanking: _globalRanking,
-            guildRanking: _guildRanking,
-            index: _index,
-            rarity: __storage.rarity((_guildRanking * 100) / _guildPlayers),
-            score: _score
+            eggName: _name,
+            eggGlobalRanking: _globalRanking,
+            eggGuildRanking: _guildRanking,
+            eggIndex: _index,
+            eggRarity: __storage.eggRarity((_guildRanking * 100) / _guildPlayers),
+            eggScore: _score,
+            mintBlock: block.number,
+            mintGasPrice: tx.gasprice,
+            mintTimestamp: block.timestamp,
+            mintUsdCost6: _mintUsdCost6,
+            mintUsdPriceWitnetProof: _mintUsdPriceWitnetProof
         });
     }
 

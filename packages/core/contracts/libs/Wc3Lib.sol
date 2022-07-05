@@ -33,14 +33,17 @@ library Wc3Lib {
     }
 
     struct WittyCreature {
-        string  name;
-        uint256 birthTimestamp;
-        uint256 globalRanking;
-        uint256 guildRanking; /// @dev same as tokenId
-        uint256 index;
+        string  eggName;
+        uint256 eggGlobalRanking;
+        uint256 eggGuildRanking; /// @dev same as tokenId
+        uint256 eggIndex;
+        WittyCreatureRarity eggRarity;
+        uint256 eggScore;
+        uint256 mintBlock;
+        uint256 mintGasPrice;
+        uint256 mintTimestamp;
         uint256 mintUsdCost6;
-        WittyCreatureRarity rarity;
-        uint256 score;
+        bytes32 mintUsdPriceWitnetProof;
     }
 
     enum WittyCreatureRarity {
@@ -82,7 +85,7 @@ library Wc3Lib {
     }
 
     /// Calculate rarity index based on a creature's ranking percentile.
-    function rarity(
+    function eggRarity(
             Storage storage self,
             uint _percentile100
         )
@@ -179,7 +182,7 @@ library Wc3Lib {
         ) {
             return WittyCreatureStatus.Inexistent;
         }
-        else if (_wc3.birthTimestamp > 0) {
+        else if (_wc3.mintTimestamp > 0) {
             return WittyCreatureStatus.Minted;
         }
         else {

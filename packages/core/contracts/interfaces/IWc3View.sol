@@ -13,7 +13,7 @@ interface IWc3View {
     function router() external view returns (IWitnetPriceRouter);
     function signator() external view returns (address);
 
-    function estimateMintUsdCost6(uint _gasPrice) external view returns (uint64);
+    function estimateMintUsdCost6(uint _gasPrice) external view returns (uint64, bytes32);
     
     function getHatchingBlock() external view returns (uint256);
     function getSettings() external view returns (Wc3Lib.Settings memory);    
