@@ -2,6 +2,16 @@
   <MainLayout>
     <SectionHeader title="CONTACTS" />
     <GameScreen :padding="false">
+      <div v-if="!player.contacts.length" class="empty-state bold">
+        <p class="state-text">
+          Once you get your egg incubated by other player, their contact info
+          will show up here if they allow it.
+        </p>
+        <p>
+          What are you waiting for? Go looking for other players and ask them to
+          scan your egg now!
+        </p>
+      </div>
       <div
         v-for="(contact, index) in player.contacts"
         :key="contact"
@@ -103,6 +113,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.empty-state {
+  padding: 8px;
+  margin: 8px;
+  .state-text {
+    margin-bottom: 8px;
+  }
+}
 .even {
   background: var(--primary-color-opacity-2);
   border-radius: 4px;

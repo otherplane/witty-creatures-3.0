@@ -2,6 +2,13 @@
   <MainLayout>
     <SectionHeader title="HISTORY" />
     <GameScreen :padding="false" class="screen-container">
+      <div v-if="!player.history.length" class="empty-state bold">
+        <p class="state-text">No incubations yet.</p>
+        <p>
+          What are you waiting for? Go look for other players and ask them to
+          scan your egg now!
+        </p>
+      </div>
       <InteractionEntry
         v-for="(interaction, index) in player.history"
         :key="interaction.timestamp"
@@ -42,6 +49,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.empty-state {
+  padding: 8px;
+  margin: 8px;
+  .state-text {
+    margin-bottom: 8px;
+  }
+}
 .even {
   background: $screen-highlight;
   border-radius: 4px;
