@@ -63,6 +63,7 @@ export function useWeb3() {
   }
 
   async function getMintConfirmationStatus() {
+    console.log('getMintStatusConfirmation')
     const accounts = await requestAccounts(web3)
     player.clearError('mint')
     if (accounts[0]) {
@@ -109,6 +110,7 @@ export function useWeb3() {
               player.clearMintInfo()
             }
           } else {
+            console.log('there is no receipt')
             try {
               const contract = new web3.eth.Contract(
                 jsonInterface,
@@ -117,7 +119,7 @@ export function useWeb3() {
               const result = await contract.methods
                 .getTokenIntrinsics(player.guildRanking)
                 .call()
-              if (result.mintBlock) {
+              if (result.mintBlock.toString() !== '0') {
                 const mintBlockHash = await web3.eth.getBlock(result.mintBlock)
                   .hash
                 player.saveMintInfo({
@@ -200,6 +202,7 @@ export function useWeb3() {
       const result = await contract.methods
         .getTokenStatus(player.guildRanking)
         .call()
+      console.log(result)
       player.tokenStatus = Number(result)
       return result
     } catch (err) {

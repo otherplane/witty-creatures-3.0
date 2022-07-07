@@ -16,6 +16,7 @@
     >
       GAME OVER
     </p>
+    <p></p>
   </div>
 </template>
 
