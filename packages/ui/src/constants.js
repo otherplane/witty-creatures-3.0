@@ -20,19 +20,6 @@ export const BASE_URL = import.meta.env.VITE_BASE_URL || 'http://localhost:3000'
 
 export const ATTRIBUTES = {}
 
-export const STATS_FILTERS = {
-  global: {
-    key: 'global',
-    active: false,
-    showSubtabs: false,
-  },
-  network: {
-    key: 'network',
-    active: false,
-    showSubtabs: false,
-  },
-}
-
 export const THEME_COLORS = {
   0: 'green',
   1: 'black',

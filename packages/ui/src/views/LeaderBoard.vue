@@ -6,7 +6,7 @@
         <div v-for="tab in Object.values(tabs)" :key="tab.key">
           <TabButton
             :active="tab.active"
-            :label="tab.key"
+            :label="tab.label"
             @click="activateTab({ primaryValue: tab.key })"
           />
         </div>
@@ -18,14 +18,29 @@
 
 <script>
 import { useStore } from '@/stores/player'
-import { onMounted, ref, onBeforeUnmount } from 'vue'
-import { STATS_FILTERS } from '../constants'
+import { onMounted, ref, onBeforeUnmount, computed } from 'vue'
+import { NETWORKS } from '../constants'
 export default {
   setup() {
     const player = useStore()
     let primaryTab = ref('global')
-    let tabs = ref(STATS_FILTERS)
-    onMounted(() => {
+    const tabs = computed(() => {
+      return {
+        global: {
+          key: 'global',
+          label: 'global',
+          active: true,
+          showSubtabs: false,
+        },
+        network: {
+          key: 'network',
+          label: NETWORKS[player.mintConfig]?.kind || 'network',
+          active: false,
+          showSubtabs: false,
+        },
+      }
+    })
+    onMounted(async () => {
       tabs.value[primaryTab.value].active = true
     })
     onBeforeUnmount(() => {
