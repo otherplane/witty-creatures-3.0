@@ -9,7 +9,7 @@
       <LabelMintStatus v-if="player.mintInfo" class="mint-status" />
     </div>
     <NFTPreview v-if="player.nft[0]" />
-    <EggSvg v-else class="egg" :speed="0.7" />
+    <EggSvg v-else class="egg" :speed="player.interactionIn ? 0.3 : 0.7" />
     <InteractionInfo v-if="!player.gameOver" />
     <div>
       <MintInformation />

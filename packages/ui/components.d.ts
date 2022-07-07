@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     CustomSelect: typeof import('./src/components/CustomSelect.vue')['default']
     CustomSwitch: typeof import('./src/components/CustomSwitch.vue')['default']
     EggSvg: typeof import('./src/components/svg/EggSvg.vue')['default']
+    EmptyState: typeof import('./src/components/EmptyState.vue')['default']
     GameNotification: typeof import('./src/components/GameNotification.vue')['default']
     GameOverCounter: typeof import('./src/components/GameOverCounter.vue')['default']
     GameScreen: typeof import('./src/components/GameScreen.vue')['default']
