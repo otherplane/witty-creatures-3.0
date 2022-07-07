@@ -485,7 +485,7 @@ describe('Route /interactions', () => {
   )
 
   it(
-    'should share socials if share field is true',
+    'should share socials if shareConfig field is true',
     async () => {
       const [token0, token1] = await Promise.all([
         authenticatePlayer(initialPlayers[0].key),
@@ -555,7 +555,7 @@ describe('Route /interactions', () => {
   )
 
   it(
-    'should NOT share socials if share field is false',
+    'should NOT share socials if shareConfig field is false',
     async () => {
       const [token0, token1] = await Promise.all([
         authenticatePlayer(initialPlayers[0].key),
@@ -618,6 +618,142 @@ describe('Route /interactions', () => {
           const contacts = response.json()
           expect(err).toBeFalsy()
           expect(contacts.contacts.contacts.length).toBe(0)
+        }
+      )
+    },
+    (INTERACTION_COOLDOWN_MILLIS + INTERACTION_DURATION_MILLIS) * 1.2
+  )
+
+  it(
+    'should not share if there is no socials to share',
+    async () => {
+      const [token0, token1] = await Promise.all([
+        authenticatePlayer(initialPlayers[0].key),
+        authenticatePlayer(initialPlayers[1].key),
+      ])
+      const socials = {
+        ownerKey: initialPlayers[0].key,
+      }
+      const shareConfig = true
+      const mintConfig = 288
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/configuration',
+          payload: {
+            socials,
+            shareConfig,
+            mintConfig,
+          },
+          headers: {
+            Authorization: token0,
+          },
+        },
+        (err, response) => {
+          const configuration = response.json()
+          expect(err).toBeFalsy()
+          expect(configuration.socials).toStrictEqual(socials)
+          expect(configuration.mintConfig).toBe(mintConfig)
+        }
+      )
+
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/interactions',
+          payload: {
+            to: initialPlayers[1].key,
+          },
+          headers: {
+            Authorization: token0,
+          },
+        },
+        (err, response) => {
+          expect(err).toBeFalsy()
+          expect(response.statusCode).toBe(200)
+        }
+      )
+
+      await serverInject(
+        {
+          method: 'GET',
+          url: '/contacts',
+          headers: {
+            Authorization: token1,
+          },
+        },
+        (err, response) => {
+          const contacts = response.json()
+          expect(err).toBeFalsy()
+          expect(contacts.contacts.contacts[0]).toBeFalsy()
+        }
+      )
+    },
+    (INTERACTION_COOLDOWN_MILLIS + INTERACTION_DURATION_MILLIS) * 1.2
+  )
+
+  it(
+    'should not share if it is a self interaction',
+    async () => {
+      const [token0] = await Promise.all([
+        authenticatePlayer(initialPlayers[0].key),
+      ])
+      const socials = {
+        ownerKey: initialPlayers[0].key,
+        twitter: '@twitter',
+      }
+      const shareConfig = true
+      const mintConfig = 288
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/configuration',
+          payload: {
+            socials,
+            shareConfig,
+            mintConfig,
+          },
+          headers: {
+            Authorization: token0,
+          },
+        },
+        (err, response) => {
+          const configuration = response.json()
+          expect(err).toBeFalsy()
+          expect(configuration.socials).toStrictEqual(socials)
+          expect(configuration.mintConfig).toBe(mintConfig)
+        }
+      )
+
+      await serverInject(
+        {
+          method: 'POST',
+          url: '/interactions',
+          payload: {
+            to: initialPlayers[0].key,
+          },
+          headers: {
+            Authorization: token0,
+          },
+        },
+        (err, response) => {
+          expect(err).toBeFalsy()
+          expect(response.statusCode).toBe(200)
+        }
+      )
+
+      await serverInject(
+        {
+          method: 'GET',
+          url: '/contacts',
+          headers: {
+            Authorization: token0,
+          },
+        },
+        (err, response) => {
+          const contacts = response.json()
+          expect(err).toBeFalsy()
+          expect(contacts.contacts.contacts[0]).toBeFalsy()
         }
       )
     },
