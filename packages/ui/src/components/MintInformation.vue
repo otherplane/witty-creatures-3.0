@@ -1,6 +1,6 @@
 <template>
   <div v-if="player.mintInfo" class="mint-content">
-    <div v-if="player.mintExternalConfirmation">
+    <div class="info" v-if="player.mintInfo?.mintExternalConfirmation">
       <p class="label">MINTING BLOCK</p>
       <p class="link bold">
         <a
@@ -18,15 +18,21 @@
       <p class="link bold">
         <a
           :href="`${NETWORKS[player.mintConfig].blockExplorerUrls[0]}/tx/${
-            player.mintInfo.txHash
+            player.mintInfo?.txHash
           }`"
           target="_blank"
-          >{{ truncate(player.mintInfo.txHash) }}
+          >{{ truncate(player.mintInfo?.txHash) }}
         </a>
         <SvgImage class="external-link-icon" :svg="externalLink" />
       </p>
     </div>
-    <div class="info" v-if="player?.mintConfirmation">
+    <div
+      class="info"
+      v-if="
+        player.mintInfo?.mintConfirmation ||
+        player.mintInfo?.mintExternalConfirmation
+      "
+    >
       <div class="link bold">
         <a
           :href="`${NETWORKS[player.mintConfig].marketplace}/${

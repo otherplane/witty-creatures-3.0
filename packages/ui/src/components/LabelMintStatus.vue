@@ -14,7 +14,10 @@ export default {
   setup() {
     const player = useStore()
     const mintStatus = computed(() => {
-      if (player.mintConfirmation || player.externalConfirmation) {
+      if (
+        player.mintInfo?.mintConfirmation ||
+        player.mintInfo?.mintExternalConfirmation
+      ) {
         return 'minted'
       } else if (player.errors.mint) {
         return 'error'

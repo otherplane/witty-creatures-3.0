@@ -55,6 +55,7 @@ import {
   NETWORKS,
   TOKEN_STATUS,
 } from '../constants'
+import { checkEmptySocials } from '@/utils.js'
 import { POLLER_MILLISECONDS } from '@/constants.js'
 import { importSvg } from '@/composables/importSvg.js'
 import { useRouter } from 'vue-router'
@@ -87,7 +88,8 @@ export default {
         }
       }
     })
-    onMounted(() => {
+    onMounted(async () => {
+      await player.getSocials()
       playerInfoPoller = setInterval(async () => {
         await player.getPlayerInfo()
       }, POLLER_MILLISECONDS)
@@ -99,6 +101,7 @@ export default {
       // TODO: update player.incubating naming when contracts are available
       if (
         (player.gameOver && player.tokenStatus === TOKEN_STATUS.minted) ||
+        (player.gameOver && player.mintInfo) ||
         (player.gameOver && !player.nft.length) ||
         (player.gameOver && player.errors.network)
       ) {
@@ -109,7 +112,9 @@ export default {
     })
     async function openModal(name) {
       const needProvider = name === 'mint'
-      await web3WittyCreatures.enableProvider()
+      if (needProvider) {
+        await web3WittyCreatures.enableProvider()
+      }
       if (
         !(await web3WittyCreatures.isProviderConnected.value) &&
         needProvider
@@ -135,6 +140,8 @@ export default {
     }
     function checkSocialsOpenModal() {
       if (
+        player.interactionOut?.to !== player.username &&
+        checkEmptySocials(player.socials) &&
         !player.shareConfig &&
         (interactionIn.value || interactionOut.value) &&
         !player.socialsSharedMessage

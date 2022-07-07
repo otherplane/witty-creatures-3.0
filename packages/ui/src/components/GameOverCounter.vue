@@ -10,7 +10,12 @@
       />
     </p>
     <p v-if="player.gameOver && player.mintInfo?.txHash"></p>
-    <p class="game-over bold" v-else>GAME OVER</p>
+    <p
+      v-if="player.tokenStatus && player.tokenStatus < TOKEN_STATUS.hatching"
+      class="game-over bold"
+    >
+      GAME OVER
+    </p>
   </div>
 </template>
 
@@ -26,6 +31,7 @@ export default {
     let mintConfirmationStatusPoller
     const player = useStore()
     const web3WittyCreatures = useWeb3()
+    const txHash = computed(() => player.mintInfo?.txHash)
     const getTokenStatus = async () => {
       if (player.gameOverTimeMilli < Date.now()) {
         player.gameOver = true
@@ -53,19 +59,22 @@ export default {
         await player.getPreview()
         await player.getMintInfo()
       }
-      if (player.mintConfirmation) {
+      if (player.mintInfo?.mintConfirmation) {
         clearInterval(tokenStatusPoller)
       }
       clearInterval(mintConfirmationStatusPoller)
-      if (player.mintInfo?.txHash && !player.mintConfirmation) {
+      if (player.mintInfo?.txHash && !player.mintInfo?.mintConfirmation) {
         mintConfirmationStatusPoller = await setInterval(async () => {
           await web3WittyCreatures.getMintConfirmationStatus()
         }, POLLER_MILLISECONDS)
       }
     }
     const tokenStatus = computed(() => player?.tokenStatus)
-    const mintConfirmation = computed(() => player?.mintConfirmation)
+    const mintConfirmation = computed(() => player.mintInfo?.mintConfirmation)
     watch(tokenStatus, () => {
+      getGameOverInfo()
+    })
+    watch(txHash, () => {
       getGameOverInfo()
     })
     watch(mintConfirmation, () => {
@@ -75,6 +84,7 @@ export default {
       getTokenStatus,
       player,
       formatNumber,
+      TOKEN_STATUS,
     }
   },
 }
@@ -90,6 +100,7 @@ export default {
   font-weight: bold;
   width: max-content;
   font-size: 12px;
+  margin-bottom: 4px;
   font-family: JoystixMonospace, monospace;
 }
 </style>

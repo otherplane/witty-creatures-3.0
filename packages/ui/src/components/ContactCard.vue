@@ -2,21 +2,23 @@
   <div ref="contactRef">
     <div @click="toggleDetails" class="contact-container">
       <EggSvg class="egg" :color="THEME_COLORS[contact?.color]" :speed="1" />
-      <p v-if="contact.name" class="name">
-        Name:
-        <span>{{ contact.name }}</span>
+      <p v-if="contact.name" class="contact-info name">
+        Name: {{ contact.name }}
       </p>
-      <p v-if="contact.company" class="contact-label">
-        Company:
-        <span>{{ contact.company }}</span>
+      <p v-if="contact.company" class="contact-info contact-label">
+        Company: {{ contact.company }}
       </p>
-      <p class="contact-label date">
+      <p class="contact-info contact-label date">
         {{
           format(utcToZonedTime(contact.timestamp, timeZone), 'LLL dd @ HH:mm')
         }}
       </p>
     </div>
-    <div :id="`details-${contact?.timestamp}`" class="details">
+    <div
+      :id="`details-${contact?.timestamp}`"
+      class="details"
+      v-if="!isEmptySocials"
+    >
       <div class="content">
         <div v-for="social in socialDetails" :key="social.key">
           <a
@@ -26,13 +28,15 @@
             target="_blank"
           >
             <SvgImage :svg="social.svg" />
-            <span class="highlight">{{ social.label }}</span>
+            <p class="contact-info highlight">{{ social.label }}</p>
           </a>
           <p v-if="social.label && !social.url" class="social">
             <SvgImage :svg="social.svg" />
-            <span class="highlight" @click="copyToClipboard(social.label)">{{
-              social.label
-            }}</span>
+            <span
+              class="contact-info highlight"
+              @click="copyToClipboard(social.label)"
+              >{{ social.label }}</span
+            >
           </p>
         </div>
       </div>
@@ -43,7 +47,7 @@
 <script>
 import { format } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
-import { ref, reactive, onBeforeUnmount } from 'vue'
+import { ref, reactive, onBeforeUnmount, computed } from 'vue'
 import { useStore } from '../stores/player'
 import { THEME_COLORS } from '../constants'
 import { copyTextToClipboard } from '../services/copyToClipboard'
@@ -67,21 +71,24 @@ export default {
     const contactRef = ref('contactRef')
     const socialDetails = reactive([
       {
-        label: 'twitter',
+        label: props.contact.twitter,
         svg: twitterSvg,
         url: 'https://twitter.com/',
       },
       {
-        label: 'discord',
+        label: props.contact.discord,
         svg: discordSvg,
         url: null,
       },
       {
-        label: 'telegram',
+        label: props.contact.telegram,
         svg: telegramSvg,
         url: null,
       },
     ])
+    const isEmptySocials = computed(() =>
+      socialDetails.every(social => !social.label)
+    )
     onBeforeUnmount(() => {
       hideDetails
     })
@@ -116,6 +123,7 @@ export default {
       discordSvg,
       contactRef,
       THEME_COLORS,
+      isEmptySocials,
       async copyToClipboard(value) {
         await copyTextToClipboard(value)
         player.notify({ message: 'Copied', icon: 'none' })
@@ -126,6 +134,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.contact-info {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .details {
   background: $dark-screen;
   height: 0;
@@ -148,7 +161,7 @@ export default {
 .contact-container {
   cursor: pointer;
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: max-content max-content;
   column-gap: 16px;
   padding: 16px;
   grid-template-rows: repeat(3, max-content);
