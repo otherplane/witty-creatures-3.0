@@ -189,7 +189,6 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
       } catch (err) {
         return reply.status(403).send(new Error(`Forbidden: invalid token`))
       }
-
       // Check 2 (unreachable): valid server issued token refers to non-existent player
       const fromPlayer = await playerModel.get(fromKey)
       if (!fromPlayer) {
@@ -197,7 +196,6 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
           .status(404)
           .send(new Error(`Player does not exist (key: ${fromKey})`))
       }
-
       const playerSocials = await socialModel.get(fromPlayer.toDbVTO().key)
 
       return reply.status(200).send(playerSocials)
@@ -227,7 +225,6 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
         } catch (err) {
           return reply.status(403).send(new Error(`Forbidden: invalid token`))
         }
-
         // Check 2 (unreachable): valid server issued token refers to non-existent player
         const fromPlayer = await playerModel.get(fromKey)
         if (!fromPlayer) {
@@ -237,7 +234,6 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
         }
 
         const playerSocials = await socialModel.get(fromPlayer.toDbVTO().key)
-
         try {
           const socialsToUpdate = {
             ownerKey: fromPlayer.toDbVTO().key,

@@ -136,7 +136,6 @@ export class PlayerModel {
     toPlayer: Player
   }): Promise<{ to: string }> {
     const timestamp = new Date().getTime()
-
     const isRepeatedContact = toPlayer.contacts.find(
       contact => contact.ownerKey === fromPlayer.key
     )

@@ -18,3 +18,14 @@ export function truncate(str) {
     ? `${str.substring(0, 14)}...${str.substring(str.length - 14, str.length)}`
     : str
 }
+
+export function checkEmptySocials(socials) {
+  const valuesToCheck = { ...socials }
+  delete valuesToCheck?.ownerKey
+  // Socials with invalid or empty values
+  if (valuesToCheck && Object.values(valuesToCheck).every(value => !value)) {
+    return null
+  }
+  // Socials with share value to false
+  return socials
+}

@@ -56,11 +56,11 @@ export type SocialParams = Static<typeof SocialParams>
 export const SocialResult = Nullable(
   Type.Object({
     ownerKey: Type.String(),
-    twitter: Type.Optional(Type.String()),
-    discord: Type.Optional(Type.String()),
-    telegram: Type.Optional(Type.String()),
-    name: Type.Optional(Type.String()),
-    company: Type.Optional(Type.String()),
+    twitter: Type.Optional(Nullable(Type.String())),
+    discord: Type.Optional(Nullable(Type.String())),
+    telegram: Type.Optional(Nullable(Type.String())),
+    name: Type.Optional(Nullable(Type.String())),
+    company: Type.Optional(Nullable(Type.String())),
   })
 )
 
@@ -77,7 +77,7 @@ export const ConfigParams = Type.Object({
 export type ConfigParams = Static<typeof ConfigParams>
 
 export const ConfigResult = Type.Object({
-  socials: Nullable(Social),
+  socials: Nullable(SocialResult),
   shareConfig: Type.Boolean(),
   mintConfig: Type.Integer(),
 })

@@ -31,7 +31,7 @@ export class InteractionModel {
   ): Promise<Array<DbInteractionVTO>> {
     return await this.repository.getSortedBy(
       {
-        $or: [{ from: username }, { to: username }],
+        $or: [{ to: username }],
       },
       { timestamp: 'desc' },
       paginationParams

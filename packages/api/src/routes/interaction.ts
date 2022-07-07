@@ -18,12 +18,13 @@ import {
   calculateRemainingCooldown,
   isTimeToMint,
   printRemainingMillis,
+  checkEmptySocials,
 } from '../utils'
 
 const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
   if (!fastify.mongo.db) throw Error('mongo db not found')
 
-  const { playerModel, interactionModel } = fastify
+  const { playerModel, interactionModel, socialModel } = fastify
 
   fastify.post<{ Body: InteractionParams; Reply: InteractionResult | Error }>(
     '/interactions',
@@ -143,17 +144,25 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
         } catch (error) {
           return reply.status(403).send(error as Error)
         }
-        if (fromPlayer.shareConfig) {
-          await playerModel.shareSocials({
-            fromPlayer: fromPlayer,
-            toPlayer: toPlayer,
-          })
-        }
-        if (toPlayer.shareConfig) {
-          await playerModel.shareSocials({
-            fromPlayer: toPlayer,
-            toPlayer: fromPlayer,
-          })
+        const socialsToShareFrom = checkEmptySocials(
+          await socialModel.get(fromPlayer.key)
+        )
+        const socialsToShareTo = checkEmptySocials(
+          await socialModel.get(toPlayer.key)
+        )
+        if (!selfInteraction) {
+          if (socialsToShareFrom && fromPlayer.shareConfig) {
+            await playerModel.shareSocials({
+              fromPlayer: fromPlayer,
+              toPlayer: toPlayer,
+            })
+          }
+          if (socialsToShareTo && toPlayer.shareConfig) {
+            await playerModel.shareSocials({
+              fromPlayer: toPlayer,
+              toPlayer: fromPlayer,
+            })
+          }
         }
         // Create and return `interact` object
         const interaction = await interactionModel.create({
@@ -223,13 +232,17 @@ const interactions: FastifyPluginAsync = async (fastify): Promise<void> => {
             .status(409)
             .send(new Error(`Player should be claimed before sharing socials`))
         }
-
-        return reply.status(200).send(
-          await playerModel.shareSocials({
-            fromPlayer: fromPlayer,
-            toPlayer: toPlayer,
-          })
+        const socialsToShare = checkEmptySocials(
+          await socialModel.get(fromPlayer.key)
         )
+        if (socialsToShare) {
+          return reply.status(200).send(
+            await playerModel.shareSocials({
+              fromPlayer,
+              toPlayer,
+            })
+          )
+        }
       },
     }
   )

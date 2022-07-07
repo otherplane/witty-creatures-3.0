@@ -64,6 +64,7 @@ export function useWeb3() {
 
   async function getMintConfirmationStatus() {
     const accounts = await requestAccounts(web3)
+    player.clearError('mint')
     if (accounts[0]) {
       isProviderConnected.value = true
       // Connected to selected network
@@ -80,10 +81,12 @@ export function useWeb3() {
               player.clearMintBlockInfo()
             } else if (mintConfirmations >= network.value.confirmationCount) {
               // Token minted and confirmed
-              player.mintConfirmation = true
+              player.saveMintInfo({
+                ...player.mintInfo,
+                mintConfirmation: true,
+              })
             }
           } else {
-            console.log(1)
             player.setError(
               'mint',
               createErrorMessage('Chain rollback detected, please try again')
@@ -91,12 +94,10 @@ export function useWeb3() {
             player.clearMintBlockInfo()
           }
         } else {
-          console.log(2)
           const receipt = await web3.eth.getTransactionReceipt(
             player.mintInfo.txHash
           )
           if (receipt) {
-            console.log(3)
             if (receipt.status) {
               player.saveMintInfo({
                 ...player.mintInfo,
@@ -107,40 +108,44 @@ export function useWeb3() {
               player.setError('mint', createErrorMessage(errorMintMessage))
               player.clearMintInfo()
             }
-            console.log(4)
           } else {
-            console.log(5)
-            const txCount = await web3.eth.getTransactionCount(
-              player.mintInfo.from
-            )
-            if (txCount !== player.mintInfo.txCount) {
-              // Minted in another device: Get block number from the contract
+            try {
               const contract = new web3.eth.Contract(
                 jsonInterface,
                 network.value.contractAddress
               )
-              try {
-                const { mintBlock } = await contract.methods.getTokenIntrinsics(
-                  player.guildRanking
+              const result = await contract.methods
+                .getTokenIntrinsics(player.guildRanking)
+                .call()
+              if (result.mintBlock) {
+                const mintBlockHash = await web3.eth.getBlock(result.mintBlock)
+                  .hash
+                player.saveMintInfo({
+                  mintExternalConfirmation: true,
+                  blockNumber: result.mintBlock,
+                  blockHash: mintBlockHash,
+                })
+              } else {
+                const txCount = await web3.eth.getTransactionCount(
+                  player.mintInfo.from
                 )
-                if (mintBlock) {
-                  player.mintExternalConfirmation = true
-                  const mintBlockHash = await web3.eth.getBlock(mintBlock).hash
-                  player.saveMintInfo({
-                    blockNumber: mintBlock,
-                    blockHash: mintBlockHash,
-                  })
-                } else {
+                if (txCount !== player.mintInfo.txCount) {
+                  player.setError(
+                    'mint',
+                    createErrorMessage(
+                      'The transaction was cancelled, please try again'
+                    )
+                  )
                   player.clearMintInfo()
                 }
-              } catch {
-                player.setError(
-                  'mint',
-                  createErrorMessage(
-                    'Error getting block number from the contract'
-                  )
-                )
               }
+            } catch (err) {
+              player.setError(
+                'mint',
+                createErrorMessage(
+                  'Error getting block number from the contract'
+                )
+              )
             }
           }
         }
@@ -210,11 +215,9 @@ export function useWeb3() {
         jsonInterface,
         network.value.contractAddress
       )
-      // tokenOwner
       const from = (await requestAccounts(web3))[0]
       const mintArgs = await player.getContractArgs(from)
       const gasPrice = await web3.eth.getGasPrice()
-      const tokenOwner = await web3.eth.getTransacionCount(tokenOwner)
       const txCount = await web3.eth.getTransactionCount(from)
 
       const {
@@ -242,11 +245,10 @@ export function useWeb3() {
           )
           .send({ from, gasPrice })
           .on('error', error => {
-            player.setError('mint', createErrorMessage(error.message))
             console.error(error)
           })
           .on('transactionHash', function (txHash) {
-            player.saveMintInfo({ txHash, txCount, from })
+            player.saveMintInfo({ txHash, txCount: txCount, from })
           })
       } catch (error) {
         player.setError('mint', createErrorMessage(errorMintMessage))

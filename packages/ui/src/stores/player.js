@@ -96,7 +96,7 @@ export const useStore = defineStore('player', {
         token: tokenInfo.token,
         to: this.interactionIn?.from || this.interactionOut?.to,
       })
-      if (request.error) {
+      if (request?.error) {
         this.setError('shareSocials', request.error)
         router.push('/init-game')
       } else {
@@ -285,34 +285,36 @@ export const useStore = defineStore('player', {
     // Player Info
     async getPlayerInfo() {
       const tokenInfo = this.getToken()
-      const request = await this.api.getInfo({
-        token: tokenInfo && tokenInfo.token,
-        id: tokenInfo && tokenInfo.key,
-      })
-      if (request.error) {
-        router.push({ name: 'init-game' })
-        this.setError('info', request.error)
-      } else {
-        this.clearError('info')
-        const { key, username, score, color, mintConfig, shareConfig } =
-          request.player
-        this.id = key
-        this.shareConfig = shareConfig
-        this.mintConfig = mintConfig
-        this.username = username
-        this.score = score
-        this.color = color
-        if (request.guildRanking) {
-          this.guildRanking = request.guildRanking
-        }
-        if (request.globalRanking) {
-          this.globalRanking = request.globalRanking
-        }
-        if (request.lastInteractionIn) {
-          this.interactionIn = request.lastInteractionIn
-        }
-        if (request.lastInteractionOut) {
-          this.interactionOut = request.lastInteractionOut
+      if (tokenInfo.key) {
+        const request = await this.api.getInfo({
+          token: tokenInfo && tokenInfo.token,
+          id: tokenInfo && tokenInfo.key,
+        })
+        if (request.error) {
+          router.push({ name: 'init-game' })
+          this.setError('info', request.error)
+        } else {
+          this.clearError('info')
+          const { key, username, score, color, mintConfig, shareConfig } =
+            request.player
+          this.id = key
+          this.shareConfig = shareConfig
+          this.mintConfig = mintConfig
+          this.username = username
+          this.score = score
+          this.color = color
+          if (request.guildRanking) {
+            this.guildRanking = request.guildRanking
+          }
+          if (request.globalRanking) {
+            this.globalRanking = request.globalRanking
+          }
+          if (request.lastInteractionIn) {
+            this.interactionIn = request.lastInteractionIn
+          }
+          if (request.lastInteractionOut) {
+            this.interactionOut = request.lastInteractionOut
+          }
         }
       }
     },

@@ -99,14 +99,14 @@ export default {
   color: $dark-screen;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 16px;
+  column-gap: 4px;
   text-align: left;
   grid-template-rows: max-content;
 
   .box-container {
     margin-top: 4px;
     display: grid;
-    grid-gap: 8px;
+    grid-gap: 4px;
     grid-template-columns: 1fr 1fr;
   }
   .info {
