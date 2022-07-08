@@ -12,7 +12,7 @@ module.exports = {
   specs: {
     default: {
       guild: "Ethereum",
-      mintGasLimit: 250000,
+      mintGasOverhead: 69320,
       usdPriceCaption: "Price-ETH/USD-6",
       traitTags: {
         backgrounds: [
@@ -72,13 +72,44 @@ module.exports = {
         ]
       },
     },
+    boba: {
+      guild: "Boba Networks",
+      usdPriceCaption: "Price-ETH/USD-6",
+    },
+    cronos: {
+      guild: "Cronos",
+      usdPriceCaption: "Price-CRO/USDT-6",
+    },
+    conflux: {
+      guild: "Conflux eSpace",
+      usdPriceCaption: "Price-CFX/USDT-6",
+    },
+    kcc: {
+      guild: "KuCoin Community Chain",
+      usdPriceCaption: "Price-KCS/USDT-6",
+    },
+    klaytn: {
+      guild: "Klaytn",
+      usdPriceCaption: "Price-KLAY/USDT-6",
+    },
+    metis: {
+      guild: "Metis",
+      usdPriceCaption: "Price-METIS/USDT-6"
+    },
+    metis: {
+      guild: "Meter",
+      usdPriceCaption: "Price-MTR/USDT-6"
+    },
+    okxchain: {
+      guild: "OKXChain",
+      usdPriceCaption: "Price-OKT/USDT-6",
     },
     polygon: {
       guild: "Polygon",
       usdPriceCaption: "Price-MATIC/USD-6",
-      traitTags: {
-        backgrounds: [ "Polygon" ],
-      },
+      // traitTags: {
+      //   backgrounds: [ "Polygon" ],
+      // },
     },
   },
   compilers: {
