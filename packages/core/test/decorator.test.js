@@ -35,10 +35,11 @@ contract('Wc3Decorator', _accounts => {
                 /* eggRarity */ 2,
                 /* eggScore */ 12345 + (50 - j) * 99,
                 /* mintBlock */ 10001 + j,
+                /* mintGas */ 0,
                 /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
                 /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
                 /* mintUsdCost6 */ 123450000, // $123.45
-                /* mintUsdPrictWitnetProof */ randomness
+                /* mintUsdPriceWitnetProof */ randomness
               ]
             )
           }
@@ -223,6 +224,7 @@ contract('Wc3Decorator', _accounts => {
                 /* eggRarity */ 1,
                 /* eggScore */ 12345 + (50 - j) * 99,
                 /* mintBlock */ 10001 + j,
+                /* mintGas */ 0,
                 /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
                 /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
                 /* mintUsdCost6 */ 123450000, // $123.45
@@ -412,6 +414,7 @@ contract('Wc3Decorator', _accounts => {
                 /* eggRarity */ 0,
                 /* eggScore */ 12345 + (50 - j) * 99,
                 /* mintBlock */ 10001 + j,
+                /* mintGas */ 0,
                 /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
                 /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
                 /* mintUsdCost6 */ 123450000, // $123.45
