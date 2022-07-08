@@ -1,13 +1,35 @@
 {
-    "conflux.espace.mainnet": {},
-    "ethereum.mainnet": {},
-    "kcc.mainnet": {},
-    "klaytn.mainnet": {},
-    "metis.mainnet": {},
-    "okxchain.mainnet": {},
-    "polygon.goerli": {
-        "Wc3Decorator": "0xFAe18c6720d598b29a6dDb17A2503B9090eF383E",
-        "Wc3Token": "0x44c3A729a02b5Fd18f3d83F0Ad8D6Fba385CFE58"
+    "boba.rinkeby": {},
+    "conflux.espace.testnet": {
+        "Wc3Decorator": "0x94CF66654BDB5F333B707faE45b8c7F6dc1BBaDB",
+        "Wc3Token": "0x9F9024145A952FefFc3AD053632A03FCe709cc16"
     },
-    "polygon.mainnet": {}
+    "cronos.testnet": {
+        "Wc3Decorator": "0xf29b50574f17350512EcCFe9bBAF9Fd5B0DFbC6b",
+        "Wc3Token": "0x304C7837e1eF733DB24aCdbf89859F2d4F492197"
+    },
+    "kcc.testnet": {
+        "Wc3Decorator": "0x418d3F5832FF4fa86665c6e98D95110314B1565C",
+        "Wc3Token": "0xe02360D7420c954c49Ce3028A1989e5dACA0d854"
+    },
+    "meter.testnet": {
+        "Wc3Decorator": "0x294F8D2fF232a2E5f34FfCdb087a891Be87C6d25",
+        "Wc3Token": "0xe07cA72DEFD083eE1Dcc6A523DBeeDE294d3Ee69"
+    },
+    "metis.rinkeby": {
+        "Wc3Decorator": "0x7cff0788f169396a55afcb4Cc47777465b04129F",
+        "Wc3Token": "0xc5eEFbBecf59e723d9e2AF7F8EC1708f221a19d7"
+    },
+    "okxchain.testnet": {},
+    "polygon.goerli": {
+        "Wc3Decorator": "0x643609fc42EAEdF330EbF9b049f3358FF282CC80",
+        "Wc3Token": "0xD710aDaA1FA048D337C5fd0cb2a31e1237630A15"
+    },
+    "boba.mainnet": {},
+    "conflux.espace.mainnet": {},
+    "cronos.mainnet": {},
+    "kcc.mainnet": {},
+    "meter.mainnet": {},
+    "metis.mainnet": {},
+    "okxchain.mainnet": {}
 }

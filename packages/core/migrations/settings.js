@@ -92,13 +92,13 @@ module.exports = {
       guild: "Klaytn",
       usdPriceCaption: "Price-KLAY/USDT-6",
     },
+    meter: {
+      guild: "Meter",
+      usdPriceCaption: "Price-MTR/USDT-6"
+    },
     metis: {
       guild: "Metis",
       usdPriceCaption: "Price-METIS/USDT-6"
-    },
-    metis: {
-      guild: "Meter",
-      usdPriceCaption: "Price-MTR/USDT-6"
     },
     okxchain: {
       guild: "OKXChain",
