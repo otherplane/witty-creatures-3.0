@@ -54,7 +54,7 @@ library Wc3Lib {
     }
 
     enum WittyCreatureStatus {
-        Inexistent,  // 0
+        Void,        // 0
         Incubating,  // 1
         Randomizing, // 2
         Hatching,    // 3
@@ -97,7 +97,8 @@ library Wc3Lib {
         if (_percentile100 > 100) {
             _percentile100 = 100;
         }
-        for (; _i < self.settings.percentileMarks.length; _i ++) {
+        uint _length = self.settings.percentileMarks.length; 
+        for (; _i < _length; _i ++) {
             _cumuled += self.settings.percentileMarks[_i];
             if (_percentile100 <= _cumuled) {
                 break;
@@ -181,7 +182,7 @@ library Wc3Lib {
             _tokenId == 0
                 || _tokenId > self.settings.totalEggs
         ) {
-            return WittyCreatureStatus.Inexistent;
+            return WittyCreatureStatus.Void;
         }
         else if (_wc3.mintTimestamp > 0) {
             return WittyCreatureStatus.Minted;
@@ -273,6 +274,42 @@ library Wc3Lib {
             return "Rare";
         } else {
             return "Common";
+        }
+    }
+
+    /// Returns contract status string.
+    function toString(Status _status)
+        internal pure
+        returns (string memory)
+    {
+        if (_status == Status.Batching) {
+            return "Batching";
+        } else if (_status == Status.Randomizing) {
+            return "Randomizing";
+        } else if (_status == Status.Hatching) {
+            return "Hatching";
+        } else {
+            return "Frozen";
+        }
+    }
+    
+    /// Returns token status string.
+    function toString(WittyCreatureStatus _status)
+        internal pure
+        returns (string memory)
+    {
+        if (_status == WittyCreatureStatus.Incubating) {
+            return "Incubating";
+        } else if (_status == WittyCreatureStatus.Randomizing) {
+            return "Randomizing";
+        } else if (_status == WittyCreatureStatus.Hatching) {
+            return "Hatching";
+        } else if (_status == WittyCreatureStatus.Minted) {
+            return "Minted";
+        } else if (_status == WittyCreatureStatus.Frozen) {
+            return "Frozen";
+        } else {
+            return "Void";
         }
     }
 

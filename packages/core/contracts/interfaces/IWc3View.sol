@@ -18,8 +18,10 @@ interface IWc3View {
     function getMintGasOverhead() external view returns (uint256);
     function getSettings() external view returns (Wc3Lib.Settings memory);    
     function getStatus() external view returns (Wc3Lib.Status);
+    function getStatusString() external view returns (string memory);
     function getTokenIntrinsics(uint256 _tokenId) external view returns (Wc3Lib.WittyCreature memory);
     function getTokenStatus(uint256 _tokenId) external view returns (Wc3Lib.WittyCreatureStatus);
+    function getTokenStatusString(uint256 _tokenId) external view returns (string memory);
 
     function preview(
         string calldata _name,
