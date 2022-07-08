@@ -66,7 +66,7 @@ contract Wc3Token
     modifier tokenExists(uint256 _tokenId) {
         require(
             _exists(_tokenId),
-            "Wc3Token: inexistent token"
+            "Wc3Token: void token"
         );
         _;
     }
@@ -372,12 +372,8 @@ contract Wc3Token
         override
         returns (bytes32 _hatchingRandomness)
     {
-        uint _hatchingBlock = __storage.hatchingBlock;
-        if (_hatchingBlock > 0) {
-            try randomizer.getRandomnessAfter(_hatchingBlock) returns (bytes32 _randomness) {
-                _hatchingRandomness = _randomness;
-            } catch {}
-        }
+        return randomizer.getRandomnessAfter(__storage.hatchingBlock);
+    }
 
     function getMintGasOverhead()
         public view
