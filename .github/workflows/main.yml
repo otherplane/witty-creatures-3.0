@@ -1,0 +1,55 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to Container Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build Containers
+        run: |
+          docker build -t witnet/witty-creatures-ui:latest -f ./ansible/docker/ui.dockerfile .
+          docker build -t witnet/witty-creatures-api:latest -f ./ansible/docker/api.dockerfile .
+
+      - name: Publish Containers
+        run: |
+          docker push witnet/witty-creatures-ui:latest
+          docker push witnet/witty-creatures-api:latest      
+
+      - name: Create Deployment Files
+        shell: bash
+        env: 
+          ENVARS: ${{ secrets.ENVIRONMENT_VARIABLES }}
+          AINV: ${{ secrets.ANSIBLE_INVENTORY }}
+          APKEY: ${{ secrets.ANSIBLE_PRIVATE_KEY }}
+          CADDY: ${{ secrets.CADDY_FILE }}
+        run: |
+          echo "$ENVARS" > ./packages/ui/.env
+          echo "$ENVARS" > ./packages/api/.env
+          echo "$ENVARS" > ./ansible/.env
+          echo "$AINV" > ./ansible/inventory.ini
+          echo "$APKEY" > ./ansible/key.pem
+          echo "$CADDY" > ./ansible/Caddyfile
+          chmod 400 ./ansible/key.pem
+      - name: Deploy with Ansible
+        shell: bash
+        run: |
+          cd ansible
+          export ANSIBLE_CONFIG=./ansible.cfg
+          export ANSIBLE_FORCE_COLOR=True
+          export ANSIBLE_STDOUT_CALLBACK=yaml
+          export FORCE_COLOR=1
+          export TERM=xterm-color
+          ansible-playbook ./helper/docker-playbook.yml -vv
+          ansible-playbook playbook.yml -vv
