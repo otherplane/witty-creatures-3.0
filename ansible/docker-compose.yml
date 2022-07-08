@@ -1,0 +1,39 @@
+# ! Docker-Compose Specification
+version: "3.9"
+
+# ! Define Project Network
+networks:
+  WC:
+
+# ? Services
+services:
+  # & Webserver
+  webserver:
+    image: caddy:2.5.0
+    volumes:
+      - /home/ubuntu/witty-creatures/Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - WC
+
+  # & Database
+  database:
+    image: mongo:4
+    env_file:
+      - /home/ubuntu/witty-creatures/.env
+    volumes:
+      - /home/ubuntu/witty-creatures/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh
+      - /home/ubuntu/witty-creatures/mongodb_data:/data/db
+    networks:
+      - WC
+
+  # & API
+  api:
+    image: witnet/witty-creatures-api:latest
+    networks:
+      - WC
+
+ # & UI
+  ui:
+    image: witnet/witty-creatures-ui:latest
+    networks:
+      - WC
