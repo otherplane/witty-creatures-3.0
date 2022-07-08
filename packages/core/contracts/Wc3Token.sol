@@ -45,6 +45,22 @@ contract Wc3Token
         _;
     }
 
+    modifier selfMintUsdCost6(uint _tokenId) {
+        uint _initGas = gasleft();
+        {
+            _;
+        }
+        Wc3Lib.WittyCreature storage __wc3 = __storage.intrinsics[_tokenId];
+        (int _lastPrice, bytes32 _witnetProof) = _estimateUsdPrice6();
+        __wc3.mintBlock = block.number;
+        __wc3.mintGasPrice = tx.gasprice;
+        __wc3.mintTimestamp = block.timestamp;
+        __wc3.mintUsdPriceWitnetProof = _witnetProof;
+        uint _mintGas = __storage.mintGasOverhead + _initGas - gasleft();
+        __wc3.mintGas = _mintGas;
+        __wc3.mintUsdCost6 = (uint(_lastPrice) * tx.gasprice * _mintGas) / 10 ** 18; 
+    }
+
     modifier tokenExists(uint256 _tokenId) {
         require(
             _exists(_tokenId),
@@ -63,7 +79,7 @@ contract Wc3Token
             uint256 _expirationBlocks,
             uint256 _totalEggs,
             string memory _usdPriceCaption,
-            uint256 _mintGasLimit            
+            uint256 _mintGasOverhead            
         )
         ERC721("Witty Creatures EthCC'5", "WC3")
     {
@@ -79,8 +95,8 @@ contract Wc3Token
         setDecorator(
             IWc3Decorator(_decorator)
         );
-        setMintGasLimit(
-            _mintGasLimit
+        setMintGasOverhead(
+            _mintGasOverhead
         );
         setSettings(
             _expirationBlocks,
@@ -163,15 +179,14 @@ contract Wc3Token
 
     /// Set estimated gas units required for minting one single token.
     /// @dev Only callable by the owner, at any time.
-    /// @param _estimatedGasLimit Estimated gas units.
-    function setMintGasLimit(
-            uint256 _estimatedGasLimit
+    function setMintGasOverhead(
+            uint256 _mintGasOverhead
         )
         public override
         onlyOwner
     {
-        __storage.mintGasLimit = _estimatedGasLimit;
-        emit MintGasLimit(_estimatedGasLimit);
+        __storage.mintGasOverhead = _mintGasOverhead;
+        emit MintGasOverhead(_mintGasOverhead);
     }
 
     /// Sets Externally Owned Account that is authorized to sign tokens' intrinsics before getting minted.
@@ -279,6 +294,7 @@ contract Wc3Token
         )
         external
         virtual override
+        selfMintUsdCost6(_guildRanking)
         nonReentrant
         inStatus(Wc3Lib.Status.Hatching)
     {
@@ -341,22 +357,8 @@ contract Wc3Token
         return IWc3Decorator(__storage.decorator);
     }
     
-    function estimateMintUsdCost6(uint _gasPrice)
-        public view
-        override
-        returns (uint64 _mintUsdCost6, bytes32 _mintUsdPriceWitnetProof)
-    {
-        IWitnetPriceFeed _pf = IWitnetPriceFeed(address(router.getPriceFeed(usdPriceAssetId)));
-        if (address(_pf) != address(0)) {
-            int _lastKnownPrice;
-            (_lastKnownPrice,, _mintUsdPriceWitnetProof,) = _pf.lastValue();
-            uint _estimatedFee = _gasPrice * __storage.mintGasLimit;
-            _mintUsdCost6 = uint64((_estimatedFee * uint(_lastKnownPrice)) / 10 ** 18);
-        }
-    }
-
     function getHatchingBlock()
-        external view
+        public view
         override
         returns (uint256)
     {
@@ -374,6 +376,13 @@ contract Wc3Token
                 _hatchingRandomness = _randomness;
             } catch {}
         }
+
+    function getMintGasOverhead()
+        public view
+        override
+        returns (uint256)
+    {
+        return __storage.mintGasOverhead;
     }
 
     function getSettings()
@@ -429,9 +438,6 @@ contract Wc3Token
             _guildRanking
         );
 
-        // Rely on the Witnet oracle to fetch current USD price:
-        (uint64 _mintUsdCost6, bytes32 _mintUsdPriceWitnetProof) = estimateMintUsdCost6(tx.gasprice);
-
         // Preview creature image:
         return decorator().toJSON(
             randomizer.getRandomnessAfter(__storage.hatchingBlock),
@@ -442,11 +448,12 @@ contract Wc3Token
                 eggIndex: _index,
                 eggRarity: __storage.eggRarity((_guildRanking * 100) / _guildPlayers),
                 eggScore: _score,
-                mintBlock: block.number,
-                mintGasPrice: tx.gasprice,
-                mintTimestamp: block.timestamp,
-                mintUsdCost6: _mintUsdCost6,
-                mintUsdPriceWitnetProof: _mintUsdPriceWitnetProof
+                mintBlock: 0,
+                mintGas: 0,
+                mintGasPrice: 0,
+                mintTimestamp: 0,
+                mintUsdCost6: 0,
+                mintUsdPriceWitnetProof: 0
             })
         );
     }
@@ -488,6 +495,17 @@ contract Wc3Token
     // --- INTERNAL VIRTUAL METHODS -------------------------------------------
     // ------------------------------------------------------------------------
 
+    /// @dev Rely on the Witnet oracle to fetch current USD price, and verification proof
+    function _estimateUsdPrice6()
+        internal view
+        returns (int _lastKnownPrice, bytes32 _priceWitnetProof)
+    {
+        IWitnetPriceFeed _pf = IWitnetPriceFeed(address(router.getPriceFeed(usdPriceAssetId)));
+        if (address(_pf) != address(0)) {
+            (_lastKnownPrice,, _priceWitnetProof,) = _pf.lastValue();
+        }
+    }
+    
     function __mintWittyCreature(
             string calldata _name,
             uint256 _globalRanking,
@@ -499,23 +517,14 @@ contract Wc3Token
         internal
         virtual
     {
-        // Rely on the Witnet oracle to fetch current USD price:
-        (uint64 _mintUsdCost6, bytes32 _mintUsdPriceWitnetProof) = estimateMintUsdCost6(tx.gasprice);
-        
         // Save intrinsics into storage:
-        __storage.intrinsics[_guildRanking] = Wc3Lib.WittyCreature({
-            eggName: _name,
-            eggGlobalRanking: _globalRanking,
-            eggGuildRanking: _guildRanking,
-            eggIndex: _index,
-            eggRarity: __storage.eggRarity((_guildRanking * 100) / _guildPlayers),
-            eggScore: _score,
-            mintBlock: block.number,
-            mintGasPrice: tx.gasprice,
-            mintTimestamp: block.timestamp,
-            mintUsdCost6: _mintUsdCost6,
-            mintUsdPriceWitnetProof: _mintUsdPriceWitnetProof
-        });
+        Wc3Lib.WittyCreature storage __wc3 = __storage.intrinsics[_guildRanking];
+        __wc3.eggName = _name;
+        __wc3.eggGlobalRanking = _globalRanking;
+        __wc3.eggGuildRanking = _guildRanking;
+        __wc3.eggIndex = _index;
+        __wc3.eggRarity = __storage.eggRarity((_guildRanking * 100) / _guildPlayers);
+        __wc3.eggScore = _score;
     }
 
     function _verifyGuildFacts(

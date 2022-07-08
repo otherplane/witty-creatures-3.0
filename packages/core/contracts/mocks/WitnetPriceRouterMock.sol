@@ -1,18 +1,30 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+import "./WitnetPriceFeedMock.sol";
+
 contract WitnetPriceRouterMock {
 
     string public caption;
-    uint256 public price;
+    uint public price;
+
+    WitnetPriceFeedMock internal __priceFeedMock;
 
     constructor(
             string memory _caption,
-            uint256 _price
+            int _lastPrice
         )
     {
         caption = _caption;
-        price = _price;
+        price = uint(_lastPrice);
+        __priceFeedMock = new WitnetPriceFeedMock(_lastPrice);
+    }
+
+    function getPriceFeed(bytes32)
+        external view
+        returns (address)
+    {
+        return address(__priceFeedMock);
     }
 
     function currencyPairId(
