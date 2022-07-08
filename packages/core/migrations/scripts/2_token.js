@@ -75,7 +75,7 @@ module.exports = async function (deployer, network, accounts) {
       settings.common.expirationBlocks,
       settings.common.totalEggs,      
       specs.usdPriceCaption,
-      specs.mintGasLimit,
+      specs.mintGasOverhead,
     )
     if (network !== "test" && network !== "develop") {
       addresses[network].Wc3Token = Wc3Token.address
@@ -93,7 +93,7 @@ module.exports = async function (deployer, network, accounts) {
   const token = await Wc3Token.at(addresses[network]?.Wc3Token || Wc3Token.address)
   const decoratorAddr = await token.decorator()
   if (decoratorAddr !== Wc3Decorator.address) {
-    await token.setDecorator(Wc3Decorator.address)
+    await token.setDecorator(Wc3Decorator.address, { gas: 500000 })
     console.info(`   > Upgraded token's decorator to ${Wc3Decorator.address}`)
   }
 };

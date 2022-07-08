@@ -1,18 +1,13 @@
 {
-    "ethereum.goerli": {
-        "Wc3Decorator": "",
-        "Wc3Token": ""
-    },
-    "ethereum.mainnet": {
-        "Wc3Decorator": "",
-        "Wc3Token": ""
-    },
-    "okxchain.mainnet": {
-        "Wc3Decorator": "",
-        "Wc3Token": ""
-    },
+    "conflux.espace.mainnet": {},
+    "ethereum.mainnet": {},
+    "kcc.mainnet": {},
+    "klaytn.mainnet": {},
+    "metis.mainnet": {},
+    "okxchain.mainnet": {},
     "polygon.goerli": {
-        "Wc3Decorator": "0xCc2A2F1f0603f218e4E16c7782B7e72162279fCE",
-        "Wc3Token": "0xC7F98D8b8b2e0C83D87baC9ACCC8bFFc8fDbF3b8"
-    }
+        "Wc3Decorator": "0xFAe18c6720d598b29a6dDb17A2503B9090eF383E",
+        "Wc3Token": "0x44c3A729a02b5Fd18f3d83F0Ad8D6Fba385CFE58"
+    },
+    "polygon.mainnet": {}
 }
