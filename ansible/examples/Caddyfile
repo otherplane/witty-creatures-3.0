@@ -1,0 +1,7 @@
+some-domain.com {
+    reverse_proxy wc_servicename:8081
+}
+
+api.some-domain.com {
+    reverse_proxy wc_servicename:8082
+}
