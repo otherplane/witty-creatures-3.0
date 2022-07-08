@@ -1,0 +1,50 @@
+---
+- hosts: all
+  tasks:
+    - name: Create Deployment Directory
+      file:
+        path: /home/ubuntu/witty-creatures
+        state: directory
+
+    - name: Copy .env File
+      copy:
+        src: ./.env
+        dest: /home/ubuntu/witty-creatures/.env
+
+    - name: Copy Caddy File
+      copy:
+        src: ./Caddyfile
+        dest: /home/ubuntu/witty-creatures/Caddyfile
+
+    - name: Copy Mongo Script
+      copy:
+        src: ./examples/init-mongo.sh
+        dest: /home/ubuntu/witty-creatures/init-mongo.sh
+
+    - name: Copy Docker Swarm Stack File
+      copy:
+        src: ./docker-compose.yml
+        dest: /home/ubuntu/witty-creatures/docker-compose.yml
+
+    - name: Stack History limit
+      shell: docker swarm update --task-history-limit 0
+
+    - name: Deploy Docker Stack
+      shell: |
+        cd /home/ubuntu/witty-creatures 
+        docker stack deploy -c <(docker-compose config) wc
+        sleep 60
+      args:
+        executable: /bin/bash
+
+    - name: Update Webserver in case of DNS change
+      shell: docker service update --force wc_webserver
+
+    - name: Prune Useless Docker Images
+      shell: |
+        docker container prune -f
+        docker image prune -a -f
+    - name: List Images & Containers for SHA256 Comparsion if needed
+      shell: |
+        docker image ls
+        docker stack ps wc
