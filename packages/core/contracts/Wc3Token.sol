@@ -401,6 +401,14 @@ contract Wc3Token
         return __storage.status(randomizer);
     }
 
+    function getStatusString()
+        external view
+        override
+        returns (string memory)
+    {
+        return getStatus().toString();
+    }
+
     function getTokenIntrinsics(uint256 _tokenId)
         external view
         override
@@ -410,11 +418,19 @@ contract Wc3Token
     }
 
     function getTokenStatus(uint256 _tokenId)
-        external view
+        public view
         override
         returns (Wc3Lib.WittyCreatureStatus)
     {
         return __storage.tokenStatus(randomizer, _tokenId);
+    }
+
+    function getTokenStatusString(uint256 _tokenId)
+        external view
+        override
+        returns (string memory)
+    {
+        return getTokenStatus(_tokenId).toString();
     }
 
     function preview(
