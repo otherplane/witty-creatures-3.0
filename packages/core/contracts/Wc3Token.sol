@@ -27,7 +27,9 @@ contract Wc3Token
     using Strings for uint256;
     using Wc3Lib for bytes32;
     using Wc3Lib for string;
+    using Wc3Lib for Wc3Lib.Status;
     using Wc3Lib for Wc3Lib.Storage;
+    using Wc3Lib for Wc3Lib.WittyCreatureStatus;
 
     IWitnetRandomness immutable public override randomizer;
     IWitnetPriceRouter immutable public override router;
@@ -415,6 +417,20 @@ contract Wc3Token
         returns (Wc3Lib.WittyCreature memory)
     {
         return __storage.intrinsics[_tokenId];
+    }
+
+    function getTokenRandomTraits(uint256 _tokenId)
+        external view
+        override
+        returns (Wc3Lib.WittyCreatureTraits memory _traits)
+    {
+        bytes32 _randomness = getHatchingRandomness();
+        if (_randomness != 0) {
+            _traits = decorator().randomTraits(
+                _randomness,
+                __storage.intrinsics[_tokenId].eggIndex
+            );
+        }
     }
 
     function getTokenStatus(uint256 _tokenId)

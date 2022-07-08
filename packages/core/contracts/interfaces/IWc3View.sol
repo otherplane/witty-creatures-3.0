@@ -20,6 +20,7 @@ interface IWc3View {
     function getStatus() external view returns (Wc3Lib.Status);
     function getStatusString() external view returns (string memory);
     function getTokenIntrinsics(uint256 _tokenId) external view returns (Wc3Lib.WittyCreature memory);
+    function getTokenRandomTraits(uint256 _tokenId) external view returns (Wc3Lib.WittyCreatureTraits memory);
     function getTokenStatus(uint256 _tokenId) external view returns (Wc3Lib.WittyCreatureStatus);
     function getTokenStatusString(uint256 _tokenId) external view returns (string memory);
 

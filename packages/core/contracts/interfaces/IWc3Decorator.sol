@@ -9,6 +9,7 @@ interface IWc3Decorator {
     function baseURI() external view returns (string memory);
     function forged() external view returns (bool);
     function guildId() external view returns (uint256);
+    function randomTraits(bytes32, uint256) external view returns (Wc3Lib.WittyCreatureTraits memory);
     function toJSON(bytes32, Wc3Lib.WittyCreature memory) external view returns (string memory);
     function version() external view returns (string memory);
 }
