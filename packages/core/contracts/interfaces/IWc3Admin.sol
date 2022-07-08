@@ -14,7 +14,7 @@ interface IWc3Admin {
 
     /// Set estimated gas units required for minting one single token.
     /// @param _estimatedGasLimit Estimated gas units.
-    function setMintGasLimit(
+    function setMintGasOverhead(
         uint256 _estimatedGasLimit
     ) external;
 

@@ -12,7 +12,7 @@ library Wc3Lib {
         address signator;
         Settings settings;
 
-        uint256 mintGasLimit;
+        uint256 mintGasOverhead;
         uint256 hatchingBlock;
         uint256 totalSupply;
 
@@ -40,6 +40,7 @@ library Wc3Lib {
         WittyCreatureRarity eggRarity;
         uint256 eggScore;
         uint256 mintBlock;
+        uint256 mintGas;
         uint256 mintGasPrice;
         uint256 mintTimestamp;
         uint256 mintUsdCost6;

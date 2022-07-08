@@ -12,11 +12,10 @@ interface IWc3View {
     function randomizer() external view returns (IWitnetRandomness);
     function router() external view returns (IWitnetPriceRouter);
     function signator() external view returns (address);
-
-    function estimateMintUsdCost6(uint _gasPrice) external view returns (uint64, bytes32);
     
     function getHatchingBlock() external view returns (uint256);
     function getHatchingRandomness() external view returns (bytes32);
+    function getMintGasOverhead() external view returns (uint256);
     function getSettings() external view returns (Wc3Lib.Settings memory);    
     function getStatus() external view returns (Wc3Lib.Status);
     function getTokenIntrinsics(uint256 _tokenId) external view returns (Wc3Lib.WittyCreature memory);

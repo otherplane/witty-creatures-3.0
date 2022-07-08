@@ -5,7 +5,7 @@ pragma solidity ^0.8.0;
 /// @author Otherplane Labs, 2022.
 interface IWc3Events {
     event Decorator(address decorator);
-    event MintGasLimit(uint256 gas);
+    event MintGasOverhead(uint256 gas);
     event Settings(uint256 expirationBlocks, uint256 totalEggs, uint8[] percentileMarks);    
     event Signator(address signator);
 }
