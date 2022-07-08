@@ -15,7 +15,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
     using Wc3Lib for string;
     using Wc3Lib for Wc3Lib.WittyCreatureRarity;
 
-    uint256 internal constant _TRAITS_RANDOM_SPREAD_RANK = 32;
+    uint256 public constant TRAITS_RANDOM_SPREAD_RANK = 32;
 
     string internal constant _TRAITS_DEFAULT_BACKGROUND = "Plain";
     string internal constant _TRAITS_DEFAULT_EYES = "Default";
@@ -38,16 +38,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
     mapping (uint256 => string) public heads;
     mapping (uint256 => string) public mouths;
     mapping (uint256 => string) public objects;
-    mapping (uint256 => string) public outfits;     
-
-    struct TraitIndexes {
-        uint8 backgroundIndex;
-        uint8 eyesIndex;
-        uint8 headIndex;
-        uint8 mouthIndex;
-        uint8 objectIndex;
-        uint8 outfitIndex;        
-    }
+    mapping (uint256 => string) public outfits;
 
     struct TraitRanges {
         uint16 totalBackgrounds;
@@ -61,7 +52,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
 
     modifier checkRange(string[] memory _tags) {
         require(
-            _tags.length <= _TRAITS_RANDOM_SPREAD_RANK,
+            _tags.length <= TRAITS_RANDOM_SPREAD_RANK,
             "Wc3Decorator: out of range"
         );
         _;
@@ -344,6 +335,17 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         ranges.totalOutfits = _total;
     }
 
+    function randomTraits(
+            bytes32 _randomness,
+            uint256 _eggIndex
+        )
+        external view
+        override
+        returns (Wc3Lib.WittyCreatureTraits memory)
+    {
+        return _splitRandomPhenotype(_randomness, _eggIndex);
+    }
+
     function toJSON(
             bytes32 _randomness,
             Wc3Lib.WittyCreature memory _intrinsics
@@ -352,11 +354,9 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         virtual override
         returns (string memory _json)
     {
-        TraitIndexes memory _traits = _splitPhenotype(
-            keccak256(abi.encodePacked(
-                _randomness,
-                _intrinsics.eggIndex
-            ))
+        Wc3Lib.WittyCreatureTraits memory _traits = _splitRandomPhenotype(
+            _randomness,
+            _intrinsics.eggIndex
         );
         
         string memory _tokenIdStr = _intrinsics.eggGuildRanking.toString();
@@ -398,7 +398,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
     function _loadAttributes(
             bytes32 _randomness,
             Wc3Lib.WittyCreature memory _intrinsics,
-            TraitIndexes memory _traits
+            Wc3Lib.WittyCreatureTraits memory _traits
         )
         internal view
         returns (string memory)
@@ -500,7 +500,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
 
     function _loadAttributesRandomized(
             Wc3Lib.WittyCreatureRarity _rarity,
-            TraitIndexes memory _traits
+            Wc3Lib.WittyCreatureTraits memory _traits
         )
         internal view
         returns (string memory)
@@ -510,9 +510,9 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
                 "\"trait_type\": \"Background\",",
                 "\"value\": \"", (
                     _rarity != Wc3Lib.WittyCreatureRarity.Legendary
-                        || bytes(backgrounds[_traits.backgroundIndex]).length == 0
+                        || bytes(backgrounds[_traits.background]).length == 0
                     ? _TRAITS_DEFAULT_BACKGROUND
-                    : backgrounds[_traits.backgroundIndex]
+                    : backgrounds[_traits.background]
                 ), "\""
             "},"
         ));
@@ -520,9 +520,9 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "{",
                 "\"trait_type\": \"Eyes\",",
                 "\"value\": \"", (
-                    bytes(eyes[_traits.eyesIndex]).length == 0
+                    bytes(eyes[_traits.eyes]).length == 0
                         ? _TRAITS_DEFAULT_EYES
-                        : eyes[_traits.eyesIndex]
+                        : eyes[_traits.eyes]
                 ), "\""
             "},"
         ));
@@ -530,9 +530,9 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "{",
                 "\"trait_type\": \"Head\",",
                 "\"value\": \"", (
-                    bytes(heads[_traits.headIndex]).length == 0
+                    bytes(heads[_traits.head]).length == 0
                         ? _TRAITS_DEFAULT_HEAD
-                        : heads[_traits.headIndex]
+                        : heads[_traits.head]
                 ), "\""
             "},"
         ));
@@ -540,9 +540,9 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "{",
                 "\"trait_type\": \"Mouth\",",
                 "\"value\": \"", (
-                    bytes(mouths[_traits.mouthIndex]).length == 0
+                    bytes(mouths[_traits.mouth]).length == 0
                         ? _TRAITS_DEFAULT_MOUTH
-                        : mouths[_traits.mouthIndex]
+                        : mouths[_traits.mouth]
                 ), "\""
             "},"
         ));
@@ -551,9 +551,9 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
                 "\"trait_type\": \"Object\",",
                 "\"value\": \"", (
                     _rarity == Wc3Lib.WittyCreatureRarity.Common 
-                        || bytes(objects[_traits.objectIndex]).length == 0
+                        || bytes(objects[_traits.object]).length == 0
                     ? _TRAITS_DEFAULT_OBJECT
-                    : objects[_traits.objectIndex]
+                    : objects[_traits.object]
                 ), "\""
             "},"
         ));
@@ -561,9 +561,9 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             "{",
                 "\"trait_type\": \"Outfit\",",
                 "\"value\": \"", (
-                    bytes(outfits[_traits.outfitIndex]).length == 0
+                    bytes(outfits[_traits.outfit]).length == 0
                         ? _TRAITS_DEFAULT_OUTFIT
-                        : objects[_traits.outfitIndex]
+                        : objects[_traits.outfit]
                 ), "\""
             "}"
         ));
@@ -577,17 +577,24 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         ));
     }
 
-    function _splitPhenotype(bytes32 _phenotype)
+    function _splitRandomPhenotype(
+            bytes32 _randomness,
+            uint256 _eggIndex
+        )
         internal view
-        returns (TraitIndexes memory _traits)
+        returns (Wc3Lib.WittyCreatureTraits memory _traits)
     {
+        bytes32 _phenotype = keccak256(abi.encodePacked(
+            _randomness,
+            _eggIndex
+        ));
         uint _nonce;
-        _traits.backgroundIndex = _phenotype.randomUint8(_nonce ++, ranges.totalBackgrounds);
-        _traits.eyesIndex = _phenotype.randomUint8(_nonce ++, _TRAITS_RANDOM_SPREAD_RANK);
-        _traits.headIndex = _phenotype.randomUint8(_nonce ++, _TRAITS_RANDOM_SPREAD_RANK);
-        _traits.objectIndex = _phenotype.randomUint8(_nonce ++, ranges.totalObjects);
-        _traits.outfitIndex = _phenotype.randomUint8(_nonce ++, _TRAITS_RANDOM_SPREAD_RANK);
-        _traits.mouthIndex = _phenotype.randomUint8(_nonce ++, _TRAITS_RANDOM_SPREAD_RANK);
+        _traits.background = _phenotype.randomUint8(_nonce ++, ranges.totalBackgrounds);
+        _traits.eyes = _phenotype.randomUint8(_nonce ++, TRAITS_RANDOM_SPREAD_RANK);
+        _traits.head = _phenotype.randomUint8(_nonce ++, TRAITS_RANDOM_SPREAD_RANK);
+        _traits.object = _phenotype.randomUint8(_nonce ++, ranges.totalObjects);
+        _traits.outfit = _phenotype.randomUint8(_nonce ++, TRAITS_RANDOM_SPREAD_RANK);
+        _traits.mouth = _phenotype.randomUint8(_nonce ++, TRAITS_RANDOM_SPREAD_RANK);
     }
 
     function _toStringDecimals2(uint256 _decimals6)

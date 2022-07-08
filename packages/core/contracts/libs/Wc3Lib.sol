@@ -47,6 +47,15 @@ library Wc3Lib {
         bytes32 mintUsdPriceWitnetProof;
     }
 
+    struct WittyCreatureTraits {
+        uint8 background;
+        uint8 eyes;
+        uint8 head;
+        uint8 mouth;
+        uint8 object;
+        uint8 outfit;  
+    }
+
     enum WittyCreatureRarity {
         Legendary,  // 0
         Rare,       // 1
