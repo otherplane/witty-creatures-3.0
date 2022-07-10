@@ -10,6 +10,9 @@ services:
   # & Webserver
   webserver:
     image: caddy:2.5.0
+    ports:
+      - "80:80"
+      - "443:443"
     volumes:
       - /home/ubuntu/witty-creatures/Caddyfile:/etc/caddy/Caddyfile
     networks:
