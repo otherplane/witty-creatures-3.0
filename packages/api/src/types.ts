@@ -201,6 +201,10 @@ export interface NetworkConfig {
   [key: number]: Static<typeof Network>
 }
 
+export interface Colors {
+  [key: string]: string
+}
+
 export const Award = Type.Object({
   background: Type.String(BackgroundTrait),
   birthDate: Type.Integer(),

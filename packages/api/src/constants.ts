@@ -143,6 +143,14 @@ export const NETWORKS = {
   },
 }
 
+export const THEME_COLORS = {
+  ['emerald']: '#488B62',
+  ['obsidian']: '#292929',
+  ['ruby']: '#BE3737',
+  ['gold']: '#F18944',
+  ['zaphire']: '#0F2664',
+}
+
 export default {
   PLAYER_KEY_LENGTH_BYTES,
   PLAYER_MINT_TIMESTAMP,
@@ -155,4 +163,5 @@ export default {
   MONGO_URI,
   WITTY_CREATURES_ERC721_ADDRESS,
   PLAYER_MAINNET_TIMESTAMP,
+  THEME_COLORS,
 }
