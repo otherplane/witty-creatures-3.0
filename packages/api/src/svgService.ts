@@ -1,4 +1,5 @@
-import { Award } from './types'
+import { Award, Colors } from './types'
+import { THEME_COLORS } from './constants'
 
 import Mouth1 from './assets/mouth'
 import Mouth2 from './assets/mouth'
@@ -77,18 +78,13 @@ export class SvgService {
       outfit: clothesNameToSvg[traits.outfit],
       head: headNameToSvg[traits.head],
     }
-    const background = svgTraits.background
-      ? svgTraits.background
-      : `<linearGradient id="paint0_linear_268_14" x1="266.5" y1="0" x2="266.5" y2="514" gradientUnits="userSpaceOnUse">
-    <stop stop-color="#FA0909" stop-opacity="0.36"/>
-    <stop offset="0.239583" stop-color="#F0AC45" stop-opacity="0.4"/>
-    <stop offset="0.432292" stop-color="#E8EA6D" stop-opacity="0.38"/>
-    <stop offset="0.619792" stop-color="#94E493" stop-opacity="0.44"/>
-    <stop offset="0.8125" stop-color="#00E0FF" stop-opacity="0.4"/>
-    <stop offset="1" stop-color="#0500FF" stop-opacity="0.38"/>
-    </linearGradient>`
+    const colors: Colors = THEME_COLORS
+    const background: string = svgTraits.background
+      ? 'url(#paint0_linear_268_14)'
+      : colors[traits.eggColor]
+
     const svg1 = `<svg width="533" height="514" viewBox="0 0 533 514" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="533" height="514" fill="url(#paint0_linear_268_14)"/>
+    <rect width="533" height="514" fill="${background}"/>
     <g id="clothes">
     ${svgTraits.outfit}
     </g>
@@ -106,7 +102,7 @@ export class SvgService {
     </g>
     <defs>
     <g id="background">
-    ${background}
+    ${svgTraits.background}
     </g>
     </defs>
     </svg>`

@@ -63,7 +63,6 @@ export function useWeb3() {
   }
 
   async function getMintConfirmationStatus() {
-    console.log('getMintStatusConfirmation')
     const accounts = await requestAccounts(web3)
     player.clearError('mint')
     if (accounts[0]) {
@@ -110,7 +109,6 @@ export function useWeb3() {
               player.clearMintInfo()
             }
           } else {
-            console.log('there is no receipt')
             try {
               const contract = new web3.eth.Contract(
                 jsonInterface,

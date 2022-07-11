@@ -26,10 +26,15 @@ export default {
 
 <style lang="scss" scoped>
 .nft {
-  width: 50%;
+  width: 40%;
   margin-bottom: 16px;
   height: auto;
   align-self: center;
   justify-self: center;
+}
+@media (max-width: 600px) {
+  .nft {
+    width: 50%;
+  }
 }
 </style>
