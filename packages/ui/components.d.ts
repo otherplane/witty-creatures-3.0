@@ -30,6 +30,7 @@ declare module '@vue/runtime-core' {
     ModalExport: typeof import('./src/components/ModalExport.vue')['default']
     ModalGameOver: typeof import('./src/components/ModalGameOver.vue')['default']
     ModalMint: typeof import('./src/components/ModalMint.vue')['default']
+    ModalOpenEgg: typeof import('./src/components/ModalOpenEgg.vue')['default']
     ModalShareSocials: typeof import('./src/components/ModalShareSocials.vue')['default']
     NavBar: typeof import('./src/components/NavBar.vue')['default']
     NFTPreview: typeof import('./src/components/NFTPreview.vue')['default']
