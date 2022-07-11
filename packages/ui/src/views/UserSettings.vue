@@ -4,7 +4,12 @@
       <SectionHeader title="SETTINGS" :from-auth="fromAuth" />
       <form class="form">
         <h3 v-if="fromAuth" class="form-title">Network settings</h3>
-        <label v-if="fromAuth" class="form-label">Network</label>
+        <p v-if="fromAuth" class="form-label">
+          Once the game is over, a NFT creature will come out of your egg. You
+          need to choose now which network you will mint your NFT on.
+          Additionally, different networks will give you extra prizes on top of
+          the NFT. Choose wisely — this choice can't be changed afterwards!
+        </p>
         <CustomSelect
           v-if="fromAuth"
           class="field margin"
