@@ -4359,6 +4359,17 @@
   dependencies:
     vue-demi "*"
 
+"@witnet/truffle-flattener-single-experimental@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@witnet/truffle-flattener-single-experimental/-/truffle-flattener-single-experimental-0.1.0.tgz#de50dea0592ca220908b0cb2ee118854c2e66b8c"
+  integrity sha512-4EC4+a+bbqjAWxSCvEdSpQG4b4/KlwkoZ8eiQF1KkxWnxZtbO1EOeUwo7U0yPlrGboTZw5d5/j22hhJ292zHWA==
+  dependencies:
+    "@resolver-engine/imports-fs" "^0.2.2"
+    "@solidity-parser/parser" "^0.12.1"
+    find-up "^2.1.0"
+    mkdirp "^1.0.4"
+    tsort "0.0.1"
+
 "@zondax/filecoin-signing-tools@github:trufflesuite/filecoin-signing-tools-js":
   version "0.2.0"
   resolved "https://codeload.github.com/trufflesuite/filecoin-signing-tools-js/tar.gz/2786fdb8a2b71bd1c7789c0701da41bb644a098f"
@@ -14902,16 +14913,6 @@ truffle-assertions@0.9.2:
   dependencies:
     assertion-error "^1.1.0"
     lodash.isequal "^4.5.0"
-
-"truffle-flattener@https://github.com/witnet/truffle-flattener.git#single-experimental":
-  version "1.4.4"
-  resolved "git+ssh://git@github.com/witnet/truffle-flattener.git#c8660584a728244ca05e5b1d4077101fec5606a4"
-  dependencies:
-    "@resolver-engine/imports-fs" "^0.2.2"
-    "@solidity-parser/parser" "^0.12.1"
-    find-up "^2.1.0"
-    mkdirp "^1.0.4"
-    tsort "0.0.1"
 
 truffle@^5.5.15:
   version "5.5.16"
