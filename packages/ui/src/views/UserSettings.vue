@@ -96,12 +96,14 @@ export default {
       await player.getSocials()
     })
     const formatedNetworks = computed(() => {
-      return Object.values(NETWORKS).map(network => {
-        return {
-          key: network.id,
-          name: network.name,
-        }
-      })
+      return Object.values(NETWORKS)
+        .map(network => {
+          return {
+            key: network.id,
+            name: network.name,
+          }
+        })
+        .sort((a, b) => a.name.localeCompare(b.name))
     })
     const setValue = async ({ label, value }) => {
       // TODO: refactor

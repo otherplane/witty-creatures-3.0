@@ -1,7 +1,7 @@
 <template>
   <div class="players-container">
     <p class="item">{{ position }}</p>
-    <img class="network bold" :src="importSvg(network)" />
+    <img class="network bold" :src="importSvg(NETWORKS[network].kind)" />
     <p class="item player-name">
       <span>{{ NETWORKS[network].kind }}</span>
       <span>{{ name }}</span>

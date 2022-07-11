@@ -98,48 +98,111 @@ export const PLAYER_MAINNET_TIMESTAMP = process.env.PLAYER_MAINNET_TIMESTAMP
   : 1645131600 // Thursday, February 17, 2022 09:00:00 PM (UTC)
 
 export const NETWORKS = {
-  [1]: {
-    name: 'Ethereum Mainnet',
-    id: 1,
-    contractAddress: process.env.ETHEREUM_CONTRACT_ADDRESS || '0x00',
-    rpcUrls: ['https://mainnet.infura.io/v3/'],
-  },
-  [288]: {
+  288: {
     name: 'Boba Network',
     id: 288,
     contractAddress: process.env.BOBA_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://mainnet.boba.network'],
   },
-  [321]: {
+  1030: {
+    name: 'Conflux Mainnet',
+    id: 1030,
+    contractAddress:
+      process.env.CONFLUX_ESPACE_MAINNET_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://evm.confluxrpc.com'],
+  },
+  25: {
+    name: 'Cronos Mainnet',
+    id: 25,
+    contractAddress: process.env.CRONOS_MAINNET_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://cronosrpc-1.xstaking.sg'],
+  },
+  321: {
     name: 'KCC Mainnet',
     id: 321,
     contractAddress: process.env.MOONBEAM_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://rpc-mainnet.kcc.network'],
   },
-  [66]: {
-    name: 'OKX Chain',
+  1: {
+    name: 'Ethereum Mainnet',
+    id: 1,
+    contractAddress: process.env.ETHEREUM_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://mainnet.infura.io/v3/'],
+  },
+
+  1088: {
+    name: 'Metis Mainnet',
+    id: 1088,
+    contractAddress: process.env.METIS_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://andromeda.metis.io/?owner=1088'],
+  },
+  66: {
+    name: 'OKX Chain Mainnet',
     id: 66,
     contractAddress: process.env.OKX_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://exchainrpc.okex.org'],
   },
-  [1088]: {
-    name: 'Metis Mainnet',
-    id: 1088,
-    kind: 'metis',
-    contractAddress: process.env.METIS_CONTRACT_ADDRESS || '0x00',
-    rpcUrls: ['https://andromeda.metis.io/?owner=1088'],
-  },
-  [80001]: {
-    name: 'Polygon Mumbai',
-    id: 80001,
-    contractAddress: process.env.POLYGON_MUMBAI_CONTRACT_ADDRESS || '0x00',
-    rpcUrls: ['https://rpc-mumbai.maticvigil.com'],
-  },
-  [137]: {
+  137: {
     name: 'Polygon Mainnet',
     id: 137,
     contractAddress: process.env.POLYGON_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://polygon-rpc.com/'],
+  },
+  28: {
+    name: 'Boba Network Rinkeby',
+    id: 28,
+    contractAddress: process.env.BOBA_TESTNET_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://rinkeby.boba.network/'],
+  },
+  71: {
+    name: 'Conflux eSpace Testnet',
+    id: 71,
+    contractAddress:
+      process.env.CONFLUX_ESPACE_TESTNET_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://evmtestnet.confluxrpc.com'],
+    blockExplorerUrls: ['https://testnet.confluxscan.io/'],
+  },
+  338: {
+    name: 'Cronos Testnet',
+    id: 338,
+    contractAddress: process.env.CRONOS_TESTNET_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://evm-t3.cronos.org'],
+  },
+  322: {
+    name: 'KCC Testnet',
+    id: 322,
+    contractAddress: process.env.KCC_TESTNET_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://rpc-testnet.kcc.network'],
+  },
+  4: {
+    name: 'Ethereum Rinkeby',
+    id: 4,
+    contractAddress: process.env.ETHEREUM_RINKEBY_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://rpc.ankr.com/eth_rinkeby'],
+  },
+  83: {
+    name: 'Meter Testnet',
+    id: 83,
+    contractAddress: process.env.METER_TESTNET_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://rpctest.meter.io'],
+  },
+  588: {
+    name: 'Metis Stardust Testnet',
+    id: 588,
+    contractAddress: process.env.METIS_TESTNET_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://stardust.metis.io/?owner=588'],
+  },
+  65: {
+    name: 'OKXChain Testnet',
+    id: 65,
+    contractAddress: process.env.OKXCHAIN_TESTNET_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['exchaintestrpc.okex.org'],
+  },
+  80001: {
+    name: 'Polygon Mumbai',
+    id: 80001,
+    contractAddress: process.env.POLYGON_MUMBAI_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://rpc-mumbai.maticvigil.com'],
   },
 }
 

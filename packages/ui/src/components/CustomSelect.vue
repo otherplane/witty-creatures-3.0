@@ -45,7 +45,6 @@ export default {
 
 <style lang="scss">
 @import url('vue-select/dist/vue-select.css');
-
 .selector {
   .vs__dropdown-toggle,
   .vs__dropdown-menu {
@@ -55,13 +54,13 @@ export default {
     border: var(--primary-color);
     border-radius: 4px;
     box-shadow: none;
-    color: white;
+    color: $white;
     min-width: 100%;
     font-weight: 600;
   }
   .vs__open-indicator {
     font-size: 13px;
-    color: white;
+    color: $white;
   }
   .vs__dropdown-menu {
     background: $white;
@@ -70,18 +69,20 @@ export default {
     border: 1px solid var(--primary-color);
     box-shadow: var(--selected-options-shadow);
     border-radius: 4px 4px 4px 4px;
-    max-height: max-content;
+    max-height: 60vh;
   }
-
   .vs__dropdown-option {
     font-family: Almarai, sans-serif;
     padding: 12px;
     font-weight: 600;
     color: var(--primary-color);
-    border: 1px solid var(--primary-color);
+    border-bottom: 1px solid var(--primary-color);
+    &:last-of-type {
+      border-bottom: none;
+    }
   }
 
-  .vs__dropdown-option--highlight {
+  .vs__dropdown-option--selected {
     background: var(--primary-color);
     color: $white;
   }
