@@ -1,13 +1,6 @@
 <template>
   <MainLayout>
     <StreamBarcodeReader class="qr-code" @decode="onDecode" />
-    <CustomButton
-      class="btn"
-      color="black"
-      @click="onDecode('/895aa6083cc2dfaf')"
-    >
-      Import player id
-    </CustomButton>
     <ModalDialog :show="modal.visible.value" v-on:close="modal.hideModal">
       <ModalClaimConfirmation v-on:claim="register" />
     </ModalDialog>
