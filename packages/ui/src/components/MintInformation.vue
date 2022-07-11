@@ -34,11 +34,7 @@
       "
     >
       <div class="link bold">
-        <a
-          :href="`${NETWORKS[player.mintConfig].marketplace}/${
-            player.guildRanking
-          }`"
-          target="_blank"
+        <a :href="marketplaceURL" target="_blank"
           >See token #{{ player.guildRanking }} on
           {{ NETWORKS[player.mintConfig].marketplaceName }}</a
         >
@@ -52,11 +48,19 @@ import { useStore } from '@/stores/player'
 import externalLink from '@/assets/external-black.svg?raw'
 import { truncate } from '@/utils'
 import { OPENSEA_BASE_URL, NETWORKS, TOKEN_STATUS } from '../constants'
+import { computed } from 'vue'
 export default {
   setup() {
     const player = useStore()
+    const marketplaceURL = computed(
+      () =>
+        `${NETWORKS[player.mintConfig].marketplace}/${
+          NETWORKS[player.mintConfig].contractAddress
+        }/${player.guildRanking}`
+    )
     return {
       openseaBaseUrl: OPENSEA_BASE_URL,
+      marketplaceURL,
       player,
       externalLink,
       NETWORKS,

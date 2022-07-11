@@ -186,7 +186,6 @@ export default {
   grid-gap: 16px;
 }
 .sticky-btn {
-  position: sticky;
   bottom: 16px;
   text-align: center;
   display: grid;

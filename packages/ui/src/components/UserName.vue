@@ -1,6 +1,6 @@
 <template>
   <div class="dark-background">
-    <img class="network" :src="importSvg(player.mintConfig)" />
+    <img class="network" :src="importSvg(NETWORKS[player.mintConfig].kind)" />
     <p class="name">{{ player.username.toUpperCase() }}</p>
     <p class="name">{{ NETWORKS[player.mintConfig].kind }}</p>
   </div>
