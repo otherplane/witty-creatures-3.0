@@ -26,13 +26,6 @@
         @result="pushItems"
       />
     </GameScreen>
-    <!-- <CustomButton
-      v-if="player?.contacts"
-      type="primary"
-      @click="exportContacts"
-    >
-      Export contact list
-    </CustomButton> -->
     <a
       ref="downloadLink"
       class="none"

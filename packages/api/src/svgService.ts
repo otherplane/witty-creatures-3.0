@@ -62,7 +62,7 @@ const objectNameToSvg: Record<string, any> = {
   'object-4': Object4,
 }
 const backgroundNameToSvg: Record<string, any> = {
-  Plane: Background1,
+  plain: Background1,
   'backgound-2': Background2,
   'backgound-3': Background3,
   'backgound-4': Background4,

@@ -5,10 +5,12 @@
       <p class="long-text">
         <span class="bold">Remember:</span>
         once you claim your egg, it will be forever linked to your web browser
-        and the QR code will not work in a different browser. You are highly
-        encouraged to export your egg from the main screen of the game as
-        backup, or in case that you need to move your egg into a different
-        browser.
+        and the QR code will not work in a different browser.
+      </p>
+      <p class="long-text">
+        You are highly encouraged to export your egg from the main screen of the
+        game as backup, or in case that you need to move your egg into a
+        different browser.
       </p>
     </GameScreen>
     <router-link to="/scan" class="link">
@@ -25,6 +27,9 @@
   }
   .long-text {
     color: $dark-screen;
+    &:last-of-type {
+      margin-top: 8px;
+    }
   }
   .btn {
     width: 100%;
