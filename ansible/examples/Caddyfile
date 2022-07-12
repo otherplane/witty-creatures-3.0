@@ -1,7 +1,11 @@
-some-domain.com {
-    reverse_proxy wc_servicename:8081
+{
+    acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
 }
 
-api.some-domain.com {
-    reverse_proxy wc_servicename:8082
+wittycreatures.com {
+    reverse_proxy ui:8082
+}
+
+api-ethcc5.wittycreatures.com {
+    reverse_proxy api:4000
 }
