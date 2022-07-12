@@ -31,14 +31,12 @@
 
     - name: Deploy Docker Stack
       shell: |
-        cd /home/ubuntu/witty-creatures 
-        docker stack deploy -c <(docker-compose config) wc
+        cd /home/ubuntu/witty-creatures
+        docker stack rm wc
+        until (docker stack deploy -c <(docker-compose config) wc); do echo "Try again"; done
         sleep 60
       args:
         executable: /bin/bash
-
-    - name: Update Webserver in case of DNS change
-      shell: docker service update --force wc_webserver
 
     - name: Prune Useless Docker Images
       shell: |

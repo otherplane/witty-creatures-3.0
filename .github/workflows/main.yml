@@ -17,16 +17,6 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Containers
-        run: |
-          docker build -t witnet/witty-creatures-ui:latest -f ./ansible/docker/ui.dockerfile .
-          docker build -t witnet/witty-creatures-api:latest -f ./ansible/docker/api.dockerfile .
-
-      - name: Publish Containers
-        run: |
-          docker push witnet/witty-creatures-ui:latest
-          docker push witnet/witty-creatures-api:latest      
-
       - name: Create Deployment Files
         shell: bash
         env: 
@@ -42,6 +32,16 @@ jobs:
           echo "$APKEY" > ./ansible/key.pem
           echo "$CADDY" > ./ansible/Caddyfile
           chmod 400 ./ansible/key.pem
+      - name: Build Containers
+        run: |
+          docker build -t witnet/witty-creatures-ui:latest -f ./ansible/docker/ui.dockerfile .
+          docker build -t witnet/witty-creatures-api:latest -f ./ansible/docker/api.dockerfile .
+
+      - name: Publish Containers
+        run: |
+          docker push witnet/witty-creatures-ui:latest
+          docker push witnet/witty-creatures-api:latest      
+
       - name: Deploy with Ansible
         shell: bash
         run: |

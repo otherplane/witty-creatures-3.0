@@ -81,7 +81,7 @@ export class Repository<T> {
     try {
       const success = await this.collection.updateOne(
         filter,
-        { $set: element },
+        { $set: element as MatchKeysAndValues<T> },
         { upsert: false }
       )
 
