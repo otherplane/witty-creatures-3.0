@@ -73,12 +73,16 @@ export default {
   }
   .vs__dropdown-option {
     font-family: Almarai, sans-serif;
-    padding: 12px;
+    padding: 8px;
     font-weight: 600;
     color: var(--primary-color);
     border-bottom: 1px solid var(--primary-color);
     &:last-of-type {
       border-bottom: none;
+    }
+    &:hover {
+      background: var(--primary-color);
+      color: $white;
     }
   }
 
