@@ -90,13 +90,18 @@ export default {
   width: 100%;
   justify-self: center;
 }
-@media (max-height: 1060px) {
-  .background {
-    height: 100vh;
-  }
+@media (min-height: 600px) and (max-height: 1060px) {
   .screen-container {
     .egg {
       height: 100px;
+      width: auto;
+    }
+  }
+}
+@media (max-height: 600px) {
+  .screen-container {
+    .egg {
+      height: 70px;
       width: auto;
     }
   }

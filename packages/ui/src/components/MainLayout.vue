@@ -32,7 +32,7 @@ export default defineComponent({
 </script>
 <style scoped lang="scss">
 .background {
-  min-height: 100vh;
+  height: 100vh;
   display: grid;
   grid-template-rows: max-content 1fr;
 }
@@ -49,6 +49,11 @@ export default defineComponent({
   }
   &.padding {
     padding: 24px 16px 16px 16px;
+  }
+}
+@media (max-width: 600px) {
+  .background {
+    height: -webkit-fill-available;
   }
 }
 </style>
