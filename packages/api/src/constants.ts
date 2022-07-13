@@ -91,19 +91,7 @@ export const MONGO_URI: string =
   process.env.MONGO_URI ||
   'mongodb://your_username:your_password@localhost:27017/database'
 
-// Mainnet date in millis
-// If `PLAYER_MAINNET_TIMESTAMP=0`, checks are ignored (for testing purposes)
-export const PLAYER_MAINNET_TIMESTAMP = process.env.PLAYER_MAINNET_TIMESTAMP
-  ? parseInt(process.env.PLAYER_MAINNET_TIMESTAMP)
-  : 1645131600 // Thursday, February 17, 2022 09:00:00 PM (UTC)
-
 export const NETWORKS = {
-  288: {
-    name: 'Boba Network',
-    id: 288,
-    contractAddress: process.env.BOBA_CONTRACT_ADDRESS || '0x00',
-    rpcUrls: ['https://mainnet.boba.network'],
-  },
   1030: {
     name: 'Conflux Mainnet',
     id: 1030,
@@ -120,32 +108,37 @@ export const NETWORKS = {
   321: {
     name: 'KCC Mainnet',
     id: 321,
-    contractAddress: process.env.MOONBEAM_CONTRACT_ADDRESS || '0x00',
+    contractAddress: process.env.KCC_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://rpc-mainnet.kcc.network'],
   },
   1: {
     name: 'Ethereum Mainnet',
     id: 1,
-    contractAddress: process.env.ETHEREUM_CONTRACT_ADDRESS || '0x00',
+    contractAddress: process.env.ETHEREUM_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://mainnet.infura.io/v3/'],
   },
-
+  82: {
+    name: 'Meter Mainnet',
+    id: 82,
+    contractAddress: process.env.METER_MAINNET_CONTRACT_ADDRESS || '0x00',
+    rpcUrls: ['https://rpc.meter.io'],
+  },
   1088: {
     name: 'Metis Mainnet',
     id: 1088,
-    contractAddress: process.env.METIS_CONTRACT_ADDRESS || '0x00',
+    contractAddress: process.env.METIS_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://andromeda.metis.io/?owner=1088'],
   },
   66: {
     name: 'OKX Chain Mainnet',
     id: 66,
-    contractAddress: process.env.OKX_CONTRACT_ADDRESS || '0x00',
+    contractAddress: process.env.OKXCHAIN_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://exchainrpc.okex.org'],
   },
   137: {
     name: 'Polygon Mainnet',
     id: 137,
-    contractAddress: process.env.POLYGON_CONTRACT_ADDRESS || '0x00',
+    contractAddress: process.env.POLYGON_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://polygon-rpc.com/'],
   },
   28: {
@@ -225,6 +218,5 @@ export default {
   INTERACTION_POINTS_MIN,
   MONGO_URI,
   WITTY_CREATURES_ERC721_ADDRESS,
-  PLAYER_MAINNET_TIMESTAMP,
   THEME_COLORS,
 }

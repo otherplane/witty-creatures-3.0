@@ -9,8 +9,6 @@ export const OPENSEA_BASE_URL =
 export const EXPLORER_BASE_URL =
   import.meta.env.VITE_EXPLORER_BASE_URL || 'https://polygonscan.com/tx/'
 
-export const NETWORK = import.meta.env.VITE_NETWORK || 137
-
 export const VITE_TEST = import.meta.env.VITE_TEST || false
 
 export const API_BASE_URL =
@@ -229,14 +227,6 @@ export const TIME_TO_MINT_MILLISECONDS = import.meta.env
   ? parseInt(import.meta.env.VITE_TIME_TO_MINT_MILLISECONDS)
   : 60000
 
-export const DEMO_ENDS_TIMESTAMP = import.meta.env.VITE_DEMO_ENDS_TIMESTAMP
-  ? parseInt(import.meta.env.VITE_DEMO_ENDS_TIMESTAMP)
-  : 1658241429000 // Tue Jul 19 2022 16:37:09 GMT+0200 (Central European Summer Time)
-
 export const GAME_ENDS_TIMESTAMP = import.meta.env.VITE_GAME_ENDS_TIMESTAMP
   ? parseInt(import.meta.env.VITE_GAME_ENDS_TIMESTAMP)
-  : 1658241429000 // Tue Jul 19 2022 16:37:09 GMT+0200 (Central European Summer Time)
-
-export const PLAYER_MAINNET_TIMESTAMP = import.meta.env.PLAYER_MAINNET_TIMESTAMP
-  ? parseInt(import.meta.env.VITE_PLAYER_MAINNET_TIMESTAMP)
-  : 1658241429000 // Tue Jul 19 2022 16:37:09 GMT+0200 (Central European Summer Time)
+  : 1658419200000 // 03/21/2022 18:00:00 GMT+02:00
