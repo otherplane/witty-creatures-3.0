@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import { ApiService } from '@/api'
 import router from '../router'
 import { TIME_TO_MINT_MILLISECONDS, GAME_ENDS_TIMESTAMP } from '../constants'
-import { isMainnetTime } from '@/utils'
 export const useStore = defineStore('player', {
   state: () => {
     return {
@@ -63,9 +62,6 @@ export const useStore = defineStore('player', {
       } else {
         return false
       }
-    },
-    isMainnetTime() {
-      return isMainnetTime()
     },
   },
   actions: {
