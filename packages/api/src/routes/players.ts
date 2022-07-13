@@ -310,6 +310,15 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
       })
       const index = player.creationIndex
       const score = player.score
+      console.log(
+        name,
+        globalRanking,
+        guildId,
+        guildPlayers,
+        guildRanking,
+        index,
+        score
+      )
       try {
         callResult = await contract.methods
           .preview(

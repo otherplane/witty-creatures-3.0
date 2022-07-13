@@ -46,8 +46,18 @@ export function useWeb3() {
   })
 
   async function enableProvider() {
+    player.clearError('network')
     if (web3) {
-      const accounts = await requestAccounts(web3)
+      player.clearError('network')
+      let accounts
+      try {
+        accounts = await requestAccounts(web3)
+      } catch (err) {
+        player.setError(
+          'network',
+          createErrorMessage(errorNetworkMessage.value)
+        )
+      }
       if (accounts[0]) {
         isProviderConnected.value = true
         if ((await web3.eth.net.getId()) !== Number(network.value?.id)) {
@@ -58,7 +68,14 @@ export function useWeb3() {
         } else {
           player.clearError('network')
         }
+      } else {
+        player.setError(
+          'network',
+          createErrorMessage(errorNetworkMessage.value)
+        )
       }
+    } else {
+      player.setError('network', createErrorMessage(errorNetworkMessage.value))
     }
   }
 
@@ -200,7 +217,7 @@ export function useWeb3() {
       const result = await contract.methods
         .getTokenStatus(player.guildRanking)
         .call()
-      console.log(result)
+      console.log('Token status is:', result)
       player.tokenStatus = Number(result)
       return result
     } catch (err) {
