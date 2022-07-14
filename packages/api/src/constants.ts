@@ -200,11 +200,11 @@ export const NETWORKS = {
 }
 
 export const THEME_COLORS = {
-  ['emerald']: '#488B62',
-  ['obsidian']: '#292929',
-  ['ruby']: '#BE3737',
-  ['gold']: '#F18944',
-  ['zaphire']: '#0F2664',
+  emerald: '#488B62',
+  obsidian: '#292929',
+  ruby: '#BE3737',
+  gold: '#F18944',
+  zaphire: '#0F2664',
 }
 
 export default {
