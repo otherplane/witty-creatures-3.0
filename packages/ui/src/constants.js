@@ -52,7 +52,8 @@ export const NETWORKS = {
     name: 'Cronos Mainnet',
     id: 25,
     kind: 'cronian',
-    contractAddress: import.meta.env.VITE_CRONOS_MAINNET_CONTRACT_ADDRESS || '0x00',
+    contractAddress:
+      import.meta.env.VITE_CRONOS_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://cronosrpc-1.xstaking.sg'],
     blockExplorerUrls: ['https://cronoscan.com/'],
     marketplace: import.meta.env.VITE_TOFUNFT_BASE_URL,
@@ -85,7 +86,8 @@ export const NETWORKS = {
     name: 'Meter Mainnet',
     id: 82,
     kind: 'meterean',
-    contractAddress: import.meta.env.VITE_METER_MAINNET_CONTRACT_ADDRESS || '0x00',
+    contractAddress:
+      import.meta.env.VITE_METER_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://rpc.meter.io'],
     blockExplorerUrls: ['https://scan.meter.io/'],
     marketplace: import.meta.env.VITE_TOFUNFT_BASE_URL,
@@ -141,7 +143,8 @@ export const NETWORKS = {
     name: 'Cronos Testnet',
     id: 338,
     kind: 'cronian',
-    contractAddress: import.meta.env.VITE_CRONOS_TESTNET_CONTRACT_ADDRESS || '0x00',
+    contractAddress:
+      import.meta.env.VITE_CRONOS_TESTNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://evm-t3.cronos.org'],
     blockExplorerUrls: ['https://testnet.cronoscan.com/'],
     marketplace: import.meta.env.VITE_TOFUNFT_BASE_URL,
@@ -152,7 +155,8 @@ export const NETWORKS = {
     name: 'KCC Testnet',
     id: 322,
     kind: 'kucoiner',
-    contractAddress: import.meta.env.VITE_KCC_TESTNET_CONTRACT_ADDRESS || '0x00',
+    contractAddress:
+      import.meta.env.VITE_KCC_TESTNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://rpc-testnet.kcc.network'],
     blockExplorerUrls: ['https://scan-testnet.kcc.network/'],
     marketplace: import.meta.env.VITE_TOFUNFT_BASE_URL,
@@ -175,7 +179,8 @@ export const NETWORKS = {
     name: 'Meter Testnet',
     id: 83,
     kind: 'meterean',
-    contractAddress: import.meta.env.VITE_METER_TESTNET_CONTRACT_ADDRESS || '0x00',
+    contractAddress:
+      import.meta.env.VITE_METER_TESTNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://rpctest.meter.io'],
     blockExplorerUrls: ['https://scan-warringstakes.meter.io/'],
     marketplace: import.meta.env.VITE_TOFUNFT_BASE_URL,
@@ -186,7 +191,8 @@ export const NETWORKS = {
     name: 'Metis Stardust Testnet',
     id: 588,
     kind: 'metisian',
-    contractAddress: import.meta.env.VITE_METIS_TESTNET_CONTRACT_ADDRESS || '0x00',
+    contractAddress:
+      import.meta.env.VITE_METIS_TESTNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://stardust.metis.io/?owner=588'],
     blockExplorerUrls: ['https://stardust-explorer.metis.io/'],
     marketplace: import.meta.env.VITE_TOFUNFT_BASE_URL,

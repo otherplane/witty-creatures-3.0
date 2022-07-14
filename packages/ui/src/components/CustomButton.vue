@@ -20,7 +20,7 @@ defineProps({
 .btn {
   width: 100%;
   color: $white;
-  padding: 16px 16px;
+  padding: 8px 8px;
   border-radius: 4px;
   font-family: JoystixMonospace, sans-serif;
   font-weight: bold;

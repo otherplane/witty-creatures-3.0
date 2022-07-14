@@ -60,9 +60,14 @@ export default {
   font-weight: bold;
 }
 .egg {
-  height: 28vh;
+  height: 24vh;
 }
 .time-left {
   margin-left: 4px;
+}
+@media (max-width: 600px) {
+  .egg {
+    height: 20vh;
+  }
 }
 </style>
