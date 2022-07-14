@@ -1,111 +1,117 @@
-import { Award, Colors } from './types'
+import { Award } from './types'
 import { THEME_COLORS } from './constants'
 
-import Mouth1 from './assets/mouth'
-import Mouth2 from './assets/mouth'
-import Mouth3 from './assets/mouth'
-import Mouth4 from './assets/mouth'
+import BackgroundHell from './assets/background-hell'
+import BackgroundParis from './assets/background-paris'
+import BackgroundSpace from './assets/background-space'
+import BackgroundStonks from './assets/background-stonks'
+import BackgroundVaporwave from './assets/background-vaporwave'
+import EyesDealwithit from './assets/eyes-dealwithit'
+import EyesDefault from './assets/eyes-default'
+import EyesGoggles from './assets/eyes-goggles'
+import EyesLaser from './assets/eyes-laser'
+import EyesLashes from './assets/eyes-lashes'
+import EyesMakeup from './assets/eyes-makeup'
+import EyesMonocle from './assets/eyes-monocle'
+import EyesPirate from './assets/eyes-pirate'
+import EyesWink from './assets/eyes-wink'
+import HeadAfro from './assets/head-afro'
+import HeadAnime from './assets/head-anime'
+import HeadCap from './assets/head-cap'
+import HeadDefault from './assets/head-default'
+import HeadFancy from './assets/head-fancy'
+import HeadMage from './assets/head-mage'
+import HeadMohawk from './assets/head-mohawk'
+import HeadPink from './assets/head-pink'
+import HeadPonytail from './assets/head-ponytail'
+import HeadSanta from './assets/head-santa'
+import HeadWig from './assets/head-wig'
+import MouthBored from './assets/mouth-bored'
+import MouthDefault from './assets/mouth-default'
+import MouthJoint from './assets/mouth-joint'
+import MouthLips from './assets/mouth-lips'
+import MouthMoustache from './assets/mouth-moustache'
+import MouthRainbow from './assets/mouth-rainbow'
+import MouthSmile from './assets/mouth-smile'
+import ObjectBeer from './assets/object-beer'
+import ObjectBitcoin from './assets/object-bitcoin'
+import ObjectCroissant from './assets/object-croissant'
+import ObjectDice from './assets/object-dice'
+import ObjectEther from './assets/object-ether'
+import ObjectFlame from './assets/object-flame'
+import ObjectLipstick from './assets/object-lipstick'
+import ObjectMule from './assets/object-mule'
+import ObjectPhone from './assets/object-phone'
+import ObjectWine from './assets/object-wine'
+import OutfitDefault from './assets/outfit-default'
+import OutfitGown from './assets/outfit-gown'
+import OutfitSanta from './assets/outfit-santa'
+import OutfitTiedye from './assets/outfit-tiedye'
+import OutfitTuxedo from './assets/outfit-tuxedo'
 
-import Eyes1 from './assets/eyes'
-import Eyes2 from './assets/eyes'
-import Eyes3 from './assets/eyes'
-import Eyes4 from './assets/eyes'
-
-import Head1 from './assets/head'
-import Head2 from './assets/head'
-import Head3 from './assets/head'
-import Head4 from './assets/head'
-
-import Clothes1 from './assets/clothes'
-import Clothes2 from './assets/clothes'
-import Clothes3 from './assets/clothes'
-import Clothes4 from './assets/clothes'
-
-import Object1 from './assets/object'
-import Object2 from './assets/object'
-import Object3 from './assets/object'
-import Object4 from './assets/object'
-
-import Background1 from './assets/background'
-import Background2 from './assets/background'
-import Background3 from './assets/background'
-import Background4 from './assets/background'
-
-const mouthNameToSvg: Record<string, unknown> = {
-  'bored-mouth': Mouth1,
-  'mouth-2': Mouth2,
-  'mouth-3': Mouth3,
-  'mouth-4': Mouth4,
-}
-const eyesNameToSvg: Record<string, unknown> = {
-  default: Eyes1,
-  'eyes-2': Eyes2,
-  'eyes-3': Eyes3,
-  'eyes-4': Eyes4,
-}
-const headNameToSvg: Record<string, unknown> = {
-  default: Head1,
-  'head-2': Head2,
-  'head-3': Head3,
-  'head-4': Head4,
-}
-const clothesNameToSvg: Record<string, unknown> = {
-  default: Clothes1,
-  'clothes-2': Clothes2,
-  'clothes-3': Clothes3,
-  'clothes-4': Clothes4,
-}
-const objectNameToSvg: Record<string, unknown> = {
-  default: Object1,
-  'object-2': Object2,
-  'object-3': Object3,
-  'object-4': Object4,
-}
-const backgroundNameToSvg: Record<string, unknown> = {
-  plain: Background1,
-  'backgound-2': Background2,
-  'backgound-3': Background3,
-  'backgound-4': Background4,
+const nameToSvg: Record<string, (_data: object) => string> = {
+  'background-hell': BackgroundHell,
+  'background-paris': BackgroundParis,
+  'background-space': BackgroundSpace,
+  'background-stonks': BackgroundStonks,
+  'background-vaporwave': BackgroundVaporwave,
+  'eyes-dealwithit': EyesDealwithit,
+  'eyes-default': EyesDefault,
+  'eyes-goggles': EyesGoggles,
+  'eyes-laser': EyesLaser,
+  'eyes-lashes': EyesLashes,
+  'eyes-makeup': EyesMakeup,
+  'eyes-monocle': EyesMonocle,
+  'eyes-pirate': EyesPirate,
+  'eyes-wink': EyesWink,
+  'head-afro': HeadAfro,
+  'head-anime': HeadAnime,
+  'head-cap': HeadCap,
+  'head-default': HeadDefault,
+  'head-fancy': HeadFancy,
+  'head-mage': HeadMage,
+  'head-mohawk': HeadMohawk,
+  'head-pink': HeadPink,
+  'head-ponytail': HeadPonytail,
+  'head-santa': HeadSanta,
+  'head-wig': HeadWig,
+  'mouth-bored': MouthBored,
+  'mouth-default': MouthDefault,
+  'mouth-joint': MouthJoint,
+  'mouth-lips': MouthLips,
+  'mouth-moustache': MouthMoustache,
+  'mouth-rainbow': MouthRainbow,
+  'mouth-smile': MouthSmile,
+  'object-beer': ObjectBeer,
+  'object-bitcoin': ObjectBitcoin,
+  'object-croissant': ObjectCroissant,
+  'object-dice': ObjectDice,
+  'object-ether': ObjectEther,
+  'object-flame': ObjectFlame,
+  'object-lipstick': ObjectLipstick,
+  'object-mule': ObjectMule,
+  'object-phone': ObjectPhone,
+  'object-wine': ObjectWine,
+  'outfit-default': OutfitDefault,
+  'outfit-gown': OutfitGown,
+  'outfit-santa': OutfitSanta,
+  'outfit-tiedye': OutfitTiedye,
+  'outfit-tuxedo': OutfitTuxedo,
 }
 
 export class SvgService {
   static getSVG(traits: Award): string {
     const svgTraits = {
-      mouth: mouthNameToSvg[traits.mouth],
-      background: backgroundNameToSvg[traits.background],
-      eyes: eyesNameToSvg[traits.eyes],
-      object: objectNameToSvg[traits.object],
-      outfit: clothesNameToSvg[traits.outfit],
-      head: headNameToSvg[traits.head],
+      mouth: nameToSvg['mouth-' + traits.mouth]({}),
+      background: nameToSvg['background-' + traits.background]({}),
+      eyes: nameToSvg['eyes-' + traits.eyes]({}),
+      object: nameToSvg['object-' + traits.object]({}),
+      outfit: nameToSvg['outfit-' + traits.outfit]({}),
+      head: nameToSvg['head-' + traits.head]({}),
     }
-    const colors: Colors = THEME_COLORS
-    const background: string = svgTraits.background
-      ? 'url(#paint0_linear_268_14)'
-      : colors[traits.eggColor]
 
-    const svg1 = `<svg width="533" height="514" viewBox="0 0 533 514" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect width="533" height="514" fill="${background}"/>
-    <g id="clothes">
-    ${svgTraits.outfit}
-    </g>
-    <g id="head">
-    ${svgTraits.head}
-    </g>
-    <g id="eyes">
-    ${svgTraits.eyes}
-    </g>
-    <g id="object">
-    ${svgTraits.object}
-    </g>
-    <g id="mouth">
-    ${svgTraits.mouth}
-    </g>
-    <defs>
-    <g id="background">
-    ${svgTraits.background}
-    </g>
-    </defs>
-    </svg>`
-    return svg1
+    const background: string = THEME_COLORS[traits.eggColor]
+
+    return `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000" viewBox="0 0 1000 1000" fill="${background}">${svgTraits.background}${svgTraits.outfit}${svgTraits.head}${svgTraits.mouth}${svgTraits.eyes}${svgTraits.object}</svg>`
   }
 }

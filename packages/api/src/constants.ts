@@ -1,6 +1,7 @@
 /**
  * Constants. These can be customized through environment variables.
  */
+import { Colors } from './types'
 
 // Byte length of players keys. This can be adjusted for usability vs. security trade-offs.
 let playerKeyLengthBytes: number = process.env.PLAYER_KEY_LENGTH_BYTES
@@ -199,7 +200,7 @@ export const NETWORKS = {
   },
 }
 
-export const THEME_COLORS = {
+export const THEME_COLORS: Colors = {
   emerald: '#488B62',
   obsidian: '#292929',
   ruby: '#BE3737',
