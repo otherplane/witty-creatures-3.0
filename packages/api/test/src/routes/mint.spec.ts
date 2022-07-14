@@ -1,9 +1,4 @@
-import {
-  authenticatePlayer,
-  server,
-  serverInject,
-  initialPlayers,
-} from '../../setup'
+import { authenticatePlayer, serverInject, initialPlayers } from '../../setup'
 
 const VALID_ETH_ADDRESS = '0x184cc5908e1a3d29b4d31df67d99622c4baa7b71'
 const VALID_ETH_ADDRESS_2 = '0x784cc5908e1a3d29b4d31df67d99622c4baa7b71'

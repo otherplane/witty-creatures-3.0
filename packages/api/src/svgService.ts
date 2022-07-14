@@ -31,37 +31,37 @@ import Background2 from './assets/background'
 import Background3 from './assets/background'
 import Background4 from './assets/background'
 
-const mouthNameToSvg: Record<string, any> = {
+const mouthNameToSvg: Record<string, unknown> = {
   'bored-mouth': Mouth1,
   'mouth-2': Mouth2,
   'mouth-3': Mouth3,
   'mouth-4': Mouth4,
 }
-const eyesNameToSvg: Record<string, any> = {
+const eyesNameToSvg: Record<string, unknown> = {
   default: Eyes1,
   'eyes-2': Eyes2,
   'eyes-3': Eyes3,
   'eyes-4': Eyes4,
 }
-const headNameToSvg: Record<string, any> = {
+const headNameToSvg: Record<string, unknown> = {
   default: Head1,
   'head-2': Head2,
   'head-3': Head3,
   'head-4': Head4,
 }
-const clothesNameToSvg: Record<string, any> = {
+const clothesNameToSvg: Record<string, unknown> = {
   default: Clothes1,
   'clothes-2': Clothes2,
   'clothes-3': Clothes3,
   'clothes-4': Clothes4,
 }
-const objectNameToSvg: Record<string, any> = {
+const objectNameToSvg: Record<string, unknown> = {
   default: Object1,
   'object-2': Object2,
   'object-3': Object3,
   'object-4': Object4,
 }
-const backgroundNameToSvg: Record<string, any> = {
+const backgroundNameToSvg: Record<string, unknown> = {
   plain: Background1,
   'backgound-2': Background2,
   'backgound-3': Background3,

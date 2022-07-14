@@ -14,9 +14,8 @@ import {
   MintParams,
 } from '../types'
 import { fromHexToUint8Array, isTimeToMint } from '../utils'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 
-const mint: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
+const mint: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
   if (!fastify.mongo.db) throw Error('mongo db not found')
   const { mintModel, playerModel } = fastify
 
