@@ -28,7 +28,6 @@
         <label class="form-label">Name</label>
         <CustomInput
           class="field"
-          data-lpignore="false"
           type="text"
           label="name"
           :value="player.socials?.name"
@@ -37,7 +36,6 @@
         <label class="form-label">Company name</label>
         <CustomInput
           class="field"
-          data-lpignore="false"
           type="text"
           label="company"
           :value="player.socials?.company"
@@ -46,7 +44,6 @@
         <label class="form-label">Twitter</label>
         <CustomInput
           class="field"
-          data-lpignore="false"
           type="text"
           label="twitter"
           :value="player.socials?.twitter"
@@ -55,7 +52,6 @@
         <label class="form-label">Discord</label>
         <CustomInput
           class="field"
-          data-lpignore="false"
           type="text"
           label="discord"
           :value="player.socials?.discord"
@@ -64,7 +60,6 @@
         <label class="form-label">Telegram</label>
         <CustomInput
           class="field"
-          data-lpignore="false"
           type="text"
           label="telegram"
           :value="player.socials?.telegram"

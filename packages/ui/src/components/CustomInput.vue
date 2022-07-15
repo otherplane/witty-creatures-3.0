@@ -3,6 +3,7 @@
     class="input"
     v-model.lazy="localValue"
     :placeholder="`type your ${label}`"
+    :data-lpignore="true"
   />
 </template>
 
@@ -33,6 +34,8 @@ export default {
   padding: 8px;
   color: var(--primary-color);
   font-size: 18px;
+  border: none;
+  border-radius: 0;
   border-bottom: 1px solid var(--primary-color-opacity-1);
   &::placeholder {
     font-size: 18px;
