@@ -1,9 +1,12 @@
 <template>
   <MainLayout>
     <div class="container">
-      <SectionHeader title="SETTINGS" :from-auth="fromAuth" />
+      <SectionHeader
+        :title="fromAuth ? 'WELCOME' : 'SETTINGS'"
+        :from-auth="fromAuth"
+      />
       <form class="form">
-        <h3 v-if="fromAuth" class="form-title">Network settings</h3>
+        <h3 v-if="fromAuth" class="form-title">Select a network</h3>
         <p v-if="fromAuth" class="form-label">
           Once the game is over, a NFT creature will come out of your egg. You
           need to choose now which network you will mint your NFT on.
