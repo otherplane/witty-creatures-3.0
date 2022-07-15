@@ -27,11 +27,11 @@
             :href="social.url"
             target="_blank"
           >
-            <SvgImage :svg="social.svg" />
+            <SvgImage class="social-icon" :svg="social.svg" />
             <p class="contact-info highlight">{{ social.label }}</p>
           </a>
           <p v-if="social.label && !social.url" class="social">
-            <SvgImage :svg="social.svg" />
+            <SvgImage class="social-icon" :svg="social.svg" />
             <span
               class="contact-info highlight"
               @click="copyToClipboard(social.label)"
@@ -156,6 +156,9 @@ export default {
     align-items: center;
     color: $screen;
     font-weight: bolder;
+    .social-icon {
+      width: 16px;
+    }
   }
 }
 .contact-container {
