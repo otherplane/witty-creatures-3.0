@@ -73,7 +73,6 @@ export class PlayerModel {
       count,
       force
     )
-
     return vtos?.map(vto => new Player(vto)) || null
   }
 

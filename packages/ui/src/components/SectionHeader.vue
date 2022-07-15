@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <router-link to="/" v-if="!fromAuth">
-      <SvgImage :svg="backBtn" />
+      <SvgImage class="back-btn" :svg="backBtn" />
     </router-link>
     <h3 class="title-section">{{ title }}</h3>
   </div>
@@ -36,6 +36,9 @@ export default {
   text-align: left;
   align-items: center;
   column-gap: 24px;
+  .back-btn {
+    width: 25px;
+  }
   .angle {
     margin-right: 8px;
     width: 10px;

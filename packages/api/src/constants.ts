@@ -76,7 +76,7 @@ export const BUFFICORNS_PER_RANCH: number = process.env.BUFFICORNS_PER_RANCH
 // If `PLAYER_MINT_TIMESTAMP=0`, checks are ignored (for testing purposes)
 export const PLAYER_MINT_TIMESTAMP = process.env.PLAYER_MINT_TIMESTAMP
   ? parseInt(process.env.PLAYER_MINT_TIMESTAMP)
-  : 1645351200 // Sunday, February 20, 2022 18:00:00 PM (UTC)
+  : 1658419200 // Sunday, February 20, 2022 18:00:00 PM (UTC)
 
 // Web3 provider URL
 export const WEB3_PROVIDER =
