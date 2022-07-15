@@ -8,12 +8,12 @@ import BackgroundStonks from './assets/background-stonks'
 import BackgroundVaporwave from './assets/background-vaporwave'
 import EyesDealwithit from './assets/eyes-dealwithit'
 import EyesDefault from './assets/eyes-default'
-import EyesGoggles from './assets/eyes-goggles'
 import EyesLaser from './assets/eyes-laser'
 import EyesLashes from './assets/eyes-lashes'
 import EyesMakeup from './assets/eyes-makeup'
 import EyesMonocle from './assets/eyes-monocle'
 import EyesPirate from './assets/eyes-pirate'
+import EyesShades from './assets/eyes-shades'
 import EyesWink from './assets/eyes-wink'
 import HeadAfro from './assets/head-afro'
 import HeadAnime from './assets/head-anime'
@@ -45,6 +45,7 @@ import ObjectPhone from './assets/object-phone'
 import ObjectWine from './assets/object-wine'
 import OutfitDefault from './assets/outfit-default'
 import OutfitGown from './assets/outfit-gown'
+import OutfitMage from './assets/outfit-mage'
 import OutfitSanta from './assets/outfit-santa'
 import OutfitTiedye from './assets/outfit-tiedye'
 import OutfitTuxedo from './assets/outfit-tuxedo'
@@ -57,12 +58,12 @@ const nameToSvg: Record<string, string> = {
   'background-vaporwave': BackgroundVaporwave,
   'eyes-dealwithit': EyesDealwithit,
   'eyes-default': EyesDefault,
-  'eyes-goggles': EyesGoggles,
   'eyes-laser': EyesLaser,
   'eyes-lashes': EyesLashes,
   'eyes-makeup': EyesMakeup,
   'eyes-monocle': EyesMonocle,
   'eyes-pirate': EyesPirate,
+  'eyes-shades': EyesShades,
   'eyes-wink': EyesWink,
   'head-afro': HeadAfro,
   'head-anime': HeadAnime,
@@ -94,6 +95,7 @@ const nameToSvg: Record<string, string> = {
   'object-wine': ObjectWine,
   'outfit-default': OutfitDefault,
   'outfit-gown': OutfitGown,
+  'outfit-mage': OutfitMage,
   'outfit-santa': OutfitSanta,
   'outfit-tiedye': OutfitTiedye,
   'outfit-tuxedo': OutfitTuxedo,
@@ -110,13 +112,12 @@ export class SvgService {
       head: nameToSvg['head-' + traits.head],
     }
 
-    const background = svgTraits.background
-      ? svgTraits.background
-      : `<rect width="1000" height="1000" fill="${
+    const background: string =
+      svgTraits.background ||
+      `<rect width="1000" height="1000" fill="${
           THEME_COLORS[traits.eggColor]
-        }"/>`
+      }"/>`
 
-    const result = `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000" viewBox="0 0 1000 1000">${background}${svgTraits.outfit}${svgTraits.head}${svgTraits.mouth}${svgTraits.eyes}${svgTraits.object}</svg>`
-    return result
+    return `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000" viewBox="0 0 1000 1000">${background}${svgTraits.outfit}${svgTraits.head}${svgTraits.mouth}${svgTraits.eyes}${svgTraits.object}</svg>`
   }
 }
