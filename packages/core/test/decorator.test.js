@@ -22,29 +22,27 @@ contract('Wc3Decorator', _accounts => {
     describe('toJSON(bytes32,WittyCreature)', async () => {
       let metadatas = []
       describe('common creatures', async () => {
-        let randomness = "0xb754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2"
+        let randomness =
+          '0xb754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2'
         before('baseURI()', async () => {
           for (let j = 0; j < 50; j++) {
-            metadatas[j] = await decorator.toJSON.call(
-              randomness,
-              [
-                /* eggName*/ `Name${j}`,
-                /* eggGlobalRanking */ 123 - j,
-                /* eggGuildRanking */ 1 + parseInt(Math.random() * 50),
-                /* eggIndex */ j,
-                /* eggRarity */ 2,
-                /* eggScore */ 12345 + (50 - j) * 99,
-                /* mintBlock */ 10001 + j,
-                /* mintGas */ 0,
-                /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
-                /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
-                /* mintUsdCost6 */ 123450000, // $123.45
-                /* mintUsdPriceWitnetProof */ randomness
-              ]
-            )
+            metadatas[j] = await decorator.toJSON.call(randomness, [
+              /* eggName*/ `Name${j}`,
+              /* eggGlobalRanking */ 123 - j,
+              /* eggGuildRanking */ 1 + parseInt(Math.random() * 50),
+              /* eggIndex */ j,
+              /* eggRarity */ 2,
+              /* eggScore */ 12345 + (50 - j) * 99,
+              /* mintBlock */ 10001 + j,
+              /* mintGas */ 0,
+              /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
+              /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
+              /* mintUsdCost6 */ 123450000, // $123.45
+              /* mintUsdPriceWitnetProof */ randomness,
+            ])
           }
         })
-        it("generates valid JSON", async () => {
+        it('generates valid JSON', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             try {
               await JSON.parse(metadatas[j])
@@ -54,7 +52,7 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata description contains eggIndex + 1", async () => {
+        it('metadata description contains eggIndex + 1', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             if (j == 0) {
@@ -71,7 +69,7 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata contains default background attribute", async () => {
+        it('metadata contains default background attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -85,7 +83,7 @@ contract('Wc3Decorator', _accounts => {
                 'must always contain one, and just one, background attribute'
               )
               assert(
-                attrs[0]?.value === "Plain",
+                attrs[0]?.value === 'Plain',
                 'contains no default background'
               )
             } catch (ex) {
@@ -94,7 +92,7 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata contains default object attribute", async () => {
+        it('metadata contains default object attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -107,17 +105,14 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, object attribute'
               )
-              assert(
-                attrs[0]?.value === "None",
-                'contains no default object'
-              )
+              assert(attrs[0]?.value === 'None', 'contains no default object')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
             }
           }
         })
-        it("metadata contains non-empty eyes attribute", async () => {
+        it('metadata contains non-empty eyes attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -130,17 +125,14 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, eyes attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty eyes'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty eyes')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
             }
           }
         })
-        it("metadata contains non-empty head attribute", async () => {
+        it('metadata contains non-empty head attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -153,17 +145,14 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, head attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty head'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty head')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
             }
           }
         })
-        it("metadata contains non-empty mouth attribute", async () => {
+        it('metadata contains non-empty mouth attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -176,17 +165,14 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, mouth attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty mouth'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty mouth')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
             }
           }
         })
-        it("metadata contains non-empty outfit attribute", async () => {
+        it('metadata contains non-empty outfit attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -199,10 +185,7 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, outfit attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty outfit'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty outfit')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
@@ -211,29 +194,27 @@ contract('Wc3Decorator', _accounts => {
         })
       })
       describe('rare creatures', async () => {
-        let randomness = "0xc754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2"
+        let randomness =
+          '0xc754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2'
         before('baseURI()', async () => {
           for (let j = 0; j < 50; j++) {
-            metadatas[j] = await decorator.toJSON.call(
-              randomness,
-              [
-                /* eggName*/ `Name${j}`,
-                /* eggGlobalRanking */ 123 - j,
-                /* eggGuildRanking */ 1 + parseInt(Math.random() * 50),
-                /* eggIndex */ j,
-                /* eggRarity */ 1,
-                /* eggScore */ 12345 + (50 - j) * 99,
-                /* mintBlock */ 10001 + j,
-                /* mintGas */ 0,
-                /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
-                /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
-                /* mintUsdCost6 */ 123450000, // $123.45
-                /* mintUsdPrictWitnetProof */ randomness
-              ]
-            )
+            metadatas[j] = await decorator.toJSON.call(randomness, [
+              /* eggName*/ `Name${j}`,
+              /* eggGlobalRanking */ 123 - j,
+              /* eggGuildRanking */ 1 + parseInt(Math.random() * 50),
+              /* eggIndex */ j,
+              /* eggRarity */ 1,
+              /* eggScore */ 12345 + (50 - j) * 99,
+              /* mintBlock */ 10001 + j,
+              /* mintGas */ 0,
+              /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
+              /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
+              /* mintUsdCost6 */ 123450000, // $123.45
+              /* mintUsdPrictWitnetProof */ randomness,
+            ])
           }
         })
-        it("generates valid JSON", async () => {
+        it('generates valid JSON', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             try {
               await JSON.parse(metadatas[j])
@@ -243,7 +224,7 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata description contains eggIndex + 1", async () => {
+        it('metadata description contains eggIndex + 1', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             if (j == 0) {
@@ -260,7 +241,7 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata contains default background attribute", async () => {
+        it('metadata contains default background attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -274,7 +255,7 @@ contract('Wc3Decorator', _accounts => {
                 'must always contain one, and just one, background attribute'
               )
               assert(
-                attrs[0]?.value === "Plain",
+                attrs[0]?.value === 'Plain',
                 'contains no default background'
               )
             } catch (ex) {
@@ -283,7 +264,7 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata contains special object attribute", async () => {
+        it('metadata contains special object attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -297,8 +278,7 @@ contract('Wc3Decorator', _accounts => {
                 'must always contain one, and just one, object attribute'
               )
               assert(
-                attrs[0]?.value.length > 0
-                  && attrs[0]?.value !== "None",
+                attrs[0]?.value.length > 0 && attrs[0]?.value !== 'None',
                 'contains no special rare object'
               )
             } catch (ex) {
@@ -307,7 +287,7 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata contains non-empty eyes attribute", async () => {
+        it('metadata contains non-empty eyes attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -320,17 +300,14 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, eyes attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty eyes'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty eyes')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
             }
           }
         })
-        it("metadata contains non-empty head attribute", async () => {
+        it('metadata contains non-empty head attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -343,17 +320,14 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, head attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty head'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty head')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
             }
           }
         })
-        it("metadata contains non-empty mouth attribute", async () => {
+        it('metadata contains non-empty mouth attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -366,17 +340,14 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, mouth attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty mouth'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty mouth')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
             }
           }
         })
-        it("metadata contains non-empty outfit attribute", async () => {
+        it('metadata contains non-empty outfit attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -389,10 +360,7 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, outfit attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty outfit'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty outfit')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
@@ -401,30 +369,27 @@ contract('Wc3Decorator', _accounts => {
         })
       })
       describe('legendary creatures', async () => {
-        let randomness = "0xd754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2"
+        let randomness =
+          '0xd754d49eec4434a3bd789100715ca6a0f7230fe7b66a2cd93457616128bbc5c2'
         before('baseURI()', async () => {
           for (let j = 0; j < 50; j++) {
-            metadatas[j] = await decorator.toJSON.call(
-              randomness,
-              [
-                /* eggName*/ `Name${j}`,
-                /* eggGlobalRanking */ 123 - j,
-                /* eggGuildRanking */ 1 + parseInt(Math.random() * 50),
-                /* eggIndex */ j,
-                /* eggRarity */ 0,
-                /* eggScore */ 12345 + (50 - j) * 99,
-                /* mintBlock */ 10001 + j,
-                /* mintGas */ 0,
-                /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
-                /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
-                /* mintUsdCost6 */ 123450000, // $123.45
-                /* mintUsdPrictWitnetProof */ randomness
-                
-              ]
-            )
+            metadatas[j] = await decorator.toJSON.call(randomness, [
+              /* eggName*/ `Name${j}`,
+              /* eggGlobalRanking */ 123 - j,
+              /* eggGuildRanking */ 1 + parseInt(Math.random() * 50),
+              /* eggIndex */ j,
+              /* eggRarity */ 0,
+              /* eggScore */ 12345 + (50 - j) * 99,
+              /* mintBlock */ 10001 + j,
+              /* mintGas */ 0,
+              /* mintGasPrice */ parseInt(38.23 * 10 ** 9), // 38 gwei
+              /* mintTimestamp */ parseInt(Math.floor(Date.now() / 1000)),
+              /* mintUsdCost6 */ 123450000, // $123.45
+              /* mintUsdPrictWitnetProof */ randomness,
+            ])
           }
         })
-        it("generates valid JSON", async () => {
+        it('generates valid JSON', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             try {
               await JSON.parse(metadatas[j])
@@ -434,7 +399,7 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata description contains eggIndex + 1", async () => {
+        it('metadata description contains eggIndex + 1', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             if (j == 0) {
@@ -451,7 +416,7 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata contains special background attribute", async () => {
+        it('metadata contains special background attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -465,8 +430,7 @@ contract('Wc3Decorator', _accounts => {
                 'must always contain one, and just one, background attribute'
               )
               assert(
-                attrs[0]?.value.length > 0
-                  && attrs[0]?.value !== "Plain",
+                attrs[0]?.value.length > 0 && attrs[0]?.value !== 'Plain',
                 'contains no special legendary background'
               )
             } catch (ex) {
@@ -475,7 +439,7 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata contains special object attribute", async () => {
+        it('metadata contains special object attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -489,8 +453,7 @@ contract('Wc3Decorator', _accounts => {
                 'must always contain one, and just one, object attribute'
               )
               assert(
-                attrs[0]?.value.length > 0
-                  && attrs[0]?.value !== "None",
+                attrs[0]?.value.length > 0 && attrs[0]?.value !== 'None',
                 'contains no special legendary object'
               )
             } catch (ex) {
@@ -499,7 +462,7 @@ contract('Wc3Decorator', _accounts => {
             }
           }
         })
-        it("metadata contains non-empty eyes attribute", async () => {
+        it('metadata contains non-empty eyes attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -512,17 +475,14 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, eyes attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty eyes'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty eyes')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
             }
           }
         })
-        it("metadata contains non-empty head attribute", async () => {
+        it('metadata contains non-empty head attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -535,17 +495,14 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, head attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty head'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty head')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
             }
           }
         })
-        it("metadata contains non-empty mouth attribute", async () => {
+        it('metadata contains non-empty mouth attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -558,17 +515,14 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, mouth attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty mouth'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty mouth')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex
             }
           }
         })
-        it("metadata contains non-empty outfit attribute", async () => {
+        it('metadata contains non-empty outfit attribute', async () => {
           for (let j = 0; j < metadatas.length; j++) {
             const metadata = await JSON.parse(metadatas[j])
             try {
@@ -581,10 +535,7 @@ contract('Wc3Decorator', _accounts => {
                 attrs.length == 1,
                 'must always contain one, and just one, outfit attribute'
               )
-              assert(
-                attrs[0]?.value.length > 0,
-                'contains empty outfit'
-              )
+              assert(attrs[0]?.value.length > 0, 'contains empty outfit')
             } catch (ex) {
               console.log(`metadata[${j}] => ${ex}\n${await metadatas[j]}`)
               throw ex

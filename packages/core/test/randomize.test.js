@@ -55,7 +55,7 @@ contract('Wc3Lib library', _accounts => {
       ]
       for (let i = 0; i < seeds.length; i++) {
         let sides = []
-        sides.length = 3//2
+        sides.length = 3 //2
         for (let j = 0; j < sides.length * 11; j++) {
           let rnd = await Wc3Lib.randomUniform.call(seeds[i], j, sides.length)
           sides[rnd] = sides[rnd] ? sides[rnd] + 1 : 1

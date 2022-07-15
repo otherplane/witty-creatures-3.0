@@ -21,6 +21,7 @@
       {
         "maxLength": 80
       }
-    ]
+    ],
+    "not-rely-on-time": "off"
   }
 }

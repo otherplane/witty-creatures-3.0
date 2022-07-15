@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 const { assert } = require('chai')
 const truffleAssert = require('truffle-assertions')
 const package = require('../package')
@@ -15,9 +17,14 @@ contract('Wc3Token', accounts => {
   let stranger = accounts[1]
   let signator = accounts[4]
   let eggOwner0 = '0x184cc5908e1a3d29b4d31df67d99622c4baa7b71'
+
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   let eggOwner1 = accounts[2]
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   let eggOwner2 = accounts[3]
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   let eggSignator = '0x12890D2cce102216644c59daE5baed380d84830c'
+  // eslint-disable-next-line no-unused-vars
   let guildId
   const randomizeBlocks = 15
   const randomizeFee = 10000
@@ -25,11 +32,11 @@ contract('Wc3Token', accounts => {
   before(async () => {
     const randomizer = await WitnetRandomnessMock.new(
       randomizeBlocks,
-      randomizeFee,
+      randomizeFee
     )
     const router = await WitnetPriceRouterMock.new(
-      "Price-ETH/USD-6", // _caption
-      1234123456, // _price ($1,234.12)
+      'Price-ETH/USD-6', // _caption
+      1234123456 // _price ($1,234.12)
     )
     wc3 = await Wc3Token.new(
       `${package.version}-test`,
@@ -40,9 +47,10 @@ contract('Wc3Token', accounts => {
       [20, 30, 50], // percentile marks
       0, // expiration blocks
       99, // totalEggs
-      "Price-ETH/USD-6", // usd price caption
-      settings.specs.default.mintGasOverhead,
+      'Price-ETH/USD-6', // usd price caption
+      settings.specs.default.mintGasOverhead
     )
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     guildId = await wc3.guildId.call()
     // console.log("mintGasOverhead =>", (await wc3.getMintGasOverhead()).toString())
     // console.log("guildId =>", guildId.toString())
@@ -59,7 +67,7 @@ contract('Wc3Token', accounts => {
             await truffleAssert.reverts(
               wc3.mint(
                 eggOwner0,
-                "planned-platypus", // _eggName
+                'planned-platypus', // _eggName
                 1, // _eggGlobalRanking
                 1337, // _eggGuildId
                 1, // _eggGuildPlayers
@@ -98,13 +106,13 @@ contract('Wc3Token', accounts => {
           it('creatures cannot be previewed', async () => {
             await truffleAssert.reverts(
               wc3.preview(
-                "planned-platypus", // _eggName
+                'planned-platypus', // _eggName
                 1, // _eggGlobalRanking
                 1337, // _eggGuildId
                 1, // _eggGuildPlayers
                 1, // _eggGuildRanking,
                 0, // _eggIndex
-                0, // _eggScore
+                0 // _eggScore
               ),
               'not in Hatching'
             )
@@ -127,10 +135,9 @@ contract('Wc3Token', accounts => {
           })
           it('decorator cannot be set to zero', async () => {
             await truffleAssert.reverts(
-              wc3.setDecorator(
-                '0x0000000000000000000000000000000000000000',
-                { from: owner }
-              ),
+              wc3.setDecorator('0x0000000000000000000000000000000000000000', {
+                from: owner,
+              }),
               'no decorator'
             )
           })
@@ -174,7 +181,7 @@ contract('Wc3Token', accounts => {
           })
           it('fails if bad number of percentiles is passed', async () => {
             await truffleAssert.reverts(
-              wc3.setSettings(0, 99, [10, 30],{ from: owner })
+              wc3.setSettings(0, 99, [10, 30], { from: owner })
             )
           })
           it("fails if percentiles don't sum up 100", async () => {
@@ -206,10 +213,9 @@ contract('Wc3Token', accounts => {
           })
           it('signator cannot be set to zero', async () => {
             await truffleAssert.reverts(
-              wc3.setSignator(
-                '0x0000000000000000000000000000000000000000',
-                { from: owner }
-              )
+              wc3.setSignator('0x0000000000000000000000000000000000000000', {
+                from: owner,
+              })
             )
           })
           it('owner can change signator', async () => {
@@ -230,7 +236,7 @@ contract('Wc3Token', accounts => {
             await truffleAssert.reverts(
               wc3.startHatching({
                 from: stranger,
-                value: randomizeFee, 
+                value: randomizeFee,
               }),
               'Ownable'
             )
@@ -239,7 +245,7 @@ contract('Wc3Token', accounts => {
             await truffleAssert.reverts(
               wc3.startHatching({
                 from: owner,
-                value: randomizeFee / 2, 
+                value: randomizeFee / 2,
               }),
               'unforged decorator'
             )
@@ -247,14 +253,14 @@ contract('Wc3Token', accounts => {
           it('owner can forge decorator', async () => {
             const decorator = await Wc3Decorator.deployed()
             await decorator.forge({
-              from: owner
+              from: owner,
             })
           })
           it('hatching cannot start if not enough randomize fee is paid', async () => {
             await truffleAssert.reverts(
               wc3.startHatching({
                 from: owner,
-                value: randomizeFee / 2, 
+                value: randomizeFee / 2,
               })
             )
           })
@@ -281,7 +287,7 @@ contract('Wc3Token', accounts => {
             await truffleAssert.reverts(
               wc3.mint(
                 eggOwner0,
-                "planned-platypus", // _eggName
+                'planned-platypus', // _eggName
                 1, // _eggGlobalRanking
                 1337, // _eggGuildId
                 1, // _eggGuildPlayers
@@ -320,13 +326,13 @@ contract('Wc3Token', accounts => {
           it('creatures cannot be previewed', async () => {
             await truffleAssert.reverts(
               wc3.preview(
-                "planned-platypus", // _eggName
+                'planned-platypus', // _eggName
                 1, // _eggGlobalRanking
                 1337, // _eggGuildId
                 1, // _eggGuildPlayers
                 1, // _eggGuildRanking,
                 0, // _eggIndex
-                0, // _eggScore
+                0 // _eggScore
               ),
               'not in Hatching'
             )
@@ -338,7 +344,7 @@ contract('Wc3Token', accounts => {
           it('owner cannot change decorator', async () => {
             await truffleAssert.reverts(
               wc3.setDecorator(Wc3Decorator.address, { from: owner }),
-              'not in Batching',
+              'not in Batching'
             )
           })
         })
@@ -362,7 +368,7 @@ contract('Wc3Token', accounts => {
         describe('setSettings(..)', async () => {
           it('owner cannot change settings anymore', async () => {
             await truffleAssert.reverts(
-              wc3.setSettings(80640, 99, [20, 30, 50], { from: owner, }),
+              wc3.setSettings(80640, 99, [20, 30, 50], { from: owner }),
               'not in Batching'
             )
           })
@@ -382,10 +388,9 @@ contract('Wc3Token', accounts => {
           })
           it('signator cannot be set to zero', async () => {
             await truffleAssert.reverts(
-              wc3.setSignator(
-                '0x0000000000000000000000000000000000000000',
-                { from: owner }
-              )
+              wc3.setSignator('0x0000000000000000000000000000000000000000', {
+                from: owner,
+              })
             )
           })
           it('owner can change signator', async () => {
@@ -403,17 +408,22 @@ contract('Wc3Token', accounts => {
             )
           })
           it('contract eventually turns to Hatching status', async () => {
-            let randomness = '0x0000000000000000000000000000000000000000000000000000000000000000'
+            let randomness =
+              '0x0000000000000000000000000000000000000000000000000000000000000000'
             do {
               try {
                 await wc3.setSignator(signator, { from: owner })
                 randomness = await wc3.getHatchingRandomness()
+                // eslint-disable-next-line no-empty
               } catch {}
-            } while (randomness === '0x0000000000000000000000000000000000000000000000000000000000000000')
-            console.log("              ", randomness)
+            } while (
+              randomness ===
+              '0x0000000000000000000000000000000000000000000000000000000000000000'
+            )
+            console.log('              ', randomness)
           })
         })
-      }) 
+      })
     })
     describe("In status: 'Hatching'", async () => {
       beforeEach(async () => {
@@ -444,13 +454,13 @@ contract('Wc3Token', accounts => {
         describe('preview(..)', async () => {
           it('creatures can now be previewed', async () => {
             await wc3.preview(
-              "planned-platypus", // _eggName
+              'planned-platypus', // _eggName
               1, // _eggGlobalRanking
               1337, // _eggGuildId
               11, // _eggGuildPlayers
               2, // _eggGuildRanking,
               0, // _eggIndex
-              0, // _eggScore
+              0 // _eggScore
             )
           })
         })
@@ -460,7 +470,7 @@ contract('Wc3Token', accounts => {
           it('owner cannot change decorator', async () => {
             await truffleAssert.reverts(
               wc3.setDecorator(Wc3Decorator.address, { from: owner }),
-              'not in Batching',
+              'not in Batching'
             )
           })
         })
@@ -478,13 +488,15 @@ contract('Wc3Token', accounts => {
             )
           })
           it('owner can change mint gas overhead', async () => {
-            wc3.setMintGasOverhead(settings.specs.default.mintGasOverhead, { from: owner })
+            wc3.setMintGasOverhead(settings.specs.default.mintGasOverhead, {
+              from: owner,
+            })
           })
         })
         describe('setSettings(..)', async () => {
           it('owner cannot change settings anymore', async () => {
             await truffleAssert.reverts(
-              wc3.setSettings(80640, 99, [20, 30, 50], { from: owner, }),
+              wc3.setSettings(80640, 99, [20, 30, 50], { from: owner }),
               'not in Batching'
             )
           })
@@ -504,10 +516,9 @@ contract('Wc3Token', accounts => {
           })
           it('signator cannot be set to zero', async () => {
             await truffleAssert.reverts(
-              wc3.setSignator(
-                '0x0000000000000000000000000000000000000000',
-                { from: owner }
-              )
+              wc3.setSignator('0x0000000000000000000000000000000000000000', {
+                from: owner,
+              })
             )
           })
           it('owner can change signator', async () => {
@@ -534,7 +545,7 @@ contract('Wc3Token', accounts => {
               await truffleAssert.reverts(
                 wc3.mint(
                   stranger, // _eggOwner
-                  "planned-platypus", // _eggName
+                  'planned-platypus', // _eggName
                   1, // _eggGlobalRanking
                   1337, // _eggGuildId
                   1, // _eggGuildPlayers
@@ -549,8 +560,8 @@ contract('Wc3Token', accounts => {
             it('fails if trying to malleate egg index', async () => {
               await truffleAssert.reverts(
                 wc3.mint(
-                  "0x184cc5908e1a3d29b4d31df67d99622c4baa7b71", // _eggOwner
-                  "planned-platypus", // _eggName
+                  '0x184cc5908e1a3d29b4d31df67d99622c4baa7b71', // _eggOwner
+                  'planned-platypus', // _eggName
                   1, // _eggGlobalRanking
                   1337, // _eggGuildId
                   1, // _eggGuildPlayers
@@ -565,8 +576,8 @@ contract('Wc3Token', accounts => {
             it('fails if trying to malleate egg score', async () => {
               await truffleAssert.reverts(
                 wc3.mint(
-                  "0x184cc5908e1a3d29b4d31df67d99622c4baa7b71", // _eggOwner
-                  "planned-platypus", // _eggName
+                  '0x184cc5908e1a3d29b4d31df67d99622c4baa7b71', // _eggOwner
+                  'planned-platypus', // _eggName
                   1, // _eggGlobalRanking
                   1337, // _eggGuildId
                   1, // _eggGuildPlayers
@@ -581,8 +592,8 @@ contract('Wc3Token', accounts => {
             it('fails if trying to malleate egg global ranking', async () => {
               await truffleAssert.reverts(
                 wc3.mint(
-                  "0x184cc5908e1a3d29b4d31df67d99622c4baa7b71", // _eggOwner
-                  "planned-platypus", // _eggName
+                  '0x184cc5908e1a3d29b4d31df67d99622c4baa7b71', // _eggOwner
+                  'planned-platypus', // _eggName
                   2, // _eggGlobalRanking
                   1337, // _eggGuildId
                   1, // _eggGuildPlayers
@@ -597,8 +608,8 @@ contract('Wc3Token', accounts => {
             it('fails if trying to malleate guild players', async () => {
               await truffleAssert.reverts(
                 wc3.mint(
-                  "0x184cc5908e1a3d29b4d31df67d99622c4baa7b71",
-                  "planned-platypus", // _eggName
+                  '0x184cc5908e1a3d29b4d31df67d99622c4baa7b71',
+                  'planned-platypus', // _eggName
                   1, // _eggGlobalRanking
                   1337, // _eggGuildId
                   2, // _eggGuildPlayers
@@ -612,8 +623,8 @@ contract('Wc3Token', accounts => {
             })
             it('common creature can be minted by anyone', async () => {
               const _rx = await wc3.mint(
-                "0x184cc5908e1a3d29b4d31df67d99622c4baa7b71",
-                "planned-platypus", // _eggName
+                '0x184cc5908e1a3d29b4d31df67d99622c4baa7b71',
+                'planned-platypus', // _eggName
                 1, // _eggGlobalRanking
                 1337, // _eggGuildId
                 1, // _eggGuildPlayers
@@ -623,7 +634,7 @@ contract('Wc3Token', accounts => {
                 '0x6b0c0308de8839d54972c68a0538bdc8e11fd9cf46c9c1809eabf6c64e7941d0515129c8e0bc6e9ca958965d034615584c7e3336485574bf1b5cc4242c38332b1c',
                 {
                   from: stranger,
-                  gas: 500000
+                  gas: 500000,
                 }
               )
               // checks that creature #0 is now in 'Minted' status:
@@ -638,8 +649,8 @@ contract('Wc3Token', accounts => {
             it('minted creature cannot be minted twice', async () => {
               await truffleAssert.reverts(
                 wc3.mint(
-                  "0x184cc5908e1a3d29b4d31df67d99622c4baa7b71",
-                  "planned-platypus", // _eggName
+                  '0x184cc5908e1a3d29b4d31df67d99622c4baa7b71',
+                  'planned-platypus', // _eggName
                   1, // _eggGlobalRanking
                   1337, // _eggGuildId
                   1, // _eggGuildPlayers
@@ -649,16 +660,17 @@ contract('Wc3Token', accounts => {
                   '0x6b0c0308de8839d54972c68a0538bdc8e11fd9cf46c9c1809eabf6c64e7941d0515129c8e0bc6e9ca958965d034615584c7e3336485574bf1b5cc4242c38332b1c',
                   {
                     from: owner,
-                    gas: 500000
+                    gas: 500000,
                   }
                 ),
                 'already minted'
               )
             })
             it('rare creature can be minted by anyone', async () => {
+              // eslint-disable-next-line @typescript-eslint/no-unused-vars
               const _rx = await wc3.mint(
-                "0x12890D2cce102216644c59daE5baed380d84830c",
-                "planned-platypus", // _eggName
+                '0x12890D2cce102216644c59daE5baed380d84830c',
+                'planned-platypus', // _eggName
                 7, // _eggGlobalRanking
                 1337, // _eggGuildId
                 11, // _eggGuildPlayers
@@ -668,7 +680,7 @@ contract('Wc3Token', accounts => {
                 '0x2a390b2fbe619158c0f0029484eeda6ee584590e359f39381bae38db00561a466c31c767ecd2892220890e1a1062ed597217eb50a5a890ca2b0bb0d83e3ea7e81b',
                 {
                   from: stranger,
-                  gas: 500000
+                  gas: 500000,
                 }
               )
               // checks that creature #0 is now in 'Minted' status:
@@ -680,8 +692,8 @@ contract('Wc3Token', accounts => {
             })
             it('legendary creature can be minted by anyone', async () => {
               const _rx = await wc3.mint(
-                "0x12890D2cce102216644c59daE5baed380d84830c",
-                "planned-platypus", // _eggName
+                '0x12890D2cce102216644c59daE5baed380d84830c',
+                'planned-platypus', // _eggName
                 7, // _eggGlobalRanking
                 1337, // _eggGuildId
                 11, // _eggGuildPlayers
@@ -691,7 +703,7 @@ contract('Wc3Token', accounts => {
                 '0x657929f3ab521db62b9cb51419bf944146c14ccc33b4b96d9e8ee660be24769e43d3e6356fc5c57e16ea6f40c47a6aec6df35d73b3a9a2962b9a1ec262536f5e1c',
                 {
                   from: stranger,
-                  gas: 500000
+                  gas: 500000,
                 }
               )
               // checks that creature #0 is now in 'Minted' status:

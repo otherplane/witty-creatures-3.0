@@ -1,5 +1,3 @@
-const { assert } = require('chai')
-
 // Contracts
 const Wc3MintMock = artifacts.require('Wc3MintMock')
 
@@ -7,16 +5,14 @@ contract('Wc3MintMock', _accounts => {
   describe('mint(): ', () => {
     let wc3
     before(async () => {
-      wc3 = await Wc3MintMock.new(
-        '0x8d86Bc475bEDCB08179c5e6a4d494EbD3b44Ea8B'
-      )
+      wc3 = await Wc3MintMock.new('0x8d86Bc475bEDCB08179c5e6a4d494EbD3b44Ea8B')
     })
 
     it('should verify correctly a valid signature', async () => {
       await wc3.mint(
-        /* _tokenOwner */ "0x184cc5908e1a3d29b4d31df67d99622c4baa7b71",
-        /* _name */ "planned-platypus",
-        /* _globalRanking */ 1, 
+        /* _tokenOwner */ '0x184cc5908e1a3d29b4d31df67d99622c4baa7b71',
+        /* _name */ 'planned-platypus',
+        /* _globalRanking */ 1,
         /* _guildId */ 1,
         /* _guildPlayers */ 1,
         /* _guildRanking */ 1,
