@@ -24,12 +24,12 @@ module.exports = {
         ],
         eyes: [
           "Dealwithit",
-          "Goggles",
           "Laser",
           "Lashes",
           "Makeup",
           "Monocle",
           "Pirate",
+          "Shades",
           "Wink",
         ],
         heads: [
