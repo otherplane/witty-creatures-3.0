@@ -81,9 +81,9 @@ export default {
         url: null,
       },
       {
-        label: props.contact.telegram,
+        label: props.contact.telegram.split().pop(),
         svg: telegramSvg,
-        url: `https://telegram.me/${props.contact.telegram}`,
+        url: `https://telegram.me/${props.contact.telegram}`.split().pop(),
       },
     ])
     const isEmptySocials = computed(() =>
