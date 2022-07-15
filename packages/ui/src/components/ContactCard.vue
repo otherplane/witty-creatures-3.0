@@ -71,9 +71,9 @@ export default {
     const contactRef = ref('contactRef')
     const socialDetails = reactive([
       {
-        label: props.contact.twitter,
+        label: `@${props.contact.twitter}`,
         svg: twitterSvg,
-        url: 'https://twitter.com/',
+        url: `https://twitter.com/${props.contact.twitter}`,
       },
       {
         label: props.contact.discord,
@@ -83,7 +83,7 @@ export default {
       {
         label: props.contact.telegram,
         svg: telegramSvg,
-        url: null,
+        url: `https://telegram.me/${props.contact.telegram}`,
       },
     ])
     const isEmptySocials = computed(() =>
