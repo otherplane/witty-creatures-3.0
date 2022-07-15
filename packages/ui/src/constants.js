@@ -237,3 +237,5 @@ export const TIME_TO_MINT_MILLISECONDS = import.meta.env
 export const GAME_ENDS_TIMESTAMP = import.meta.env.VITE_GAME_ENDS_TIMESTAMP
   ? parseInt(import.meta.env.VITE_GAME_ENDS_TIMESTAMP)
   : 1658419200000 // 03/21/2022 18:00:00 GMT+02:00
+
+export const TIMEZONE = 'Europe/Paris'

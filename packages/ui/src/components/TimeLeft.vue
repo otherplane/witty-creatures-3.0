@@ -6,7 +6,8 @@
 import { intervalToDuration, formatDuration } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
 import { ref, watch, onBeforeUnmount } from 'vue'
-const timeZone = 'America/Denver'
+import { TIMEZONE } from '@/constants'
+
 export default {
   props: {
     timestamp: Number,
@@ -37,16 +38,16 @@ export default {
     }
     watch(dateNow, () => {
       const duration = intervalToDuration({
-        start: utcToZonedTime(dateNow.value, timeZone),
-        end: utcToZonedTime(new Date(props.timestamp), timeZone),
+        start: utcToZonedTime(dateNow.value, TIMEZONE),
+        end: utcToZonedTime(new Date(props.timestamp), TIMEZONE),
       })
       timeLeft.value = formatDuration(duration, {
         format: props.seconds ? formatWithSeconds : format,
         locale: shortEnLocale,
       })
       if (
-        utcToZonedTime(new Date(props.timestamp), timeZone) <
-        utcToZonedTime(dateNow.value, timeZone).getTime()
+        utcToZonedTime(new Date(props.timestamp), TIMEZONE) <
+        utcToZonedTime(dateNow.value, TIMEZONE).getTime()
       ) {
         timeLeft.value = '0 s'
         emit('clear-timestamp')

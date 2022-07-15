@@ -20,7 +20,7 @@
 <script>
 import { formatDistanceToNowStrict } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
-import { NETWORKS } from '@/constants'
+import { NETWORKS, TIMEZONE } from '@/constants'
 export default {
   props: {
     points: {
@@ -41,10 +41,9 @@ export default {
     },
   },
   setup() {
-    const timeZone = 'America/Denver'
     return {
       utcToZonedTime,
-      timeZone,
+      timeZone: TIMEZONE,
       formatDistanceToNowStrict,
       NETWORKS,
     }

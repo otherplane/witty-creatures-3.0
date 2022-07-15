@@ -49,7 +49,7 @@ import { format } from 'date-fns'
 import { utcToZonedTime } from 'date-fns-tz'
 import { ref, reactive, onBeforeUnmount, computed } from 'vue'
 import { useStore } from '../stores/player'
-import { THEME_COLORS } from '../constants'
+import { THEME_COLORS, TIMEZONE } from '../constants'
 import { copyTextToClipboard } from '../services/copyToClipboard'
 import telegramSvg from '@/assets/telegram.svg?raw'
 import twitterSvg from '@/assets/twitter.svg?raw'
@@ -66,7 +66,6 @@ export default {
   },
   setup(props) {
     const player = useStore()
-    const timeZone = 'Europe/Paris'
     const showDetails = ref(false)
     const contactRef = ref('contactRef')
     const socialDetails = reactive([
@@ -115,7 +114,7 @@ export default {
       showDetails,
       socialDetails,
       toggleDetails,
-      timeZone,
+      timeZone: TIMEZONE,
       format,
       utcToZonedTime,
       telegramSvg,
