@@ -15,6 +15,19 @@ export class Social {
     this.telegram = vto.telegram
     this.name = vto.name
     this.company = vto.company
+
+    this.sanitize()
+  }
+
+  sanitize() {
+    this.twitter = this.twitter?.trim().replace(/[^a-z0-9]/gi, '')
+    this.discord = this.discord
+      ?.trim()
+      .replace(/[^[a-zA-Z0-9#]$/, '')
+      .slice(36)
+    this.name = this.name?.trim().slice(0, 20)
+    this.telegram = this.telegram?.trim().replace(/[^[a-zA-Z0-9_]$/, '')
+    this.company = this.company?.trim().slice(0, 20)
   }
 
   toVTO(): DbSocialVTO {
