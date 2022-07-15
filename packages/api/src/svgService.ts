@@ -49,7 +49,7 @@ import OutfitSanta from './assets/outfit-santa'
 import OutfitTiedye from './assets/outfit-tiedye'
 import OutfitTuxedo from './assets/outfit-tuxedo'
 
-const nameToSvg: Record<string, (_data: object) => string> = {
+const nameToSvg: Record<string, string> = {
   'background-hell': BackgroundHell,
   'background-paris': BackgroundParis,
   'background-space': BackgroundSpace,
@@ -102,16 +102,21 @@ const nameToSvg: Record<string, (_data: object) => string> = {
 export class SvgService {
   static getSVG(traits: Award): string {
     const svgTraits = {
-      mouth: nameToSvg['mouth-' + traits.mouth]({}),
-      background: nameToSvg['background-' + traits.background]({}),
-      eyes: nameToSvg['eyes-' + traits.eyes]({}),
-      object: nameToSvg['object-' + traits.object]({}),
-      outfit: nameToSvg['outfit-' + traits.outfit]({}),
-      head: nameToSvg['head-' + traits.head]({}),
+      mouth: nameToSvg['mouth-' + traits.mouth],
+      background: nameToSvg['background-' + traits.background],
+      eyes: nameToSvg['eyes-' + traits.eyes],
+      object: nameToSvg['object-' + traits.object],
+      outfit: nameToSvg['outfit-' + traits.outfit],
+      head: nameToSvg['head-' + traits.head],
     }
 
-    const background: string = THEME_COLORS[traits.eggColor]
+    const background = svgTraits.background
+      ? svgTraits.background
+      : `<rect width="1000" height="1000" fill="${
+          THEME_COLORS[traits.eggColor]
+        }"/>`
 
-    return `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000" viewBox="0 0 1000 1000" fill="${background}">${svgTraits.background}${svgTraits.outfit}${svgTraits.head}${svgTraits.mouth}${svgTraits.eyes}${svgTraits.object}</svg>`
+    const result = `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000" viewBox="0 0 1000 1000">${background}${svgTraits.outfit}${svgTraits.head}${svgTraits.mouth}${svgTraits.eyes}${svgTraits.object}</svg>`
+    return result
   }
 }
