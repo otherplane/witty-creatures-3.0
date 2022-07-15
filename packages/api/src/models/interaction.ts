@@ -40,7 +40,7 @@ export class InteractionModel {
 
   public async count(username: string): Promise<number> {
     return this.repository.count({
-      $or: [{ from: username }, { to: username }],
+      $or: [{ to: username }],
     })
   }
 }
