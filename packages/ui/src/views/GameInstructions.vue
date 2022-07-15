@@ -25,11 +25,10 @@
       </ul>
       <p class="paragraph">
         Right after the closing ceremony, your egg will
-        <span class="bold">open</span>, an
+        <span class="bold">hatch</span> an
         <span class="bold">exclusive NFT</span> out of a
-        <span class="bold">limited series of 500</span> will be born, and you
-        will be able to <span class="bold">mint</span> it on the network
-        selected!.
+        <span class="bold">limited series of 1250</span> and you will be able to
+        <span class="bold">mint</span> it on the network selected!.
       </p>
       <p class="paragraph">
         The higher your EggScore™ ranks in comparison to other players, the more

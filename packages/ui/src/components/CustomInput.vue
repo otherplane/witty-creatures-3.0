@@ -1,10 +1,5 @@
 <template>
-  <input
-    class="input"
-    v-model.lazy="localValue"
-    :placeholder="`type your ${label}`"
-    :data-lpignore="true"
-  />
+  <input class="input" v-model.lazy="localValue" :data-lpignore="true" />
 </template>
 
 <script>

@@ -3,10 +3,10 @@
     <div @click="toggleDetails" class="contact-container">
       <EggSvg class="egg" :color="THEME_COLORS[contact?.color]" :speed="1" />
       <p v-if="contact.name" class="contact-info name">
-        Name: {{ contact.name }}
+        {{ contact.name }}
       </p>
       <p v-if="contact.company" class="contact-info contact-label">
-        Company: {{ contact.company }}
+        {{ contact.company }}
       </p>
       <p class="contact-info contact-label date">
         {{

@@ -6,9 +6,9 @@
         :from-auth="fromAuth"
       />
       <form class="form">
-        <h3 v-if="fromAuth" class="form-title">Select a network</h3>
+        <h3 v-if="fromAuth" class="form-title">Choose your network</h3>
         <p v-if="fromAuth" class="form-label">
-          Once the game is over, a NFT creature will come out of your egg. You
+          Once the game is over, a NFT creature will hatch from your egg. You
           need to choose now which network you will mint your NFT on.
           Additionally, different networks will give you extra prizes on top of
           the NFT. Choose wisely — this choice can't be changed afterwards!
@@ -24,8 +24,8 @@
           label="network"
           @change="setValue"
         />
-        <h3 class="form-title">Social settings</h3>
-        <label class="form-label">Name</label>
+        <h3 class="form-title">Your social profile</h3>
+        <label class="form-label">Your name</label>
         <CustomInput
           class="field"
           type="text"
@@ -33,7 +33,7 @@
           :value="player.socials?.name"
           @change="setValue"
         />
-        <label class="form-label">Company name</label>
+        <label class="form-label">Your company name</label>
         <CustomInput
           class="field"
           type="text"
@@ -41,7 +41,7 @@
           :value="player.socials?.company"
           @change="setValue"
         />
-        <label class="form-label">Twitter</label>
+        <label class="form-label">Your Twitter username</label>
         <CustomInput
           class="field"
           type="text"
@@ -49,7 +49,7 @@
           :value="player.socials?.twitter"
           @change="setValue"
         />
-        <label class="form-label">Discord</label>
+        <label class="form-label">Your Discord username</label>
         <CustomInput
           class="field"
           type="text"
@@ -57,7 +57,7 @@
           :value="player.socials?.discord"
           @change="setValue"
         />
-        <label class="form-label">Telegram</label>
+        <label class="form-label">Your Telegram username</label>
         <CustomInput
           class="field"
           type="text"
