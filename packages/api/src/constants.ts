@@ -205,7 +205,7 @@ export const THEME_COLORS: Colors = {
   obsidian: '#292929',
   ruby: '#BE3737',
   gold: '#F18944',
-  zaphire: '#0F2664',
+  sapphire: '#0F2664',
 }
 
 export default {
