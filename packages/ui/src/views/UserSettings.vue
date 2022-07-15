@@ -2,7 +2,7 @@
   <MainLayout>
     <div class="container">
       <SectionHeader
-        :title="fromAuth ? 'WELCOME' : 'SETTINGS'"
+        :title="fromAuth ? 'WELCOME' : 'MY SOCIALS'"
         :from-auth="fromAuth"
       />
       <form class="form">
@@ -24,7 +24,6 @@
           label="network"
           @change="setValue"
         />
-        <h3 class="form-title">Your social profile</h3>
         <label class="form-label">Your name</label>
         <CustomInput
           class="field"
