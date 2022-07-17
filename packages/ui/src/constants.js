@@ -36,7 +36,7 @@ export const TOKEN_STATUS = {
   frozen: 5,
 }
 
-export const NETWORKS = {
+export const MAINNET_NETWORKS = {
   1030: {
     name: 'Conflux eSpace Mainnet',
     id: 1030,
@@ -128,6 +128,9 @@ export const NETWORKS = {
     marketplaceName: 'OpenSea',
     confirmationCount: 3,
   },
+}
+
+export const TESTNET_NETWORKS = {
   71: {
     name: 'Conflux eSpace Testnet',
     id: 71,
@@ -167,7 +170,7 @@ export const NETWORKS = {
   4: {
     name: 'Ethereum Rinkeby',
     id: 4,
-    kind: 'ethereans',
+    kind: 'etherean',
     contractAddress:
       import.meta.env.VITE_ETHEREUM_RINKEBY_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://rpc.ankr.com/eth_rinkeby'],
@@ -224,6 +227,12 @@ export const NETWORKS = {
     confirmationCount: 3,
   },
 }
+
+export const NETWORKS =
+  process.env.VITE_ALLOW_TEST_NETWORKS &&
+  Number(process.env.VITE_ALLOW_TEST_NETWORKS)
+    ? { ...MAINNET_NETWORKS, ...TESTNET_NETWORKS }
+    : MAINNET_NETWORKS
 
 export const POLLER_MILLISECONDS = import.meta.env.VITE_POLLER_MILLISECONDS
   ? parseInt(import.meta.env.VITE_POLLER_MILLISECONDS)

@@ -92,7 +92,7 @@ export const MONGO_URI: string =
   process.env.MONGO_URI ||
   'mongodb://your_username:your_password@localhost:27017/database'
 
-export const NETWORKS = {
+export const MAINNET_NETWORKS = {
   1030: {
     name: 'Conflux Mainnet',
     id: 1030,
@@ -142,6 +142,9 @@ export const NETWORKS = {
     contractAddress: process.env.POLYGON_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://polygon-rpc.com/'],
   },
+}
+
+export const TESTNET_NETWORKS = {
   28: {
     name: 'Boba Network Rinkeby',
     id: 28,
@@ -199,6 +202,12 @@ export const NETWORKS = {
     rpcUrls: ['https://rpc-mumbai.maticvigil.com'],
   },
 }
+
+export const NETWORKS =
+  process.env.VITE_ALLOW_TEST_NETWORKS &&
+  Number(process.env.VITE_ALLOW_TEST_NETWORKS)
+    ? { ...MAINNET_NETWORKS, ...TESTNET_NETWORKS }
+    : MAINNET_NETWORKS
 
 export const THEME_COLORS: Colors = {
   emerald: '#488B62',
