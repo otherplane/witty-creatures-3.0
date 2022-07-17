@@ -75,7 +75,7 @@ export const MAINNET_NETWORKS = {
   1: {
     name: 'Ethereum Mainnet',
     id: '1',
-    kind: 'ethereans',
+    kind: 'etherean',
     contractAddress: import.meta.env.VITE_ETHEREUM_MAINNET_CONTRACT_ADDRESS,
     rpcUrls: ['https://eth-mainnet.public.blastapi.io'],
     blockExplorerUrls: ['https://etherscan.io/'],
