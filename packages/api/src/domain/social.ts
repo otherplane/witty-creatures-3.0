@@ -20,13 +20,19 @@ export class Social {
   }
 
   sanitize() {
-    this.twitter = this.twitter?.trim().replace(/[^a-z0-9]/gi, '')
+    this.twitter = this.twitter
+      ?.trim()
+      .replace(/[^a-z0-9_]/gi, '')
+      .slice(0, 20)
     this.discord = this.discord
       ?.trim()
       .replace(/[^[a-zA-Z0-9#]$/, '')
       .slice(36)
     this.name = this.name?.trim().slice(0, 20)
-    this.telegram = this.telegram?.trim().replace(/[^[a-zA-Z0-9_]$/, '')
+    this.telegram = this.telegram
+      ?.trim()
+      .replace(/[^[a-zA-Z0-9_]$/, '')
+      .slice(0, 40)
     this.company = this.company?.trim().slice(0, 20)
   }
 
