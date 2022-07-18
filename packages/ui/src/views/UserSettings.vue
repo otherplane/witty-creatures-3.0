@@ -71,6 +71,11 @@
           label="share"
           @change="setValue"
         />
+        <p class="form-subtitle">
+          Your contact information will be shared with the player scanning your
+          egg. Disabling this option you will be asked before sharing your
+          information.
+        </p>
       </form>
       <router-link v-if="fromAuth" to="/">
         <CustomButton type="primary" :slim="true"> CONTINUE </CustomButton>
@@ -157,6 +162,10 @@ export default {
     font-size: 16px;
     text-align: left;
     font-weight: bold;
+  }
+  .form-subtitle {
+    font-size: 16px;
+    text-align: left;
   }
   .social-label {
     font-size: 16px;
