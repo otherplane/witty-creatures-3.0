@@ -9,7 +9,7 @@ export function formatNumber(num) {
 
 export function truncate(str) {
   return str.length > 25
-    ? `${str.substring(0, 14)}...${str.substring(str.length - 14, str.length)}`
+    ? `${str.substring(0, 13)}...${str.substring(str.length - 13, str.length)}`
     : str
 }
 
