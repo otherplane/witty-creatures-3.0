@@ -4,8 +4,7 @@
     <GameScreen :padding="false">
       <div v-if="!player.contacts.length" class="empty-state bold">
         <p class="state-text">
-          Once you get your egg incubated by other player, their contact info
-          will show up here if they allow it.
+          Users get a contact in the Contact List when they scan someone.
         </p>
         <p>
           What are you waiting for? Go looking for other players and ask them to
