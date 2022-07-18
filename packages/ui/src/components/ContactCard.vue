@@ -15,9 +15,9 @@
       </p>
     </div>
     <div
+      v-if="!isEmptySocials"
       :id="`details-${contact?.timestamp}`"
       class="details"
-      v-if="!isEmptySocials"
     >
       <div class="content">
         <div v-for="social in socialDetails" :key="social.key">
@@ -96,13 +96,15 @@ export default {
       if (!showDetails.value) {
         gsap.to(`#details-${props.contact.timestamp}`, {
           duration: 0.2,
+          display: 'none',
           height: 0,
           ease: Sine.easeIn,
         })
       } else {
         gsap.to(`#details-${props.contact.timestamp}`, {
           duration: 0.2,
-          height: 104,
+          display: 'block',
+          height: 114,
           ease: Sine.easeIn,
         })
       }
@@ -134,19 +136,20 @@ export default {
 
 <style lang="scss" scoped>
 .contact-info {
-  max-width: 250px;
+  max-width: 600px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }
 .details {
   background: $dark-screen;
+  display: none;
   height: 0;
-  overflow: hidden;
   margin-bottom: 1px;
   .content {
     padding: 16px;
   }
   .social {
+    height: 30px;
     text-decoration: underline;
     cursor: pointer;
     display: grid;
@@ -155,6 +158,13 @@ export default {
     align-items: center;
     color: $screen;
     font-weight: bolder;
+    .contact-info {
+      height: 30px;
+      width: 600px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
     .social-icon {
       width: 16px;
     }
@@ -183,6 +193,18 @@ export default {
   .date {
     width: max-content;
     font-size: 12px;
+  }
+}
+@media (max-width: 600px) {
+  .contact-info {
+    max-width: 250px;
+  }
+  .details {
+    .social {
+      .contact-info {
+        width: 300px;
+      }
+    }
   }
 }
 </style>
