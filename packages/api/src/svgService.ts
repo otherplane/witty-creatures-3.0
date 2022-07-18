@@ -115,7 +115,7 @@ export class SvgService {
     const background: string =
       svgTraits.background ||
       `<rect width="1000" height="1000" fill="${
-          THEME_COLORS[traits.eggColor]
+        THEME_COLORS[traits.eggColor]
       }"/>`
 
     return `<?xml version="1.0" encoding="UTF-8"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1000" height="1000" viewBox="0 0 1000 1000">${background}${svgTraits.outfit}${svgTraits.head}${svgTraits.mouth}${svgTraits.eyes}${svgTraits.object}</svg>`
