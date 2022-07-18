@@ -4,7 +4,7 @@
     <GameScreen>
       <p class="long-text">
         <span class="bold">Remember:</span>
-        once you claim your egg, it will be forever linked to your web browser
+        once you claim your egg, it will be forever linked to this web browser
         and the QR code will not work in a different browser.
       </p>
       <p class="long-text">
