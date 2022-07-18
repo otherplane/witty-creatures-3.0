@@ -229,8 +229,8 @@ export const TESTNET_NETWORKS = {
 }
 
 export const NETWORKS =
-  process.env.VITE_ALLOW_TEST_NETWORKS &&
-  Number(process.env.VITE_ALLOW_TEST_NETWORKS)
+  import.meta.env.VITE_ALLOW_TEST_NETWORKS &&
+  Number(import.meta.env.VITE_ALLOW_TEST_NETWORKS)
     ? { ...MAINNET_NETWORKS, ...TESTNET_NETWORKS }
     : MAINNET_NETWORKS
 
