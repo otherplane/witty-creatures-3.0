@@ -205,9 +205,9 @@ export default {
     border-radius: 4px;
     color: var(--primary-color);
     display: flex;
-    align-items: center;
+    text-align: left;
     .metamask {
-      margin-right: 4px;
+      margin-right: 8px;
       width: 16px;
     }
   }
