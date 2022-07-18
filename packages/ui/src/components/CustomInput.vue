@@ -1,5 +1,10 @@
 <template>
-  <input class="input" v-model.lazy="localValue" :data-lpignore="true" />
+  <input
+    class="input"
+    v-model.lazy="localValue"
+    :placeholder="`Type your ${label}`"
+    :data-lpignore="true"
+  />
 </template>
 
 <script>
@@ -34,6 +39,8 @@ export default {
   border-bottom: 1px solid var(--primary-color-opacity-1);
   &::placeholder {
     font-size: 18px;
+    font-family: 'Source Code Pro', monospace;
+    color: var(--primary-color-opacity-1);
   }
   &:focus {
     outline: none;
