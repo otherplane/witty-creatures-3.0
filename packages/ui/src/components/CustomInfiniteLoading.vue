@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, onBeforeMount } from 'vue'
 export default {
   props: {
     list: {
@@ -29,6 +29,10 @@ export default {
     const offset = computed(() => {
       return limit.value * currentPage.value
     })
+    onBeforeMount(async () => {
+      await props.getItems(offset.value, limit.value)
+    })
+
     const load = async $state => {
       try {
         const request = await props.getItems(offset.value, limit.value)
