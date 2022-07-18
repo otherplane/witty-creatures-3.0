@@ -70,19 +70,19 @@ export const useStore = defineStore('player', {
     },
     saveClaimInfo(info) {
       localStorage.setItem(
-        'tokenInfo',
+        'wc3tokenInfo',
         JSON.stringify({ ...this.getToken(), ...info })
       )
     },
     // Color theme
     getTheme() {
-      const theme = localStorage.getItem('theme')
+      const theme = localStorage.getItem('wc3theme')
       if (theme) {
         this.theme = theme
       }
     },
     saveTheme(theme) {
-      localStorage.setItem('theme', theme)
+      localStorage.setItem('wc3theme', theme)
       this.theme = theme
     },
     // Socials
@@ -161,17 +161,17 @@ export const useStore = defineStore('player', {
     },
     // Mint info
     getMintInfo() {
-      const mintInfo = JSON.parse(localStorage.getItem('mintInfo'))
+      const mintInfo = JSON.parse(localStorage.getItem('wc3mintInfo'))
       if (mintInfo) {
         this.mintInfo = mintInfo
       }
     },
     saveMintInfo(info) {
-      localStorage.setItem('mintInfo', JSON.stringify({ ...info }))
+      localStorage.setItem('wc3mintInfo', JSON.stringify({ ...info }))
       this.mintInfo = info
     },
     clearMintInfo() {
-      localStorage.removeItem('mintInfo')
+      localStorage.removeItem('wc3mintInfo')
       this.mintInfo = null
     },
     clearMintBlockInfo() {
@@ -180,15 +180,15 @@ export const useStore = defineStore('player', {
         blockNumber: 0,
         blockHash: 0,
       }
-      localStorage.setItem('mintInfo', JSON.stringify(this.mintInfo))
+      localStorage.setItem('wc3mintInfo', JSON.stringify(this.mintInfo))
     },
     // Token Info
     getToken() {
-      return JSON.parse(localStorage.getItem('tokenInfo'))
+      return JSON.parse(localStorage.getItem('wc3tokenInfo'))
     },
     clearTokenInfo() {
-      localStorage.removeItem('tokenInfo')
-      localStorage.removeItem('theme')
+      localStorage.removeItem('wc3tokenInfo')
+      localStorage.removeItem('wc3theme')
     },
     // Errors
     clearError(error) {

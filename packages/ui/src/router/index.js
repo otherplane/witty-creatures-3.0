@@ -107,12 +107,12 @@ const routes = [
         next('/')
       } else {
         localStorage.setItem(
-          'tokenInfo',
+          'wc3tokenInfo',
           JSON.stringify({ username, token, key })
         )
         if (txHash) {
           localStorage.setItem(
-            'mintInfo',
+            'wc3mintInfo',
             JSON.stringify({ txHash, mintConfirmation, from })
           )
         }
