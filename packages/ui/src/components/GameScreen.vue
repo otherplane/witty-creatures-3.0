@@ -18,6 +18,11 @@ export default {
   background: $screen;
   border-radius: 4px;
 }
+@media (max-width: 280px) {
+  .main-screen {
+    max-width: 250px;
+  }
+}
 .padding {
   padding: 8px;
 }
