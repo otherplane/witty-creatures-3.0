@@ -41,7 +41,7 @@
             />
           </div>
           <div class="info">
-            <p v-if="player.interactionOut?.points">
+            <p v-if="player.interactionIn?.points">
               +{{ player.interactionIn?.points || '' }}p
             </p>
           </div>

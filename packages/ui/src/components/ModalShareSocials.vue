@@ -19,6 +19,7 @@ export default {
     const player = useStore()
     const share = async () => {
       await player.shareSocials()
+      player.socialsSharedMessage = true
       emit('close', 'shareSocials')
     }
 

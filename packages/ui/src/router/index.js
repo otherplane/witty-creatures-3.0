@@ -116,7 +116,7 @@ const routes = [
             JSON.stringify({ txHash, mintConfirmation, from })
           )
         }
-        next(`/${key}`)
+        next({ name: 'main' })
       }
     },
   },

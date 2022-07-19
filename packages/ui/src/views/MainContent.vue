@@ -126,6 +126,7 @@ export default {
       modal.showModal()
     }
     function closeModal() {
+      console.log('closeModal!!')
       modals.shareSocials = false
       modals.mint = false
       modals.export = false
@@ -147,9 +148,11 @@ export default {
         !player.socialsSharedMessage
       ) {
         openModal('shareSocials')
-        player.socialsSharedMessage = true
       } else {
-        closeModal('shareSocials')
+        modals.shareSocials = false
+        if (!modals.export) {
+          modal.hideModal()
+        }
       }
     }
     watch(interactionIn, () => {
