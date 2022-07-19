@@ -42,8 +42,8 @@ jobs:
           echo "$APKEY" > ./ansible/key.pem
           echo "$CADDY" > ./ansible/Caddyfile
           chmod 400 ./ansible/key.pem
-          sed -i 's/-api/-api-staging/g' ./docker-compose.yml
-          sed -i 's/-ui/-ui-staging/g' ./docker-compose.yml
+          sed -i 's/-api/-staging-api/g' ./docker-compose.yml
+          sed -i 's/-ui/-staging-ui/g' ./docker-compose.yml
       - name: Deploy with Ansible
         shell: bash
         run: |
