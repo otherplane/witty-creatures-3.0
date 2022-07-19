@@ -6,9 +6,6 @@ export const OPENSEA_BASE_URL =
   import.meta.env.VITE_OPENSEA_BASE_URL ||
   'https://opensea.io/assets/0x855BCa56D00F3f550D0c610BBF562FEBF6540bc6'
 
-export const EXPLORER_BASE_URL =
-  import.meta.env.VITE_EXPLORER_BASE_URL || 'https://polygonscan.com/tx/'
-
 export const VITE_TEST = import.meta.env.VITE_TEST || false
 
 export const API_BASE_URL =

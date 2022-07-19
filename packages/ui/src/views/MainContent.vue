@@ -49,12 +49,7 @@ import egg from '@/assets/egg.svg?raw'
 import metamask from '@/assets/metamask.svg?raw'
 import { useModal } from '@/composables/useModal'
 import { useWeb3 } from '../composables/useWeb3'
-import {
-  EXPLORER_BASE_URL,
-  OPENSEA_BASE_URL,
-  NETWORKS,
-  TOKEN_STATUS,
-} from '../constants'
+import { NETWORKS, TOKEN_STATUS } from '../constants'
 import { checkEmptySocials } from '@/utils.js'
 import { POLLER_MILLISECONDS } from '@/constants.js'
 import { importSvg } from '@/composables/importSvg.js'
@@ -161,8 +156,6 @@ export default {
       checkSocialsOpenModal()
     })
     return {
-      etherscanBaseUrl: EXPLORER_BASE_URL,
-      openseaBaseUrl: OPENSEA_BASE_URL,
       NETWORKS,
       mint,
       player,
