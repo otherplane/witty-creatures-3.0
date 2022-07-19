@@ -26,8 +26,8 @@ export class Social {
       .slice(0, 20)
     this.discord = this.discord
       ?.trim()
-      .replace(/[^[a-zA-Z0-9#]$/, '')
-      .slice(36)
+      .replace(/[^a-zA-Z0-9#]/gi, '')
+      .slice(0, 36)
     this.name = this.name?.trim().slice(0, 20)
     this.telegram = this.telegram
       ?.trim()
