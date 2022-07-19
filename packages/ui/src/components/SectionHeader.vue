@@ -50,4 +50,15 @@ export default {
     color: var(--primary-color);
   }
 }
+@media (max-width: 280px) {
+  .header {
+    column-gap: 16px;
+    .title-section {
+      font-size: 20px;
+    }
+    .back-btn {
+      width: 20px;
+    }
+  }
+}
 </style>

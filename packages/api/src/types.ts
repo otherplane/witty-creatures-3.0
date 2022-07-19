@@ -147,47 +147,68 @@ export type PreviewReply = Static<typeof PreviewReply>
 
 // NFT
 export enum MouthTrait {
-  Mouth1 = 'mouth-1',
-  Mouth2 = 'mouth-2',
-  Mouth3 = 'mouth-3',
-  Mouth4 = 'mouth-4',
+  Bored = 'bored',
+  Joint = 'joint',
+  Lips = 'lips',
+  Moustache = 'moustache',
+  Rainbow = 'rainbow',
+  Smile = 'smile',
 }
 export enum EyesTrait {
-  Eyes1 = 'eyes-1',
-  Eyes2 = 'eyes-2',
-  Eyes3 = 'eyes-3',
-  Eyes4 = 'eyes-4',
+  Dealwithit = 'dealwithit',
+  Laser = 'laser',
+  Lashes = 'lashes',
+  Makeup = 'makeup',
+  Monocle = 'monocle',
+  Pirate = 'pirate',
+  Shades = 'shades',
+  Wink = 'wink',
 }
 export enum HeadTrait {
-  Head1 = 'head-1',
-  Head2 = 'head-2',
-  Head3 = 'head-3',
-  Head4 = 'head-4',
+  Afro = 'afro',
+  Anime = 'anime',
+  Cap = 'cap',
+  Fancy = 'fancy',
+  Mage = 'mage',
+  Mohawk = 'mohawk',
+  Pink = 'pink',
+  Ponytail = 'ponytail',
+  Santa = 'santa',
+  Wig = 'wig',
 }
-export enum ClothesTrait {
-  Clothes1 = 'clothes-1',
-  Clothes2 = 'clothes-2',
-  Clothes3 = 'clothes-3',
-  Clothes4 = 'clothes-4',
+export enum OutfitTrait {
+  Gown = 'gown',
+  Mage = 'mage',
+  Santa = 'santa',
+  Tiedye = 'tiedye',
+  Tuxedo = 'tuxedo',
 }
 export enum ObjectTrait {
-  Object1 = 'object-1',
-  Object2 = 'object-2',
-  Object3 = 'object-3',
-  Object4 = 'object-4',
+  Beer = 'beer',
+  Bitcoin = 'bitcoin',
+  Croissant = 'croissant',
+  Dice = 'dice',
+  Ether = 'ether',
+  Flame = 'flame',
+  Lipstick = 'lipstick',
+  Mule = 'mule',
+  Phone = 'phone',
+  Wine = 'wine',
 }
 export enum BackgroundTrait {
-  Background1 = 'backgound-1',
-  Background2 = 'backgound-2',
-  Background3 = 'backgound-3',
-  Background4 = 'backgound-4',
+  Hell = 'hell',
+  Paris = 'paris',
+  Space = 'space',
+  Stonks = 'stonks',
+  Vaporwave = 'vaporwave',
 }
 
 export enum ColorTrait {
-  Blue = 'backgound-1',
-  Red = 'backgound-2',
-  Yellow = 'backgound-3',
-  Black = 'backgound-4',
+  Emerald = 'emerald',
+  Obsidian = 'obsidian',
+  Ruby = 'ruby',
+  Gold = 'gold',
+  Sapphire = 'sapphire',
 }
 
 export const Network = Type.Object({
@@ -217,7 +238,7 @@ export const Award = Type.Object({
   mintCostUsd: Type.Number(),
   mouth: Type.String(MouthTrait),
   object: Type.String(ObjectTrait),
-  outfit: Type.String(ClothesTrait),
+  outfit: Type.String(OutfitTrait),
   rarity: Type.String(),
   score: Type.Integer(),
 })

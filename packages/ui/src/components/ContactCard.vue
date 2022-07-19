@@ -74,11 +74,11 @@ export default {
         svg: twitterSvg,
         url: `https://twitter.com/${props.contact.twitter}`,
       },
-      {
-        label: props.contact.discord,
-        svg: discordSvg,
-        url: null,
-      },
+      // {
+      //   label: props.contact.discord,
+      //   svg: discordSvg,
+      //   url: null,
+      // },
       {
         label: props.contact.telegram.split().pop(),
         svg: telegramSvg,

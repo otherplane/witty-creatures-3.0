@@ -335,7 +335,12 @@ export const useStore = defineStore('player', {
         address,
         token: tokenInfo.token,
       })
-      this.mintInformation = request
+      if (request.error) {
+        this.setError('getContractArgs', request.error)
+        router.push('/init-game')
+      } else {
+        this.mintInformation = request
+      }
 
       return request
     },

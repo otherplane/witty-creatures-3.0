@@ -33,9 +33,9 @@ export default {
 <style scoped lang="scss">
 .players-container {
   display: grid;
-  grid-template-columns: max-content max-content max-content 1fr;
+  grid-template-columns: max-content max-content 1fr 1fr;
   align-items: center;
-  row-gap: 16px;
+  row-gap: 8px;
   column-gap: 16px;
   padding: 16px;
   color: $dark-screen;
@@ -43,9 +43,9 @@ export default {
   font-size: 12px;
   .player-name {
     text-align: left;
-    display: grid;
     font-family: JoystixMonospace, mono;
     font-weight: bold;
+    display: grid;
     justify-self: flex-start;
   }
   .network {

@@ -28,7 +28,7 @@ export default {
       required: true,
     },
     network: {
-      type: String,
+      type: Number,
       required: true,
     },
     from: {
