@@ -478,4 +478,28 @@ export const ContactListResponse = Type.Object({
   }),
 })
 
+export const Attributes = Type.Object({
+  display_type: Type.String(),
+  trait_type: Type.String(),
+  value: Type.String() || Type.Number(),
+})
+export type Attributes = Static<typeof Attributes>
+
+export const PlayerMetadataReponse = Type.Object({
+  name: Type.String(),
+  description: Type.String(),
+  external_url: Type.String(),
+  image: Type.String(),
+  attributes: Type.Array(Attributes),
+})
+
+export type PlayerMetadataReponse = Static<typeof PlayerMetadataReponse>
+
+export const MetadataParams = Type.Object({
+  chainId: Type.Integer(),
+  token: Type.Integer(),
+})
+
+export type MetadataParams = Static<typeof MetadataParams>
+
 export type ContactListResponse = Static<typeof ContactListResponse>

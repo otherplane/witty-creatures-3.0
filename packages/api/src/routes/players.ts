@@ -18,6 +18,8 @@ import {
   ConfigResult,
   PlayerImagesReponse,
   NetworkConfig,
+  PlayerMetadataReponse,
+  MetadataParams,
 } from '../types'
 import { SvgService } from '../svgService'
 
@@ -261,6 +263,36 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
     }
   )
   fastify.get<{
+    Params: MetadataParams
+    Reply: PlayerMetadataReponse | Error
+  }>('/players/metadata/:chainId/:token', {
+    schema: {
+      params: MetadataParams,
+      response: {
+        200: PlayerMetadataReponse,
+      },
+    },
+    handler: async (
+      request: FastifyRequest<{ Params: MetadataParams }>,
+      reply
+    ) => {
+      let callResult
+      const networkConfig: NetworkConfig = NETWORKS
+      //TODO: add provider
+      const { token, chainId } = request.params
+      const provider = networkConfig[chainId].rpcUrls[0]
+      const web3 = new Web3(new Web3.providers.HttpProvider(provider))
+      const contract = new web3.eth.Contract(WITTY_CREATURES_ERC721_ABI)
+      try {
+        callResult = await contract.methods.metadata(token).call()
+      } catch (err) {
+        console.error('[Server] Metadata error:', err)
+        return reply.status(404).send(new Error(`Metadata`))
+      }
+      return reply.status(200).send(JSON.parse(callResult))
+    },
+  })
+  fastify.get<{
     Reply: PlayerImagesReponse | Error
   }>('/players/image', {
     schema: {
@@ -326,6 +358,7 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
         console.error('[Server] Metadata error:', err)
         return reply.status(404).send(new Error(`Metadata`))
       }
+      console.log('metadata----', JSON.parse(callResult))
       const svg = SvgService.getSVG(
         normalizedAttributes(JSON.parse(callResult).attributes)
       )
