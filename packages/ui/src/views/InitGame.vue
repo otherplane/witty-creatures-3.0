@@ -2,14 +2,17 @@
   <MainLayout :threeCol="true">
     <SvgImage :svg="mainLogo" class="logo" />
     <GameScreen class="screen-container">
-      <EggSvg
-        v-for="(egg, index) in eggList"
-        :key="index"
-        class="egg"
-        :eggIndex="index"
-        :color="egg.color"
-        :speed="egg.speed"
-      />
+      <div class="egg-container">
+        <EggSvg
+          v-for="(egg, index) in eggList"
+          :key="index"
+          class="egg"
+          :eggIndex="index"
+          :color="egg.color"
+          :speed="egg.speed"
+        />
+      </div>
+      <PartnersStripe />
     </GameScreen>
     <router-link to="/disclaimer" class="link">
       <CustomButton class="btn" type="primary"> PLAY NOW </CustomButton>
@@ -81,10 +84,14 @@ export default {
 .logo {
   margin-top: 16px;
 }
-.screen-container {
+.egg-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 8px;
+}
+.screen-container {
+  display: grid;
+  grid-template-rows: 1fr max-content;
 }
 .link {
   width: 100%;
