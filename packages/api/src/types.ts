@@ -251,6 +251,8 @@ export const PlayerImagesReponse = Type.Array(
 )
 export type PlayerImagesReponse = Static<typeof PlayerImagesReponse>
 
+export const ImageResponse = Type.String()
+export type ImageResponse = Static<typeof ImageResponse>
 export const IndexedEgg = Type.Intersect([
   PlayerVTO,
   Type.Object({ rarityIndex: Type.String() }),

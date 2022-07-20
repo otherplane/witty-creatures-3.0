@@ -20,6 +20,7 @@ import {
   NetworkConfig,
   MetadataParams,
   EggMetadata,
+  ImageResponse,
 } from '../types'
 import { SvgService } from '../svgService'
 
@@ -375,12 +376,12 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
 
   fastify.get<{
     Params: MetadataParams
-    Reply: PlayerImagesReponse | Error
+    Reply: ImageResponse | Error
   }>('/image/:chainId/:token', {
     schema: {
       params: MetadataParams,
       response: {
-        200: PlayerImagesReponse,
+        // 200: ImageResponse,
       },
     },
     handler: async (
@@ -406,7 +407,7 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
         normalizedAttributes(JSON.parse(callResult).attributes)
       )
 
-      return reply.status(200).send({ svg })
+      return reply.status(200).send(svg)
     },
   })
 }
