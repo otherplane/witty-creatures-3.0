@@ -343,7 +343,7 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.get<{
     Params: MetadataParams
     Reply: EggMetadata | Error
-  }>('/metadata/:token/:chainId', {
+  }>('/metadata/:chainId/:token', {
     schema: {
       params: MetadataParams,
       response: {
@@ -351,15 +351,18 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
       },
     },
     handler: async (
-      request: FastifyRequest<{ Params: { token: number; chainId: number } }>,
+      request: FastifyRequest<{ Params: { chainId: number; token: number } }>,
       reply
     ) => {
-      const { token, chainId } = request.params
+      const { chainId, token } = request.params
       let callResult
       const networkConfig: NetworkConfig = NETWORKS
       const provider = networkConfig[chainId].rpcUrls[0]
       const web3 = new Web3(new Web3.providers.HttpProvider(provider))
-      const contract = new web3.eth.Contract(WITTY_CREATURES_ERC721_ABI)
+      const contract = new web3.eth.Contract(
+        WITTY_CREATURES_ERC721_ABI,
+        networkConfig[chainId].contractAddress
+      )
       try {
         callResult = await contract.methods.metadata(token).call()
       } catch (err) {
@@ -373,7 +376,7 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
   fastify.get<{
     Params: MetadataParams
     Reply: PlayerImagesReponse | Error
-  }>('/image/:token/:chainId', {
+  }>('/image/:chainId/:token', {
     schema: {
       params: MetadataParams,
       response: {
@@ -381,15 +384,18 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
       },
     },
     handler: async (
-      request: FastifyRequest<{ Params: { token: number; chainId: number } }>,
+      request: FastifyRequest<{ Params: { chainId: number; token: number } }>,
       reply
     ) => {
-      const { token, chainId } = request.params
+      const { chainId, token } = request.params
       let callResult
       const networkConfig: NetworkConfig = NETWORKS
       const provider = networkConfig[chainId].rpcUrls[0]
       const web3 = new Web3(new Web3.providers.HttpProvider(provider))
-      const contract = new web3.eth.Contract(WITTY_CREATURES_ERC721_ABI)
+      const contract = new web3.eth.Contract(
+        WITTY_CREATURES_ERC721_ABI,
+        networkConfig[chainId].contractAddress
+      )
       try {
         callResult = await contract.methods.metadata(token).call()
       } catch (err) {
