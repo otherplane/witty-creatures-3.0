@@ -33,7 +33,10 @@
         player.mintInfo?.mintExternalConfirmation
       "
     >
-      <div class="link bold">
+      <div
+        v-if="NETWORKS[player.maintConfig].marketplaceName"
+        class="link bold"
+      >
         <a :href="marketplaceURL" target="_blank"
           >See token #{{ player.guildRanking }} on
           {{ NETWORKS[player.mintConfig].marketplaceName }}</a
