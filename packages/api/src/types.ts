@@ -363,11 +363,9 @@ export const MintOutput = Type.Object({
 export type MintOutput = Static<typeof MintOutput>
 
 export const EggMetadata = Type.Object({
-  // TODO: verify that it does not break anything with OpenSea
-  token_id: Type.Number(),
   name: Type.String(),
   description: Type.String(),
-  image_data: Type.String(),
+  image: Type.String(),
   external_url: Type.String(),
   attributes: Type.Array(
     Type.Object({
