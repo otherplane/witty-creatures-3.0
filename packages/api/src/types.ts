@@ -373,6 +373,7 @@ export const EggMetadata = Type.Object({
     Type.Object({
       trait_type: Type.String(),
       value: Type.Union([Type.String(), Type.Number()]),
+      display_type: Type.Optional(Type.String()),
     })
   ),
 })
@@ -477,23 +478,7 @@ export const ContactListResponse = Type.Object({
     total: Type.Integer(),
   }),
 })
-
-export const Attributes = Type.Object({
-  display_type: Type.String(),
-  trait_type: Type.String(),
-  value: Type.String() || Type.Number(),
-})
-export type Attributes = Static<typeof Attributes>
-
-export const PlayerMetadataReponse = Type.Object({
-  name: Type.String(),
-  description: Type.String(),
-  external_url: Type.String(),
-  image: Type.String(),
-  attributes: Type.Array(Attributes),
-})
-
-export type PlayerMetadataReponse = Static<typeof PlayerMetadataReponse>
+export type ContactListResponse = Static<typeof ContactListResponse>
 
 export const MetadataParams = Type.Object({
   chainId: Type.Integer(),
@@ -501,5 +486,3 @@ export const MetadataParams = Type.Object({
 })
 
 export type MetadataParams = Static<typeof MetadataParams>
-
-export type ContactListResponse = Static<typeof ContactListResponse>
