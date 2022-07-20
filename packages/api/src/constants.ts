@@ -115,7 +115,8 @@ export const MAINNET_NETWORKS = {
   1: {
     name: 'Ethereum Mainnet',
     id: 1,
-    contractAddress: process.env.VITE_ETHEREUM_MAINNET_CONTRACT_ADDRESS || '0x00',
+    contractAddress:
+      process.env.VITE_ETHEREUM_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://mainnet.infura.io/v3/'],
   },
   82: {
@@ -133,13 +134,15 @@ export const MAINNET_NETWORKS = {
   66: {
     name: 'OKX Chain Mainnet',
     id: 66,
-    contractAddress: process.env.VITE_OKXCHAIN_MAINNET_CONTRACT_ADDRESS || '0x00',
+    contractAddress:
+      process.env.VITE_OKXCHAIN_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://exchainrpc.okex.org'],
   },
   137: {
     name: 'Polygon Mainnet',
     id: 137,
-    contractAddress: process.env.VITE_POLYGON_MAINNET_CONTRACT_ADDRESS || '0x00',
+    contractAddress:
+      process.env.VITE_POLYGON_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://polygon-rpc.com/'],
   },
 }
@@ -174,7 +177,8 @@ export const TESTNET_NETWORKS = {
   4: {
     name: 'Ethereum Rinkeby',
     id: 4,
-    contractAddress: process.env.VITE_ETHEREUM_RINKEBY_CONTRACT_ADDRESS || '0x00',
+    contractAddress:
+      process.env.VITE_ETHEREUM_RINKEBY_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://rpc.ankr.com/eth_rinkeby'],
   },
   83: {
@@ -192,7 +196,8 @@ export const TESTNET_NETWORKS = {
   65: {
     name: 'OKXChain Testnet',
     id: 65,
-    contractAddress: process.env.VITE_OKXCHAIN_TESTNET_CONTRACT_ADDRESS || '0x00',
+    contractAddress:
+      process.env.VITE_OKXCHAIN_TESTNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['exchaintestrpc.okex.org'],
   },
   80001: {
