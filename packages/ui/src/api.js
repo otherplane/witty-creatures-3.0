@@ -70,7 +70,7 @@ export class ApiService {
 
   getNFTImage(params) {
     return this._get({
-      url: `${this.baseUrl}/players/image`,
+      url: `${this.baseUrl}/players/preview`,
       config: {
         headers: { authorization: params.token },
       },
