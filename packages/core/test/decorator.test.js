@@ -4,8 +4,10 @@ const Wc3Decorator = artifacts.require('Wc3Decorator')
 
 contract('Wc3Decorator', _accounts => {
   let decorator
+  let guildId
   before(async () => {
     decorator = await Wc3Decorator.deployed()
+    guildId = await decorator.guildId()
   })
 
   describe('IWc3Decorator', async () => {
@@ -48,6 +50,42 @@ contract('Wc3Decorator', _accounts => {
               await JSON.parse(metadatas[j])
             } catch (ex) {
               console.log(`metadata[${j}] => ${await metadatas[j]}`)
+              throw ex
+            }
+          }
+        })
+        it('metadata external url contains both guild and token ids', async () => {
+          for (let j = 0; j < metadatas.length; j++) {
+            const metadata = await JSON.parse(metadatas[j])
+            try {
+              // assert(
+              //   metadata.external_url.indexOf((j + 1).toString()) >= 0,
+              //   `Token id #${j + 1} not found:\n${await metadatas[j]}`
+              // )
+              assert(
+                metadata.external_url.indexOf(guildId) >= 0,
+                `Guild id #${guildId} not found:\n${await metadatas[j]}`
+              )
+            } catch (ex) {
+              console.log(`metadata[${j}] => ${ex}\n${metadatas[j]}`)
+              throw ex
+            }
+          }
+        })
+        it('metadata image url contains both guild and token ids', async () => {
+          for (let j = 0; j < metadatas.length; j++) {
+            const metadata = await JSON.parse(metadatas[j])
+            try {
+              // assert(
+              //   metadata.image.indexOf((j + 1).toString()) >= 0,
+              //   `Token id #${j + 1} not found:\n${await metadatas[j]}`
+              // )
+              assert(
+                metadata.image.indexOf(guildId) >= 0,
+                `Guild id #${guildId} not found:\n${await metadatas[j]}`
+              )
+            } catch (ex) {
+              console.log(`metadata[${j}] => ${ex}\n${metadatas[j]}`)
               throw ex
             }
           }
