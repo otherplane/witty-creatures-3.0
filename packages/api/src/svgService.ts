@@ -104,12 +104,12 @@ const nameToSvg: Record<string, string> = {
 export class SvgService {
   static getSVG(traits: Award): string {
     const svgTraits = {
-      mouth: nameToSvg['mouth-' + traits.mouth],
+      mouth: nameToSvg['mouth-' + (traits.mouth || 'default')],
       background: nameToSvg['background-' + traits.background],
-      eyes: nameToSvg['eyes-' + traits.eyes],
-      object: nameToSvg['object-' + traits.object],
-      outfit: nameToSvg['outfit-' + traits.outfit],
-      head: nameToSvg['head-' + traits.head],
+      eyes: nameToSvg['eyes-' + (traits.eyes || 'default')],
+      object: nameToSvg['object-' + traits.object] || '',
+      outfit: nameToSvg['outfit-' + (traits.outfit || 'default')],
+      head: nameToSvg['head-' + (traits.head || 'default')],
     }
 
     const background: string =
