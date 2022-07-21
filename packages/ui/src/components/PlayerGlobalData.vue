@@ -35,7 +35,7 @@ export default {
 <style scoped lang="scss">
 .players-container {
   display: grid;
-  grid-template-columns: 30px max-content 1fr 1fr;
+  grid-template-columns: max-content max-content 1fr 1fr;
   text-align: center;
   align-items: center;
   row-gap: 8px;
