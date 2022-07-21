@@ -182,7 +182,7 @@ export default {
 .contact-container {
   cursor: pointer;
   display: grid;
-  grid-template-columns: max-content max-content;
+  grid-template-columns: max-content 1fr;
   column-gap: 16px;
   padding: 16px;
   grid-template-rows: repeat(3, max-content);

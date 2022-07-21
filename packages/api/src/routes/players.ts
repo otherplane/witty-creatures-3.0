@@ -142,7 +142,10 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
           (contactA: ContactIndex, contactB: ContactIndex) =>
             contactB.timestamp - contactA.timestamp
         )
-        .slice(request.query.offset, request.query.limit)
+        .slice(
+          Number(request.query.offset),
+          Number(request.query.offset) + Number(request.query.limit)
+        )
         .map(async (contact: ContactIndex): Promise<ContactIndex> => {
           // We can assume that the contact exist because it was pushed to the player contacts
           const ownerInfo = await playerModel.get(contact.ownerKey)
