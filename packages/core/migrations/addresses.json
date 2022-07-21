@@ -1,29 +1,32 @@
 {
     "boba.rinkeby": {},
     "conflux.espace.testnet": {
-        "Wc3Decorator": "0x94CF66654BDB5F333B707faE45b8c7F6dc1BBaDB",
-        "Wc3Token": "0x9F9024145A952FefFc3AD053632A03FCe709cc16"
+        "Wc3Decorator": "0x4129d868037b6BB97732F6A67E9f77B7466eaE5A",
+        "Wc3Token": "0x7B9B32f4626867F0baf4abDC91556611E47D4b98"
     },
     "cronos.testnet": {
-        "Wc3Decorator": "0xf29b50574f17350512EcCFe9bBAF9Fd5B0DFbC6b",
-        "Wc3Token": "0x304C7837e1eF733DB24aCdbf89859F2d4F492197"
+        "Wc3Decorator": "0x5C856F20AA7E83609525471d250ee3DDf7eB7E2A",
+        "Wc3Token": "0x0C6554aEdB1Ed6FcA028B59F83520249Fb41f36D"
     },
     "kcc.testnet": {
-        "Wc3Decorator": "0x418d3F5832FF4fa86665c6e98D95110314B1565C",
-        "Wc3Token": "0xe02360D7420c954c49Ce3028A1989e5dACA0d854"
+        "Wc3Decorator": "0xbEd387AbBFF6E85971C894c4D647FF7892dFB3c7",
+        "Wc3Token": "0xf841FAC470F6088260B9bA878eE51FC02f2e273f"
     },
     "meter.testnet": {
-        "Wc3Decorator": "0x294F8D2fF232a2E5f34FfCdb087a891Be87C6d25",
-        "Wc3Token": "0xe07cA72DEFD083eE1Dcc6A523DBeeDE294d3Ee69"
+        "Wc3Decorator": "0xd46Bd70360980250aA12D281e5B600e572cAE628",
+        "Wc3Token": "0x4D9Ce29C86A448f4c43865Be2207450BBF921379"
     },
     "metis.rinkeby": {
-        "Wc3Decorator": "0x7cff0788f169396a55afcb4Cc47777465b04129F",
-        "Wc3Token": "0xc5eEFbBecf59e723d9e2AF7F8EC1708f221a19d7"
+        "Wc3Decorator": "0x8CB8BaCdfa51519De777BaCBDe12C318689B5cd3",
+        "Wc3Token": "0xEfc92344bA98F7bAe3408EDEB54335aEA7E6b755"
     },
-    "okxchain.testnet": {},
+    "okxchain.testnet": {
+        "Wc3Decorator": "0x3Ed1b2378243Df9dbCc31E2A8F760Cff63C8d1C0",
+        "Wc3Token": "0x53Fbb69a2D7B7B987759fCd9D9f89f40cCb281A8"
+    },
     "polygon.goerli": {
-        "Wc3Decorator": "0x643609fc42EAEdF330EbF9b049f3358FF282CC80",
-        "Wc3Token": "0xD710aDaA1FA048D337C5fd0cb2a31e1237630A15"
+        "Wc3Decorator": "0x677B39D025cA96e6dE7E9cB74FfF00421714127A",
+        "Wc3Token": "0x085F7a1c6615Ad834D4600695d133d6A762c2896"
     },
     "boba.mainnet": {},
     "conflux.espace.mainnet": {},
