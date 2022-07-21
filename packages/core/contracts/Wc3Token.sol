@@ -155,6 +155,8 @@ contract Wc3Token
         return string(abi.encodePacked(
             baseURI(),
             "metadata/",
+            block.chainid.toString(),
+            "/",
             _tokenId.toString()
         ));
     }
