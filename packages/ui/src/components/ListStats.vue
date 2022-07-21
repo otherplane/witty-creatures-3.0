@@ -46,7 +46,7 @@
 
 <script>
 import { useStore } from '@/stores/player'
-import { ref } from 'vue'
+import { ref, onBeforeUnmount, watch, computed } from 'vue'
 export default {
   props: {
     gameEntity: {
@@ -54,9 +54,18 @@ export default {
       required: true,
     },
   },
-  setup() {
+  setup(props) {
     const player = useStore()
     const totalGlobalItems = ref(0)
+    const entity = computed(() => props.gameEntity)
+    onBeforeUnmount(() => {
+      player.playersGlobalStats = []
+      player.playersNetworkStats = []
+    })
+    watch(entity, () => {
+      player.playersGlobalStats = []
+      player.playersNetworkStats = []
+    })
     const pushGlobalItems = items => {
       if (items) {
         player.playersGlobalStats.push(...items.global.result)
