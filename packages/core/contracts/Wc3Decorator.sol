@@ -371,7 +371,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
                 (_intrinsics.eggIndex + 1).toString(),
             " at EthCC[5] Paris, July 19-21, 2022."
             " The [Witnet multi-chain decentralized oracle](https://witnet.io) was used"
-            " for both generating randomness and retrieving the [USD price at the moment this token"
+            " for both generating randomness and retrieving the last known [USD price at the moment this token"
             " got minted](https://witnet.network/search/",
                 _intrinsics.mintUsdPriceWitnetProof.toHexString(), 
             ").\","
@@ -564,7 +564,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
                 "\"value\": \"", (
                     bytes(outfits[_traits.outfit]).length == 0
                         ? _TRAITS_DEFAULT_OUTFIT
-                        : objects[_traits.outfit]
+                        : outfits[_traits.outfit]
                 ), "\""
             "}"
         ));
