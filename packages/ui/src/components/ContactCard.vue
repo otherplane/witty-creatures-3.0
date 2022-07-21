@@ -68,9 +68,18 @@ export default {
     const player = useStore()
     const showDetails = ref(false)
     const contactRef = ref('contactRef')
+    const twitterLabel = computed(() => {
+      if (props.contact.twitter) {
+        return props.contact.twitter.slice(0, 1) === '@'
+          ? props.contact.twitter
+          : `@${props.contact.twitter}`
+      } else {
+        return null
+      }
+    })
     const socialDetails = reactive([
       {
-        label: `@${props.contact.twitter}`,
+        label: twitterLabel,
         svg: twitterSvg,
         url: `https://twitter.com/${props.contact.twitter}`,
       },
@@ -80,9 +89,9 @@ export default {
         url: null,
       },
       {
-        label: props.contact.telegram.split().pop(),
+        label: props.contact.telegram?.split().pop(),
         svg: telegramSvg,
-        url: `https://telegram.me/${props.contact.telegram}`.split().pop(),
+        url: `https://telegram.me/${props.contact.telegram?.split().pop()}`,
       },
     ])
     const isEmptySocials = computed(() =>
