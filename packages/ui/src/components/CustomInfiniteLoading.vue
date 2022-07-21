@@ -37,7 +37,7 @@ export default {
       try {
         const request = await props.getItems(offset.value, limit.value)
         const requestData = props.filter ? request[props.filter] : request
-        if (props.list.length === requestData.total) {
+        if (props.list.length >= requestData.total) {
           return $state.complete()
         }
         if (
