@@ -359,6 +359,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
             _intrinsics.eggIndex
         );
         
+        string memory _guildIdStr = block.chainid.toString();
         string memory _tokenIdStr = _intrinsics.eggGuildRanking.toString();
         string memory _baseURI = baseURI;
 
@@ -368,18 +369,18 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         string memory _description = string(abi.encodePacked(
             "\"description\": \"Witty Creature #",
                 (_intrinsics.eggIndex + 1).toString(),
-            " at EthCC'5 (Paris), July 2022."
+            " at EthCC[5] Paris, July 19-21, 2022."
             " The [Witnet multi-chain decentralized oracle](https://witnet.io) was used"
-            " for both generating randomness, and retrieving the [USD price at the moment this token"
-            " got minted](https://witnet.network/",
+            " for both generating randomness and retrieving the [USD price at the moment this token"
+            " got minted](https://witnet.network/search/",
                 _intrinsics.mintUsdPriceWitnetProof.toHexString(), 
             ").\","
         ));
         string memory _externalUrl = string(abi.encodePacked(
-            "\"external_url\": \"", _baseURI, "metadata/", _tokenIdStr, "\","
+            "\"external_url\": \"", _baseURI, "metadata/", _guildIdStr, "/", _tokenIdStr, "\","
         ));
         string memory _image = string(abi.encodePacked(
-            "\"image\": \"", _baseURI, "image/", _tokenIdStr, "\","
+            "\"image\": \"", _baseURI, "image/", _guildIdStr, "/", _tokenIdStr, "\","
         ));
         string memory _attributes = string(abi.encodePacked(
             "\"attributes\": [",
