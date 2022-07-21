@@ -198,7 +198,7 @@ export const TESTNET_NETWORKS = {
     id: 65,
     contractAddress:
       process.env.VITE_OKXCHAIN_TESTNET_CONTRACT_ADDRESS || '0x00',
-    rpcUrls: ['exchaintestrpc.okex.org'],
+    rpcUrls: ['https://exchaintestrpc.okex.org'],
   },
   80001: {
     name: 'Polygon Mumbai',
