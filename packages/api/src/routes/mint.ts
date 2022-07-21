@@ -64,7 +64,7 @@ const mint: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
           .send(new Error(`Player has no id (key: ${key})`))
       }
       // If previously minted, reply with same mint output
-      const prevMint = await mintModel.get(player.color)
+      const prevMint = await mintModel.get(player.creationIndex)
       if (prevMint) {
         return reply.status(200).send(prevMint)
       }
@@ -147,6 +147,7 @@ const mint: FastifyPluginAsync = async (fastify, _opts): Promise<void> => {
           score,
         },
       }
+      await mintModel.create(response)
       return reply.status(200).send(response)
     },
   })
