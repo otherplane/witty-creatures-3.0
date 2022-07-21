@@ -15,7 +15,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
     using Wc3Lib for string;
     using Wc3Lib for Wc3Lib.WittyCreatureRarity;
 
-    uint256 public constant TRAITS_RANDOM_SPREAD_RANK = 32;
+    uint256 public constant TRAITS_MAX_SPREAD_RANK = 31;
 
     string internal constant _TRAITS_DEFAULT_BACKGROUND = "Plain";
     string internal constant _TRAITS_DEFAULT_EYES = "Default";
@@ -52,7 +52,7 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
 
     modifier checkRange(string[] memory _tags) {
         require(
-            _tags.length <= TRAITS_RANDOM_SPREAD_RANK,
+            _tags.length <= TRAITS_MAX_SPREAD_RANK,
             "Wc3Decorator: out of range"
         );
         _;
@@ -590,11 +590,11 @@ contract Wc3Decorator is IWc3Decorator, Ownable {
         ));
         uint _nonce;
         _traits.background = _phenotype.randomUint8(_nonce ++, ranges.totalBackgrounds);
-        _traits.eyes = _phenotype.randomUint8(_nonce ++, TRAITS_RANDOM_SPREAD_RANK);
-        _traits.head = _phenotype.randomUint8(_nonce ++, TRAITS_RANDOM_SPREAD_RANK);
+        _traits.eyes = _phenotype.randomUint8(_nonce ++, ranges.totalEyes * 2);
+        _traits.head = _phenotype.randomUint8(_nonce ++, ranges.totalHeads + 1);
         _traits.object = _phenotype.randomUint8(_nonce ++, ranges.totalObjects);
-        _traits.outfit = _phenotype.randomUint8(_nonce ++, TRAITS_RANDOM_SPREAD_RANK);
-        _traits.mouth = _phenotype.randomUint8(_nonce ++, TRAITS_RANDOM_SPREAD_RANK);
+        _traits.outfit = _phenotype.randomUint8(_nonce ++, ranges.totalOutfits * 2);
+        _traits.mouth = _phenotype.randomUint8(_nonce ++, ranges.totalMouths * 2);
     }
 
     function _toStringDecimals2(uint256 _decimals6)
