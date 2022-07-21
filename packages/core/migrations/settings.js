@@ -2,11 +2,11 @@ const { merge } = require("lodash")
 
 module.exports = {
   common: {
-    baseURI: "https://api-ethcc22.wittycreatures.com/",
+    baseURI: "https://api-ethcc5.wittycreatures.com/",
     colors: [ "Emerald", "Obsidian", "Ruby", "Gold", "Sapphire", ],
     expirationBlocks: 0,
     percentiles: [ 10, 30, 60 ],
-    // signator: "",
+    signator: "0xF8A654C0328Ba4bAE1aF69EB5856Fc807C8E5731",
     totalEggs: 1250
   },
   specs: {
