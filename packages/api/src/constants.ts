@@ -117,7 +117,7 @@ export const MAINNET_NETWORKS = {
     id: 1,
     contractAddress:
       process.env.VITE_ETHEREUM_MAINNET_CONTRACT_ADDRESS || '0x00',
-    rpcUrls: ['https://mainnet.infura.io/v3/'],
+    rpcUrls: ['https://mainnet.infura.io/v3'],
   },
   82: {
     name: 'Meter Mainnet',
@@ -143,7 +143,7 @@ export const MAINNET_NETWORKS = {
     id: 137,
     contractAddress:
       process.env.VITE_POLYGON_MAINNET_CONTRACT_ADDRESS || '0x00',
-    rpcUrls: ['https://polygon-rpc.com/'],
+    rpcUrls: ['https://polygon-rpc.com'],
   },
 }
 
@@ -160,7 +160,6 @@ export const TESTNET_NETWORKS = {
     contractAddress:
       process.env.VITE_CONFLUX_ESPACE_TESTNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://evmtestnet.confluxrpc.com'],
-    blockExplorerUrls: ['https://testnet.confluxscan.io/'],
   },
   338: {
     name: 'Cronos Testnet',

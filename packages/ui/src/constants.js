@@ -206,8 +206,8 @@ export const TESTNET_NETWORKS = {
     kind: 'okchainner',
     contractAddress:
       import.meta.env.VITE_OKXCHAIN_TESTNET_CONTRACT_ADDRESS || '0x00',
-    rpcUrls: ['exchaintestrpc.okex.org'],
-    blockExplorerUrls: ['oklink.com/okc-test'],
+    rpcUrls: ['https://exchaintestrpc.okex.org'],
+    blockExplorerUrls: ['https://oklink.com/okc-test'],
     marketplace: 'https://tofunft.com/nft/oec',
     marketplaceName: 'TofuNFT',
     confirmationCount: 3,
