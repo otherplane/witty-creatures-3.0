@@ -25,7 +25,7 @@ export default {
   },
   setup(props, { emit }) {
     const currentPage = ref(0)
-    const limit = ref(10)
+    const limit = ref(25)
     const offset = computed(() => {
       return limit.value * currentPage.value
     })
