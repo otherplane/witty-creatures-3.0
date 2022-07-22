@@ -252,7 +252,8 @@ const players: FastifyPluginAsync = async (fastify): Promise<void> => {
           }
           await playerModel.updateConfig(
             fromPlayer.toDbVTO().key,
-            request.body.mintConfig,
+            // disable change network
+            fromPlayer.mintConfig,
             request.body.shareConfig
           )
         } catch (error) {
