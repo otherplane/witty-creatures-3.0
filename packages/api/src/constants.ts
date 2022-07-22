@@ -109,7 +109,7 @@ export const MAINNET_NETWORKS = {
   321: {
     name: 'KCC Mainnet',
     id: 321,
-    contractAddress: process.env.KCC_MAINNET_CONTRACT_ADDRESS || '0x00',
+    contractAddress: process.env.VITE_KCC_MAINNET_CONTRACT_ADDRESS || '0x00',
     rpcUrls: ['https://rpc-mainnet.kcc.network'],
   },
   1: {
