@@ -1,9 +1,9 @@
 <template>
-  <div class="players-container">
+  <div v-if="NETWORKS[network]" class="players-container">
     <p class="item">{{ formatNumber(position) }}</p>
-    <img class="network bold" :src="importSvg(NETWORKS[network].kind)" />
+    <img class="network bold" :src="importSvg(NETWORKS[network]?.kind)" />
     <p class="item player-name">
-      <span>{{ NETWORKS[network].kind }}</span>
+      <span>{{ NETWORKS[network]?.kind }}</span>
       <span>{{ name }}</span>
     </p>
     <p class="item player-score">{{ formatNumber(score) }}</p>
