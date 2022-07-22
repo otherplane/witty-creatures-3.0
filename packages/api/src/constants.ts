@@ -117,7 +117,7 @@ export const MAINNET_NETWORKS = {
     id: 1,
     contractAddress:
       process.env.VITE_ETHEREUM_MAINNET_CONTRACT_ADDRESS || '0x00',
-    rpcUrls: ['https://mainnet.infura.io/v3'],
+    rpcUrls: ['https://eth-mainnet.public.blastapi.io'],
   },
   82: {
     name: 'Meter Mainnet',
