@@ -29,10 +29,36 @@
         "Wc3Token": "0x085F7a1c6615Ad834D4600695d133d6A762c2896"
     },
     "boba.mainnet": {},
-    "conflux.espace.mainnet": {},
-    "cronos.mainnet": {},
-    "kcc.mainnet": {},
-    "meter.mainnet": {},
-    "metis.mainnet": {},
-    "okxchain.mainnet": {}
+    "conflux.espace.mainnet": {
+        "Wc3Decorator": "0x90eBC78bF85100aa48B96CA67b7A406ad50DD049",
+        "Wc3Token": "0x3A159Ea85C0712857570bd87C5cAC3Ddfa49d239"
+    },
+    "cronos.mainnet": {
+        "Wc3Decorator": "0x03a97f050D942c484Bd9c88b9639C66398b3BB5D",
+        "Wc3Token": "0x2232aC0095cc9E23B255d9A18E6cDf3f7808754E"
+    },
+    "kcc.mainnet": {
+        "Wc3Decorator": "0xD8d6722B5fD4E8ED230aeBeA6968C0E843FAEa56",
+        "Wc3Token": "0x10B1D1AC4798F0bfF9E38D146B22a861AE84b1a7"
+    },
+    "meter.mainnet": {
+        "Wc3Decorator": "0xa4CDf8dD66232eD7C73CBC07a9324C9863401838",
+        "Wc3Token": "0xa93bC4a3f5D05b4E825Aa2C7E28d164F831ed3c3"
+    },
+    "metis.mainnet": {
+        "Wc3Decorator": "0x5f90e8bB2407D5C4fccaCB3894b21d9b1D4E532F",
+        "Wc3Token": "0x8afaCC5eAccA319D4D517d8C412188420FB27151"
+    },
+    "okxchain.mainnet": {
+        "Wc3Decorator": "0x586e47A9f7C949942fc82114933719545812aC50",
+        "Wc3Token": "0x2d70f93BA68545D80b19Fd11b6E246f459eCd104"
+    },
+    "ethereum.mainnet": {
+        "Wc3Decorator": "0x3A1e624B1d8830AbACFaCe65839baaF7Ee84ec7d",
+        "Wc3Token": "0xc3c123438f4068CBaF4eb7eADB1762Ce8464F36E"
+    },
+    "polygon.mainnet": {
+        "Wc3Decorator": "0x2b7F94DE95e9CB89a772FdA070D6401D549CB5e6",
+        "Wc3Token": "0x5A445956CFe8F5eDDe3EfF26ebd3cDb67ACC5996"
+    }
 }

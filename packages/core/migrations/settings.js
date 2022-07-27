@@ -137,13 +137,27 @@ module.exports = {
         "ethereum.mainnet": {
           skipDryRun: true,
           confirmations: 2,
-        }
+        },
       },
       polygon: {
         "polygon.goerli": {
           gasPrice: 50 * 10 ** 9,
           confirmations: 2,
-        }
+        },
+        "polygon.mainnet": {
+          confirmations: 2,
+          gasPrice: 50 * 10 ** 9,
+        },
+      },
+      meter: {
+        "meter.mainnet": {
+          confirmations: 2,
+        },
+      },
+      okxchain: {
+        "okxchain.mainnet": {
+          confirmations: 2,
+        },
       }
     }
   )
