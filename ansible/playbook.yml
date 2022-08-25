@@ -33,13 +33,12 @@
         dest: /home/ubuntu/witty-creatures/docker-compose.yml
 
     - name: Stack History limit
-      shell: docker swarm update --task-history-limit 0
+      shell: docker swarm update --task-history-limit 2
 
     - name: Deploy Docker Stack
       shell: |
         cd /home/ubuntu/witty-creatures
-        docker stack rm wc
-        until (docker stack deploy -c <(docker-compose config) wc); do echo "Try again"; done
+        docker stack deploy -c <(docker-compose config) wc --with-registry-auth
         sleep 60
       args:
         executable: /bin/bash
