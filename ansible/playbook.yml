@@ -3,8 +3,7 @@
   tasks:
     - name: Login Into Docker hub Registry
       community.docker.docker_login:
-        #registry_url: "https://index.docker.io/v2/"
-        email: "${{ lookup('env','secrets.DOCKER_EMAIL') }}"
+        registry_url: "https://index.docker.io/v2/"
         username: "{{ lookup('env','secrets.DOCKER_USERNAME') }}"
         password: "{{ lookup('env','secrets.DOCKER_PASSWORD') }}"
         reauthorize: yes
