@@ -1,6 +1,12 @@
 ---
 - hosts: all
   tasks:
+    - name: Login Into Docker hub Registry
+      community.docker.docker_login:
+        username: "{{ lookup('env','secrets.DOCKER_USERNAME') }}"
+        password: "{{ lookup('env','secrets.DOCKER_PASSWORD') }}"
+        reauthorize: yes
+
     - name: Create Deployment Directory
       file:
         path: /home/ubuntu/witty-creatures
