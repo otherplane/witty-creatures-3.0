@@ -19,7 +19,7 @@ jobs:
 
       - name: Create Deployment Files
         shell: bash
-        env: 
+        env:
           ENVARS: ${{ secrets.ENVIRONMENT_VARIABLES }}
           AINV: ${{ secrets.ANSIBLE_INVENTORY }}
           APKEY: ${{ secrets.ANSIBLE_PRIVATE_KEY }}
@@ -40,12 +40,13 @@ jobs:
       - name: Publish Containers
         run: |
           docker push witnet/witty-creatures-ui:latest
-          docker push witnet/witty-creatures-api:latest      
+          docker push witnet/witty-creatures-api:latest
 
       - name: Deploy with Ansible
         shell: bash
         run: |
           cd ansible
+          ansible-galaxy install -r requirements.yml
           export ANSIBLE_CONFIG=./ansible.cfg
           export ANSIBLE_FORCE_COLOR=True
           export ANSIBLE_STDOUT_CALLBACK=yaml
