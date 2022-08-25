@@ -1,13 +1,6 @@
 ---
 - hosts: all
   tasks:
-    - name: Login Into Docker hub Registry
-      community.docker.docker_login:
-        registry_url: "https://index.docker.io/v2/"
-        username: "{{ lookup('env','secrets.DOCKER_USERNAME') }}"
-        password: "{{ lookup('env','secrets.DOCKER_PASSWORD') }}"
-        reauthorize: yes
-
     - name: Create Deployment Directory
       file:
         path: /home/ubuntu/witty-creatures
@@ -32,6 +25,12 @@
       copy:
         src: ./docker-compose.yml
         dest: /home/ubuntu/witty-creatures/docker-compose.yml
+
+    - name: Login Into Docker hub Registry
+      community.docker.docker_login:
+        username: "{{ lookup('env','secrets.DOCKER_USERNAME') }}"
+        password: "{{ lookup('env','secrets.DOCKER_PASSWORD') }}"
+        reauthorize: yes
 
     - name: Stack History limit
       shell: docker swarm update --task-history-limit 2

@@ -54,3 +54,6 @@ jobs:
           export TERM=xterm-color
           ansible-playbook ./helper/docker-playbook.yml -vv
           ansible-playbook playbook.yml -vv
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
