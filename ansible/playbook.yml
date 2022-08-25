@@ -28,8 +28,8 @@
 
     - name: Login Into Docker hub Registry
       community.docker.docker_login:
-        username: "{{ lookup('env','secrets.DOCKER_USERNAME') }}"
-        password: "{{ lookup('env','secrets.DOCKER_PASSWORD') }}"
+        username: "{{ lookup('env','DOCKER_USERNAME') }}"
+        password: "{{ lookup('env','DOCKER_PASSWORD') }}"
         reauthorize: yes
 
     - name: Stack History limit
